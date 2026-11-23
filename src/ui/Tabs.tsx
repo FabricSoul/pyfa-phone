@@ -26,6 +26,6 @@ export function Tabs<T extends string>({ options, value, onChange, label }: {
       ref={(node) => { if (node) refs.current.set(option.value, node); else refs.current.delete(option.value) }}
       aria-selected={option.value === value} tabIndex={option.value === value ? 0 : -1}
       className={option.value === value ? 'on' : ''} onClick={() => onChange(option.value)}>
-      {option.value === value && <SlidingPill group={id} />}{option.label}</button>)}
+      {option.value === value && <SlidingPill group={id} dependency={value} />}{option.label}</button>)}
   </div>
 }

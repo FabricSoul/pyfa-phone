@@ -26,7 +26,7 @@ export function FitRow({ name, shipName, shipSrc, dps, ehp, velocity, cpu, grid,
     <button type="button" className="fit" data-testid="fit-row" data-over={over} onClick={(event) => {
       // The ship render flies to the fit page's header (UX4 #10).
       const icon = event.currentTarget.querySelector('.rimg')
-      if (shipSrc && icon) { const r = icon.getBoundingClientRect(); launchShipFlight(shipSrc, { left: r.left, top: r.top, width: r.width, height: r.height }) }
+      if (shipSrc && icon) { const r = icon.getBoundingClientRect(); launchShipFlight(shipSrc, { left: r.left, top: r.top, width: r.width, height: r.height }, parseFloat(getComputedStyle(icon).borderTopLeftRadius) || 0) }
       onClick?.()
     }}>
       <span className="rd"><ItemIcon className="rimg" size={56} src={shipSrc} /></span>

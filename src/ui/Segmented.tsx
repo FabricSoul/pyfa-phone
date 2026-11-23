@@ -13,7 +13,7 @@ export function Segmented<T extends string>({ options, value, onChange, small }:
       {options.map((o) => (
         <button key={o.value} type="button" role="radio" aria-checked={o.value === value}
           className={o.value === value ? 'on' : ''} onClick={() => onChange?.(o.value)}>
-          {o.value === value && <SlidingPill group={group} />}{o.label}</button>
+          {o.value === value && <SlidingPill group={group} dependency={value} />}{o.label}</button>
       ))}
     </div>
   )

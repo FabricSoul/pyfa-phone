@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { Appear, Stage, TabPanel, delayFor, listRowMotion, motionSpec, sheetMotion } from './motion'
 import { NavBar } from './NavBar'
 import { launchShipFlight } from './shipFlight'
@@ -103,11 +104,15 @@ describe('UX4 left-edge swipe back (installed PWA only)', () => {
     fireEvent.click(screen.getByText('go'))
     await waitFor(() => expect(screen.getAllByTestId('page')).toHaveLength(1), { timeout: 2000 })
   }
-  it('the page follows the finger from the left edge and goes back when released past a third', async () => {
+  it('the page follows the finger from the left edge over the previous page, and goes back when released past a third', async () => {
     media({ standalone: true })
     await onNext()
     const page = swipe(8, 600)
     await waitFor(() => expect(page.style.transform).toMatch(/translateX\((5\d|6\d)(\.\d+)?%\)/))
+    // The page underneath is the previous page itself, 30 % back scaled by the progress, not a blank.
+    const under = pageWith('go')
+    await waitFor(() => expect(under.style.transform).toMatch(/translateX\(-1\d(\.\d+)?%\)/))
+    expect(Number(under.style.zIndex || 0)).toBeLessThan(Number(page.style.zIndex))
     fireEvent.pointerUp(page, { clientX: 600, clientY: 302, pointerId: 1 })
     await waitFor(() => expect(screen.getByText('go')).toBeTruthy())
   })
@@ -120,7 +125,8 @@ describe('UX4 left-edge swipe back (installed PWA only)', () => {
     fireEvent.pointerMove(page, { clientX: 38, clientY: 300, pointerId: 1 })
     fireEvent.pointerUp(page, { clientX: 38, clientY: 300, pointerId: 1 })
     await new Promise((r) => setTimeout(r, 50))
-    expect(screen.queryByText('go')).toBeNull()
+    expect(screen.getAllByTestId('page').filter((p) => !p.hasAttribute('aria-hidden')).map((p) => p.textContent)).toEqual(['back'])
+    await waitFor(() => expect(screen.queryByText('go')).toBeNull(), { timeout: 2000 })
   })
   it('in the browser (not installed) the edge is left to Safari: nothing moves', async () => {
     media()
@@ -275,5 +281,51 @@ describe('UX4 press feedback on touch', () => {
   it('styles the pressed mark like :active', () => {
     const ui = readFileSync(resolve(process.cwd(), 'src/ui/ui.css'), 'utf8')
     expect(ui).toMatch(/\.fit\[data-pressed\][^{]*\{[^}]*transform:\s*scale\(\.97\)/)
+  })
+})
+
+describe('UX4 fixes after review', () => {
+  it('the swiped-back page keeps the instance that was shown under the finger', async () => {
+    media({ standalone: true })
+    let mounts = 0
+    function Home() { const navigate = useNavigate(); useEffect(() => { mounts++ }, []); return <button onClick={() => navigate('/next')}>go</button> }
+    function App() {
+      const navigate = useNavigate()
+      const location = useLocation()
+      return <Stage pageKey={location.pathname}><Routes location={location}>
+        <Route path="/" element={<Home />} />
+        <Route path="/next" element={<button onClick={() => navigate(-1)}>back</button>} />
+      </Routes></Stage>
+    }
+    render(<MemoryRouter><App /></MemoryRouter>)
+    fireEvent.click(screen.getByText('go'))
+    await waitFor(() => expect(screen.getAllByTestId('page')).toHaveLength(1), { timeout: 2000 })
+    const page = pageWith('back')
+    fireEvent.pointerDown(page, { clientX: 8, clientY: 300, pointerId: 1, isPrimary: true })
+    for (let x = 8; x <= 600; x += 40) fireEvent.pointerMove(page, { clientX: x, clientY: 300, pointerId: 1 })
+    await waitFor(() => expect(screen.getByText('go')).toBeTruthy())
+    const before = mounts
+    fireEvent.pointerUp(page, { clientX: 600, clientY: 300, pointerId: 1 })
+    await waitFor(() => expect(screen.getAllByTestId('page')).toHaveLength(1), { timeout: 2000 })
+    expect(screen.getByText('go')).toBeTruthy()
+    expect(mounts).toBe(before)
+  })
+  it('the selected-tab pill only moves when the selection changes, not when its container shifts', async () => {
+    const { SlidingPill } = await import('./motion')
+    const { container } = render(<SlidingPill group="g" dependency="on" />)
+    expect(container.querySelector('.seg-pill')?.getAttribute('data-dependency')).toBe('on')
+  })
+  it('the flying ship is the source picture at its own size, inside the page and under the resource readings', () => {
+    media()
+    render(<div className="stage"><div className="stage-page" data-testid="host"><NavBar title="Fit" shipSrc="/ship2.png" /></div></div>)
+    cleanup()
+    launchShipFlight('/ship3.png', { left: 16, top: 300, width: 56, height: 56 })
+    render(<div className="stage"><div className="stage-page" data-testid="host"><NavBar title="Fit" shipSrc="/ship3.png" /></div></div>)
+    const flyer = document.querySelector<HTMLElement>('[data-testid="ship-flight"]')!
+    expect(flyer.parentElement).toBe(screen.getByTestId('host'))
+    expect(flyer.style.width).toBe('56px')
+    expect(flyer.style.position).toBe('absolute')
+    const ui = readFileSync(resolve(process.cwd(), 'src/ui/ui.css'), 'utf8')
+    expect(ui).toMatch(/\.res \{[^}]*z-index:\s*3/)
   })
 })

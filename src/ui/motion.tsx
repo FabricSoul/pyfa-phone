@@ -133,32 +133,37 @@ const standalone = () => typeof window !== 'undefined' && (window.matchMedia?.('
   || (navigator as Navigator & { standalone?: boolean }).standalone === true)
 
 interface Entry { key: string; kind: NavKind; from: number }
+/** Motion values a swipe drives directly: the page's offset and its dim. */
+interface Drive { x: MotionValue<string>; dim: MotionValue<number> }
 
-/** One page of a stage. The page that is leaving is inert (not clickable, hidden from assistive tech) while it moves away. */
-function StageItem({ entry, onX, children }: { entry: Entry; onX: (x: MotionValue<string>) => void; children: ReactNode }) {
+/** One page of a stage. The page that is leaving is inert (not clickable, hidden from assistive tech) while it moves away.
+ *  A `preview` page is the previous page shown under a swipe back: the swipe moves it, nothing animates it. */
+function StageItem({ entry, preview, onDrive, children }: { entry: Entry; preview?: boolean; onDrive: (drive: Drive, preview: boolean) => void; children: ReactNode }) {
   const present = useIsPresent()
   const now = useContext(StageNow)
   const { page, ios, reduce } = motionSpec()
   const { kind, from } = entry
   const x = useMotionValue(kind === 'push' && !reduce ? '100%' : kind === 'back' && !reduce ? `${from}%` : '0%')
-  useLayoutEffect(() => { if (present) onX(x) }, [present, x, onX])
+  const dim = useMotionValue(kind === 'back' && !reduce ? UNDER_DIM * (-from / UNDER_SHIFT) : 0)
+  useLayoutEffect(() => { if (present) onDrive({ x, dim }, Boolean(preview)) }, [present, preview, x, dim, onDrive])
   const transition = { duration: page, ease: ios }
   // Forward: the new page lies on top; back: the page that leaves lies on top and uncovers the one returned to.
-  const z = present ? (kind === 'push' ? 2 : 1) : (now === 'back' ? 3 : 0)
+  // The first page of a stage is not lifted at all, so what it holds (the resource readings) can layer with the rest of the app.
+  const z = present ? (kind === 'push' ? 2 : kind === 'back' ? 1 : undefined) : (now === 'back' ? 3 : 0)
   const initial = kind === 'none' ? false : reduce ? { opacity: 0 } : { x: kind === 'push' ? '100%' : `${from}%` }
   const exit = reduce ? { opacity: 0, transition } : { x: now === 'back' ? '100%' : `-${UNDER_SHIFT}%`, transition }
-  const dimFrom = kind === 'back' && !reduce ? UNDER_DIM * (-from / UNDER_SHIFT) : 0
-  return <motion.div data-testid="page" data-motion={kind} className="stage-page" inert={!present} aria-hidden={present ? undefined : true}
-    style={{ x, zIndex: z }} initial={initial} animate={{ x: '0%', opacity: 1, transition }} exit={exit}>
+  return <motion.div data-testid="page" data-motion={kind} className="stage-page" inert={!present || preview} aria-hidden={present && !preview ? undefined : true}
+    style={{ x, zIndex: z }} initial={initial} animate={preview ? undefined : { x: '0%', opacity: 1, transition }} exit={exit}>
     {children}
-    <motion.div className="stage-dim" aria-hidden="true" initial={{ opacity: dimFrom }}
-      animate={{ opacity: !present && now === 'push' && !reduce ? UNDER_DIM : 0, transition }} />
+    <motion.div className="stage-dim" aria-hidden="true" style={{ opacity: dim }}
+      animate={preview ? undefined : { opacity: !present && now === 'push' && !reduce ? UNDER_DIM : 0, transition }} />
   </motion.div>
 }
 
 /** Route stage, as UIKit's navigation stack: a pushed page slides in from the right edge over 380 ms while the page under it
  *  moves 30 % left and darkens; going back reverses it. Both pages are on screen the whole time and either can be interrupted.
- *  In an installed PWA a swipe from the left edge drags the page back (past a third of the width or a flick goes back).
+ *  In an installed PWA a swipe from the left edge drags the page back over the previous page (past a third of the width or a
+ *  flick goes back; the page shown under the finger becomes the page, it is not mounted again).
  *  Pages sharing a key keep their state (the fit workspace). The first page of a router does not move; reduced motion cross-fades.
  *  Hand it a frozen `<Routes location>` / outlet so the leaving page keeps its content. */
 export function Stage({ pageKey, children }: { pageKey: string; children: ReactNode }) {
@@ -167,49 +172,72 @@ export function Stage({ pageKey, children }: { pageKey: string; children: ReactN
   const navigate = useNavigate()
   const router = useContext(UNSAFE_NavigationContext).navigator
   const current = useRef<Entry>(undefined)
-  const depth = useRef(0)
+  // The pages under this one, each with the element it was last drawn with (a frozen `<Routes location>`), so a swipe back can show it.
+  const stack = useRef<{ key: string; element: ReactNode }[]>([])
+  const drawn = useRef<ReactNode>(children)
   const swiped = useRef(0)
-  const pageX = useRef<MotionValue<string>>(undefined)
+  const drives = useRef<{ page?: Drive; preview?: Drive }>({})
   const root = useRef<HTMLDivElement>(null)
+  const [preview, setPreview] = useState<{ key: string; element: ReactNode } | null>(null)
   if (current.current?.key !== pageKey) {
     const back = type === NavigationType.Pop || (location.state as { back?: boolean } | null)?.back === true
-    const kind: NavKind = !shown.has(router) ? 'none' : back ? 'back' : 'push'
-    if (current.current) depth.current = Math.max(0, depth.current + (kind === 'push' ? 1 : kind === 'back' ? -1 : 0))
+    // The first page of the router, or of a nested stage, does not move.
+    const kind: NavKind = !shown.has(router) || !current.current ? 'none' : back ? 'back' : 'push'
+    if (current.current && kind === 'push') stack.current.push({ key: current.current.key, element: drawn.current })
+    if (kind === 'back') {
+      const at = stack.current.map((item) => item.key).lastIndexOf(pageKey)
+      stack.current = at >= 0 ? stack.current.slice(0, at) : stack.current.slice(0, -1)
+    }
     // A page returned to by a swipe starts where the swipe left it, not 30 % back.
     current.current = { key: pageKey, kind, from: -UNDER_SHIFT * (1 - swiped.current) }
     swiped.current = 0
   }
+  drawn.current = children
   const entry = current.current
   useEffect(() => { shown.add(router) }, [router])
-  const onX = useCallback((x: MotionValue<string>) => { pageX.current = x }, [])
+  // A preview that became the page (the swipe went back) is no longer a preview.
+  useEffect(() => { if (preview && preview.key === pageKey) setPreview(null) }, [preview, pageKey])
+  const onDrive = useCallback((drive: Drive, isPreview: boolean) => { drives.current[isPreview ? 'preview' : 'page'] = drive }, [])
 
   const edge = useRef(false)
   const [edgeOn] = useState(standalone)
   function onPointerDown(event: ReactPointerEvent) {
     const native = event.nativeEvent as PointerEvent & { stageClaimed?: boolean }
     // The innermost stage with a page to go back to takes the gesture.
-    if (native.stageClaimed || !edgeOn || event.isPrimary === false || event.clientX > EDGE || depth.current === 0 || edge.current) return
+    const under = stack.current.at(-1)
+    if (native.stageClaimed || !edgeOn || event.isPrimary === false || event.clientX > EDGE || !under || edge.current) return
     native.stageClaimed = true
-    const x = pageX.current
-    if (!x) return
+    const page = drives.current.page
+    if (!page) return
     const start = { x: event.clientX, y: event.clientY }
     const width = root.current?.clientWidth || window.innerWidth
     let dragging = false
     let last = { x: event.clientX, t: performance.now() }
     let velocity = 0
+    let progress = 0
     edge.current = true
+    const follow = () => {
+      page.x.set(`${progress * 100}%`)
+      const below = drives.current.preview
+      if (below) { below.x.set(`${-UNDER_SHIFT * (1 - progress)}%`); below.dim.set(UNDER_DIM * (1 - progress)) }
+    }
     const move = (e: PointerEvent) => {
       const dx = e.clientX - start.x
       if (!dragging) {
         if (Math.abs(dx) < 8 && Math.abs(e.clientY - start.y) < 8) return
         if (dx <= 0 || Math.abs(e.clientY - start.y) > Math.abs(dx)) { end(); return }
         dragging = true
+        drives.current.preview = undefined
+        setPreview(under)
       }
       const t = performance.now()
       if (t > last.t) velocity = (e.clientX - last.x) / (t - last.t)
       last = { x: e.clientX, t }
-      x.set(`${Math.max(0, dx) / width * 100}%`)
+      progress = Math.max(0, dx) / width
+      follow()
     }
+    // The preview mounts a frame after the drag starts: place it as soon as it is there.
+    const placed = () => { if (dragging && edge.current) { follow(); requestAnimationFrame(placed) } }
     const up = (e: PointerEvent) => {
       end()
       if (!dragging) return
@@ -218,10 +246,11 @@ export function Stage({ pageKey, children }: { pageKey: string; children: ReactN
         swiped.current = Math.min(1, dx / width)
         navigate(-1)
       } else {
-        void animate(x, '0%', { type: 'spring', stiffness: 500, damping: 45 })
+        void animate(page.x, '0%', { type: 'spring', stiffness: 500, damping: 45 })
+        setPreview(null)
       }
     }
-    const cancel = () => { end(); if (dragging) void animate(x, '0%', { type: 'spring', stiffness: 500, damping: 45 }) }
+    const cancel = () => { end(); if (dragging) { void animate(page.x, '0%', { type: 'spring', stiffness: 500, damping: 45 }); setPreview(null) } }
     function end() {
       edge.current = false
       window.removeEventListener('pointermove', move)
@@ -231,13 +260,16 @@ export function Stage({ pageKey, children }: { pageKey: string; children: ReactN
     window.addEventListener('pointermove', move)
     window.addEventListener('pointerup', up)
     window.addEventListener('pointercancel', cancel)
+    requestAnimationFrame(placed)
   }
 
+  const showPreview = preview && preview.key !== pageKey
   return <div className="stage" ref={root} data-edge-swipe={edgeOn || undefined} onPointerDown={onPointerDown}>
     <StageNow.Provider value={entry.kind}>
       {/* Both pages share one grid cell (ui.css), so the leaving page stays laid over the entering one. */}
       <AnimatePresence initial={false}>
-        <StageItem key={pageKey} entry={entry} onX={onX}>{children}</StageItem>
+        {showPreview && <StageItem key={preview.key} entry={{ key: preview.key, kind: 'back', from: -UNDER_SHIFT }} preview onDrive={onDrive}>{preview.element}</StageItem>}
+        <StageItem key={pageKey} entry={entry} onDrive={onDrive}>{children}</StageItem>
       </AnimatePresence>
     </StageNow.Provider>
   </div>
@@ -285,9 +317,11 @@ export function TabPanel({ value, order, ready = true, children }: { value: stri
 }
 
 /** The selected-tab backdrop of a segmented control: springs between buttons with a shared layout (transform only). */
-export function SlidingPill({ group }: { group: string }) {
+export function SlidingPill({ group, dependency }: { group: string; dependency?: string }) {
   const { standard, ease, reduce } = motionSpec()
-  return <motion.span layoutId={`pill-${group}`} className="seg-pill" aria-hidden="true"
+  // Only a change of selection moves the pill: when the control itself shifts (a sheet growing above it), the pill goes with it
+  // instead of trailing behind on its spring.
+  return <motion.span layoutId={`pill-${group}`} layoutDependency={dependency} data-dependency={dependency} className="seg-pill" aria-hidden="true"
     transition={reduce ? { duration: standard, ease } : { type: 'spring', stiffness: 520, damping: 38 }} />
 }
 

@@ -487,7 +487,9 @@
 .tab-stage > .tab-page { grid-area: 1 / 1; align-self: start; min-width: 0; }
 .tab-page[inert] { pointer-events: none; }
 /* Shared ship icon flying from a library row to the fit header. */
-.ship-flight { position: fixed; z-index: 60; pointer-events: none; border-radius: var(--radius-s); object-fit: cover; transform-origin: 0 0; }
+.ship-flight { position: fixed; z-index: 2; pointer-events: none; object-fit: cover; transform-origin: 0 0; }
+/* The resource readings stay above the flying ship. */
+.res { position: relative; z-index: 3; background: var(--color-bg); }
 /* Press feedback: a pressed control dips to .97 and darkens at once, and springs back when released. */
 :root {
   --press-spring: linear(0, .2 6%, .58 15%, .88 25%, 1.03 36%, 1.07 44%, 1.05 54%, 1.01 66%, .995 80%, 1); }
