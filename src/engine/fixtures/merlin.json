@@ -1,0 +1,554 @@
+{
+  "dataVersion": "3724492",
+  "ship": {
+    "typeId": 603,
+    "name": {
+      "en": "Merlin",
+      "zh": "小鹰级"
+    },
+    "graphicId": 314
+  },
+  "resources": {
+    "cpu": {
+      "used": 230.5,
+      "total": 225
+    },
+    "powergrid": {
+      "used": 64.29,
+      "total": 55
+    },
+    "calibration": {
+      "used": 500,
+      "total": 400
+    },
+    "turretHardpoints": {
+      "used": 3,
+      "total": 3
+    },
+    "launcherHardpoints": {
+      "used": 0,
+      "total": 0
+    },
+    "cargo": {
+      "used": 0,
+      "total": 150
+    },
+    "droneBay": {
+      "used": 0,
+      "total": 0
+    },
+    "droneBandwidth": {
+      "used": 0,
+      "total": 0
+    },
+    "slots": {
+      "high": {
+        "used": 0,
+        "total": 3
+      },
+      "mid": {
+        "used": 0,
+        "total": 4
+      },
+      "low": {
+        "used": 0,
+        "total": 3
+      },
+      "rig": {
+        "used": 0,
+        "total": 3
+      },
+      "subsystem": {
+        "used": 0,
+        "total": 0
+      }
+    }
+  },
+  "slots": {
+    "high": [
+      {
+        "kind": "module",
+        "typeId": 3178,
+        "name": {
+          "en": "Light Neutron Blaster II",
+          "zh": "轻型中子疾速炮 II"
+        },
+        "iconId": 376,
+        "meta": "tech2",
+        "count": 3,
+        "positions": [
+          0,
+          1,
+          2
+        ],
+        "state": "active",
+        "charge": {
+          "typeId": 12614,
+          "name": {
+            "en": "Null S",
+            "zh": "虚空 S"
+          },
+          "iconId": 1314,
+          "count": 80
+        },
+        "keyLine": "3.15km+4.38km · 356",
+        "keyParts": [
+          "3.15km+4.38km",
+          "356"
+        ],
+        "cpu": 13.5,
+        "powergrid": 8.93,
+        "overSlots": false
+      }
+    ],
+    "mid": [
+      {
+        "kind": "module",
+        "typeId": 438,
+        "name": {
+          "en": "1MN Afterburner II",
+          "zh": "1MN加力燃烧器 II"
+        },
+        "iconId": 96,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          0
+        ],
+        "state": "active",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 15,
+        "powergrid": 11,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 448,
+        "name": {
+          "en": "Warp Scrambler II",
+          "zh": "跃迁扰频器 II"
+        },
+        "iconId": 3433,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          1
+        ],
+        "state": "active",
+        "charge": null,
+        "keyLine": "9km · -2",
+        "keyParts": [
+          "9km",
+          "-2"
+        ],
+        "cpu": 36,
+        "powergrid": 1,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 3831,
+        "name": {
+          "en": "Medium Shield Extender II",
+          "zh": "中型护盾扩展装置 II"
+        },
+        "iconId": 1044,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          2
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 35,
+        "powergrid": 22.5,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 2281,
+        "name": {
+          "en": "Multispectrum Shield Hardener II",
+          "zh": "多谱式护盾增强器 II"
+        },
+        "iconId": 81,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          3
+        ],
+        "state": "active",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 44,
+        "powergrid": 1,
+        "overSlots": false
+      }
+    ],
+    "low": [
+      {
+        "kind": "module",
+        "typeId": 10190,
+        "name": {
+          "en": "Magnetic Field Stabilizer II",
+          "zh": "磁性力场稳定器 II"
+        },
+        "iconId": 26454,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          0
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "+22.9%",
+        "keyParts": [
+          "+22.9%"
+        ],
+        "cpu": 30,
+        "powergrid": 1,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 2048,
+        "name": {
+          "en": "Damage Control II",
+          "zh": "损伤控制 II"
+        },
+        "iconId": 77,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          1
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 30,
+        "powergrid": 1,
+        "overSlots": false
+      },
+      {
+        "kind": "empty",
+        "count": 1,
+        "positions": [
+          2
+        ]
+      }
+    ],
+    "rig": [
+      {
+        "kind": "module",
+        "typeId": 31526,
+        "name": {
+          "en": "Small Hybrid Burst Aerator I",
+          "zh": "小型混合武器射速调节装置 I"
+        },
+        "iconId": 3202,
+        "meta": "tech1",
+        "count": 2,
+        "positions": [
+          0,
+          1
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 0,
+        "powergrid": 0,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 31358,
+        "name": {
+          "en": "Small Ancillary Current Router I",
+          "zh": "小型辅助电源路由器 I"
+        },
+        "iconId": 3195,
+        "meta": "tech1",
+        "count": 1,
+        "positions": [
+          2
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 0,
+        "powergrid": 0,
+        "overSlots": false
+      }
+    ],
+    "subsystem": []
+  },
+  "stats": {
+    "firepower": {
+      "dps": 162.9426,
+      "weaponDps": 162.9426,
+      "droneDps": 0,
+      "volley": 316.4141
+    },
+    "defense": {
+      "hp": 2937.5,
+      "ehp": 7844.659,
+      "layers": {
+        "shield": {
+          "hp": 2000,
+          "ehp": 5838.3507,
+          "resists": {
+            "em": 0.5275,
+            "thermal": 0.622,
+            "kinetic": 0.7165,
+            "explosive": 0.7637
+          }
+        },
+        "armor": {
+          "hp": 437.5,
+          "ehp": 762.5272,
+          "resists": {
+            "em": 0.575,
+            "thermal": 0.5325,
+            "kinetic": 0.3625,
+            "explosive": 0.235
+          }
+        },
+        "hull": {
+          "hp": 500,
+          "ehp": 1243.7811,
+          "resists": {
+            "em": 0.598,
+            "thermal": 0.598,
+            "kinetic": 0.598,
+            "explosive": 0.598
+          }
+        }
+      }
+    },
+    "repair": {
+      "reinforced": {
+        "passiveShield": 31.1379,
+        "shield": 0,
+        "armor": 0,
+        "hull": 0
+      },
+      "sustained": {
+        "passiveShield": 31.1379,
+        "shield": 0,
+        "armor": 0,
+        "hull": 0
+      }
+    },
+    "remoteRepair": {
+      "shield": 0,
+      "armor": 0,
+      "hull": 0,
+      "capacitor": 0
+    },
+    "capacitor": {
+      "capacity": 437.5,
+      "rechargeTime": 131.25,
+      "stable": true,
+      "stablePercent": 49.1542,
+      "lastsSeconds": null,
+      "delta": 1.8592,
+      "recharge": 8.3333,
+      "usage": 6.4741
+    },
+    "navigation": {
+      "maxVelocity": 1076.3527,
+      "alignTime": 5.0429,
+      "signatureRadius": 46,
+      "warpSpeed": 5,
+      "maxTargetRange": 62500,
+      "maxTargets": 5,
+      "scanResolution": 725,
+      "sensorType": "gravimetric",
+      "sensorStrength": 13.2,
+      "droneControlRange": 60000,
+      "mass": 1497000
+    }
+  },
+  "rangeCurve": {
+    "distancesKm": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30
+    ],
+    "series": [
+      {
+        "chargeTypeId": 12614,
+        "name": {
+          "en": "Null S",
+          "zh": "虚空 S"
+        },
+        "dps": [
+          165.39,
+          165.39,
+          165.39,
+          165.39,
+          159.18,
+          138.2,
+          108.82,
+          78.61,
+          52.97,
+          34.03,
+          21.4,
+          13.59,
+          9.04,
+          6.53,
+          5.22,
+          3.02,
+          1.24,
+          0.47,
+          0.17,
+          0.05,
+          0.02,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "chargeTypeId": 12612,
+        "name": {
+          "en": "Void S",
+          "zh": "涅槃 S"
+        },
+        "dps": [
+          267.64,
+          267.64,
+          256.99,
+          135.4,
+          41.24,
+          12.6,
+          4.03,
+          0.26,
+          0.01,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "chargeTypeId": 23023,
+        "name": {
+          "en": "Caldari Navy Iron Charge S",
+          "zh": "加达里海军铁质轨道弹 S"
+        },
+        "dps": [
+          86.46,
+          86.46,
+          86.46,
+          86.46,
+          85.03,
+          70.69,
+          48.66,
+          28.76,
+          15.42,
+          8.08,
+          4.54,
+          3.01,
+          1.71,
+          0.48,
+          0.12,
+          0.03,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "kind": "cpu",
+      "used": 230.5,
+      "total": 225
+    },
+    {
+      "kind": "powergrid",
+      "used": 64.29,
+      "total": 55
+    },
+    {
+      "kind": "calibration",
+      "used": 500,
+      "total": 400
+    }
+  ]
+}

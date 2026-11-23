@@ -1,0 +1,273 @@
+{
+  "rifter": {
+    "schema": 1,
+    "dataVersion": "3724492",
+    "name": "裂谷级 · 示例",
+    "shipTypeId": 587,
+    "modules": {
+      "high": [
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        }
+      ],
+      "mid": [
+        {
+          "typeId": 438,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 448,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 526,
+          "state": "active",
+          "chargeTypeId": null
+        }
+      ],
+      "low": [
+        {
+          "typeId": 519,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 1183,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 2048,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        null
+      ],
+      "rig": [
+        {
+          "typeId": 31668,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31704,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31358,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "subsystem": []
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null
+  },
+  "merlin": {
+    "schema": 1,
+    "dataVersion": "3724492",
+    "name": "小鹰级 · 超限示例",
+    "shipTypeId": 603,
+    "modules": {
+      "high": [
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        },
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        },
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        }
+      ],
+      "mid": [
+        {
+          "typeId": 438,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 448,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 3831,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 2281,
+          "state": "active",
+          "chargeTypeId": null
+        }
+      ],
+      "low": [
+        {
+          "typeId": 10190,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 2048,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "rig": [
+        {
+          "typeId": 31526,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31526,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31358,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "subsystem": []
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null
+  },
+  "thrasher": {
+    "schema": 1,
+    "dataVersion": "3724492",
+    "name": "长尾鲛级 · 示例",
+    "shipTypeId": 16242,
+    "modules": {
+      "high": [
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        },
+        {
+          "typeId": 2889,
+          "state": "active",
+          "chargeTypeId": 21898
+        }
+      ],
+      "mid": [
+        {
+          "typeId": 438,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 448,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 3831,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "low": [
+        {
+          "typeId": 519,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 519,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "rig": [
+        {
+          "typeId": 31668,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31704,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31358,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "subsystem": []
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null
+  }
+}

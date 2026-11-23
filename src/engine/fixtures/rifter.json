@@ -1,0 +1,561 @@
+{
+  "dataVersion": "3724492",
+  "ship": {
+    "typeId": 587,
+    "name": {
+      "en": "Rifter",
+      "zh": "裂谷级"
+    },
+    "graphicId": 46
+  },
+  "resources": {
+    "cpu": {
+      "used": 162.25,
+      "total": 162.5
+    },
+    "powergrid": {
+      "used": 32.91,
+      "total": 56.38
+    },
+    "calibration": {
+      "used": 400,
+      "total": 400
+    },
+    "turretHardpoints": {
+      "used": 3,
+      "total": 3
+    },
+    "launcherHardpoints": {
+      "used": 0,
+      "total": 2
+    },
+    "cargo": {
+      "used": 0,
+      "total": 140
+    },
+    "droneBay": {
+      "used": 0,
+      "total": 0
+    },
+    "droneBandwidth": {
+      "used": 0,
+      "total": 0
+    },
+    "slots": {
+      "high": {
+        "used": 0,
+        "total": 3
+      },
+      "mid": {
+        "used": 0,
+        "total": 3
+      },
+      "low": {
+        "used": 0,
+        "total": 4
+      },
+      "rig": {
+        "used": 0,
+        "total": 3
+      },
+      "subsystem": {
+        "used": 0,
+        "total": 0
+      }
+    }
+  },
+  "slots": {
+    "high": [
+      {
+        "kind": "module",
+        "typeId": 2889,
+        "name": {
+          "en": "200mm AutoCannon II",
+          "zh": "200mm自动加农炮 II"
+        },
+        "iconId": 387,
+        "meta": "tech2",
+        "count": 3,
+        "positions": [
+          0,
+          1,
+          2
+        ],
+        "state": "active",
+        "charge": {
+          "typeId": 21898,
+          "name": {
+            "en": "Republic Fleet EMP S",
+            "zh": "共和舰队电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "count": 120
+        },
+        "keyLine": "750m+9.68km · 453",
+        "keyParts": [
+          "750m+9.68km",
+          "453"
+        ],
+        "cpu": 6.75,
+        "powergrid": 3.97,
+        "overSlots": false
+      }
+    ],
+    "mid": [
+      {
+        "kind": "module",
+        "typeId": 438,
+        "name": {
+          "en": "1MN Afterburner II",
+          "zh": "1MN加力燃烧器 II"
+        },
+        "iconId": 96,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          0
+        ],
+        "state": "active",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 15,
+        "powergrid": 11,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 448,
+        "name": {
+          "en": "Warp Scrambler II",
+          "zh": "跃迁扰频器 II"
+        },
+        "iconId": 3433,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          1
+        ],
+        "state": "active",
+        "charge": null,
+        "keyLine": "9km · -2",
+        "keyParts": [
+          "9km",
+          "-2"
+        ],
+        "cpu": 36,
+        "powergrid": 1,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 526,
+        "name": {
+          "en": "Stasis Webifier I",
+          "zh": "停滞缠绕光束 I"
+        },
+        "iconId": 1284,
+        "meta": "tech1",
+        "count": 1,
+        "positions": [
+          2
+        ],
+        "state": "active",
+        "charge": null,
+        "keyLine": "10km · -50%",
+        "keyParts": [
+          "10km",
+          "-50%"
+        ],
+        "cpu": 25,
+        "powergrid": 1,
+        "overSlots": false
+      }
+    ],
+    "low": [
+      {
+        "kind": "module",
+        "typeId": 519,
+        "name": {
+          "en": "Gyrostabilizer II",
+          "zh": "回转稳定器 II"
+        },
+        "iconId": 26452,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          0
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "+22.9%",
+        "keyParts": [
+          "+22.9%"
+        ],
+        "cpu": 30,
+        "powergrid": 1,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 1183,
+        "name": {
+          "en": "Small Armor Repairer II",
+          "zh": "小型装甲维修器 II"
+        },
+        "iconId": 80,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          1
+        ],
+        "state": "active",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 6,
+        "powergrid": 6,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 2048,
+        "name": {
+          "en": "Damage Control II",
+          "zh": "损伤控制 II"
+        },
+        "iconId": 77,
+        "meta": "tech2",
+        "count": 1,
+        "positions": [
+          2
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 30,
+        "powergrid": 1,
+        "overSlots": false
+      },
+      {
+        "kind": "empty",
+        "count": 1,
+        "positions": [
+          3
+        ]
+      }
+    ],
+    "rig": [
+      {
+        "kind": "module",
+        "typeId": 31668,
+        "name": {
+          "en": "Small Projectile Burst Aerator I",
+          "zh": "小型射弹武器射速调节装置 I"
+        },
+        "iconId": 3201,
+        "meta": "tech1",
+        "count": 1,
+        "positions": [
+          0
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 0,
+        "powergrid": 0,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 31704,
+        "name": {
+          "en": "Small Projectile Metastasis Adjuster I",
+          "zh": "小型射弹武器急转控制器 I"
+        },
+        "iconId": 3201,
+        "meta": "tech1",
+        "count": 1,
+        "positions": [
+          1
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 0,
+        "powergrid": 0,
+        "overSlots": false
+      },
+      {
+        "kind": "module",
+        "typeId": 31358,
+        "name": {
+          "en": "Small Ancillary Current Router I",
+          "zh": "小型辅助电源路由器 I"
+        },
+        "iconId": 3195,
+        "meta": "tech1",
+        "count": 1,
+        "positions": [
+          2
+        ],
+        "state": "online",
+        "charge": null,
+        "keyLine": "",
+        "keyParts": [],
+        "cpu": 0,
+        "powergrid": 0,
+        "overSlots": false
+      }
+    ],
+    "subsystem": []
+  },
+  "stats": {
+    "firepower": {
+      "dps": 180.9328,
+      "weaponDps": 180.9328,
+      "droneDps": 0,
+      "volley": 249.5151
+    },
+    "defense": {
+      "hp": 1562.5,
+      "ehp": 2955.4001,
+      "layers": {
+        "shield": {
+          "hp": 562.5,
+          "ehp": 886.6995,
+          "resists": {
+            "em": 0.125,
+            "thermal": 0.3,
+            "kinetic": 0.475,
+            "explosive": 0.5625
+          }
+        },
+        "armor": {
+          "hp": 562.5,
+          "ehp": 980.3922,
+          "resists": {
+            "em": 0.66,
+            "thermal": 0.4475,
+            "kinetic": 0.3625,
+            "explosive": 0.235
+          }
+        },
+        "hull": {
+          "hp": 437.5,
+          "ehp": 1088.3085,
+          "resists": {
+            "em": 0.598,
+            "thermal": 0.598,
+            "kinetic": 0.598,
+            "explosive": 0.598
+          }
+        }
+      }
+    },
+    "repair": {
+      "reinforced": {
+        "passiveShield": 4.7291,
+        "shield": 0,
+        "armor": 35.633,
+        "hull": 0
+      },
+      "sustained": {
+        "passiveShield": 4.7291,
+        "shield": 0,
+        "armor": 23.8519,
+        "hull": 0
+      }
+    },
+    "remoteRepair": {
+      "shield": 0,
+      "armor": 0,
+      "hull": 0,
+      "capacitor": 0
+    },
+    "capacitor": {
+      "capacity": 312.5,
+      "rechargeTime": 93.75,
+      "stable": false,
+      "stablePercent": null,
+      "lastsSeconds": 63,
+      "delta": -2.9389,
+      "recharge": 8.3333,
+      "usage": 11.2722
+    },
+    "navigation": {
+      "maxVelocity": 1193.2524,
+      "alignTime": 4.6922,
+      "signatureRadius": 35,
+      "warpSpeed": 5,
+      "maxTargetRange": 28125,
+      "maxTargets": 4,
+      "scanResolution": 825,
+      "sensorType": "ladar",
+      "sensorStrength": 9.6,
+      "droneControlRange": 60000,
+      "mass": 1567000
+    }
+  },
+  "rangeCurve": {
+    "distancesKm": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30
+    ],
+    "series": [
+      {
+        "chargeTypeId": 21898,
+        "name": {
+          "en": "Republic Fleet EMP S",
+          "zh": "共和舰队电磁脉冲弹 S"
+        },
+        "dps": [
+          183.66,
+          183.53,
+          180.57,
+          173.86,
+          163.89,
+          151.32,
+          136.97,
+          121.65,
+          106.14,
+          91.11,
+          77.06,
+          64.34,
+          53.14,
+          43.52,
+          35.41,
+          28.71,
+          23.26,
+          18.89,
+          15.43,
+          12.71,
+          10.61,
+          9,
+          7.77,
+          6.86,
+          6.18,
+          5.69,
+          4.83,
+          3.3,
+          2.22,
+          1.47,
+          0.96
+        ]
+      },
+      {
+        "chargeTypeId": 12625,
+        "name": {
+          "en": "Barrage S",
+          "zh": "雷暴 S"
+        },
+        "dps": [
+          146.39,
+          146.39,
+          146.22,
+          144.81,
+          142.05,
+          138.01,
+          132.84,
+          126.68,
+          119.71,
+          112.14,
+          104.15,
+          95.93,
+          87.68,
+          79.54,
+          71.65,
+          64.13,
+          57.06,
+          50.5,
+          44.48,
+          39.01,
+          34.1,
+          29.73,
+          25.87,
+          22.49,
+          19.54,
+          16.99,
+          14.8,
+          12.93,
+          11.33,
+          9.98,
+          8.83
+        ]
+      },
+      {
+        "chargeTypeId": 12608,
+        "name": {
+          "en": "Hail S",
+          "zh": "冰雹 S"
+        },
+        "dps": [
+          235.56,
+          235.27,
+          228.57,
+          213.75,
+          192.63,
+          167.58,
+          141.08,
+          115.3,
+          91.81,
+          71.56,
+          54.88,
+          41.63,
+          31.45,
+          23.82,
+          18.23,
+          14.22,
+          11.39,
+          9.44,
+          8.12,
+          7.25,
+          5.3,
+          3.15,
+          1.82,
+          1.03,
+          0.57,
+          0.3,
+          0.16,
+          0.08,
+          0.04,
+          0.02,
+          0.01
+        ]
+      }
+    ]
+  },
+  "warnings": []
+}

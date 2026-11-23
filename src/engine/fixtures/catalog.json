@@ -1,0 +1,3677 @@
+{
+  "dataVersion": "3724492",
+  "modules": [
+    {
+      "typeId": 34284,
+      "name": {
+        "en": "Polarized 200mm AutoCannon",
+        "zh": "偏振式200mm自动加农炮"
+      },
+      "iconId": 387,
+      "meta": "tech2",
+      "metaLevel": 9,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 2889,
+      "name": {
+        "en": "200mm AutoCannon II",
+        "zh": "200mm自动加农炮 II"
+      },
+      "iconId": 387,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 8863,
+      "name": {
+        "en": "200mm Light 'Scout' Autocannon I",
+        "zh": "200mm轻型侦查员自动加农炮 I"
+      },
+      "iconId": 387,
+      "meta": "tech1",
+      "metaLevel": 4,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 8869,
+      "name": {
+        "en": "200mm Light Prototype Automatic Cannon",
+        "zh": "200mm轻型尖端型自动加农炮"
+      },
+      "iconId": 387,
+      "meta": "tech1",
+      "metaLevel": 3,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 8867,
+      "name": {
+        "en": "200mm Light Gallium Machine Gun",
+        "zh": "200mm轻型镓金属机关炮"
+      },
+      "iconId": 387,
+      "meta": "tech1",
+      "metaLevel": 2,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 8865,
+      "name": {
+        "en": "200mm Light Carbine Repeating Cannon I",
+        "zh": "200mm轻型卡宾频射加农炮 I"
+      },
+      "iconId": 387,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 486,
+      "name": {
+        "en": "200mm AutoCannon I",
+        "zh": "200mm自动加农炮 I"
+      },
+      "iconId": 387,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 13777,
+      "name": {
+        "en": "Domination 200mm Autocannon",
+        "zh": "主天使200mm自动加农炮"
+      },
+      "iconId": 387,
+      "meta": "faction",
+      "metaLevel": 7,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 16050,
+      "name": {
+        "en": "Republic Fleet 200mm Autocannon",
+        "zh": "共和舰队200mm自动加农炮"
+      },
+      "iconId": 387,
+      "meta": "faction",
+      "metaLevel": 7,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 21545,
+      "name": {
+        "en": "200mm Light 'Jolt' Autocannon I",
+        "zh": "200mm轻型摇摆自动加农炮 I"
+      },
+      "iconId": 387,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 85010,
+      "name": {
+        "en": "Ramaku's Modified 200mm AutoCannon",
+        "zh": "拉玛库改良型200mm自动加农炮"
+      },
+      "iconId": 387,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 486
+    },
+    {
+      "typeId": 34278,
+      "name": {
+        "en": "Polarized Light Neutron Blaster",
+        "zh": "偏振式轻型中子疾速炮"
+      },
+      "iconId": 376,
+      "meta": "tech2",
+      "metaLevel": 9,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 3178,
+      "name": {
+        "en": "Light Neutron Blaster II",
+        "zh": "轻型中子疾速炮 II"
+      },
+      "iconId": 376,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 7579,
+      "name": {
+        "en": "Modal Light Neutron Particle Accelerator I",
+        "zh": "增强模式轻型中子加速器 I"
+      },
+      "iconId": 376,
+      "meta": "tech1",
+      "metaLevel": 4,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 7585,
+      "name": {
+        "en": "Anode Light Neutron Particle Cannon I",
+        "zh": "阳极轻型中子加农炮 I"
+      },
+      "iconId": 376,
+      "meta": "tech1",
+      "metaLevel": 3,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 7581,
+      "name": {
+        "en": "Limited Light Neutron Blaster I",
+        "zh": "有限轻型中子疾速炮 I"
+      },
+      "iconId": 376,
+      "meta": "tech1",
+      "metaLevel": 2,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 7583,
+      "name": {
+        "en": "Regulated Light Neutron Phase Cannon I",
+        "zh": "校准型轻型中子相位加农炮 I"
+      },
+      "iconId": 376,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 564,
+      "name": {
+        "en": "Light Neutron Blaster I",
+        "zh": "轻型中子疾速炮 I"
+      },
+      "iconId": 376,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 15826,
+      "name": {
+        "en": "Federation Navy Light Neutron Blaster",
+        "zh": "联邦海军轻型中子疾速炮"
+      },
+      "iconId": 376,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 13888,
+      "name": {
+        "en": "Shadow Serpentis Light Neutron Blaster",
+        "zh": "暗影天蛇轻型中子疾速炮"
+      },
+      "iconId": 376,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 22903,
+      "name": {
+        "en": "'Racket' Light Neutron Blaster I",
+        "zh": "糜烂轻型中子疾速炮 I"
+      },
+      "iconId": 376,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 85008,
+      "name": {
+        "en": "Asine's Modified Light Neutron Blaster",
+        "zh": "阿希呢改良轻型中子疾速炮"
+      },
+      "iconId": 376,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "high",
+      "family": 564
+    },
+    {
+      "typeId": 519,
+      "name": {
+        "en": "Gyrostabilizer II",
+        "zh": "回转稳定器 II"
+      },
+      "iconId": 26452,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 5933,
+      "name": {
+        "en": "Counterbalanced Compact Gyrostabilizer",
+        "zh": "反制性紧凑型回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 520,
+      "name": {
+        "en": "Gyrostabilizer I",
+        "zh": "回转稳定器 I"
+      },
+      "iconId": 26452,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 13939,
+      "name": {
+        "en": "Domination Gyrostabilizer",
+        "zh": "主天使回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 15806,
+      "name": {
+        "en": "Republic Fleet Gyrostabilizer",
+        "zh": "共和舰队回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 518,
+      "name": {
+        "en": "'Basic' Gyrostabilizer",
+        "zh": "基础型回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 21486,
+      "name": {
+        "en": "'Kindred' Gyrostabilizer",
+        "zh": "宗族回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 44112,
+      "name": {
+        "en": "Vadari's Custom Gyrostabilizer",
+        "zh": "瓦达里的定制回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 14542,
+      "name": {
+        "en": "Tobias' Modified Gyrostabilizer",
+        "zh": "托比雅斯氏改良型回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "officer",
+      "metaLevel": 17,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 14540,
+      "name": {
+        "en": "Gotan's Modified Gyrostabilizer",
+        "zh": "戈丹氏改良型回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 15447,
+      "name": {
+        "en": "Shaqil's Modified Gyrostabilizer",
+        "zh": "沙切尔氏改良型回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "officer",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 14538,
+      "name": {
+        "en": "Hakim's Modified Gyrostabilizer",
+        "zh": "哈科姆氏改良型回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "officer",
+      "metaLevel": 13,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 14536,
+      "name": {
+        "en": "Mizuro's Modified Gyrostabilizer",
+        "zh": "米兹罗氏改良型回转稳定器"
+      },
+      "iconId": 26452,
+      "meta": "officer",
+      "metaLevel": 11,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 520
+    },
+    {
+      "typeId": 1183,
+      "name": {
+        "en": "Small Armor Repairer II",
+        "zh": "小型装甲维修器 II"
+      },
+      "iconId": 80,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 4533,
+      "name": {
+        "en": "Small ACM Compact Armor Repairer",
+        "zh": "小型ACM紧凑型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 4529,
+      "name": {
+        "en": "Small I-a Enduring Armor Repairer",
+        "zh": "小型I-a持久型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 523,
+      "name": {
+        "en": "Small Armor Repairer I",
+        "zh": "小型装甲维修器 I"
+      },
+      "iconId": 80,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 15741,
+      "name": {
+        "en": "Ammatar Navy Small Armor Repairer",
+        "zh": "艾玛达海军小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 13964,
+      "name": {
+        "en": "Dark Blood Small Armor Repairer",
+        "zh": "黑暗血袭者小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 13962,
+      "name": {
+        "en": "Domination Small Armor Repairer",
+        "zh": "主天使小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 15744,
+      "name": {
+        "en": "Federation Navy Small Armor Repairer",
+        "zh": "联邦海军小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 17548,
+      "name": {
+        "en": "Imperial Navy Small Armor Repairer",
+        "zh": "帝国海军小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 28556,
+      "name": {
+        "en": "Khanid Navy Small Armor Repairer",
+        "zh": "卡尼迪海军小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 17494,
+      "name": {
+        "en": "Republic Fleet Small Armor Repairer",
+        "zh": "共和舰队小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 14069,
+      "name": {
+        "en": "Shadow Serpentis Small Armor Repairer",
+        "zh": "暗影天蛇小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 13963,
+      "name": {
+        "en": "True Sansha Small Armor Repairer",
+        "zh": "萨沙爱国者小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 23795,
+      "name": {
+        "en": "'Gorget' Small Armor Repairer I",
+        "zh": "甲胄小型装甲维修器 I"
+      },
+      "iconId": 80,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 22887,
+      "name": {
+        "en": "'Harmony' Small Armor Repairer I",
+        "zh": "协合小型装甲维修器 I"
+      },
+      "iconId": 80,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19009,
+      "name": {
+        "en": "Centii A-Type Small Armor Repairer",
+        "zh": "森提伊小型装甲维修器 A型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19015,
+      "name": {
+        "en": "Coreli A-Type Small Armor Repairer",
+        "zh": "克尔利伊小型装甲维修器 A型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19003,
+      "name": {
+        "en": "Corpii A-Type Small Armor Repairer",
+        "zh": "科必伊小型装甲维修器 A型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19007,
+      "name": {
+        "en": "Centii B-Type Small Armor Repairer",
+        "zh": "森提伊小型装甲维修器 B型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19013,
+      "name": {
+        "en": "Coreli B-Type Small Armor Repairer",
+        "zh": "克尔利伊小型装甲维修器 B型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19001,
+      "name": {
+        "en": "Corpii B-Type Small Armor Repairer",
+        "zh": "科必伊小型装甲维修器 B型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19005,
+      "name": {
+        "en": "Centii C-Type Small Armor Repairer",
+        "zh": "森提伊小型装甲维修器 C型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 10,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 19011,
+      "name": {
+        "en": "Coreli C-Type Small Armor Repairer",
+        "zh": "克尔利伊小型装甲维修器 C型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 10,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 18999,
+      "name": {
+        "en": "Corpii C-Type Small Armor Repairer",
+        "zh": "科必伊小型装甲维修器 C型"
+      },
+      "iconId": 80,
+      "meta": "deadspace",
+      "metaLevel": 10,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 84970,
+      "name": {
+        "en": "Asine's Modified Small Armor Repairer",
+        "zh": "阿希呢改良小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 84971,
+      "name": {
+        "en": "Makra's Modified Small Armor Repairer",
+        "zh": "马卡拉改良小型装甲维修器"
+      },
+      "iconId": 80,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 523
+    },
+    {
+      "typeId": 2048,
+      "name": {
+        "en": "Damage Control II",
+        "zh": "损伤控制 II"
+      },
+      "iconId": 77,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 95414,
+      "name": {
+        "en": "Breach Control",
+        "zh": "突破控制"
+      },
+      "iconId": 27562,
+      "meta": "tech1",
+      "metaLevel": 9,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 5839,
+      "name": {
+        "en": "IFFA Compact Damage Control",
+        "zh": "IFFA紧凑型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 2046,
+      "name": {
+        "en": "Damage Control I",
+        "zh": "损伤控制 I"
+      },
+      "iconId": 77,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41202,
+      "name": {
+        "en": "Sentient Damage Control",
+        "zh": "缚魂损伤控制"
+      },
+      "iconId": 77,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41200,
+      "name": {
+        "en": "Shadow Serpentis Damage Control",
+        "zh": "暗影天蛇损伤控制"
+      },
+      "iconId": 77,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41201,
+      "name": {
+        "en": "Syndicate Damage Control",
+        "zh": "辛迪加损伤控制"
+      },
+      "iconId": 77,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 521,
+      "name": {
+        "en": "'Basic' Damage Control",
+        "zh": "基础型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 23418,
+      "name": {
+        "en": "'Radical' Damage Control",
+        "zh": "激进者损伤控制"
+      },
+      "iconId": 77,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41210,
+      "name": {
+        "en": "Cormack's Modified Damage Control",
+        "zh": "科尔马克氏改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 17,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41211,
+      "name": {
+        "en": "Unit W-634's Modified Damage Control",
+        "zh": "W-634单元改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 17,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41207,
+      "name": {
+        "en": "Setele's Modified Damage Control",
+        "zh": "赛特勒氏改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41208,
+      "name": {
+        "en": "Unit P-343554's Modified Damage Control",
+        "zh": "P-343554单元改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41205,
+      "name": {
+        "en": "Tuvan's Modified Damage Control",
+        "zh": "图万氏改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 13,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41206,
+      "name": {
+        "en": "Unit F-435454's Modified Damage Control",
+        "zh": "F-435454单元改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 13,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41203,
+      "name": {
+        "en": "Brynn's Modified Damage Control",
+        "zh": "布瑞恩氏改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 11,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 41204,
+      "name": {
+        "en": "Unit D-34343's Modified Damage Control",
+        "zh": "D-34343单元改良型损伤控制"
+      },
+      "iconId": 77,
+      "meta": "officer",
+      "metaLevel": 11,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 2046
+    },
+    {
+      "typeId": 10190,
+      "name": {
+        "en": "Magnetic Field Stabilizer II",
+        "zh": "磁性力场稳定器 II"
+      },
+      "iconId": 26454,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 11105,
+      "name": {
+        "en": "Vortex Compact Magnetic Field Stabilizer",
+        "zh": "涡流紧凑型磁场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 9944,
+      "name": {
+        "en": "Magnetic Field Stabilizer I",
+        "zh": "磁性力场稳定器 I"
+      },
+      "iconId": 26454,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 94020,
+      "name": {
+        "en": "Federation Navy 'Khryseos' Magnetic Field Stabilizer",
+        "zh": "联邦海军“金阳”磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "faction",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 93998,
+      "name": {
+        "en": "Federation Navy 'Argyreos' Magnetic Field Stabilizer",
+        "zh": "联邦海军“银星”磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 15895,
+      "name": {
+        "en": "Federation Navy Magnetic Field Stabilizer",
+        "zh": "联邦海军磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 13945,
+      "name": {
+        "en": "Shadow Serpentis Magnetic Field Stabilizer",
+        "zh": "暗影天蛇磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 15416,
+      "name": {
+        "en": "Naiyon's Modified Magnetic Field Stabilizer",
+        "zh": "奈杨氏改良型磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "storyline",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 10188,
+      "name": {
+        "en": "'Basic' Magnetic Field Stabilizer",
+        "zh": "基础型磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 22919,
+      "name": {
+        "en": "'Monopoly' Magnetic Field Stabilizer",
+        "zh": "垄断磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 44113,
+      "name": {
+        "en": "Kaatara's Custom Magnetic Field Stabilizer",
+        "zh": "卡塔拉的定制磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 44114,
+      "name": {
+        "en": "Torelle's Custom Magnetic Field Stabilizer",
+        "zh": "托雷尔的定制磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 15150,
+      "name": {
+        "en": "Cormack's Modified Magnetic Field Stabilizer",
+        "zh": "科尔马克氏改良型磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "officer",
+      "metaLevel": 17,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 15148,
+      "name": {
+        "en": "Setele's Modified Magnetic Field Stabilizer",
+        "zh": "塞特勒氏改良型磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 15146,
+      "name": {
+        "en": "Tuvan's Modified Magnetic Field Stabilizer",
+        "zh": "图万氏改良型磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "officer",
+      "metaLevel": 13,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 15144,
+      "name": {
+        "en": "Brynn's Modified Magnetic Field Stabilizer",
+        "zh": "布瑞恩氏改良型磁性力场稳定器"
+      },
+      "iconId": 26454,
+      "meta": "officer",
+      "metaLevel": 11,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "low",
+      "family": 9944
+    },
+    {
+      "typeId": 438,
+      "name": {
+        "en": "1MN Afterburner II",
+        "zh": "1MN加力燃烧器 II"
+      },
+      "iconId": 96,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 6003,
+      "name": {
+        "en": "1MN Monopropellant Enduring Afterburner",
+        "zh": "单元推进持久型1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 6001,
+      "name": {
+        "en": "1MN Y-S8 Compact Afterburner",
+        "zh": "Y-S8紧凑型1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 439,
+      "name": {
+        "en": "1MN Afterburner I",
+        "zh": "1MN加力燃烧器 I"
+      },
+      "iconId": 96,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 14110,
+      "name": {
+        "en": "Domination 1MN Afterburner",
+        "zh": "主天使1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 15761,
+      "name": {
+        "en": "Federation Navy 1MN Afterburner",
+        "zh": "联邦海军1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 15749,
+      "name": {
+        "en": "Republic Fleet 1MN Afterburner",
+        "zh": "共和舰队1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 14112,
+      "name": {
+        "en": "Shadow Serpentis 1MN Afterburner",
+        "zh": "暗影天蛇1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 85031,
+      "name": {
+        "en": "True Sansha 1MN Afterburner",
+        "zh": "萨沙爱国者1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 21470,
+      "name": {
+        "en": "1MN Analog Booster Afterburner",
+        "zh": "1MN模拟助推加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 18692,
+      "name": {
+        "en": "Coreli A-Type 1MN Afterburner",
+        "zh": "克尔利伊1MN加力燃烧器 A型"
+      },
+      "iconId": 96,
+      "meta": "deadspace",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 18670,
+      "name": {
+        "en": "Gistii A-Type 1MN Afterburner",
+        "zh": "吉斯迪伊1MN加力燃烧器 A型"
+      },
+      "iconId": 96,
+      "meta": "deadspace",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 18686,
+      "name": {
+        "en": "Coreli B-Type 1MN Afterburner",
+        "zh": "克尔利伊1MN加力燃烧器 B型"
+      },
+      "iconId": 96,
+      "meta": "deadspace",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 18664,
+      "name": {
+        "en": "Gistii B-Type 1MN Afterburner",
+        "zh": "吉斯迪伊1MN加力燃烧器 B型"
+      },
+      "iconId": 96,
+      "meta": "deadspace",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 18680,
+      "name": {
+        "en": "Coreli C-Type 1MN Afterburner",
+        "zh": "克尔利伊1MN加力燃烧器 C型"
+      },
+      "iconId": 96,
+      "meta": "deadspace",
+      "metaLevel": 10,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 18658,
+      "name": {
+        "en": "Gistii C-Type 1MN Afterburner",
+        "zh": "吉斯迪伊1MN加力燃烧器 C型"
+      },
+      "iconId": 96,
+      "meta": "deadspace",
+      "metaLevel": 10,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 84966,
+      "name": {
+        "en": "Asine's Modified 1MN Afterburner",
+        "zh": "阿希呢改良型1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 84967,
+      "name": {
+        "en": "Ramaku's Modified 1MN Afterburner",
+        "zh": "拉玛库改良型1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 85025,
+      "name": {
+        "en": "Usaras' Modified 1MN Afterburner",
+        "zh": "尤萨哈改良型1MN加力燃烧器"
+      },
+      "iconId": 96,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 439
+    },
+    {
+      "typeId": 448,
+      "name": {
+        "en": "Warp Scrambler II",
+        "zh": "跃迁扰频器 II"
+      },
+      "iconId": 3433,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 5443,
+      "name": {
+        "en": "Faint Epsilon Scoped Warp Scrambler",
+        "zh": "伊普西隆眩晕视野型跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 5445,
+      "name": {
+        "en": "Initiated Compact Warp Scrambler",
+        "zh": "初始紧凑型跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 5439,
+      "name": {
+        "en": "J5b Enduring Warp Scrambler",
+        "zh": "J5b持久型跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 447,
+      "name": {
+        "en": "Warp Scrambler I",
+        "zh": "跃迁扰频器 I"
+      },
+      "iconId": 3433,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 15887,
+      "name": {
+        "en": "Caldari Navy Warp Scrambler",
+        "zh": "加达里海军跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 14252,
+      "name": {
+        "en": "Dark Blood Warp Scrambler",
+        "zh": "黑暗血袭者跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 14254,
+      "name": {
+        "en": "Domination Warp Scrambler",
+        "zh": "主天使跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 14256,
+      "name": {
+        "en": "Dread Guristas Warp Scrambler",
+        "zh": "恐惧古斯塔斯跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 41061,
+      "name": {
+        "en": "Federation Navy Warp Scrambler",
+        "zh": "联邦海军跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 97956,
+      "name": {
+        "en": "Imperial Navy Warp Scrambler",
+        "zh": "帝国海军跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 28518,
+      "name": {
+        "en": "Khanid Navy Warp Scrambler",
+        "zh": "卡尼迪海军跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 15893,
+      "name": {
+        "en": "Republic Fleet Warp Scrambler",
+        "zh": "共和舰队跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 14260,
+      "name": {
+        "en": "Shadow Serpentis Warp Scrambler",
+        "zh": "暗影天蛇跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 14258,
+      "name": {
+        "en": "True Sansha Warp Scrambler",
+        "zh": "萨沙爱国者跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 21512,
+      "name": {
+        "en": "'Delineative' Warp Scrambler",
+        "zh": "勾画跃迁扰频器"
+      },
+      "iconId": 3433,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 447
+    },
+    {
+      "typeId": 527,
+      "name": {
+        "en": "Stasis Webifier II",
+        "zh": "停滞缠绕光束 II"
+      },
+      "iconId": 1284,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 4027,
+      "name": {
+        "en": "Fleeting Compact Stasis Webifier",
+        "zh": "骤停紧凑型停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 4025,
+      "name": {
+        "en": "X5 Enduring Stasis Webifier",
+        "zh": "X5持久型停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 526,
+      "name": {
+        "en": "Stasis Webifier I",
+        "zh": "停滞缠绕光束 I"
+      },
+      "iconId": 1284,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 17500,
+      "name": {
+        "en": "Caldari Navy Stasis Webifier",
+        "zh": "加达里海军停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 97955,
+      "name": {
+        "en": "Compact Imperial Navy Stasis Webifier",
+        "zh": "Compact Imperial Navy Stasis Webifier"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14262,
+      "name": {
+        "en": "Dark Blood Stasis Webifier",
+        "zh": "黑暗血袭者停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14264,
+      "name": {
+        "en": "Domination Stasis Webifier",
+        "zh": "主天使停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14266,
+      "name": {
+        "en": "Dread Guristas Stasis Webifier",
+        "zh": "恐惧古斯塔斯停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 17559,
+      "name": {
+        "en": "Federation Navy Stasis Webifier",
+        "zh": "联邦海军停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 98845,
+      "name": {
+        "en": "Imperial Navy Stasis Webifier",
+        "zh": "帝国海军停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 28514,
+      "name": {
+        "en": "Khanid Navy Stasis Webifier",
+        "zh": "卡尼迪海军停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 41038,
+      "name": {
+        "en": "Republic Fleet Stasis Webifier",
+        "zh": "共和舰队停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14270,
+      "name": {
+        "en": "Shadow Serpentis Stasis Webifier",
+        "zh": "暗影天蛇停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14268,
+      "name": {
+        "en": "True Sansha Stasis Webifier",
+        "zh": "萨沙爱国者停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14654,
+      "name": {
+        "en": "Tobias' Modified Stasis Webifier",
+        "zh": "托比雅斯氏改良型停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "officer",
+      "metaLevel": 17,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14652,
+      "name": {
+        "en": "Gotan's Modified Stasis Webifier",
+        "zh": "戈丹氏改良型停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14650,
+      "name": {
+        "en": "Hakim's Modified Stasis Webifier",
+        "zh": "哈科姆氏改良型停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "officer",
+      "metaLevel": 13,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 14648,
+      "name": {
+        "en": "Mizuro's Modified Stasis Webifier",
+        "zh": "米兹罗氏改良型停滞缠绕光束"
+      },
+      "iconId": 1284,
+      "meta": "officer",
+      "metaLevel": 11,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 526
+    },
+    {
+      "typeId": 2281,
+      "name": {
+        "en": "Multispectrum Shield Hardener II",
+        "zh": "多谱式护盾增强器 II"
+      },
+      "iconId": 81,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 9632,
+      "name": {
+        "en": "Compact Multispectrum Shield Hardener",
+        "zh": "紧凑型多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 54291,
+      "name": {
+        "en": "Enduring Multispectrum Shield Hardener",
+        "zh": "持久型多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 578,
+      "name": {
+        "en": "Multispectrum Shield Hardener I",
+        "zh": "多谱式护盾增强器 I"
+      },
+      "iconId": 81,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 17498,
+      "name": {
+        "en": "Caldari Navy Multispectrum Shield Hardener",
+        "zh": "加达里海军多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 13998,
+      "name": {
+        "en": "Domination Multispectrum Shield Hardener",
+        "zh": "主天使多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 13969,
+      "name": {
+        "en": "Dread Guristas Multispectrum Shield Hardener",
+        "zh": "恐惧古斯塔斯多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 20637,
+      "name": {
+        "en": "'Posse' Multispectrum Shield Hardener",
+        "zh": "民团多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 4346,
+      "name": {
+        "en": "Gistum A-Type Multispectrum Shield Hardener",
+        "zh": "吉斯塔姆多谱式护盾增强器 A型"
+      },
+      "iconId": 81,
+      "meta": "deadspace",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 4347,
+      "name": {
+        "en": "Pithum A-Type Multispectrum Shield Hardener",
+        "zh": "皮特姆多谱式护盾增强器 A型"
+      },
+      "iconId": 81,
+      "meta": "deadspace",
+      "metaLevel": 14,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 4345,
+      "name": {
+        "en": "Gistum B-Type Multispectrum Shield Hardener",
+        "zh": "吉斯塔姆多谱式护盾增强器 B型"
+      },
+      "iconId": 81,
+      "meta": "deadspace",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 4348,
+      "name": {
+        "en": "Pithum B-Type Multispectrum Shield Hardener",
+        "zh": "皮特姆多谱式护盾增强器 B型"
+      },
+      "iconId": 81,
+      "meta": "deadspace",
+      "metaLevel": 12,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 2050,
+      "name": {
+        "en": "Gistum C-Type Multispectrum Shield Hardener",
+        "zh": "吉斯塔姆多谱式护盾增强器 C型"
+      },
+      "iconId": 81,
+      "meta": "deadspace",
+      "metaLevel": 10,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 4349,
+      "name": {
+        "en": "Pithum C-Type Multispectrum Shield Hardener",
+        "zh": "皮特姆多谱式护盾增强器 C型"
+      },
+      "iconId": 81,
+      "meta": "deadspace",
+      "metaLevel": 10,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 14767,
+      "name": {
+        "en": "Estamel's Modified Multispectrum Shield Hardener",
+        "zh": "埃斯塔梅尔氏改良型多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "officer",
+      "metaLevel": 17,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 14766,
+      "name": {
+        "en": "Vepas' Modified Multispectrum Shield Hardener",
+        "zh": "威帕斯改良型多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "officer",
+      "metaLevel": 15,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 88262,
+      "name": {
+        "en": "Strategos' Modified Multispectrum Shield Hardener",
+        "zh": "将军级改良型多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "officer",
+      "metaLevel": 13,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 14765,
+      "name": {
+        "en": "Thon's Modified Multispectrum Shield Hardener",
+        "zh": "托恩氏改良型多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "officer",
+      "metaLevel": 13,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 14764,
+      "name": {
+        "en": "Kaikka's Modified Multispectrum Shield Hardener",
+        "zh": "卡尔卡氏改良型多谱式护盾增强器"
+      },
+      "iconId": 81,
+      "meta": "officer",
+      "metaLevel": 11,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 578
+    },
+    {
+      "typeId": 3831,
+      "name": {
+        "en": "Medium Shield Extender II",
+        "zh": "中型护盾扩展装置 II"
+      },
+      "iconId": 1044,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 8433,
+      "name": {
+        "en": "Medium Azeotropic Restrained Shield Extender",
+        "zh": "中型恒沸点抑制型护盾扩展装置"
+      },
+      "iconId": 1044,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 8517,
+      "name": {
+        "en": "Medium F-S9 Regolith Compact Shield Extender",
+        "zh": "中型F-S9覆盖式紧凑型护盾扩展装置"
+      },
+      "iconId": 1044,
+      "meta": "tech1",
+      "metaLevel": 1,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 3829,
+      "name": {
+        "en": "Medium Shield Extender I",
+        "zh": "中型护盾扩展装置 I"
+      },
+      "iconId": 1044,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 31926,
+      "name": {
+        "en": "Caldari Navy Medium Shield Extender",
+        "zh": "加达里海军中型护盾扩展装置"
+      },
+      "iconId": 1044,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 31928,
+      "name": {
+        "en": "Republic Fleet Medium Shield Extender",
+        "zh": "共和舰队中型护盾扩展装置"
+      },
+      "iconId": 1044,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 28746,
+      "name": {
+        "en": "Thukker Medium Shield Extender",
+        "zh": "图克尔中型护盾扩展装置"
+      },
+      "iconId": 1044,
+      "meta": "faction",
+      "metaLevel": 8,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 20629,
+      "name": {
+        "en": "Medium 'Canyon' Shield Extender",
+        "zh": "峡谷中型护盾扩展装置"
+      },
+      "iconId": 1044,
+      "meta": "storyline",
+      "metaLevel": 6,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "mid",
+      "family": 3829
+    },
+    {
+      "typeId": 31364,
+      "name": {
+        "en": "Small Ancillary Current Router II",
+        "zh": "小型辅助电源路由器 II"
+      },
+      "iconId": 3195,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31358
+    },
+    {
+      "typeId": 31358,
+      "name": {
+        "en": "Small Ancillary Current Router I",
+        "zh": "小型辅助电源路由器 I"
+      },
+      "iconId": 3195,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31358
+    },
+    {
+      "typeId": 31532,
+      "name": {
+        "en": "Small Hybrid Burst Aerator II",
+        "zh": "小型混合武器射速调节装置 II"
+      },
+      "iconId": 3202,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31526
+    },
+    {
+      "typeId": 31526,
+      "name": {
+        "en": "Small Hybrid Burst Aerator I",
+        "zh": "小型混合武器射速调节装置 I"
+      },
+      "iconId": 3202,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31526
+    },
+    {
+      "typeId": 31674,
+      "name": {
+        "en": "Small Projectile Burst Aerator II",
+        "zh": "小型射弹武器射速调节装置 II"
+      },
+      "iconId": 3201,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31668
+    },
+    {
+      "typeId": 31668,
+      "name": {
+        "en": "Small Projectile Burst Aerator I",
+        "zh": "小型射弹武器射速调节装置 I"
+      },
+      "iconId": 3201,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31668
+    },
+    {
+      "typeId": 31710,
+      "name": {
+        "en": "Small Projectile Metastasis Adjuster II",
+        "zh": "小型射弹武器急转控制器 II"
+      },
+      "iconId": 3201,
+      "meta": "tech2",
+      "metaLevel": 5,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31704
+    },
+    {
+      "typeId": 31704,
+      "name": {
+        "en": "Small Projectile Metastasis Adjuster I",
+        "zh": "小型射弹武器急转控制器 I"
+      },
+      "iconId": 3201,
+      "meta": "tech1",
+      "metaLevel": 0,
+      "keyValue": null,
+      "keyLine": "",
+      "slot": "rig",
+      "family": 31704
+    }
+  ],
+  "charges": {
+    "2889": [
+      {
+        "typeId": 12608,
+        "name": {
+          "en": "Hail S",
+          "zh": "冰雹 S"
+        },
+        "iconId": 1285,
+        "meta": "tech2",
+        "metaLevel": 5,
+        "keyValue": 17.7,
+        "keyLine": "17.7 dmg"
+      },
+      {
+        "typeId": 12625,
+        "name": {
+          "en": "Barrage S",
+          "zh": "雷暴 S"
+        },
+        "iconId": 1288,
+        "meta": "tech2",
+        "metaLevel": 5,
+        "keyValue": 11,
+        "keyLine": "11 dmg"
+      },
+      {
+        "typeId": 185,
+        "name": {
+          "en": "EMP S",
+          "zh": "电磁脉冲弹 S"
+        },
+        "iconId": 1286,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 12,
+        "keyLine": "12 dmg"
+      },
+      {
+        "typeId": 183,
+        "name": {
+          "en": "Fusion S",
+          "zh": "聚变弹 S"
+        },
+        "iconId": 1287,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 12,
+        "keyLine": "12 dmg"
+      },
+      {
+        "typeId": 184,
+        "name": {
+          "en": "Phased Plasma S",
+          "zh": "定相等离子弹 S"
+        },
+        "iconId": 1289,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 12,
+        "keyLine": "12 dmg"
+      },
+      {
+        "typeId": 181,
+        "name": {
+          "en": "Depleted Uranium S",
+          "zh": "贫铀弹 S"
+        },
+        "iconId": 1285,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 8,
+        "keyLine": "8 dmg"
+      },
+      {
+        "typeId": 182,
+        "name": {
+          "en": "Titanium Sabot S",
+          "zh": "钛合金萨博弹 S"
+        },
+        "iconId": 1291,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 8,
+        "keyLine": "8 dmg"
+      },
+      {
+        "typeId": 178,
+        "name": {
+          "en": "Carbonized Lead S",
+          "zh": "碳铅弹 S"
+        },
+        "iconId": 1004,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 5,
+        "keyLine": "5 dmg"
+      },
+      {
+        "typeId": 179,
+        "name": {
+          "en": "Nuclear S",
+          "zh": "核芯弹 S"
+        },
+        "iconId": 1288,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 5,
+        "keyLine": "5 dmg"
+      },
+      {
+        "typeId": 180,
+        "name": {
+          "en": "Proton S",
+          "zh": "质子弹 S"
+        },
+        "iconId": 1290,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 5,
+        "keyLine": "5 dmg"
+      },
+      {
+        "typeId": 20767,
+        "name": {
+          "en": "Domination EMP S",
+          "zh": "主天使电磁脉冲弹 S"
+        },
+        "iconId": 1286,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 14.4,
+        "keyLine": "14.4 dmg"
+      },
+      {
+        "typeId": 20763,
+        "name": {
+          "en": "Domination Fusion S",
+          "zh": "主天使聚变弹 S"
+        },
+        "iconId": 1287,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 14.4,
+        "keyLine": "14.4 dmg"
+      },
+      {
+        "typeId": 20765,
+        "name": {
+          "en": "Domination Phased Plasma S",
+          "zh": "主天使定相等离子弹 S"
+        },
+        "iconId": 1289,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 14.4,
+        "keyLine": "14.4 dmg"
+      },
+      {
+        "typeId": 21898,
+        "name": {
+          "en": "Republic Fleet EMP S",
+          "zh": "共和舰队电磁脉冲弹 S"
+        },
+        "iconId": 1286,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.8,
+        "keyLine": "13.8 dmg"
+      },
+      {
+        "typeId": 21906,
+        "name": {
+          "en": "Republic Fleet Fusion S",
+          "zh": "共和舰队聚变弹 S"
+        },
+        "iconId": 1287,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.8,
+        "keyLine": "13.8 dmg"
+      },
+      {
+        "typeId": 21924,
+        "name": {
+          "en": "Republic Fleet Phased Plasma S",
+          "zh": "共和舰队定相等离子弹 S"
+        },
+        "iconId": 1289,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.8,
+        "keyLine": "13.8 dmg"
+      },
+      {
+        "typeId": 19992,
+        "name": {
+          "en": "Arch Angel EMP S",
+          "zh": "大天使电磁脉冲弹 S"
+        },
+        "iconId": 1286,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.2,
+        "keyLine": "13.2 dmg"
+      },
+      {
+        "typeId": 19988,
+        "name": {
+          "en": "Arch Angel Fusion S",
+          "zh": "大天使聚变弹 S"
+        },
+        "iconId": 1287,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.2,
+        "keyLine": "13.2 dmg"
+      },
+      {
+        "typeId": 19990,
+        "name": {
+          "en": "Arch Angel Phased Plasma S",
+          "zh": "大天使定相等离子弹 S"
+        },
+        "iconId": 1289,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.2,
+        "keyLine": "13.2 dmg"
+      },
+      {
+        "typeId": 20759,
+        "name": {
+          "en": "Domination Depleted Uranium S",
+          "zh": "主天使贫铀弹 S"
+        },
+        "iconId": 1285,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.6,
+        "keyLine": "9.6 dmg"
+      },
+      {
+        "typeId": 20761,
+        "name": {
+          "en": "Domination Titanium Sabot S",
+          "zh": "主天使钛合金萨博弹 S"
+        },
+        "iconId": 1291,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.6,
+        "keyLine": "9.6 dmg"
+      },
+      {
+        "typeId": 28336,
+        "name": {
+          "en": "Republic Fleet Depleted Uranium S",
+          "zh": "共和舰队贫铀弹 S"
+        },
+        "iconId": 1285,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.2,
+        "keyLine": "9.2 dmg"
+      },
+      {
+        "typeId": 21939,
+        "name": {
+          "en": "Republic Fleet Titanium Sabot S",
+          "zh": "共和舰队钛合金萨博弹 S"
+        },
+        "iconId": 1291,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.2,
+        "keyLine": "9.2 dmg"
+      },
+      {
+        "typeId": 19976,
+        "name": {
+          "en": "Arch Angel Depleted Uranium S",
+          "zh": "大天使贫铀弹 S"
+        },
+        "iconId": 1285,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.8,
+        "keyLine": "8.8 dmg"
+      },
+      {
+        "typeId": 19986,
+        "name": {
+          "en": "Arch Angel Titanium Sabot S",
+          "zh": "大天使钛合金萨博弹 S"
+        },
+        "iconId": 1291,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.8,
+        "keyLine": "8.8 dmg"
+      },
+      {
+        "typeId": 20753,
+        "name": {
+          "en": "Domination Carbonized Lead S",
+          "zh": "主天使碳铅弹 S"
+        },
+        "iconId": 1004,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6,
+        "keyLine": "6 dmg"
+      },
+      {
+        "typeId": 20755,
+        "name": {
+          "en": "Domination Nuclear S",
+          "zh": "主天使核芯弹 S"
+        },
+        "iconId": 1288,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6,
+        "keyLine": "6 dmg"
+      },
+      {
+        "typeId": 20757,
+        "name": {
+          "en": "Domination Proton S",
+          "zh": "主天使质子弹 S"
+        },
+        "iconId": 1290,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6,
+        "keyLine": "6 dmg"
+      },
+      {
+        "typeId": 28328,
+        "name": {
+          "en": "Republic Fleet Carbonized Lead S",
+          "zh": "共和舰队碳铅弹 S"
+        },
+        "iconId": 1004,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.75,
+        "keyLine": "5.8 dmg"
+      },
+      {
+        "typeId": 21914,
+        "name": {
+          "en": "Republic Fleet Nuclear S",
+          "zh": "共和舰队核芯弹 S"
+        },
+        "iconId": 1288,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.75,
+        "keyLine": "5.8 dmg"
+      },
+      {
+        "typeId": 21931,
+        "name": {
+          "en": "Republic Fleet Proton S",
+          "zh": "共和舰队质子弹 S"
+        },
+        "iconId": 1290,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.75,
+        "keyLine": "5.8 dmg"
+      },
+      {
+        "typeId": 19970,
+        "name": {
+          "en": "Arch Angel Carbonized Lead S",
+          "zh": "大天使碳铅弹 S"
+        },
+        "iconId": 1004,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.5,
+        "keyLine": "5.5 dmg"
+      },
+      {
+        "typeId": 19972,
+        "name": {
+          "en": "Arch Angel Nuclear S",
+          "zh": "大天使核芯弹 S"
+        },
+        "iconId": 1288,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.5,
+        "keyLine": "5.5 dmg"
+      },
+      {
+        "typeId": 19974,
+        "name": {
+          "en": "Arch Angel Proton S",
+          "zh": "大天使质子弹 S"
+        },
+        "iconId": 1290,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.5,
+        "keyLine": "5.5 dmg"
+      }
+    ],
+    "3178": [
+      {
+        "typeId": 12612,
+        "name": {
+          "en": "Void S",
+          "zh": "涅槃 S"
+        },
+        "iconId": 1047,
+        "meta": "tech2",
+        "metaLevel": 5,
+        "keyValue": 17.8,
+        "keyLine": "17.8 dmg"
+      },
+      {
+        "typeId": 12614,
+        "name": {
+          "en": "Null S",
+          "zh": "虚空 S"
+        },
+        "iconId": 1314,
+        "meta": "tech2",
+        "metaLevel": 5,
+        "keyValue": 11,
+        "keyLine": "11 dmg"
+      },
+      {
+        "typeId": 222,
+        "name": {
+          "en": "Antimatter Charge S",
+          "zh": "反物质轨道弹 S"
+        },
+        "iconId": 1047,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 12,
+        "keyLine": "12 dmg"
+      },
+      {
+        "typeId": 221,
+        "name": {
+          "en": "Plutonium Charge S",
+          "zh": "钸质轨道弹 S"
+        },
+        "iconId": 1313,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 11,
+        "keyLine": "11 dmg"
+      },
+      {
+        "typeId": 220,
+        "name": {
+          "en": "Uranium Charge S",
+          "zh": "铀质轨道弹 S"
+        },
+        "iconId": 1316,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 10,
+        "keyLine": "10 dmg"
+      },
+      {
+        "typeId": 219,
+        "name": {
+          "en": "Thorium Charge S",
+          "zh": "钍质轨道弹 S"
+        },
+        "iconId": 1314,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 9,
+        "keyLine": "9 dmg"
+      },
+      {
+        "typeId": 218,
+        "name": {
+          "en": "Lead Charge S",
+          "zh": "铅质轨道弹 S"
+        },
+        "iconId": 1312,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 8,
+        "keyLine": "8 dmg"
+      },
+      {
+        "typeId": 217,
+        "name": {
+          "en": "Iridium Charge S",
+          "zh": "铱质轨道弹 S"
+        },
+        "iconId": 1310,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 7,
+        "keyLine": "7 dmg"
+      },
+      {
+        "typeId": 216,
+        "name": {
+          "en": "Tungsten Charge S",
+          "zh": "钨质轨道弹 S"
+        },
+        "iconId": 1315,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 6,
+        "keyLine": "6 dmg"
+      },
+      {
+        "typeId": 215,
+        "name": {
+          "en": "Iron Charge S",
+          "zh": "铁质轨道弹 S"
+        },
+        "iconId": 1311,
+        "meta": "tech1",
+        "metaLevel": null,
+        "keyValue": 5,
+        "keyLine": "5 dmg"
+      },
+      {
+        "typeId": 21398,
+        "name": {
+          "en": "Dread Guristas Antimatter Charge S",
+          "zh": "恐惧古斯塔斯反物质轨道弹 S"
+        },
+        "iconId": 1047,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 14.4,
+        "keyLine": "14.4 dmg"
+      },
+      {
+        "typeId": 20959,
+        "name": {
+          "en": "Guardian Antimatter Charge S",
+          "zh": "卫士反物质轨道弹 S"
+        },
+        "iconId": 1047,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 14.4,
+        "keyLine": "14.4 dmg"
+      },
+      {
+        "typeId": 23009,
+        "name": {
+          "en": "Caldari Navy Antimatter Charge S",
+          "zh": "加达里海军反物质轨道弹 S"
+        },
+        "iconId": 1047,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.8,
+        "keyLine": "13.8 dmg"
+      },
+      {
+        "typeId": 22961,
+        "name": {
+          "en": "Federation Navy Antimatter Charge S",
+          "zh": "联邦海军反物质轨道弹 S"
+        },
+        "iconId": 1047,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.8,
+        "keyLine": "13.8 dmg"
+      },
+      {
+        "typeId": 21396,
+        "name": {
+          "en": "Dread Guristas Plutonium Charge S",
+          "zh": "恐惧古斯塔斯钸质轨道弹 S"
+        },
+        "iconId": 1313,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.2,
+        "keyLine": "13.2 dmg"
+      },
+      {
+        "typeId": 20957,
+        "name": {
+          "en": "Guardian Plutonium Charge S",
+          "zh": "卫士钸质轨道弹 S"
+        },
+        "iconId": 1313,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.2,
+        "keyLine": "13.2 dmg"
+      },
+      {
+        "typeId": 21334,
+        "name": {
+          "en": "Guristas Antimatter Charge S",
+          "zh": "古斯塔斯反物质轨道弹 S"
+        },
+        "iconId": 1047,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.2,
+        "keyLine": "13.2 dmg"
+      },
+      {
+        "typeId": 20040,
+        "name": {
+          "en": "Shadow Antimatter Charge S",
+          "zh": "暗影反物质轨道弹 S"
+        },
+        "iconId": 1047,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 13.2,
+        "keyLine": "13.2 dmg"
+      },
+      {
+        "typeId": 23011,
+        "name": {
+          "en": "Caldari Navy Plutonium Charge S",
+          "zh": "加达里海军钸质轨道弹 S"
+        },
+        "iconId": 1313,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 12.65,
+        "keyLine": "12.7 dmg"
+      },
+      {
+        "typeId": 22963,
+        "name": {
+          "en": "Federation Navy Plutonium Charge S",
+          "zh": "联邦海军钸质轨道弹 S"
+        },
+        "iconId": 1313,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 12.65,
+        "keyLine": "12.7 dmg"
+      },
+      {
+        "typeId": 21332,
+        "name": {
+          "en": "Guristas Plutonium Charge S",
+          "zh": "古斯塔斯钸质轨道弹 S"
+        },
+        "iconId": 1313,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 12.1,
+        "keyLine": "12.1 dmg"
+      },
+      {
+        "typeId": 20038,
+        "name": {
+          "en": "Shadow Plutonium Charge S",
+          "zh": "暗影钸质轨道弹 S"
+        },
+        "iconId": 1313,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 12.1,
+        "keyLine": "12.1 dmg"
+      },
+      {
+        "typeId": 21394,
+        "name": {
+          "en": "Dread Guristas Uranium Charge S",
+          "zh": "恐惧古斯塔斯铀质轨道弹 S"
+        },
+        "iconId": 1316,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 12,
+        "keyLine": "12 dmg"
+      },
+      {
+        "typeId": 20955,
+        "name": {
+          "en": "Guardian Uranium Charge S",
+          "zh": "卫士铀质轨道弹 S"
+        },
+        "iconId": 1316,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 12,
+        "keyLine": "12 dmg"
+      },
+      {
+        "typeId": 23013,
+        "name": {
+          "en": "Caldari Navy Uranium Charge S",
+          "zh": "加达里海军铀质轨道弹 S"
+        },
+        "iconId": 1316,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 11.5,
+        "keyLine": "11.5 dmg"
+      },
+      {
+        "typeId": 22965,
+        "name": {
+          "en": "Federation Navy Uranium Charge S",
+          "zh": "联邦海军铀质轨道弹 S"
+        },
+        "iconId": 1316,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 11.5,
+        "keyLine": "11.5 dmg"
+      },
+      {
+        "typeId": 21330,
+        "name": {
+          "en": "Guristas Uranium Charge S",
+          "zh": "古斯塔斯铀质轨道弹 S"
+        },
+        "iconId": 1316,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 11,
+        "keyLine": "11 dmg"
+      },
+      {
+        "typeId": 20036,
+        "name": {
+          "en": "Shadow Uranium Charge S",
+          "zh": "暗影铀质轨道弹 S"
+        },
+        "iconId": 1316,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 11,
+        "keyLine": "11 dmg"
+      },
+      {
+        "typeId": 21392,
+        "name": {
+          "en": "Dread Guristas Thorium Charge S",
+          "zh": "恐惧古斯塔斯钍质轨道弹 S"
+        },
+        "iconId": 1314,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 10.8,
+        "keyLine": "10.8 dmg"
+      },
+      {
+        "typeId": 20953,
+        "name": {
+          "en": "Guardian Thorium Charge S",
+          "zh": "卫士钍质轨道弹 S"
+        },
+        "iconId": 1314,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 10.8,
+        "keyLine": "10.8 dmg"
+      },
+      {
+        "typeId": 23015,
+        "name": {
+          "en": "Caldari Navy Thorium Charge S",
+          "zh": "加达里海军钍质轨道弹 S"
+        },
+        "iconId": 1314,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 10.35,
+        "keyLine": "10.3 dmg"
+      },
+      {
+        "typeId": 22967,
+        "name": {
+          "en": "Federation Navy Thorium Charge S",
+          "zh": "联邦海军钍质轨道弹 S"
+        },
+        "iconId": 1314,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 10.35,
+        "keyLine": "10.3 dmg"
+      },
+      {
+        "typeId": 21328,
+        "name": {
+          "en": "Guristas Thorium Charge S",
+          "zh": "古斯塔斯钍质轨道弹 S"
+        },
+        "iconId": 1314,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.9,
+        "keyLine": "9.9 dmg"
+      },
+      {
+        "typeId": 20034,
+        "name": {
+          "en": "Shadow Thorium Charge S",
+          "zh": "暗影钍质轨道弹 S"
+        },
+        "iconId": 1314,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.9,
+        "keyLine": "9.9 dmg"
+      },
+      {
+        "typeId": 21390,
+        "name": {
+          "en": "Dread Guristas Lead Charge S",
+          "zh": "恐惧古斯塔斯铅质轨道弹 S"
+        },
+        "iconId": 1312,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.6,
+        "keyLine": "9.6 dmg"
+      },
+      {
+        "typeId": 20951,
+        "name": {
+          "en": "Guardian Lead Charge S",
+          "zh": "卫士铅质轨道弹 S"
+        },
+        "iconId": 1312,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.6,
+        "keyLine": "9.6 dmg"
+      },
+      {
+        "typeId": 23017,
+        "name": {
+          "en": "Caldari Navy Lead Charge S",
+          "zh": "加达里海军铅质轨道弹 S"
+        },
+        "iconId": 1312,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.2,
+        "keyLine": "9.2 dmg"
+      },
+      {
+        "typeId": 22969,
+        "name": {
+          "en": "Federation Navy Lead Charge S",
+          "zh": "联邦海军铅质轨道弹 S"
+        },
+        "iconId": 1312,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 9.2,
+        "keyLine": "9.2 dmg"
+      },
+      {
+        "typeId": 21326,
+        "name": {
+          "en": "Guristas Lead Charge S",
+          "zh": "古斯塔斯铅质轨道弹 S"
+        },
+        "iconId": 1312,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.8,
+        "keyLine": "8.8 dmg"
+      },
+      {
+        "typeId": 19968,
+        "name": {
+          "en": "Shadow Lead Charge S",
+          "zh": "暗影铅质轨道弹 S"
+        },
+        "iconId": 1312,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.8,
+        "keyLine": "8.8 dmg"
+      },
+      {
+        "typeId": 21388,
+        "name": {
+          "en": "Dread Guristas Iridium Charge S",
+          "zh": "恐惧古斯塔斯铱质轨道弹 S"
+        },
+        "iconId": 1310,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.4,
+        "keyLine": "8.4 dmg"
+      },
+      {
+        "typeId": 20949,
+        "name": {
+          "en": "Guardian Iridium Charge S",
+          "zh": "卫士铱质轨道弹 S"
+        },
+        "iconId": 1310,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.4,
+        "keyLine": "8.4 dmg"
+      },
+      {
+        "typeId": 23019,
+        "name": {
+          "en": "Caldari Navy Iridium Charge S",
+          "zh": "加达里海军铱质轨道弹 S"
+        },
+        "iconId": 1310,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.05,
+        "keyLine": "8.1 dmg"
+      },
+      {
+        "typeId": 22971,
+        "name": {
+          "en": "Federation Navy Iridium Charge S",
+          "zh": "联邦海军铱质轨道弹 S"
+        },
+        "iconId": 1310,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 8.05,
+        "keyLine": "8.1 dmg"
+      },
+      {
+        "typeId": 21324,
+        "name": {
+          "en": "Guristas Iridium Charge S",
+          "zh": "古斯塔斯铱质轨道弹 S"
+        },
+        "iconId": 1310,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 7.7,
+        "keyLine": "7.7 dmg"
+      },
+      {
+        "typeId": 19966,
+        "name": {
+          "en": "Shadow Iridium Charge S",
+          "zh": "暗影铱质轨道弹 S"
+        },
+        "iconId": 1310,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 7.7,
+        "keyLine": "7.7 dmg"
+      },
+      {
+        "typeId": 21386,
+        "name": {
+          "en": "Dread Guristas Tungsten Charge S",
+          "zh": "恐惧古斯塔斯钨质轨道弹 S"
+        },
+        "iconId": 1315,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 7.2,
+        "keyLine": "7.2 dmg"
+      },
+      {
+        "typeId": 20947,
+        "name": {
+          "en": "Guardian Tungsten Charge S",
+          "zh": "卫士钨质轨道弹 S"
+        },
+        "iconId": 1315,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 7.2,
+        "keyLine": "7.2 dmg"
+      },
+      {
+        "typeId": 23021,
+        "name": {
+          "en": "Caldari Navy Tungsten Charge S",
+          "zh": "加达里海军钨质轨道弹 S"
+        },
+        "iconId": 1315,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6.9,
+        "keyLine": "6.9 dmg"
+      },
+      {
+        "typeId": 22973,
+        "name": {
+          "en": "Federation Navy Tungsten Charge S",
+          "zh": "联邦海军钨质轨道弹 S"
+        },
+        "iconId": 1315,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6.9,
+        "keyLine": "6.9 dmg"
+      },
+      {
+        "typeId": 21322,
+        "name": {
+          "en": "Guristas Tungsten Charge S",
+          "zh": "古斯塔斯钨质轨道弹 S"
+        },
+        "iconId": 1315,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6.6,
+        "keyLine": "6.6 dmg"
+      },
+      {
+        "typeId": 19964,
+        "name": {
+          "en": "Shadow Tungsten Charge S",
+          "zh": "暗影钨质轨道弹 S"
+        },
+        "iconId": 1315,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6.6,
+        "keyLine": "6.6 dmg"
+      },
+      {
+        "typeId": 21384,
+        "name": {
+          "en": "Dread Guristas Iron Charge S",
+          "zh": "恐惧古斯塔斯铁质轨道弹 S"
+        },
+        "iconId": 1311,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6,
+        "keyLine": "6 dmg"
+      },
+      {
+        "typeId": 20945,
+        "name": {
+          "en": "Guardian Iron Charge S",
+          "zh": "卫士铁质轨道弹 S"
+        },
+        "iconId": 1311,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 6,
+        "keyLine": "6 dmg"
+      },
+      {
+        "typeId": 23023,
+        "name": {
+          "en": "Caldari Navy Iron Charge S",
+          "zh": "加达里海军铁质轨道弹 S"
+        },
+        "iconId": 1311,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.75,
+        "keyLine": "5.8 dmg"
+      },
+      {
+        "typeId": 22975,
+        "name": {
+          "en": "Federation Navy Iron Charge S",
+          "zh": "联邦海军铁质轨道弹 S"
+        },
+        "iconId": 1311,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.75,
+        "keyLine": "5.8 dmg"
+      },
+      {
+        "typeId": 21320,
+        "name": {
+          "en": "Guristas Iron Charge S",
+          "zh": "古斯塔斯铁质轨道弹 S"
+        },
+        "iconId": 1311,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.5,
+        "keyLine": "5.5 dmg"
+      },
+      {
+        "typeId": 19962,
+        "name": {
+          "en": "Shadow Iron Charge S",
+          "zh": "暗影铁质轨道弹 S"
+        },
+        "iconId": 1311,
+        "meta": "faction",
+        "metaLevel": null,
+        "keyValue": 5.5,
+        "keyLine": "5.5 dmg"
+      }
+    ]
+  }
+}
