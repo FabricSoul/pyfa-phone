@@ -21,7 +21,8 @@ describe('TargetProfilePicker', () => {
 
   it('expands only the group holding the current profile', () => {
     render(<TargetProfilePicker value={-5} onPick={() => {}} />)
-    expect(screen.getByText(/Shield/)).toBeTruthy()
+    // 真实数据里 T1 组有“Shield”“Shield (+T2 DCU)”等多条，只要当前组展开即可
+    expect(screen.getAllByText(/^Shield/).length).toBeGreaterThan(0)
     expect(screen.queryByText(/Amarr/)).toBeNull()
   })
 })
