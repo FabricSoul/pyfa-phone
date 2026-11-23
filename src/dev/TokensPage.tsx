@@ -28,7 +28,11 @@ export const TOKEN_GROUPS: Group[] = [
   { name: 'Size', tokens: [
     { name: '--control', use: '控件最小高度 44（触控）' }, { name: '--row', use: '模块行最小高度' }, { name: '--icon', use: '物品图标' },
     { name: '--list-inset', use: '通栏列表内缩' } ] },
-  { name: 'Motion', tokens: [ { name: '--dur-fast', use: '逐格、折叠（减弱动态时 0ms）' }, { name: '--dur', use: '面板进出（减弱动态时 80ms 淡入淡出）' }, { name: '--ease', use: '缓动曲线' } ] },
+  { name: 'Motion', tokens: [ { name: '--dur-fast', use: '逐格、折叠（减弱动态时 0ms）' }, { name: '--dur', use: '面板进出（减弱动态时 80ms 淡入淡出）' }, { name: '--ease', use: '缓动曲线' },
+    { name: '--dur-page', use: '页面推入/返回（UX4，iOS 导航栈）' }, { name: '--dur-tab', use: '标签整宽滑动' }, { name: '--dur-row', use: '列表行出现' },
+    { name: '--stagger', use: '列表行错开' }, { name: '--ease-ios', use: 'UIKit 导航曲线' },
+    { name: '--motion-dim', use: '推入时下层页面的遮罩' }, { name: '--motion-shadow', use: '顶层页面左缘阴影' }, { name: '--press-tint', use: '按下变暗' },
+    { name: '--star', use: '启动页星点' }, { name: '--star-blue', use: '启动页蓝色星点' }, { name: '--cap-glow', use: '电容格点亮辉光' } ] },
 ]
 
 export default function TokensPage() {

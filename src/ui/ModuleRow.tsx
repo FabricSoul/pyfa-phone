@@ -90,8 +90,9 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, p
   useEffect(() => {
     if (previous.current === state) return
     previous.current = state
-    const { standard, ease, reduce } = motionSpec()
-    if (!reduce && bounce.current) void animateBounce(bounce.current, { scale: [0.85, 1.08, 1] }, { duration: standard, ease })
+    const { reduce } = motionSpec()
+    // A visible pop (UX4): squeeze, overshoot to 1.25, settle on a spring-like curve.
+    if (!reduce && bounce.current) void animateBounce(bounce.current, { scale: [1, 0.72, 1.25, 0.96, 1] }, { duration: 0.46, times: [0, 0.18, 0.5, 0.78, 1], ease: 'easeOut' })
   }, [state, bounce, animateBounce])
 
   if (row.kind === 'empty') {

@@ -6,6 +6,7 @@ import { Icon } from './icons'
 import { ItemIcon } from './ItemIcon'
 import { PriceValue } from './PriceValue'
 import { Skeleton } from './Skeleton'
+import { launchShipFlight } from './shipFlight'
 
 type UsedTotal = { used: number; total: number }
 
@@ -22,7 +23,12 @@ export function FitRow({ name, shipName, shipSrc, dps, ehp, velocity, cpu, grid,
   const stat = (icon: string, label: string, value: ReactNode) =>
     <span className="stat"><img src={guiIcon(icon)} alt="" /><span className="sr-only">{label} </span>{value}</span>
   return (
-    <button type="button" className="fit" data-testid="fit-row" data-over={over} onClick={onClick}>
+    <button type="button" className="fit" data-testid="fit-row" data-over={over} onClick={(event) => {
+      // The ship render flies to the fit page's header (UX4 #10).
+      const icon = event.currentTarget.querySelector('.rimg')
+      if (shipSrc && icon) { const r = icon.getBoundingClientRect(); launchShipFlight(shipSrc, { left: r.left, top: r.top, width: r.width, height: r.height }) }
+      onClick?.()
+    }}>
       <span className="rd"><ItemIcon className="rimg" size={56} src={shipSrc} /></span>
       <div className="mn">
         <span>{name}{shipName && !name.includes(shipName) && <small className="ship-name">{shipName}</small>}</span>

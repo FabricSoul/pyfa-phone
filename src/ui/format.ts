@@ -41,14 +41,22 @@ export function useNameLanguage(): ItemNameLanguage {
 export const iconUrl = (id: number | null): string | undefined => (id == null ? undefined : `/img/icons/${id}.png`)
 export const renderUrl = (id: number | null): string | undefined => (id == null ? undefined : `/img/renders/${id}.png`)
 
+/** A CSS time in ms: "380ms" or "0.38s" (the production minifier rewrites 380ms as .38s); NaN when empty. */
+export function cssMs(value: string): number {
+  const m = /^\s*(-?[\d.]+)(ms|s)?\s*$/.exec(value)
+  if (!m) return NaN
+  const n = parseFloat(m[1]!)
+  return m[2] === 's' ? n * 1000 : n
+}
+
 /** Duration/easing from --dur / --ease, so Motion and CSS agree. */
 export function motionTokens(): { duration: number; fast: number; ease: [number, number, number, number] } {
   const fallback = { duration: 0.18, fast: 0.12, ease: [0.2, 0, 0, 1] as [number, number, number, number] }
   if (typeof document === 'undefined') return fallback
   const cs = getComputedStyle(document.documentElement)
   const reduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  const ms = Math.min(parseFloat(cs.getPropertyValue('--dur')), reduced ? 100 : Infinity)
-  const fastMs = parseFloat(cs.getPropertyValue('--dur-fast'))
+  const ms = Math.min(cssMs(cs.getPropertyValue('--dur')), reduced ? 100 : Infinity)
+  const fastMs = cssMs(cs.getPropertyValue('--dur-fast'))
   const m = /cubic-bezier\(([^)]+)\)/.exec(cs.getPropertyValue('--ease'))
   const pts = m?.[1]?.split(',').map(Number)
   return {

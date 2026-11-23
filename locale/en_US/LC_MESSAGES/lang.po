@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 08:27-0500\n"
+"POT-Creation-Date: 2026-11-23 09:38-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:27
+#: src/ui/EngineBoot.tsx:78
 msgid "About 2–5 seconds"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Activate {item}"
 msgstr ""
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:139 src/pages/FitExtras.tsx:150 src/pages/ModuleSheet.tsx:19 src/ui/DroneStackSheet.tsx:33 src/ui/ModuleRow.tsx:162
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:139 src/pages/FitExtras.tsx:150 src/pages/ModuleSheet.tsx:19 src/ui/DroneStackSheet.tsx:33 src/ui/ModuleRow.tsx:163
 msgid "Active"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Available offline, instant loading, and runs like a native app."
 msgstr ""
 
-#: src/pages/FitMenu.tsx:188 src/pages/FitMenu.tsx:203 src/pages/FitMenu.tsx:215 src/pages/Import.tsx:182 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:11 src/ui/PageSkeletons.tsx:22
+#: src/pages/FitMenu.tsx:188 src/pages/FitMenu.tsx:203 src/pages/FitMenu.tsx:215 src/pages/Import.tsx:182 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:17 src/ui/PageSkeletons.tsx:22
 msgid "Back"
 msgstr ""
 
@@ -252,15 +252,11 @@ msgstr ""
 msgid "Browse by market category"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:19 src/ui/EngineBoot.tsx:48
-msgid "Browse fittings first"
-msgstr ""
-
 #: src/pages/Home.tsx:103
 msgid "Browse ships"
 msgstr ""
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:128 src/pages/Variations.tsx:19 src/pages/Variations.tsx:92 src/pages/shared.tsx:20 src/ui/FitRow.tsx:41 src/ui/ResourceGauge.tsx:42
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:128 src/pages/Variations.tsx:19 src/pages/Variations.tsx:92 src/pages/shared.tsx:20 src/ui/FitRow.tsx:47 src/ui/ResourceGauge.tsx:42
 msgid "CPU"
 msgstr ""
 
@@ -440,7 +436,7 @@ msgstr ""
 msgid "Could not save fit"
 msgstr ""
 
-#: src/App.tsx:69
+#: src/ui/EngineBoot.tsx:94
 msgid "Could not start the fitting engine"
 msgstr ""
 
@@ -468,7 +464,7 @@ msgstr ""
 msgid "Custom profiles are not in the first version."
 msgstr ""
 
-#: src/pages/Fit.tsx:117 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:26 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:32 src/ui/ResumeCard.tsx:23
+#: src/pages/Fit.tsx:117 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:26 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:38 src/ui/ResumeCard.tsx:23
 msgid "DPS"
 msgstr ""
 
@@ -564,7 +560,7 @@ msgstr ""
 msgid "Distance in km, DPS on the vertical axis; stationary target, tracking ignored. Press and hold the chart for per-km values."
 msgstr ""
 
-#: src/ui/FitRow.tsx:37
+#: src/ui/FitRow.tsx:43
 msgid "Does not fit"
 msgstr ""
 
@@ -612,7 +608,7 @@ msgstr ""
 msgid "EFT export options"
 msgstr ""
 
-#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:29 src/ui/FitRow.tsx:33 src/ui/ResumeCard.tsx:24 src/ui/StatsPage.tsx:163 src/ui/StatsPage.tsx:166 src/ui/StatsPage.tsx:178
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:29 src/ui/FitRow.tsx:39 src/ui/ResumeCard.tsx:24 src/ui/StatsPage.tsx:163 src/ui/StatsPage.tsx:166 src/ui/StatsPage.tsx:178
 msgid "EHP"
 msgstr ""
 
@@ -632,7 +628,7 @@ msgstr ""
 msgid "Effective DPS"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:101
+#: src/ui/ModuleRow.tsx:102
 msgid "Empty slot"
 msgstr ""
 
@@ -724,12 +720,8 @@ msgstr ""
 msgid "Fitting limits exceeded"
 msgstr ""
 
-#: src/pages/Home.tsx:91 src/ui/EngineBoot.tsx:18
+#: src/pages/Home.tsx:91
 msgid "Fittings"
-msgstr ""
-
-#: src/ui/EngineBoot.tsx:47
-msgid "Fittings list, settings and backups work right now"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:71
@@ -760,7 +752,7 @@ msgstr ""
 msgid "Gallente"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:26 src/ui/EngineBoot.tsx:63
+#: src/ui/EngineBoot.tsx:77 src/ui/EngineBoot.tsx:132
 msgid "Game data"
 msgstr ""
 
@@ -852,7 +844,7 @@ msgstr ""
 msgid "Infrastructure hold"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:63
+#: src/ui/EngineBoot.tsx:132
 msgid "Initializing"
 msgstr ""
 
@@ -880,7 +872,7 @@ msgstr ""
 msgid "Item names"
 msgstr ""
 
-#: src/pages/Fit.tsx:135 src/pages/FitExtras.tsx:129 src/ui/ModuleRow.tsx:54 src/ui/ModuleRow.tsx:111
+#: src/pages/Fit.tsx:135 src/pages/FitExtras.tsx:129 src/ui/ModuleRow.tsx:54 src/ui/ModuleRow.tsx:112
 msgid "Item removed"
 msgstr ""
 
@@ -936,6 +928,10 @@ msgstr ""
 msgid "Loading fit…"
 msgstr ""
 
+#: src/ui/EngineBoot.tsx:84
+msgid "Loading from this device…"
+msgstr ""
+
 #: src/pages/ExtraItemPicker.tsx:82 src/ui/ImplantSetPicker.tsx:28
 msgid "Loading items…"
 msgstr ""
@@ -960,7 +956,7 @@ msgstr ""
 msgid "Lock Times"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:164
+#: src/ui/ModuleRow.tsx:165
 msgid "Long press to overheat"
 msgstr ""
 
@@ -1068,7 +1064,7 @@ msgstr ""
 msgid "Modules"
 msgstr ""
 
-#: src/ui/NavBar.tsx:17
+#: src/ui/NavBar.tsx:23
 msgid "More"
 msgstr ""
 
@@ -1076,11 +1072,11 @@ msgstr ""
 msgid "Multispectral"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:191
+#: src/ui/ModuleRow.tsx:192
 msgid "Needs adjustment: state changed"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:111
+#: src/ui/ModuleRow.tsx:112
 msgid "Needs adjustment: wrong slot"
 msgstr ""
 
@@ -1144,7 +1140,7 @@ msgstr ""
 msgid "No matching modules"
 msgstr ""
 
-#: src/pages/ShipBrowser.tsx:120 src/pages/ShipBrowser.tsx:126
+#: src/pages/ShipBrowser.tsx:121 src/pages/ShipBrowser.tsx:127
 msgid "No ships available"
 msgstr ""
 
@@ -1172,11 +1168,11 @@ msgstr ""
 msgid "Officer"
 msgstr ""
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:162 src/ui/ModuleRow.tsx:175
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:163 src/ui/ModuleRow.tsx:176
 msgid "Offline"
 msgstr ""
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:18 src/ui/ModuleRow.tsx:162
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:18 src/ui/ModuleRow.tsx:163
 msgid "Online"
 msgstr ""
 
@@ -1196,7 +1192,7 @@ msgstr ""
 msgid "Overheat rack"
 msgstr ""
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:20 src/ui/ModuleRow.tsx:162
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:20 src/ui/ModuleRow.tsx:163
 msgid "Overheated"
 msgstr ""
 
@@ -1256,7 +1252,7 @@ msgstr ""
 msgid "PowerGrid"
 msgstr ""
 
-#: src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:128 src/pages/shared.tsx:21 src/ui/FitRow.tsx:42
+#: src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:128 src/pages/shared.tsx:21 src/ui/FitRow.tsx:48
 msgid "Powergrid"
 msgstr ""
 
@@ -1264,7 +1260,7 @@ msgstr ""
 msgid "Preheat cycles"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:31
+#: src/ui/EngineBoot.tsx:91
 msgid "Preparing the fitting engine"
 msgstr ""
 
@@ -1276,7 +1272,7 @@ msgstr ""
 msgid "Price per module"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:25 src/ui/EngineBoot.tsx:63
+#: src/ui/EngineBoot.tsx:76 src/ui/EngineBoot.tsx:132
 msgid "Python runtime"
 msgstr ""
 
@@ -1340,7 +1336,7 @@ msgstr ""
 msgid "Remote Repairs"
 msgstr ""
 
-#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:195 src/pages/FitExtras.tsx:197 src/ui/ModuleRow.tsx:113 src/ui/ModuleRow.tsx:176
+#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:195 src/pages/FitExtras.tsx:197 src/ui/ModuleRow.tsx:114 src/ui/ModuleRow.tsx:177
 msgid "Remove"
 msgstr ""
 
@@ -1396,7 +1392,7 @@ msgstr ""
 msgid "Restore from backup"
 msgstr ""
 
-#: src/App.tsx:70 src/pages/fitSession.tsx:178
+#: src/pages/fitSession.tsx:178 src/ui/EngineBoot.tsx:95
 msgid "Retry"
 msgstr ""
 
@@ -1500,7 +1496,7 @@ msgstr ""
 msgid "Ship hold"
 msgstr ""
 
-#: src/ui/NavBar.tsx:12
+#: src/ui/NavBar.tsx:18
 msgid "Ship information"
 msgstr ""
 
@@ -1572,15 +1568,15 @@ msgstr ""
 msgid "Stable: "
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:54
+#: src/ui/EngineBoot.tsx:123
 msgid "Starting download…"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:66
+#: src/ui/EngineBoot.tsx:135
 msgid "Starting engine"
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:27
+#: src/ui/EngineBoot.tsx:78
 msgid "Starting the pyfa engine"
 msgstr ""
 
@@ -1636,7 +1632,7 @@ msgstr ""
 msgid "Tap the share button"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:102
+#: src/ui/ModuleRow.tsx:103
 msgid "Tap to add a module"
 msgstr ""
 
@@ -1676,7 +1672,7 @@ msgstr ""
 msgid "The file is not valid JSON."
 msgstr ""
 
-#: src/ui/EngineBoot.tsx:32
+#: src/ui/EngineBoot.tsx:103
 msgid "The first launch downloads about {n} MB; after that it opens instantly, even offline"
 msgstr ""
 
@@ -1732,7 +1728,7 @@ msgstr ""
 msgid "Turrets"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:190 src/pages/fitSession.tsx:236 src/ui/NavBar.tsx:16
+#: src/pages/FitExtras.tsx:190 src/pages/fitSession.tsx:236 src/ui/NavBar.tsx:22
 msgid "Undo"
 msgstr ""
 
@@ -1792,7 +1788,7 @@ msgstr ""
 msgid "best"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:193
+#: src/ui/ModuleRow.tsx:194
 msgid "each"
 msgstr ""
 
@@ -1816,7 +1812,7 @@ msgstr ""
 msgid "m"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:102 src/ui/FitRow.tsx:34 src/ui/ResumeCard.tsx:25 src/ui/StatsPage.tsx:229
+#: src/pages/FitExtras.tsx:102 src/ui/FitRow.tsx:40 src/ui/ResumeCard.tsx:25 src/ui/StatsPage.tsx:229
 msgid "m/s"
 msgstr ""
 
@@ -1856,7 +1852,7 @@ msgstr ""
 msgid "{label} for {item}"
 msgstr ""
 
-#: src/ui/format.ts:84
+#: src/ui/format.ts:92
 msgid "{minutes} min {seconds} s"
 msgstr ""
 
@@ -1898,7 +1894,7 @@ msgstr ""
 msgid "{resource} over by {amount}"
 msgstr ""
 
-#: src/ui/format.ts:85
+#: src/ui/format.ts:93
 msgid "{seconds} s"
 msgstr ""
 

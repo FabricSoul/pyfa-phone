@@ -1,9 +1,21 @@
-import { AnimatePresence, animate, motion, useIsPresent } from 'motion/react'
-import { NavigationType, UNSAFE_NavigationContext, useLocation, useNavigationType } from 'react-router-dom'
-import { useContext, useEffect, useRef, useState, type ReactNode } from 'react'
-import { motionTokens } from './format'
+import { AnimatePresence, animate, motion, useIsPresent, useMotionValue, type MotionValue } from 'motion/react'
+import { NavigationType, UNSAFE_NavigationContext, useLocation, useNavigate, useNavigationType } from 'react-router-dom'
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react'
+import { cssMs, motionTokens } from './format'
 
-/** Every duration and curve of the motion system (motion.html), derived from the tokens: --dur, --dur-fast, --ease. */
+const msToken = (name: string, fallback: number) => {
+  if (typeof document === 'undefined') return fallback
+  const ms = cssMs(getComputedStyle(document.documentElement).getPropertyValue(name))
+  return Number.isFinite(ms) ? ms / 1000 : fallback
+}
+const curveToken = (name: string, fallback: [number, number, number, number]) => {
+  if (typeof document === 'undefined') return fallback
+  const pts = /cubic-bezier\(([^)]+)\)/.exec(getComputedStyle(document.documentElement).getPropertyValue(name))?.[1]?.split(',').map(Number)
+  return pts && pts.length === 4 && pts.every(Number.isFinite) ? pts as [number, number, number, number] : fallback
+}
+
+/** Every duration and curve of the motion system, from the tokens (--dur, --dur-fast, --ease and the UX4 --dur-page, --dur-tab,
+ *  --dur-row, --stagger, --ease-ios). UX4 makes motion as visible as a native iOS app: pages push the full width, tabs slide the full width. */
 export function motionSpec() {
   const { duration, fast, ease } = motionTokens()
   const reduce = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
@@ -15,24 +27,34 @@ export function motionSpec() {
     /** Numbers (DPS, EHP, resources) always roll for 300 ms; reduced motion snaps. */
     roll: reduce ? 0 : 0.3,
     ease,
-    stagger: reduce ? 0 : 0.03,
-    staggerRows: 8,
+    /** UIKit's navigation curve. */
+    ios: curveToken('--ease-ios', [0.32, 0.72, 0, 1]),
+    /** Page push / pop; under reduced motion a short cross-fade. */
+    page: reduce ? duration : msToken('--dur-page', 0.38),
+    /** Tab content slide. */
+    tab: reduce ? duration : msToken('--dur-tab', 0.34),
+    /** One row of a list that appears. */
+    row: reduce ? duration : msToken('--dur-row', 0.25),
+    stagger: reduce ? 0 : msToken('--stagger', 0.04),
+    staggerRows: 10,
+    /** Bottom sheet spring. */
+    spring: { type: 'spring' as const, stiffness: 400, damping: 36, mass: 1 },
     reduce,
   }
 }
 
-/** Delay of the nth row of a list that appears for the first time; null once past the 8th row. */
+/** Delay of the nth row of a list that appears for the first time; null once past the 10th row. */
 export function delayFor(index: number): number | null {
   const { stagger, staggerRows, reduce } = motionSpec()
   return reduce || index >= staggerRows ? null : index * stagger
 }
 
-/** Fades a row in, staggered 30 ms per row, for the first 8 rows only. */
+/** A row of a list that appears for the first time rises 16 px and fades in over 250 ms, 40 ms after the row above, for the first 10 rows. */
 export function Appear({ index, children, className }: { index: number; children: ReactNode; className?: string }) {
   const [delay] = useState(() => delayFor(index))
   if (delay === null) return <>{children}</>
-  const { standard, ease } = motionSpec()
-  return <motion.div className={className} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: standard, ease, delay }}>{children}</motion.div>
+  const { row, ios, reduce } = motionSpec()
+  return <motion.div className={className} initial={{ opacity: 0, y: reduce ? 0 : 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: row, ease: ios, delay }}>{children}</motion.div>
 }
 
 /** A number that rolls to its new value over 300 ms and flashes the accent colour while it does. */
@@ -56,20 +78,36 @@ export function RollingNumber({ value, format, className = '' }: { value: number
 }
 
 const heightMotion = () => {
-  const { standard, fast, ease, reduce } = motionSpec()
+  const { standard, ease, reduce } = motionSpec()
   return reduce
     ? { initial: { opacity: 0 }, animate: { opacity: 1, transition: { duration: standard, ease } }, exit: { opacity: 0, transition: { duration: standard, ease } } }
     : {
       initial: { height: 0, opacity: 0 },
-      animate: { height: 'auto', opacity: 1, transition: { duration: standard, ease } },
-      exit: { height: 0, opacity: 0, transition: { duration: fast, ease } },
+      animate: { height: 'auto', opacity: 1, transition: { duration: standard * 1.5, ease } },
+      exit: { height: 0, opacity: 0, transition: { duration: standard, ease } },
     }
 }
 
-/** One row (or panel body) that opens from zero height in 180 ms and closes in 120 ms. Place it inside an `AnimatePresence initial={false}`. */
-export function ExpandItem({ children, className, as = 'div' }: { children: ReactNode; className?: string; as?: 'div' | 'li' }) {
+/** A row added to a list (a module, a drone, an implant) grows from zero height and fades in; a row taken out slides out to
+ *  the left first and then closes its gap. Reduced motion only fades. */
+export function listRowMotion() {
+  const { standard, ios, reduce } = motionSpec()
+  if (reduce) return { initial: { opacity: 0 }, animate: { opacity: 1, transition: { duration: standard } }, exit: { opacity: 0, transition: { duration: standard } } }
+  return {
+    initial: { height: 0, opacity: 0, x: 0 },
+    animate: { height: 'auto', opacity: 1, x: 0, transition: { height: { duration: 0.3, ease: ios }, opacity: { duration: 0.3, delay: 0.06 } } },
+    exit: {
+      x: '-100%', opacity: 0, height: 0,
+      transition: { x: { duration: 0.26, ease: ios }, opacity: { duration: 0.26 }, height: { delay: 0.22, duration: 0.22, ease: ios } },
+    },
+  }
+}
+
+/** One row (or panel body) that opens from zero height. Place it inside an `AnimatePresence initial={false}`.
+ *  `leave="slide"` (list rows) slides the row out to the left before it collapses; panels (the default) just close. */
+export function ExpandItem({ children, className, as = 'div', leave = 'collapse' }: { children: ReactNode; className?: string; as?: 'div' | 'li'; leave?: 'collapse' | 'slide' }) {
   const Tag = as === 'li' ? motion.li : motion.div
-  return <Tag className={`xi ${className ?? ''}`.trim()} style={{ overflow: 'hidden' }} {...heightMotion()}>{children}</Tag>
+  return <Tag className={`xi ${className ?? ''}`.trim()} style={{ overflow: 'hidden' }} {...(leave === 'slide' ? listRowMotion() : heightMotion())}>{children}</Tag>
 }
 
 /** Shows `children` while `open`, opening and closing by height. Open on first render means no animation. */
@@ -80,37 +118,128 @@ export function Expand({ open, children, className }: { open: boolean; children:
 /** Which way the page just navigated: forward (push), back (history pop or a `state.back` link). */
 export type NavKind = 'none' | 'push' | 'back'
 const shown = new WeakSet<object>()
+/** How dark the page under a pushed page gets (black at this opacity), as in UIKit. */
+const UNDER_DIM = 0.12
+/** How far left the page under a pushed page moves. */
+const UNDER_SHIFT = 30
+/** Width of the left edge a swipe back starts in. */
+const EDGE = 20
 
-/** One page of a stage. The page that is leaving is inert (not clickable, hidden from assistive tech) while it fades. */
-function StageItem({ kind, children }: { kind: NavKind; children: ReactNode }) {
+/** The latest navigation of a stage: pages that leave read it to know which way to go. */
+const StageNow = createContext<NavKind>('none')
+
+/** An installed PWA has no browser back gesture, so the app provides one; in Safari the edge belongs to Safari. */
+const standalone = () => typeof window !== 'undefined' && (window.matchMedia?.('(display-mode: standalone)').matches === true
+  || (navigator as Navigator & { standalone?: boolean }).standalone === true)
+
+interface Entry { key: string; kind: NavKind; from: number }
+
+/** One page of a stage. The page that is leaving is inert (not clickable, hidden from assistive tech) while it moves away. */
+function StageItem({ entry, onX, children }: { entry: Entry; onX: (x: MotionValue<string>) => void; children: ReactNode }) {
   const present = useIsPresent()
-  const { standard, fast, ease, reduce } = motionSpec()
-  const slide = reduce ? 0 : 24
+  const now = useContext(StageNow)
+  const { page, ios, reduce } = motionSpec()
+  const { kind, from } = entry
+  const x = useMotionValue(kind === 'push' && !reduce ? '100%' : kind === 'back' && !reduce ? `${from}%` : '0%')
+  useLayoutEffect(() => { if (present) onX(x) }, [present, x, onX])
+  const transition = { duration: page, ease: ios }
+  // Forward: the new page lies on top; back: the page that leaves lies on top and uncovers the one returned to.
+  const z = present ? (kind === 'push' ? 2 : 1) : (now === 'back' ? 3 : 0)
+  const initial = kind === 'none' ? false : reduce ? { opacity: 0 } : { x: kind === 'push' ? '100%' : `${from}%` }
+  const exit = reduce ? { opacity: 0, transition } : { x: now === 'back' ? '100%' : `-${UNDER_SHIFT}%`, transition }
+  const dimFrom = kind === 'back' && !reduce ? UNDER_DIM * (-from / UNDER_SHIFT) : 0
   return <motion.div data-testid="page" data-motion={kind} className="stage-page" inert={!present} aria-hidden={present ? undefined : true}
-    custom={kind}
-    initial={kind === 'none' ? false : { opacity: 0, x: kind === 'back' ? -slide : slide }} animate={{ opacity: 1, x: 0, transition: { duration: kind === 'back' ? fast : standard, ease } }}
-    // Forward: the old page drifts 12 px left; back: it leaves to the right. Both fade in 120 ms.
-    exit={{ opacity: 0, x: kind === 'back' ? slide : -slide / 2, transition: { duration: fast, ease } }}>{children}</motion.div>
+    style={{ x, zIndex: z }} initial={initial} animate={{ x: '0%', opacity: 1, transition }} exit={exit}>
+    {children}
+    <motion.div className="stage-dim" aria-hidden="true" initial={{ opacity: dimFrom }}
+      animate={{ opacity: !present && now === 'push' && !reduce ? UNDER_DIM : 0, transition }} />
+  </motion.div>
 }
 
-/** Route stage: the page keyed `pageKey` slides in 24 px from the right with a fade (180 ms); a page returned to comes from the left (120 ms),
- *  and the page that leaves fades out in 120 ms at the same time. Pages sharing a key keep their state (the fit workspace).
- *  The first page of a router and reduced motion do not slide. Hand it a frozen `<Routes location>` / outlet so the leaving page keeps its content. */
+/** Route stage, as UIKit's navigation stack: a pushed page slides in from the right edge over 380 ms while the page under it
+ *  moves 30 % left and darkens; going back reverses it. Both pages are on screen the whole time and either can be interrupted.
+ *  In an installed PWA a swipe from the left edge drags the page back (past a third of the width or a flick goes back).
+ *  Pages sharing a key keep their state (the fit workspace). The first page of a router does not move; reduced motion cross-fades.
+ *  Hand it a frozen `<Routes location>` / outlet so the leaving page keeps its content. */
 export function Stage({ pageKey, children }: { pageKey: string; children: ReactNode }) {
   const location = useLocation()
   const type = useNavigationType()
+  const navigate = useNavigate()
   const router = useContext(UNSAFE_NavigationContext).navigator
-  const current = useRef<{ key: string; kind: NavKind }>(undefined)
+  const current = useRef<Entry>(undefined)
+  const depth = useRef(0)
+  const swiped = useRef(0)
+  const pageX = useRef<MotionValue<string>>(undefined)
+  const root = useRef<HTMLDivElement>(null)
   if (current.current?.key !== pageKey) {
     const back = type === NavigationType.Pop || (location.state as { back?: boolean } | null)?.back === true
-    current.current = { key: pageKey, kind: !shown.has(router) ? 'none' : back ? 'back' : 'push' }
+    const kind: NavKind = !shown.has(router) ? 'none' : back ? 'back' : 'push'
+    if (current.current) depth.current = Math.max(0, depth.current + (kind === 'push' ? 1 : kind === 'back' ? -1 : 0))
+    // A page returned to by a swipe starts where the swipe left it, not 30 % back.
+    current.current = { key: pageKey, kind, from: -UNDER_SHIFT * (1 - swiped.current) }
+    swiped.current = 0
   }
-  const { kind } = current.current
+  const entry = current.current
   useEffect(() => { shown.add(router) }, [router])
-  return <div className="stage">
-    <AnimatePresence mode="popLayout" initial={false} custom={kind}>
-      <StageItem key={pageKey} kind={kind}>{children}</StageItem>
-    </AnimatePresence>
+  const onX = useCallback((x: MotionValue<string>) => { pageX.current = x }, [])
+
+  const edge = useRef(false)
+  const [edgeOn] = useState(standalone)
+  function onPointerDown(event: ReactPointerEvent) {
+    const native = event.nativeEvent as PointerEvent & { stageClaimed?: boolean }
+    // The innermost stage with a page to go back to takes the gesture.
+    if (native.stageClaimed || !edgeOn || event.isPrimary === false || event.clientX > EDGE || depth.current === 0 || edge.current) return
+    native.stageClaimed = true
+    const x = pageX.current
+    if (!x) return
+    const start = { x: event.clientX, y: event.clientY }
+    const width = root.current?.clientWidth || window.innerWidth
+    let dragging = false
+    let last = { x: event.clientX, t: performance.now() }
+    let velocity = 0
+    edge.current = true
+    const move = (e: PointerEvent) => {
+      const dx = e.clientX - start.x
+      if (!dragging) {
+        if (Math.abs(dx) < 8 && Math.abs(e.clientY - start.y) < 8) return
+        if (dx <= 0 || Math.abs(e.clientY - start.y) > Math.abs(dx)) { end(); return }
+        dragging = true
+      }
+      const t = performance.now()
+      if (t > last.t) velocity = (e.clientX - last.x) / (t - last.t)
+      last = { x: e.clientX, t }
+      x.set(`${Math.max(0, dx) / width * 100}%`)
+    }
+    const up = (e: PointerEvent) => {
+      end()
+      if (!dragging) return
+      const dx = Math.max(0, e.clientX - start.x)
+      if (dx > width / 3 || (dx > 40 && velocity > 0.5)) {
+        swiped.current = Math.min(1, dx / width)
+        navigate(-1)
+      } else {
+        void animate(x, '0%', { type: 'spring', stiffness: 500, damping: 45 })
+      }
+    }
+    const cancel = () => { end(); if (dragging) void animate(x, '0%', { type: 'spring', stiffness: 500, damping: 45 }) }
+    function end() {
+      edge.current = false
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('pointercancel', cancel)
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('pointercancel', cancel)
+  }
+
+  return <div className="stage" ref={root} data-edge-swipe={edgeOn || undefined} onPointerDown={onPointerDown}>
+    <StageNow.Provider value={entry.kind}>
+      {/* Both pages share one grid cell (ui.css), so the leaving page stays laid over the entering one. */}
+      <AnimatePresence initial={false}>
+        <StageItem key={pageKey} entry={entry} onX={onX}>{children}</StageItem>
+      </AnimatePresence>
+    </StageNow.Provider>
   </div>
 }
 
@@ -120,38 +249,56 @@ export function Reveal({ children, className, x = 0 }: { children: ReactNode; cl
   return <motion.div className={className} initial={{ opacity: 0, x: reduce ? 0 : x }} animate={{ opacity: 1, x: 0 }} transition={{ duration: standard, ease }}>{children}</motion.div>
 }
 
-/** The body of a tab strip: a new tab's content fades in, sliding 12 px from the side it sits on; content that arrives after
- *  a skeleton (`ready` turns true) fades in without sliding. Keyed by `value`; the first render is still. */
+const TabNow = createContext(1)
+
+function TabItem({ dir, className, children }: { dir: number; className?: string; children: ReactNode }) {
+  const now = useContext(TabNow)
+  const present = useIsPresent()
+  const { tab, ios, reduce } = motionSpec()
+  const transition = { duration: tab, ease: ios }
+  // The tab that slides out cannot be tapped and is hidden from assistive tech, as a page that leaves.
+  return <motion.div className={`tab-page ${className ?? ''}`.trim()} inert={!present} aria-hidden={present ? undefined : true}
+    initial={reduce ? { opacity: 0 } : { x: `${dir * 100}%` }} animate={{ x: '0%', opacity: 1, transition }}
+    exit={reduce ? { opacity: 0, transition } : { x: `${-now * 100}%`, transition }}>{children}</motion.div>
+}
+
+/** The body of a tab strip: the whole content slides sideways, a tab to the right coming in from the right edge while the old
+ *  content leaves to the left (340 ms, iOS curve), and the other way round. Content that arrives after a skeleton (`ready` turns
+ *  true) fades in without sliding. Keyed by `value`; the first render is still. */
 export function TabPanel({ value, order, ready = true, children }: { value: string; order: readonly string[]; ready?: boolean; children: ReactNode }) {
   const previous = useRef({ value, ready })
-  const motionOf = useRef<number | undefined>(undefined)
-  const epoch = useRef(0)
+  const dir = useRef(1)
   const arrived = useRef(false)
   if (previous.current.value !== value) {
-    motionOf.current = order.indexOf(value) >= order.indexOf(previous.current.value) ? 12 : -12
-    epoch.current++
+    dir.current = order.indexOf(value) >= order.indexOf(previous.current.value) ? 1 : -1
+    arrived.current = false
   } else if (!previous.current.ready && ready) {
     arrived.current = true
   }
   previous.current = { value, ready }
   // Content arriving after a skeleton fades in by a CSS animation: nothing remounts, so state and DOM nodes stay.
-  return motionOf.current === undefined ? <div className={arrived.current ? 'reveal-in' : undefined}>{children}</div> : <Reveal key={epoch.current} x={motionOf.current}>{children}</Reveal>
+  return <div className="tab-stage"><TabNow.Provider value={dir.current}>
+    <AnimatePresence initial={false}>
+      <TabItem key={value} dir={dir.current} className={arrived.current ? 'reveal-in' : undefined}>{children}</TabItem>
+    </AnimatePresence>
+  </TabNow.Provider></div>
 }
 
-/** The selected-tab backdrop of a segmented control: slides between buttons with a shared layout (transform only). */
+/** The selected-tab backdrop of a segmented control: springs between buttons with a shared layout (transform only). */
 export function SlidingPill({ group }: { group: string }) {
-  const { standard, ease } = motionSpec()
-  return <motion.span layoutId={`pill-${group}`} className="seg-pill" aria-hidden="true" transition={{ duration: standard, ease }} />
+  const { standard, ease, reduce } = motionSpec()
+  return <motion.span layoutId={`pill-${group}`} className="seg-pill" aria-hidden="true"
+    transition={reduce ? { duration: standard, ease } : { type: 'spring', stiffness: 520, damping: 38 }} />
 }
 
-/** Bottom sheet: up with a slight overshoot (1.5 × standard), down in 1.5 × fast; reduced motion only fades. */
+/** Bottom sheet: rises from below on a spring and leaves in 280 ms on the iOS curve; reduced motion only fades. */
 export function sheetMotion() {
-  const { standard, fast, ease, reduce } = motionSpec()
+  const { standard, ease, ios, spring, reduce } = motionSpec()
   return reduce
     ? { from: { opacity: 0 }, enter: { opacity: 1, transition: { duration: standard, ease } }, exit: { opacity: 0, transition: { duration: standard, ease } } }
     : {
-      from: { y: '110%' },
-      enter: { y: ['110%', '-2%', '0%'], transition: { duration: standard * 1.5, ease } },
-      exit: { y: '110%', transition: { duration: fast * 1.5, ease } },
+      from: { y: '100%' },
+      enter: { y: 0, transition: spring },
+      exit: { y: '100%', transition: { duration: 0.28, ease: ios } },
     }
 }

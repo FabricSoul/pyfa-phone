@@ -168,7 +168,7 @@ export function Fit() {
             if (entry.kind === 'module') {
               const activePositions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
               if (!activePositions.length) return null
-              return <ExpandItem key={`module-${entry.positions[0]}`}><ModuleRow row={entry} price={unitPrice(entry.typeId)}
+              return <ExpandItem leave="slide" key={`module-${entry.positions[0]}`}><ModuleRow row={entry} price={unitPrice(entry.typeId)}
                 selected={selected?.slot === slot && activePositions.includes(selected.index)}
                 availableStates={entry.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] : undefined)}
                 onTap={() => setSelected({ slot, index: activePositions[0]! })}
@@ -178,12 +178,12 @@ export function Fit() {
             if (entry.kind === 'removed') {
               const positions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
               if (!positions.length) return null
-              return <ExpandItem key={`removed-${positions[0]}`}><ModuleRow row={{ ...entry, positions, count: positions.length }}
+              return <ExpandItem leave="slide" key={`removed-${positions[0]}`}><ModuleRow row={{ ...entry, positions, count: positions.length }}
                 onRemove={() => removeModules(slot, positions, lname(entry.name, language))} /></ExpandItem>
             }
             const positions = entry.positions.filter((index) => !slotItems[index])
             if (!positions.length) return null
-            return <ExpandItem key="empty"><ModuleRow row={{ ...entry, positions, count: positions.length }}
+            return <ExpandItem leave="slide" key="empty"><ModuleRow row={{ ...entry, positions, count: positions.length }}
               onAdd={() => openAdd(slot, positions[0]!)} /></ExpandItem>
           })}
           </AnimatePresence>

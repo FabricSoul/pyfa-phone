@@ -59,8 +59,8 @@ try {
 
   // F3 usability assertions, measured in real Chromium on the page that is on screen right now.
   const usability = async (name) => {
-    // A page that was just left stays (inert) for its 120 ms fade-out (UX3): measure once only the current page is left.
-    await page.waitForFunction(() => !document.querySelector('[data-testid="page"][aria-hidden="true"]'))
+    // A page or tab that was just left, or the start page, stays (inert) while it moves away (UX3/UX4): measure once only the current one is left.
+    await page.waitForFunction(() => !document.querySelector('[data-testid="page"][aria-hidden="true"], .tab-page[aria-hidden="true"], .boot'))
     const found = await page.evaluate(() => {
       const hits = (el, x, y) => { const at = document.elementFromPoint(x, y); return Boolean(at && (at === el || el.contains(at))) }
       const reach = (el, rect, dx, dy) => {
@@ -91,7 +91,9 @@ try {
     assert.equal(found.overflow, false, `${name}: horizontal overflow`)
   }
 
-  step = 'open settings and about, and see the fit list, before the engine is ready (#13)'
+  // UX4 (user's request, replaces #13's non-blocking start): until the engine is ready every route shows only the start page;
+  // no fit list, skeleton rows or fit page skeleton appear early.
+  step = 'every route waits on the start page before the engine is ready (UX4)'
   {
     const early = await browser.newContext({ locale: 'zh-CN', serviceWorkers: 'block' })
     // Hold the engine's first download so it cannot be ready.
@@ -99,27 +101,13 @@ try {
     await early.route('**/data/manifest.json', () => {})
     const p = await early.newPage()
     p.setDefaultTimeout(15000)
-    await p.goto(`${base}#/settings`)
-    await p.getByRole('heading', { level: 1, name: '设置' }).waitFor()
-    await p.getByRole('button', { name: '导出全部装配备份' }).waitFor()
-    await p.goto(`${base}#/about`)
-    await p.getByRole('heading', { level: 1, name: '关于' }).waitFor()
-    await p.goto(`${base}#/`)
-    await p.getByTestId('fit-row').first().waitFor()
-    // Home: the three quick entries are there; rows hold their numbers' places with skeletons while the engine is not ready.
-    const quick = p.getByRole('navigation', { name: '快捷入口' })
-    assert.deepEqual(await quick.getByRole('link').allInnerTexts(), ['新建装配', '粘贴导入', '舰船浏览'])
-    assert.ok(await p.getByTestId('fit-row').first().locator('.sk').count() > 0, 'home rows show skeletons before the engine answers')
-    // A page that needs the engine shows the boot page (load.html ①) and says what already works.
-    await p.goto(`${base}#/import`)
-    await p.getByRole('heading', { level: 1, name: '正在准备装配引擎' }).waitFor()
-    await p.getByText('装配列表、设置和备份现在就能用').waitFor()
-    await p.getByRole('link', { name: '先去看装配列表' }).waitFor()
-    // The fit page draws a skeleton and a progress bar at the bottom instead of waiting on a blank page (load.html ②).
-    await p.goto(`${base}#/fit/rifter`)
-    await p.locator('.engine-bar').waitFor()
-    assert.match(await p.locator('.engine-bar').innerText(), /启动引擎/)
-    assert.ok(await p.locator('main .sk').count() > 5, 'fit page shows skeleton blocks before the engine is ready')
+    for (const route of ['#/', '#/settings', '#/about', '#/import', '#/fit/rifter']) {
+      await p.goto(`${base}${route}`)
+      await p.getByRole('heading', { level: 1, name: '正在准备装配引擎' }).waitFor()
+      assert.equal(await p.locator('.cap-cell').count(), 90, `${route}: capacitor ring of 90 cells`)
+      assert.equal(await p.getByTestId('page').count(), 0, `${route}: no page renders before the engine is ready`)
+      assert.equal(await p.getByTestId('fit-row').count(), 0, `${route}: no fit rows before the engine is ready`)
+    }
     await early.close()
   }
 
@@ -133,6 +121,8 @@ try {
   await page.getByRole('link', { name: '粘贴导入' }).waitFor()
   const ready = ms(start)
   assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN')
+  // UX4: the start page shrinks away while home rises in; measure once it has gone (two h1s while both are on screen).
+  await page.locator('.boot').waitFor({ state: 'detached' })
   await usability('home')
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
   assert.equal(documentLoads, 1, 'Initial Service Worker claim must preserve the booted page')
@@ -186,7 +176,28 @@ try {
   assert.equal(await fitRow(fitName).count(), 0)
   step = 'the library does not recalculate when coming back from a fit page (UX3)'
   await page.waitForFunction(() => document.querySelectorAll('[data-testid="fit-row"] .stat').length > 0 && !document.querySelector('[data-testid="fit-row"] .sk'))
-  await fitRow('裂谷级').first().click()
+  // UX4: a push moves the new page visibly. Timed from the moment the pushed page mounts (on a slow machine the fit page can
+  // take over 100 ms to render after the tap): 100 ms in it is still off to the right; 400 ms in it has arrived.
+  const push = await page.evaluate(() => new Promise((resolve) => {
+    const row = [...document.querySelectorAll('[data-testid="fit-row"]')].find((r) => r.textContent.includes('裂谷级'))
+    const entering = () => document.querySelector('.fit-app > div > .stage > [data-testid="page"][data-motion="push"]:not([aria-hidden])')
+      ?? document.querySelector('.stage > [data-testid="page"][data-motion="push"]:not([aria-hidden])')
+    const tx = () => { const p = entering(); return p ? new DOMMatrixReadOnly(getComputedStyle(p).transform).m41 : null }
+    const tap = performance.now()
+    row.click()
+    const wait = () => {
+      if (!entering()) { requestAnimationFrame(wait); return }
+      const t0 = performance.now()
+      const at = (ms, f) => setTimeout(f, Math.max(0, ms - (performance.now() - t0)))
+      let early
+      at(100, () => { early = tx() })
+      at(400, () => resolve({ early, late: tx(), mounted: Math.round(t0 - tap) }))
+    }
+    wait()
+  }))
+  assert.ok(push.early !== null && push.early > 20, `push: the new page is still moving 100 ms in (translateX ${push.early})`)
+  assert.equal(push.late, 0, `push: the new page has arrived 400 ms in (translateX ${push.late})`)
+  console.log(`Page push translateX: ${Math.round(push.early)} px at 100 ms → ${push.late} at 400 ms (page mounted ${push.mounted} ms after the tap)`)
   await page.getByTestId('module-row').first().waitFor()
   await page.getByRole('button', { name: '返回', exact: true }).click()
   // 200 ms after the tap the rows already show their numbers: no skeleton, no pending row.

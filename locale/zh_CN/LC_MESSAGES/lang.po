@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 08:27-0500\n"
+"POT-Creation-Date: 2026-11-23 09:38-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -33,7 +33,7 @@ msgstr "AU/s"
 msgid "About"
 msgstr "关于"
 
-#: src/ui/EngineBoot.tsx:27
+#: src/ui/EngineBoot.tsx:78
 msgid "About 2–5 seconds"
 msgstr "约 2–5 秒"
 
@@ -49,7 +49,7 @@ msgstr "全部激活（受带宽限制）"
 msgid "Activate {item}"
 msgstr "激活{item}"
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:139 src/pages/FitExtras.tsx:150 src/pages/ModuleSheet.tsx:19 src/ui/DroneStackSheet.tsx:33 src/ui/ModuleRow.tsx:162
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:139 src/pages/FitExtras.tsx:150 src/pages/ModuleSheet.tsx:19 src/ui/DroneStackSheet.tsx:33 src/ui/ModuleRow.tsx:163
 msgid "Active"
 msgstr "激活"
 
@@ -207,7 +207,7 @@ msgstr "属性"
 msgid "Available offline, instant loading, and runs like a native app."
 msgstr "离线可用，无需等待加载，体验更接近原生应用。"
 
-#: src/pages/FitMenu.tsx:188 src/pages/FitMenu.tsx:203 src/pages/FitMenu.tsx:215 src/pages/Import.tsx:182 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:11 src/ui/PageSkeletons.tsx:22
+#: src/pages/FitMenu.tsx:188 src/pages/FitMenu.tsx:203 src/pages/FitMenu.tsx:215 src/pages/Import.tsx:182 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:17 src/ui/PageSkeletons.tsx:22
 msgid "Back"
 msgstr "返回"
 
@@ -251,15 +251,11 @@ msgstr "增效剂"
 msgid "Browse by market category"
 msgstr "按市场分类"
 
-#: src/ui/EngineBoot.tsx:19 src/ui/EngineBoot.tsx:48
-msgid "Browse fittings first"
-msgstr "先去看装配列表"
-
 #: src/pages/Home.tsx:103
 msgid "Browse ships"
 msgstr "舰船浏览"
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:128 src/pages/Variations.tsx:19 src/pages/Variations.tsx:92 src/pages/shared.tsx:20 src/ui/FitRow.tsx:41 src/ui/ResourceGauge.tsx:42
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:128 src/pages/Variations.tsx:19 src/pages/Variations.tsx:92 src/pages/shared.tsx:20 src/ui/FitRow.tsx:47 src/ui/ResourceGauge.tsx:42
 msgid "CPU"
 msgstr "CPU"
 
@@ -439,7 +435,7 @@ msgstr "无法重新计算装配"
 msgid "Could not save fit"
 msgstr "无法保存装配"
 
-#: src/App.tsx:69
+#: src/ui/EngineBoot.tsx:94
 msgid "Could not start the fitting engine"
 msgstr "无法启动装配引擎"
 
@@ -467,7 +463,7 @@ msgstr "自定义模式将在后续版本提供。"
 msgid "Custom profiles are not in the first version."
 msgstr "自定义配置将在后续版本提供。"
 
-#: src/pages/Fit.tsx:117 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:26 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:32 src/ui/ResumeCard.tsx:23
+#: src/pages/Fit.tsx:117 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:26 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:38 src/ui/ResumeCard.tsx:23
 msgid "DPS"
 msgstr "秒伤"
 
@@ -563,7 +559,7 @@ msgstr "以后再说"
 msgid "Distance in km, DPS on the vertical axis; stationary target, tracking ignored. Press and hold the chart for per-km values."
 msgstr "横轴为距离（km），纵轴为 DPS。目标静止，不计跟踪。长按图表查看每公里数值。"
 
-#: src/ui/FitRow.tsx:37
+#: src/ui/FitRow.tsx:43
 msgid "Does not fit"
 msgstr "装不下"
 
@@ -611,7 +607,7 @@ msgstr "伊甸联合防御阵线与昇威"
 msgid "EFT export options"
 msgstr "EFT 导出选项"
 
-#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:29 src/ui/FitRow.tsx:33 src/ui/ResumeCard.tsx:24 src/ui/StatsPage.tsx:163 src/ui/StatsPage.tsx:166 src/ui/StatsPage.tsx:178
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:29 src/ui/FitRow.tsx:39 src/ui/ResumeCard.tsx:24 src/ui/StatsPage.tsx:163 src/ui/StatsPage.tsx:166 src/ui/StatsPage.tsx:178
 msgid "EHP"
 msgstr "有效HP"
 
@@ -631,7 +627,7 @@ msgstr "EVE Online、EVE 徽标及所有相关徽标和设计均为 CCP hf. 的�
 msgid "Effective DPS"
 msgstr "有效DPS"
 
-#: src/ui/ModuleRow.tsx:101
+#: src/ui/ModuleRow.tsx:102
 msgid "Empty slot"
 msgstr "空槽"
 
@@ -723,13 +719,9 @@ msgstr "装配"
 msgid "Fitting limits exceeded"
 msgstr "装配超限"
 
-#: src/pages/Home.tsx:91 src/ui/EngineBoot.tsx:18
+#: src/pages/Home.tsx:91
 msgid "Fittings"
 msgstr "装配"
-
-#: src/ui/EngineBoot.tsx:47
-msgid "Fittings list, settings and backups work right now"
-msgstr "装配列表、设置和备份现在就能用"
 
 #: src/ui/StatsPage.tsx:71
 msgid "Fleet hangar"
@@ -759,7 +751,7 @@ msgstr "GJ/s"
 msgid "Gallente"
 msgstr "盖伦特"
 
-#: src/ui/EngineBoot.tsx:26 src/ui/EngineBoot.tsx:63
+#: src/ui/EngineBoot.tsx:77 src/ui/EngineBoot.tsx:132
 msgid "Game data"
 msgstr "游戏数据"
 
@@ -851,7 +843,7 @@ msgstr "工业舰船仓"
 msgid "Infrastructure hold"
 msgstr "基础设施舱"
 
-#: src/ui/EngineBoot.tsx:63
+#: src/ui/EngineBoot.tsx:132
 msgid "Initializing"
 msgstr "正在初始化"
 
@@ -879,7 +871,7 @@ msgstr "物品信息不可用"
 msgid "Item names"
 msgstr "物品名称"
 
-#: src/pages/Fit.tsx:135 src/pages/FitExtras.tsx:129 src/ui/ModuleRow.tsx:54 src/ui/ModuleRow.tsx:111
+#: src/pages/Fit.tsx:135 src/pages/FitExtras.tsx:129 src/ui/ModuleRow.tsx:54 src/ui/ModuleRow.tsx:112
 msgid "Item removed"
 msgstr "物品已移除"
 
@@ -935,6 +927,10 @@ msgstr "正在加载装配列表…"
 msgid "Loading fit…"
 msgstr "正在加载装配…"
 
+#: src/ui/EngineBoot.tsx:84
+msgid "Loading from this device…"
+msgstr "从本机载入…"
+
 #: src/pages/ExtraItemPicker.tsx:82 src/ui/ImplantSetPicker.tsx:28
 msgid "Loading items…"
 msgstr "正在加载物品…"
@@ -959,7 +955,7 @@ msgstr "正在加载同系列型号…"
 msgid "Lock Times"
 msgstr "锁定时间"
 
-#: src/ui/ModuleRow.tsx:164
+#: src/ui/ModuleRow.tsx:165
 msgid "Long press to overheat"
 msgstr "长按切换为超载"
 
@@ -1067,7 +1063,7 @@ msgstr "找不到此装备"
 msgid "Modules"
 msgstr "装备"
 
-#: src/ui/NavBar.tsx:17
+#: src/ui/NavBar.tsx:23
 msgid "More"
 msgstr "更多"
 
@@ -1075,11 +1071,11 @@ msgstr "更多"
 msgid "Multispectral"
 msgstr "多谱式"
 
-#: src/ui/ModuleRow.tsx:191
+#: src/ui/ModuleRow.tsx:192
 msgid "Needs adjustment: state changed"
 msgstr "需要调整：状态已变更"
 
-#: src/ui/ModuleRow.tsx:111
+#: src/ui/ModuleRow.tsx:112
 msgid "Needs adjustment: wrong slot"
 msgstr "需要调整：槽位不符"
 
@@ -1143,7 +1139,7 @@ msgstr "找不到匹配的装配"
 msgid "No matching modules"
 msgstr "找不到匹配的装备"
 
-#: src/pages/ShipBrowser.tsx:120 src/pages/ShipBrowser.tsx:126
+#: src/pages/ShipBrowser.tsx:121 src/pages/ShipBrowser.tsx:127
 msgid "No ships available"
 msgstr "没有符合条件的舰船"
 
@@ -1171,11 +1167,11 @@ msgstr "外空联合矿业"
 msgid "Officer"
 msgstr "官员"
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:162 src/ui/ModuleRow.tsx:175
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:163 src/ui/ModuleRow.tsx:176
 msgid "Offline"
 msgstr "离线"
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:18 src/ui/ModuleRow.tsx:162
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:18 src/ui/ModuleRow.tsx:163
 msgid "Online"
 msgstr "在线"
 
@@ -1195,7 +1191,7 @@ msgstr "超"
 msgid "Overheat rack"
 msgstr "整排超载"
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:20 src/ui/ModuleRow.tsx:162
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:20 src/ui/ModuleRow.tsx:163
 msgid "Overheated"
 msgstr "超载"
 
@@ -1255,7 +1251,7 @@ msgstr "逃生舱"
 msgid "PowerGrid"
 msgstr "PG"
 
-#: src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:128 src/pages/shared.tsx:21 src/ui/FitRow.tsx:42
+#: src/pages/AddModule.tsx:183 src/pages/AddModule.tsx:306 src/pages/AddModule.tsx:347 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:128 src/pages/shared.tsx:21 src/ui/FitRow.tsx:48
 msgid "Powergrid"
 msgstr "能量栅格"
 
@@ -1263,7 +1259,7 @@ msgstr "能量栅格"
 msgid "Preheat cycles"
 msgstr "预热循环数"
 
-#: src/ui/EngineBoot.tsx:31
+#: src/ui/EngineBoot.tsx:91
 msgid "Preparing the fitting engine"
 msgstr "正在准备装配引擎"
 
@@ -1275,7 +1271,7 @@ msgstr "价格"
 msgid "Price per module"
 msgstr "单件价格"
 
-#: src/ui/EngineBoot.tsx:25 src/ui/EngineBoot.tsx:63
+#: src/ui/EngineBoot.tsx:76 src/ui/EngineBoot.tsx:132
 msgid "Python runtime"
 msgstr "Python 运行时"
 
@@ -1339,7 +1335,7 @@ msgstr "加强回充"
 msgid "Remote Repairs"
 msgstr "遥修"
 
-#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:195 src/pages/FitExtras.tsx:197 src/ui/ModuleRow.tsx:113 src/ui/ModuleRow.tsx:176
+#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:195 src/pages/FitExtras.tsx:197 src/ui/ModuleRow.tsx:114 src/ui/ModuleRow.tsx:177
 msgid "Remove"
 msgstr "移除"
 
@@ -1395,7 +1391,7 @@ msgstr "恢复失败，现有装配未被改动。"
 msgid "Restore from backup"
 msgstr "从备份恢复"
 
-#: src/App.tsx:70 src/pages/fitSession.tsx:178
+#: src/pages/fitSession.tsx:178 src/ui/EngineBoot.tsx:95
 msgid "Retry"
 msgstr "重试"
 
@@ -1499,7 +1495,7 @@ msgstr "舰船阵营"
 msgid "Ship hold"
 msgstr "舰船仓"
 
-#: src/ui/NavBar.tsx:12
+#: src/ui/NavBar.tsx:18
 msgid "Ship information"
 msgstr "舰船信息"
 
@@ -1571,15 +1567,15 @@ msgstr "拆分堆叠"
 msgid "Stable: "
 msgstr "稳定："
 
-#: src/ui/EngineBoot.tsx:54
+#: src/ui/EngineBoot.tsx:123
 msgid "Starting download…"
 msgstr "正在开始下载…"
 
-#: src/ui/EngineBoot.tsx:66
+#: src/ui/EngineBoot.tsx:135
 msgid "Starting engine"
 msgstr "正在启动引擎"
 
-#: src/ui/EngineBoot.tsx:27
+#: src/ui/EngineBoot.tsx:78
 msgid "Starting the pyfa engine"
 msgstr "启动 pyfa 引擎"
 
@@ -1635,7 +1631,7 @@ msgstr "点击浏览器菜单"
 msgid "Tap the share button"
 msgstr "点击分享按钮"
 
-#: src/ui/ModuleRow.tsx:102
+#: src/ui/ModuleRow.tsx:103
 msgid "Tap to add a module"
 msgstr "点按添加装备"
 
@@ -1675,7 +1671,7 @@ msgstr "文件不是装配列表。"
 msgid "The file is not valid JSON."
 msgstr "文件不是有效的 JSON。"
 
-#: src/ui/EngineBoot.tsx:32
+#: src/ui/EngineBoot.tsx:103
 msgid "The first launch downloads about {n} MB; after that it opens instantly, even offline"
 msgstr "第一次打开要下载约 {n} MB，之后离线也能秒开"
 
@@ -1731,7 +1727,7 @@ msgstr "炮台"
 msgid "Turrets"
 msgstr "炮台"
 
-#: src/pages/FitExtras.tsx:190 src/pages/fitSession.tsx:236 src/ui/NavBar.tsx:16
+#: src/pages/FitExtras.tsx:190 src/pages/fitSession.tsx:236 src/ui/NavBar.tsx:22
 msgid "Undo"
 msgstr "撤销"
 
@@ -1791,7 +1787,7 @@ msgstr "改装件尺寸不符"
 msgid "best"
 msgstr "最高"
 
-#: src/ui/ModuleRow.tsx:193
+#: src/ui/ModuleRow.tsx:194
 msgid "each"
 msgstr "每件"
 
@@ -1815,7 +1811,7 @@ msgstr "km"
 msgid "m"
 msgstr "m"
 
-#: src/pages/FitExtras.tsx:102 src/ui/FitRow.tsx:34 src/ui/ResumeCard.tsx:25 src/ui/StatsPage.tsx:229
+#: src/pages/FitExtras.tsx:102 src/ui/FitRow.tsx:40 src/ui/ResumeCard.tsx:25 src/ui/StatsPage.tsx:229
 msgid "m/s"
 msgstr "m/s"
 
@@ -1855,7 +1851,7 @@ msgstr "已将{item}加入货柜"
 msgid "{label} for {item}"
 msgstr "{item}的{label}"
 
-#: src/ui/format.ts:84
+#: src/ui/format.ts:92
 msgid "{minutes} min {seconds} s"
 msgstr "{minutes} 分 {seconds} 秒"
 
@@ -1894,7 +1890,7 @@ msgstr "{n} 炮"
 msgid "{resource} over by {amount}"
 msgstr "{resource} 超 {amount}"
 
-#: src/ui/format.ts:85
+#: src/ui/format.ts:93
 msgid "{seconds} s"
 msgstr "{seconds} 秒"
 
@@ -1926,6 +1922,9 @@ msgstr "中文"
 #~ msgid "Browse all market groups"
 #~ msgstr "按市场分组浏览全部"
 
+#~ msgid "Browse fittings first"
+#~ msgstr "先去看装配列表"
+
 #~ msgid "Cargo hold"
 #~ msgstr "货柜"
 
@@ -1943,6 +1942,9 @@ msgstr "中文"
 
 #~ msgid "Fits"
 #~ msgstr "装得下"
+
+#~ msgid "Fittings list, settings and backups work right now"
+#~ msgstr "装配列表、设置和备份现在就能用"
 
 #~ msgid "Initializing fitting engine…"
 #~ msgstr "正在初始化装配引擎…"

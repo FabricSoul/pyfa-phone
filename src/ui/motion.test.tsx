@@ -15,7 +15,7 @@ function reduced(on: boolean) {
 }
 
 describe('motion spec', () => {
-  it('takes durations from the tokens: fast 120 ms, standard 180 ms, bar 270 ms, roll 300 ms, stagger 30 ms × 8 rows', () => {
+  it('takes durations from the tokens: fast 120 ms, standard 180 ms, bar 270 ms, roll 300 ms, stagger 40 ms × 10 rows (UX4)', () => {
     reduced(false)
     const spec = motionSpec()
     expect(spec.fast).toBeCloseTo(0.12)
@@ -23,8 +23,8 @@ describe('motion spec', () => {
     expect(spec.bar).toBeCloseTo(0.27)
     expect(spec.roll).toBeCloseTo(0.3)
     expect(spec.ease).toEqual([0.2, 0, 0, 1])
-    expect(spec.stagger).toBeCloseTo(0.03)
-    expect(spec.staggerRows).toBe(8)
+    expect(spec.stagger).toBeCloseTo(0.04)
+    expect(spec.staggerRows).toBe(10)
   })
   it('keeps only short fades under reduced motion', () => {
     reduced(true)
@@ -33,12 +33,12 @@ describe('motion spec', () => {
     expect(spec.standard).toBeLessThanOrEqual(0.1)
     expect(spec.roll).toBe(0)
   })
-  it('staggers 30 ms per row and stops after 8 rows', () => {
+  it('staggers 40 ms per row and stops after 10 rows', () => {
     reduced(false)
     expect(delayFor(0)).toBe(0)
-    expect(delayFor(3)).toBeCloseTo(0.09)
-    expect(delayFor(7)).toBeCloseTo(0.21)
-    expect(delayFor(8)).toBeNull()
+    expect(delayFor(3)).toBeCloseTo(0.12)
+    expect(delayFor(9)).toBeCloseTo(0.36)
+    expect(delayFor(10)).toBeNull()
     expect(delayFor(40)).toBeNull()
   })
 })
@@ -69,9 +69,9 @@ describe('RollingNumber', () => {
 })
 
 describe('Appear', () => {
-  it('fades a row in with its stagger delay, but only the first 8 rows animate', () => {
+  it('fades a row in with its stagger delay, but only the first 10 rows animate', () => {
     reduced(false)
-    const { container } = render(<>{[0, 8].map((i) => <Appear key={i} index={i}><b>row {i}</b></Appear>)}</>)
+    const { container } = render(<>{[0, 10].map((i) => <Appear key={i} index={i}><b>row {i}</b></Appear>)}</>)
     expect((container.children[0] as HTMLElement).style.opacity).toBe('0')
     expect((container.children[1] as HTMLElement).style.opacity).not.toBe('0')
   })
@@ -127,20 +127,19 @@ describe('Stage (route enter, leave and return)', () => {
       <Route path="/next" element={<><button onClick={() => navigate(-1)}>back</button><button onClick={() => navigate('/', { state: { back: true } })}>home</button></>} />
     </Routes></Stage>
   }
-  it('does not animate the first page, slides the next one in from the right over 180 ms, and returns the other way', async () => {
+  it('does not animate the first page, pushes the next one in from the right edge, and returns the other way (UX4)', async () => {
     reduced(false)
     render(<MemoryRouter><Pages /></MemoryRouter>)
     expect(screen.getByTestId('page').getAttribute('data-motion')).toBe('none')
     fireEvent.click(screen.getByText('go'))
     const next = screen.getAllByTestId('page').find((page) => page.textContent?.includes('back'))!
     expect(next.getAttribute('data-motion')).toBe('push')
-    expect(next.style.opacity).toBe('0')
-    expect(next.style.transform).toBe('translateX(24px)')
-    await waitFor(() => expect(next.style.opacity).toBe('1'), { timeout: 2000 })
+    expect(next.style.transform).toBe('translateX(100%)')
+    await waitFor(() => expect(screen.getAllByTestId('page')).toHaveLength(1), { timeout: 2000 })
     fireEvent.click(screen.getByText('back'))
     const back = screen.getAllByTestId('page').find((page) => page.textContent?.includes('go'))!
     expect(back.getAttribute('data-motion')).toBe('back')
-    expect(back.style.transform).toBe('translateX(-24px)')
+    expect(back.style.transform).toBe('translateX(-30%)')
   })
   it('a link with state.back (an in-app back button) also enters from the left', async () => {
     reduced(false)
@@ -184,16 +183,14 @@ describe('Stage (route enter, leave and return)', () => {
 })
 
 describe('TabPanel and Reveal', () => {
-  it('fades a new tab in from the side it sits on, and does not animate the first tab', () => {
+  it('slides a new tab in from the side it sits on, and does not animate the first tab', () => {
     reduced(false)
     const order = ['a', 'b', 'c']
     const panel = (value: string) => <TabPanel value={value} order={order}><p>{value}</p></TabPanel>
     const { rerender } = render(panel('b'))
-    expect((screen.getByText('b').parentElement as HTMLElement).style.opacity).toBe('')
+    expect((screen.getByText('b').parentElement as HTMLElement).style.transform).not.toMatch(/translate/)
     rerender(panel('c'))
-    expect((screen.getByText('c').parentElement as HTMLElement).style.transform).toBe('translateX(12px)')
-    rerender(panel('a'))
-    expect((screen.getByText('a').parentElement as HTMLElement).style.transform).toBe('translateX(-12px)')
+    expect((screen.getByText('c').parentElement as HTMLElement).style.transform).toBe('translateX(100%)')
   })
   it('Reveal starts transparent and ends opaque', async () => {
     reduced(false)
@@ -205,11 +202,11 @@ describe('TabPanel and Reveal', () => {
 })
 
 describe('sheet motion', () => {
-  it('slides up with a slight overshoot over 270 ms and leaves in 180 ms; reduced motion only fades', () => {
+  it('rises on a spring and leaves in 280 ms (UX4); reduced motion only fades', () => {
     reduced(false)
     const motion = sheetMotion()
-    expect(motion.enter).toEqual({ y: ['110%', '-2%', '0%'], transition: expect.objectContaining({ duration: expect.closeTo(0.27, 5) }) })
-    expect(motion.exit).toEqual({ y: '110%', transition: expect.objectContaining({ duration: expect.closeTo(0.18, 5) }) })
+    expect(motion.enter).toEqual({ y: 0, transition: expect.objectContaining({ type: 'spring' }) })
+    expect(motion.exit).toEqual({ y: '100%', transition: expect.objectContaining({ duration: expect.closeTo(0.28, 5) }) })
     reduced(true)
     expect(sheetMotion().enter).toEqual({ opacity: 1, transition: expect.any(Object) })
   })

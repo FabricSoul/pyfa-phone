@@ -1,10 +1,10 @@
-import { createContext, lazy, Suspense, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { MotionConfig } from 'motion/react'
+import { lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { AnimatePresence, MotionConfig, motion, useIsPresent, type TargetAndTransition } from 'motion/react'
 import { HashRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { createEngine, type EngineStage } from './engine/client'
 import type { EngineProgress } from './engine/progress'
 import type { EngineClient } from './engine/types'
-import { _t, useUiLanguage } from './i18n/t'
+import { useUiLanguage } from './i18n/t'
 import About from './pages/About'
 import { AddModule } from './pages/AddModule'
 import { Fit } from './pages/Fit'
@@ -15,10 +15,10 @@ import { ItemInfo } from './pages/ItemInfo'
 import Settings from './pages/Settings'
 import { NotFound } from './pages/shared'
 import { Variations } from './pages/Variations'
-import { EngineBar, EngineBoot } from './ui/EngineBoot'
-import { FitPageSkeleton } from './ui/PageSkeletons'
-import { Stage } from './ui/motion'
+import { EngineBoot } from './ui/EngineBoot'
+import { Stage, motionSpec } from './ui/motion'
 import { ToastProvider } from './ui/Toast'
+import { installPressFeedback } from './ui/press'
 import { defaultFitStore, type FitStore } from './store/fits'
 import './pages/pages.css'
 
@@ -28,7 +28,6 @@ const Gallery = import.meta.env.DEV ? lazy(() => import('./dev/Gallery')) : null
 const TokensPage = import.meta.env.DEV ? lazy(() => import('./dev/TokensPage')) : null
 
 export interface Startup { ready: boolean; stage: EngineStage; progress?: EngineProgress; failed: boolean; retry(): void }
-const StartupContext = createContext<Startup | null>(null)
 
 /** An EngineClient whose calls wait for the engine, so pages that do not calculate never block on it. */
 export function deferredEngine(ready: Promise<EngineClient>): EngineClient {
@@ -49,26 +48,39 @@ export function deferredEngine(ready: Promise<EngineClient>): EngineClient {
   })
 }
 
-/** Pages that calculate wait for the engine: the fit page behind a skeleton and a floating bar (load.html ②),
- *  the others on the boot page (load.html ①). */
-function NeedsEngine({ children, skeleton }: { children: ReactNode; skeleton?: boolean }) {
-  const startup = useContext(StartupContext)
-  if (!startup || startup.ready) return <>{children}</>
-  if (skeleton) return <>
-    <FitPageSkeleton />
-    {!startup.failed && <EngineBar stage={startup.stage} progress={startup.progress} />}
+/** The whole app waits on the start page until the engine (Pyodide, eos and the game database) is ready, whatever the route,
+ *  so no page appears half-working (UX4, at the user's request; this replaces FX3's non-blocking start). An engine ready within
+ *  300 ms (a cached start) goes straight to the page; otherwise the capacitor flashes once full, the start page shrinks away and
+ *  the page asked for (deep links included) rises 20 px into place. A failed start shows its error and a retry on the start page. */
+function BootGate({ startup, children }: { startup?: Startup; children: ReactNode }) {
+  const [mountedAt] = useState(() => performance.now())
+  const [phase, setPhase] = useState<'boot' | 'complete' | 'done' | 'instant'>(() => !startup || startup.ready ? 'instant' : 'boot')
+  if (startup?.ready && phase === 'boot') setPhase(performance.now() - mountedAt < FAST_START_MS ? 'instant' : 'complete')
+  const { reduce, ios, standard } = motionSpec()
+  useEffect(() => {
+    if (phase !== 'complete') return
+    const timer = setTimeout(() => setPhase('done'), reduce ? 120 : 650)
+    return () => clearTimeout(timer)
+  }, [phase, reduce])
+  if (phase === 'instant' || !startup) return <>{children}</>
+  return <>
+    <AnimatePresence initial={false}>
+      {phase !== 'done' && <BootLayer key="boot"
+        exit={reduce ? { opacity: 0, transition: { duration: standard } } : { opacity: 0, scale: 0.92, transition: { duration: 0.34, ease: ios } }}>
+        <EngineBoot stage={startup.stage} progress={startup.progress} failed={startup.failed} complete={phase === 'complete'}
+          delayed onRetry={startup.retry} />
+      </BootLayer>}
+    </AnimatePresence>
+    {phase === 'done' && <motion.div initial={{ opacity: 0, y: reduce ? 0 : 20 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reduce ? standard : 0.42, ease: ios, delay: reduce ? 0 : 0.08 }}>{children}</motion.div>}
   </>
-  return <EngineBoot stage={startup.stage} progress={startup.progress} failed={startup.failed} />
 }
+const FAST_START_MS = 300
 
-/** Shown on every page: the pages that need the engine cannot work, the rest still can. */
-function EngineFailure() {
-  const startup = useContext(StartupContext)
-  if (!startup?.failed) return null
-  return <div className="engine-failure" role="alert">
-    <p>{_t('Could not start the fitting engine')}</p>
-    <button type="button" className="fit-button primary" onClick={startup.retry}>{_t('Retry')}</button>
-  </div>
+/** The start page layer; while it shrinks away it cannot be tapped and is hidden from assistive tech. */
+function BootLayer({ exit, children }: { exit: TargetAndTransition; children: ReactNode }) {
+  const present = useIsPresent()
+  return <motion.div className="boot-layer" inert={!present} aria-hidden={present ? undefined : true} exit={exit}>{children}</motion.div>
 }
 
 /** Pages that share a key share one stage item: the fit workspace stays mounted while its pages change inside it. */
@@ -81,29 +93,30 @@ function stageKey({ pathname, search }: { pathname: string; search: string }) {
 export function FittingRoutes({ engine, store, startup }: { engine: EngineClient; store: FitStore; startup?: Startup }) {
   useUiLanguage()
   const location = useLocation()
-  return <StartupContext.Provider value={startup ?? null}><FitServices engine={engine} store={store}>
+  return <FitServices engine={engine} store={store}>
     <ToastProvider>
     <div className="fit-app">
-      <EngineFailure />
+      <BootGate startup={startup}>
       <Stage pageKey={stageKey(location)}>
       {/* The location is frozen into the element, so the page that is leaving keeps showing itself. */}
       <Routes location={location}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/import" element={<NeedsEngine><Import /></NeedsEngine>} />
+        <Route path="/import" element={<Import />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/fit/:id" element={<NeedsEngine skeleton><FitWorkspace /></NeedsEngine>}>
+        <Route path="/fit/:id" element={<FitWorkspace />}>
           <Route index element={<Fit />} />
           <Route path="add/:slot" element={<AddModule />} />
           <Route path="variations/:pos" element={<Variations />} />
         </Route>
-        <Route path="/item/:typeId" element={<NeedsEngine><ItemInfo /></NeedsEngine>} />
+        <Route path="/item/:typeId" element={<ItemInfo />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Stage>
+      </BootGate>
     </div>
     </ToastProvider>
-  </FitServices></StartupContext.Provider>
+  </FitServices>
 }
 
 function EngineApp() {
@@ -142,6 +155,7 @@ function EngineApp() {
 }
 
 export default function App() {
+  useEffect(() => installPressFeedback(), [])
   return (
     <MotionConfig reducedMotion="user">
       <HashRouter>

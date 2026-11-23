@@ -5,7 +5,7 @@ import { useSticky } from '../app/sticky'
 import type { CatalogShip, ShipCatalog } from '../engine/types'
 import { _t } from '../i18n/t'
 import { useSettings } from '../settings/settings'
-import { TabPanel } from '../ui/motion'
+import { Appear, TabPanel } from '../ui/motion'
 import { lname, renderUrl, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { ItemIcon } from '../ui/ItemIcon'
@@ -112,11 +112,12 @@ export function ShipBrowser() {
     {group || term ? <>
       {group && <h2 className="fit-inset">{lname(group.name, lang)}</h2>}
       {visible.length ? <div className="list">
-        {visible.map((ship) => <button type="button" className="ar" key={ship.typeId} disabled={saving}
+        {/* A group's ships rise in row by row (UX4 #5). */}
+        {visible.map((ship, index) => <Appear key={ship.typeId} index={index}><button type="button" className="ar" disabled={saving}
           onClick={() => void create(ship)}>
           <ItemIcon src={renderUrl(ship.graphicId)} />
           <span className="mn">{lname(ship.name, lang)}</span>
-        </button>)}
+        </button></Appear>)}
       </div> : catalog && <EmptyMessage>{_t('No ships available')}</EmptyMessage>}
     </> : classes.length > 0 ? <div className="list">
       {classes.map(({ id, name }) => <button type="button" className="ar" key={id} onClick={() => setGroupId(id)}>

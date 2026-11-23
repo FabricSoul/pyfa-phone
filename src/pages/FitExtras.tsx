@@ -122,7 +122,7 @@ export function FitExtras() {
     }
 
     const stats = description()
-    return <ExpandItem as="li" className={controlled ? 'fit-squadron' : 'fit-squadron extra-plain'} key={`${typeId}-${index}`}>
+    return <ExpandItem as="li" leave="slide" className={controlled ? 'fit-squadron' : 'fit-squadron extra-plain'} key={`${typeId}-${index}`}>
       <div className="extra-title fit-squadron-title">
         <ExtraItemIcon collection={collection} details={item} />
         <div>

@@ -30,12 +30,18 @@
   --control: 44px; --row: 52px; --icon: 32px;
   --list-inset: 0px; /* 通栏列表：行铺满屏宽，只用分隔线 */
   --dur-fast: 120ms; --dur: 180ms; --ease: cubic-bezier(.2, 0, 0, 1);
+  /* UX4：原生 iOS 级别的动效。页面推入/返回 380ms、标签整宽滑动 340ms、列表行 250ms 错开 40ms，曲线用 UIKit 的导航曲线 */
+  --dur-page: 380ms; --dur-tab: 340ms; --dur-row: 250ms; --stagger: 40ms; --ease-ios: cubic-bezier(.32, .72, 0, 1);
+  /* 动效用到的颜色：推入时下层页面的遮罩和顶层页面的阴影、按下变暗、启动页星点与电容格点亮时的辉光 */
+  --motion-dim: #000; --motion-shadow: rgb(0 0 0 / .14); --press-tint: rgb(0 0 0 / .07);
+  --star: #fff; --star-blue: #b8d4ff; --cap-glow: #fff4cc;
 }
 /* 减弱动态效果：只留不超过 100ms 的淡入淡出，位移类动画在组件里去掉 */
 @media (prefers-reduced-motion: reduce) {
   :root { --dur: 80ms; --dur-fast: 0ms; }
 }
 [data-appearance="dark"] {
+  --press-tint: rgb(0 0 0 / .28);
   --color-bg: #090E13;
   --color-surface: #111921;
   --color-fill: #1A2530;

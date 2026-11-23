@@ -1,7 +1,7 @@
 import { IDBFactory } from 'fake-indexeddb'
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FittingRoutes, deferredEngine } from '../App'
 import { setUiLanguage } from '../i18n/t'
 import { resetSettings } from '../settings/settings'
@@ -17,33 +17,65 @@ function app(path: string) {
 beforeEach(async () => { localStorage.clear(); resetSettings(); await setUiLanguage('en_US') })
 afterEach(cleanup)
 
-describe('#13 pages that do not calculate work before the engine is ready', () => {
-  it('lists the saved fits on the home page', async () => {
-    app('/')
-    expect((await screen.findAllByTestId('fit-row')).length).toBeGreaterThan(0)
-  })
-  it('opens settings', async () => {
-    app('/settings')
-    expect(await screen.findByRole('heading', { level: 1, name: 'Settings' })).toBeTruthy()
-    expect(screen.getByRole('button', { name: 'Export all fits backup' })).toBeTruthy()
-  })
-  it('opens about', async () => {
-    app('/about')
+describe('UX4: every route waits on the start page until the engine is ready (replaces #13 non-blocking start)', () => {
+  for (const path of ['/', '/settings', '/about', '/fit/rifter', '/item/587', '/import']) {
+    it(`${path} shows only the start page, no list, no skeleton`, async () => {
+      const { container } = app(path)
+      expect(await screen.findByRole('heading', { level: 1, name: 'Preparing the fitting engine' })).toBeTruthy()
+      expect(screen.queryAllByTestId('fit-row')).toHaveLength(0)
+      expect(container.querySelectorAll('[data-testid="page"]')).toHaveLength(0)
+      expect(container.querySelector('.boot .sk')).toBeNull()
+    })
+  }
+  it('enters the deep-linked page once the engine is ready', async () => {
+    const { rerender } = app('/about')
+    await screen.findByRole('heading', { level: 1, name: 'Preparing the fitting engine' })
+    rerender(<MemoryRouter initialEntries={['/about']}><FittingRoutes engine={deferredEngine(new Promise(() => {}))} store={createFitStore(new IDBFactory())}
+      startup={{ ...waiting, ready: true }} /></MemoryRouter>)
     expect(await screen.findByRole('heading', { level: 1, name: 'About' })).toBeTruthy()
   })
-  it('home links to about', async () => {
-    app('/')
-    expect((await screen.findByRole('link', { name: 'About' })).getAttribute('href')).toBe('/about')
+  it('a failed start shows its error and a retry on the start page', async () => {
+    const retry = vi.fn()
+    render(<MemoryRouter initialEntries={['/']}><FittingRoutes engine={deferredEngine(new Promise(() => {}))} store={createFitStore(new IDBFactory())}
+      startup={{ ...waiting, failed: true, retry }} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Retry' }))
+    expect(retry).toHaveBeenCalled()
+    expect(screen.getByRole('alert').textContent).toMatch(/Could not start the fitting engine/)
   })
-  it('a fit page waits for the engine behind a skeleton and a floating progress bar, with a way back', async () => {
-    const { container } = app('/fit/rifter')
-    expect(await screen.findByText(/Starting engine · Python runtime/)).toBeTruthy()
-    expect(container.querySelectorAll('.sk').length).toBeGreaterThan(5)
-    expect(screen.getByRole('link', { name: 'Back' }).getAttribute('href')).toBe('/')
+})
+
+describe('UX4 boot page timing', () => {
+  it('does not flash the boot page when the engine is ready within 300 ms: the page that needed it is shown directly', async () => {
+    const { rerender } = app('/import')
+    const boot = await screen.findByRole('heading', { level: 1, name: 'Preparing the fitting engine' })
+    expect(boot.closest('.boot')?.getAttribute('data-delayed')).toBe('true')
+    const engine = deferredEngine(new Promise(() => {}))
+    rerender(<MemoryRouter initialEntries={['/import']}><FittingRoutes engine={engine} store={createFitStore(new IDBFactory())}
+      startup={{ ...waiting, ready: true }} /></MemoryRouter>)
+    expect(document.querySelector('.boot')).toBeNull()
   })
-  it('pages that only need the engine for a lookup show the boot page', async () => {
-    app('/import')
-    expect(await screen.findByRole('heading', { level: 1, name: 'Preparing the fitting engine' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'Browse fittings first' })).toBeTruthy()
+  it('a boot page that was on screen flashes its ring, then shrinks away while the page rises in', async () => {
+    const { rerender } = app('/import')
+    await screen.findByRole('heading', { level: 1, name: 'Preparing the fitting engine' })
+    await new Promise((r) => setTimeout(r, 350))
+    const engine = deferredEngine(new Promise(() => {}))
+    rerender(<MemoryRouter initialEntries={['/import']}><FittingRoutes engine={engine} store={createFitStore(new IDBFactory())}
+      startup={{ ...waiting, ready: true }} /></MemoryRouter>)
+    expect(document.querySelector('.cap')?.getAttribute('data-complete')).toBe('true')
+    await waitFor(() => expect(document.querySelector('.boot')).toBeNull(), { timeout: 3000 })
   })
+})
+
+it('the start page that shrinks away is inert and hidden from assistive tech', async () => {
+  const { rerender } = app('/about')
+  await screen.findByRole('heading', { level: 1, name: 'Preparing the fitting engine' })
+  await new Promise((r) => setTimeout(r, 350))
+  rerender(<MemoryRouter initialEntries={['/about']}><FittingRoutes engine={deferredEngine(new Promise(() => {}))} store={createFitStore(new IDBFactory())}
+    startup={{ ...waiting, ready: true }} /></MemoryRouter>)
+  await screen.findByRole('heading', { level: 1, name: 'About' }, { timeout: 3000 })
+  const layer = document.querySelector('.boot-layer')
+  if (layer) {
+    expect(layer.hasAttribute('inert')).toBe(true)
+    expect(layer.getAttribute('aria-hidden')).toBe('true')
+  }
 })
