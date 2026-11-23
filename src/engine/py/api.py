@@ -30,6 +30,8 @@ def initialize(db_path, names_path, data_version, client_build):
 
     _engine = Engine(data_version)
     _slot_items.cache_clear()
+    market_tree_for_slot.cache_clear()
+    _market_tree_data.cache_clear()
     if _engine.client_build != client_build:
         raise ValueError('Game database client build does not match the asset manifest')
     # Construct the built-in characters once, before the temporary fit transactions.
@@ -213,16 +215,19 @@ def items_for_slot(fit_json, slot, filters=None, options=None):
     market_id = filters.get('marketGroupId')
     meta = filters.get('metaGroup') or filters.get('meta')
     preview = filters.get('preview', True)
-    valid_market_ids = None
-    if market_id is not None:
-        valid_market_ids = {market_id}
+    type_ids = filters.get('typeIds')
+    if type_ids is not None:
+        type_ids = set(type_ids)
+    valid_market_ids = None if market_id is None else {market_id}
+    if market_id is not None and not filters.get('exactMarketGroup'):
         for leaf in {row[5] for row in _slot_items(slot) if row[5] is not None}:
             path = _engine.market_path(leaf)
             if path and any(node['id'] == market_id for node in path['ancestors']):
                 valid_market_ids.add(leaf)
     selected = {
         type_id: leaf for type_id, en, zh, group_id, item_meta, leaf in _slot_items(slot)
-        if (group is None or group == group_id)
+        if (type_ids is None or type_id in type_ids)
+        and (group is None or group == group_id)
         and (valid_market_ids is None or leaf in valid_market_ids)
         and (meta is None or item_meta == meta)
         and (not term or term in en.casefold() or (zh and term in zh.casefold()))
@@ -298,6 +303,67 @@ def market_groups_for_slot(fit_json, slot):
         }
         groups.update(remaining[mod.item.ID] for mod in _slot_modules(remaining, slot) if mod.fits(hull))
     return [_engine.market_path(group_id) for group_id in sorted(groups)]
+
+
+# Rigs and strategic-cruiser subsystems have dedicated market roots outside Ship Equipment.
+_MARKET_ROOTS = {'rig': 1111, 'subsystem': 1112}
+
+
+@lru_cache(maxsize=1)
+def _market_tree_data():
+    from sqlalchemy import text
+
+    with _engine.db.gamedata_engine.connect() as conn:
+        groups = conn.execute(text("""
+            SELECT marketGroupID, parentGroupID, marketGroupName, marketGroupName_zh, iconID
+            FROM invmarketgroups ORDER BY marketGroupID
+        """)).all()
+        # The web asset bundle includes icons used by published items.
+        icons = dict(conn.execute(text("""
+            SELECT typeID, iconID FROM invtypes WHERE published AND iconID > 0
+        """)).all())
+    return groups, icons, set(icons.values())
+
+
+@lru_cache(maxsize=len(SLOT_KINDS))
+def market_tree_for_slot(slot):
+    root_id = _MARKET_ROOTS.get(slot, 9)
+    groups, item_icons, bundled_icons = _market_tree_data()
+    children_by_parent = {}
+    for row in groups:
+        children_by_parent.setdefault(row[1], []).append(row)
+
+    types_by_group = {}
+    for type_id, _, _, _, _, market_id in _slot_items(slot):
+        if market_id is not None:
+            types_by_group.setdefault(market_id, set()).add(type_id)
+
+    def children(group_id):
+        return sorted(
+            (node for row in children_by_parent.get(group_id, ()) if (node := visit(row))),
+            key=lambda node: (-node['count'], node['id']),
+        )
+
+    def visit(row):
+        group_id, _, en, zh, icon = row
+        nested = children(group_id)
+        direct = types_by_group.get(group_id, ())
+        count = len(direct) + sum(node['count'] for node in nested)
+        if not count:
+            return None
+        node = {'id': group_id, 'name': {'en': en, 'zh': zh or en}, 'iconId': icon,
+                'count': count, 'directCount': len(direct), 'children': nested}
+        if icon not in bundled_icons:
+            representative = next((item_icons[i] for i in sorted(direct) if i in item_icons), None)
+            if representative is None:
+                representative = next((child.get('displayIconId', child['iconId']) for child in nested
+                                       if child.get('displayIconId', child['iconId']) in bundled_icons), None)
+            if representative is not None:
+                node['displayIconId'] = representative
+        return node
+
+    categories = children(root_id)
+    return {'rootId': root_id, 'total': sum(node['count'] for node in categories), 'groups': categories}
 
 
 def get_data_version():

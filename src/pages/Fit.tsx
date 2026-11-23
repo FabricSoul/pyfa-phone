@@ -6,6 +6,7 @@ import { NavBar } from '../ui/NavBar'
 import { ResourceBar } from '../ui/ResourceGauge'
 import { Tabs } from '../ui/Tabs'
 import { ModuleRow } from '../ui/ModuleRow'
+import { Icon } from '../ui/icons'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
 import { calcOptions, updateSettings, useSettings } from '../settings/settings'
 import { ActionSheet } from '../ui/ActionSheet'
@@ -106,8 +107,15 @@ export function Fit() {
     navigate(`${path}/add/${slot}?index=${index}`)
   }
 
+  const hotSlots = SLOT_KINDS.filter((slot) =>
+    result?.slots[slot].some((entry) => entry.kind === 'module' && entry.state === 'overheated'))
+  const heatedDps = result && hotSlots.length > 0 ? `${_t('DPS')} ${fmt(result.stats.firepower.dps)}` : undefined
+  const subtitle = [shipName && lname(shipName, language), heatedDps,
+    ...hotSlots.map((slot) => _t('{slot} overheated').replace('{slot}', slotName(slot))),
+  ].filter(Boolean).join(' · ')
+
   return <main>
-    <NavBar title={fit.name} subtitle={shipName && lname(shipName, language)} shipSrc={renderUrl(result?.ship.graphicId ?? null)}
+    <NavBar title={fit.name} subtitle={subtitle} shipSrc={renderUrl(result?.ship.graphicId ?? null)}
       canUndo={canUndo} onBack={() => { try { sessionStorage.removeItem(scrollKey(record.id)) } catch { /* optional */ } scrollY.current = 0; navigate('/') }} onUndo={undo} onMore={() => setMenu(true)} />
     {store.isTemporary(record.id) && <p className="page-message">{_t('Unsaved preview')}</p>}
     {result && <ResourceBar {...result.resources} />}
@@ -126,16 +134,26 @@ export function Fit() {
       const { total, used } = result.resources.slots[slot]
       const slotItems = fit.modules[slot]
       if (!total && !used && !slotItems.some(Boolean)) return null
+      const heatable = result.slots[slot].flatMap((entry) => entry.kind === 'module' && entry.supportedStates?.includes('overheated')
+        ? entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId) : [])
+      const heated = heatable.length > 0 && heatable.every((index) => slotItems[index]?.state === 'overheated')
       const extra = slot === 'high' ? <>
         {_t('Turrets')} {fmt(result.resources.turretHardpoints.used)}/{fmt(result.resources.turretHardpoints.total)} · {' '}
         {_t('Launchers')} {fmt(result.resources.launcherHardpoints.used)}/{fmt(result.resources.launcherHardpoints.total)}
       </> : undefined
-      return <FitSection key={slot} title={slotName(slot)} info={<>
-        {extra && <span className="fit-slot-detail">{extra} · </span>}
-        <span className={used > total || slot === 'rig' && result.resources.calibration.used > result.resources.calibration.total ? 'warn' : undefined}>
-          {fmt(used)}/{fmt(total)}
+      return <FitSection key={slot} title={slotName(slot)} info={<span className="fit-rack-info">
+        <span>
+          {extra && <span className="fit-slot-detail">{extra} · </span>}
+          <span className={used > total || slot === 'rig' && result.resources.calibration.used > result.resources.calibration.total ? 'warn' : undefined}>
+            {fmt(used)}/{fmt(total)}
+          </span>
         </span>
-      </>}>
+        <button className="rack-heat" type="button" role="switch" aria-checked={heated} disabled={!heatable.length}
+          onClick={() => edit((fit) => withModules(fit, slot, heatable, (module) =>
+            module && { ...module, state: heated ? 'active' : 'overheated' }))}>
+          <Icon name="flame" /> {_t('Overheat rack')}
+        </button>
+      </span>}>
         <div className="list">
           {result.slots[slot].map((entry) => {
             if (entry.kind === 'module') {

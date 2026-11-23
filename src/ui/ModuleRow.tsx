@@ -1,27 +1,24 @@
 import './ui.css'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import type { ModuleState, SlotRow } from '../engine/types'
 import { _t } from '../i18n/t'
 import { Icon, type IconName } from './icons'
 import { iconUrl, lname, useNameLanguage } from './format'
 import { ItemIcon } from './ItemIcon'
 
-const ICON: Record<ModuleState, IconName> = { offline: 'power-off', online: 'power', active: 'zap', overheated: 'flame' }
+export const MODULE_STATE_ICONS: Record<ModuleState, IconName> = { offline: 'power-off', online: 'power', active: 'zap', overheated: 'flame' }
 const LONG_PRESS_MS = 500
+const PRESS_SLOP = 24
 const SWIPE_OPEN = -144
 
 const ALL_STATES: ModuleState[] = ['offline', 'online', 'active', 'overheated']
 
-/** Tap order over the states the engine offers for this module (overheated is long-press only):
- *  forward through them; after the last one go back to online when there are three or more
- *  (offline stays reachable by swipe), else to the first. */
+/** Walk the available normal states in order. Overheat is a separate gesture. */
 export function nextState(state: ModuleState, available: ModuleState[]): ModuleState {
-  const cycle: ModuleState[] = available.filter((s) => s !== 'overheated')
+  const cycle = available.filter((candidate) => candidate !== 'overheated')
   if (cycle.length === 0) return state
-  const i = cycle.indexOf(state)
-  if (i === -1) return cycle.includes('online') ? 'online' : cycle[0]!
-  if (i < cycle.length - 1) return cycle[i + 1]!
-  return cycle.length >= 3 ? cycle[1]! : cycle[0]!
+  if (state === 'overheated') return cycle.includes('online') ? 'online' : cycle[0]!
+  return cycle[(cycle.indexOf(state) + 1) % cycle.length]!
 }
 
 export function ModuleRow({ row, availableStates: provided, selected, pressed, onStateChange, onTap, onRemove, onAdd }: {
@@ -39,7 +36,9 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
   // The engine reports which states a module supports; an explicit prop wins, ALL_STATES is the fallback.
   const availableStates = provided ?? (row.kind === 'module' ? row.supportedStates : undefined) ?? ALL_STATES
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-  const longPressed = useRef(false)
+  const press = useRef<{ x: number; y: number } | null>(null)
+  const suppressClick = useRef(false)
+  useEffect(() => () => clearTimeout(timer.current), [])
   const drag = useRef<{ x: number; base: number } | null>(null)
   const [dx, setDx] = useState(0)
   const [dragging, setDragging] = useState(false)
@@ -65,13 +64,29 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
     )
   }
 
-  const startPress = () => {
-    longPressed.current = false
-    if (!availableStates.includes('overheated')) return
+  const canOverheat = availableStates.includes('overheated')
+  const endPress = () => {
     clearTimeout(timer.current)
-    timer.current = setTimeout(() => { longPressed.current = true; onStateChange?.('overheated') }, LONG_PRESS_MS)
+    press.current = null
   }
-  const endPress = () => clearTimeout(timer.current)
+  const startPress = (event: PointerEvent<HTMLButtonElement>) => {
+    event.stopPropagation()
+    if (event.button > 0 || event.isPrimary === false) return
+    suppressClick.current = false
+    if (!canOverheat) return
+    endPress()
+    press.current = { x: event.clientX, y: event.clientY }
+    timer.current = setTimeout(() => {
+      suppressClick.current = true
+      onStateChange?.('overheated')
+    }, LONG_PRESS_MS)
+  }
+  const movePress = (event: PointerEvent<HTMLButtonElement>) => {
+    if (press.current && Math.hypot(event.clientX - press.current.x, event.clientY - press.current.y) > PRESS_SLOP) {
+      suppressClick.current = true
+      endPress()
+    }
+  }
 
   const onPointerDown = (e: React.PointerEvent) => { drag.current = { x: e.clientX, base: dx }; setDragging(false) }
   const onPointerMove = (e: React.PointerEvent) => {
@@ -96,7 +111,7 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
   if (dragging) cls.push('dragging')
   const stateLabel = row.state === 'offline' ? _t('Offline') : row.state === 'online' ? _t('Online') : row.state === 'active' ? _t('Active') : _t('Overheated')
 
-  const label = availableStates.includes('overheated') ? `${stateLabel} · ${_t('Long press to overheat')}` : stateLabel
+  const label = canOverheat ? `${stateLabel} · ${_t('Long press to overheat')}` : stateLabel
   const open = dx !== 0
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowLeft') setDx(SWIPE_OPEN)
@@ -129,14 +144,17 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
           </span>
         </button>
         {row.count > 1 && <span className="cnt num">×{row.count}</span>}
-        <button type="button" data-testid="state-button" data-state={row.state} className="sb" aria-label={label}
-          onPointerDown={(e) => { e.stopPropagation(); startPress() }} onPointerUp={endPress} onPointerLeave={endPress} onPointerCancel={endPress}
+        <button type="button" data-testid="state-button" data-state={row.state} className="sb" aria-label={label} data-long-press={canOverheat || undefined}
+          onPointerDown={startPress} onPointerMove={movePress} onPointerUp={endPress}
+          onPointerLeave={endPress} onPointerCancel={endPress}
+          onContextMenu={canOverheat ? (event) => event.preventDefault() : undefined}
+          onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') suppressClick.current = false }}
           onClick={(e) => {
             e.stopPropagation()
-            if (longPressed.current) { longPressed.current = false; return }
+            if (suppressClick.current) { suppressClick.current = false; return }
             onStateChange?.(nextState(row.state, availableStates))
           }}>
-          <span className="sbi"><Icon name={ICON[row.state]} /></span>
+          <span className="sbi"><Icon name={MODULE_STATE_ICONS[row.state]} /></span>
         </button>
       </div>
     </div>

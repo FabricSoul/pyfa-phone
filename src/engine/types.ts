@@ -304,8 +304,26 @@ export const MarketGroupSchema = z.object({
 })
 export type MarketGroup = z.infer<typeof MarketGroupSchema>
 
+export interface MarketTreeNode {
+  id: number
+  name: LName
+  iconId: number | null
+  displayIconId?: number
+  count: number
+  directCount: number
+  children: MarketTreeNode[]
+}
+
+export interface SlotMarketTree {
+  rootId: number
+  total: number
+  groups: MarketTreeNode[]
+}
+
 export interface SlotItemsOptions {
   marketGroupId?: number
+  exactMarketGroup?: boolean
+  typeIds?: number[]
   meta?: MetaGroup
   /** Skip eos insertion/recalculation during the initial list request. */
   preview?: boolean
@@ -405,6 +423,7 @@ export interface EngineClient {
   itemsForSlot(fit: FitDoc, slot: SlotKind, filters?: SlotItemFilters | string, options?: SlotItemsOptions): Promise<ItemGroup[]>
   /** Lightweight market navigation for eligible modules, with no insertion previews. */
   marketGroupsForSlot?(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
+  marketTreeForSlot?(slot: SlotKind): Promise<SlotMarketTree>
   chargesFor(fit: FitDoc, pos: ModulePos, metaGroup?: MetaGroup, options?: CalcOptions): Promise<ChargeGroup[]>
   variationsOf(typeId: number): Promise<ItemGroup[]>
   importText(text: string): Promise<ImportResult>

@@ -49,6 +49,31 @@ def content_snapshot(doc):
             'cargo': cargo, 'implants': implants, 'boosters': boosters, 'fills': fills}
 
 
+def rifter_ui_snapshot(doc, result):
+    tree = api.market_tree_for_slot('low')
+    assert tree['total'] == 999, tree
+    assert {node['name']['zh']: node['count'] for node in tree['groups']} == {
+        '船体和装甲': 717, '炮台和发射器': 97, '工程装备': 78, '推进器': 30,
+        '电子学和感应器升级': 26, '无人机升级模块': 21, '护盾': 12, '采集设备': 12, '电子战': 6,
+    }, tree
+    armor = next(node for node in tree['groups'] if node['id'] == 14)
+    plates = next(node for node in armor['children'] if node['id'] == 133)
+    assert armor['iconId'] == 68 and plates['name']['en'] == 'Armor Plates'
+    assert api.market_tree_for_slot('rig')['total'] > 0
+
+    positions = {index for row in result['slots']['high']
+                 if row['kind'] == 'module' and 'overheated' in row['supportedStates']
+                 for index in row['positions']}
+    heated = {**doc, 'modules': {**doc['modules'], 'high': [
+        {**module, 'state': 'overheated'} if index in positions else module
+        for index, module in enumerate(doc['modules']['high'])
+    ]}}
+    firepower = api.calc(heated)['stats']['firepower']
+    assert round(firepower['dps'], 1) == 208.1, firepower
+    assert round(firepower['volley'], 1) == 286.9, firepower
+    return {'marketTree': tree, 'overheatedFirepower': firepower}
+
+
 def snapshot(doc):
     result = api.calc(doc)
     assert result['ship']['group']['en']
@@ -122,6 +147,7 @@ def snapshot(doc):
     return {
         **({'content': content_snapshot(doc)} if doc['shipTypeId'] == 587 else {}),
         'calc': result, 'marketGroupsForSlot': market, 'itemInfo': item,
+        **(rifter_ui_snapshot(doc, result) if doc['shipTypeId'] == 587 else {}),
         'getDataVersion': api.get_data_version(), 'itemsForSlot': items, 'chargesFor': charges,
         'exports': exports, 'chineseEft': chinese, 'variations': variations, 'missingSkills': missing,
     }

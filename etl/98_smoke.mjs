@@ -1,6 +1,7 @@
 // Run after building dist and stamping dist/sw.js.
 import assert from 'node:assert/strict'
-import { existsSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
+import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { chromium } from 'playwright-core'
 import { preview } from 'vite'
@@ -36,6 +37,9 @@ try {
     if (message.type() === 'error') browserErrors.push(message.text())
   })
   page.setDefaultTimeout(Number(process.env.SMOKE_TIMEOUT_MS ?? 90000))
+  const shotDir = process.env.UI2B_SCREENSHOT_DIR
+  if (shotDir) mkdirSync(shotDir, { recursive: true })
+  const screenshot = (name) => shotDir && page.screenshot({ path: join(shotDir, `${name}.png`) })
   const dps = page.locator('.hero > div').filter({ hasText: /^总 DPS/ }).locator('b')
   const fitRow = (name) => page.getByTestId('fit-row').filter({ hasText: name })
   const readDps = async () => Number((await dps.innerText()).replaceAll(',', ''))
@@ -168,6 +172,93 @@ try {
   assert.ok(after > 0 && after !== before, `DPS must change after replacing ammo: ${before} → ${after}`)
   console.log(`Chinese EFT and ammo swap passed: DPS ${before} → ${after}`)
 
+  step = 'overheat a module using a real touch hold with vertical drift'
+  const cdp = await context.newCDPSession(page)
+  const rack = (name) => page.locator('section').filter({ has: page.getByRole('heading', { name, exact: true }) })
+  await page.getByRole('button', { name: '返回', exact: true }).click()
+  await fitRow('裂谷级 · 示例').click()
+  // The earlier reload test changes a global preference. The Rifter reference uses the pyfa default.
+  await page.getByRole('tab', { name: '属性', exact: true }).click()
+  const reloadOption = page.getByRole('button', { name: '考虑换弹时间', exact: true })
+  const hadReload = await reloadOption.getAttribute('aria-pressed') === 'true'
+  if (hadReload) await reloadOption.tap()
+  await dps.filter({ hasText: /^180\.9$/ }).waitFor()
+  await page.getByRole('tab', { name: '槽位', exact: true }).tap()
+  const high = rack('高槽')
+  const stateButton = high.getByTestId('state-button').first()
+  await stateButton.scrollIntoViewIfNeeded()
+  await page.evaluate(() => {
+    window.__heatPointerCancels = 0
+    document.addEventListener('pointercancel', (event) => {
+      if (event.target.closest('[data-testid="state-button"]')) window.__heatPointerCancels++
+    }, true)
+  })
+  const bounds = await stateButton.boundingBox()
+  assert.ok(bounds)
+  const x = Math.round(bounds.x + bounds.width / 2)
+  const y = Math.round(bounds.y + bounds.height / 2)
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] })
+  await page.waitForTimeout(100)
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + 18 }] })
+  await page.waitForTimeout(650)
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+  assert.equal(await page.evaluate(() => window.__heatPointerCancels), 0,
+    'Vertical drift must not give the state-key press to the browser scroll gesture')
+  await high.locator('[data-testid="state-button"][data-state="overheated"]').first().waitFor()
+  console.log('Touch hold with vertical drift overheats the weapon')
+
+  step = 'show the module sheet overheat delta and read the Rifter rack DPS and volley'
+  const heatRack = high.getByRole('switch', { name: '整排超载' })
+  await heatRack.tap()
+  await high.locator('[data-state="active"]').first().waitFor()
+  await high.getByRole('button', { name: /^200mm自动加农炮 II/ }).tap()
+  await sheet.getByRole('radio', { name: '超载', exact: true }).tap()
+  await sheet.getByText(/180\.9 → 208\.1/).waitFor()
+  await sheet.getByText(/249\.5 → 286\.9/).waitFor()
+  await screenshot('oh-b-module-state')
+  await sheet.getByRole('radio', { name: '激活', exact: true }).tap()
+  await sheet.getByText(/208\.1 → 180\.9/).waitFor()
+  await page.keyboard.press('Escape')
+  assert.equal(await heatRack.getAttribute('aria-checked'), 'false')
+  await heatRack.tap()
+  await page.getByText(/秒伤 208\.1.*高槽超载/).waitFor()
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await screenshot('oh-a-rack-overheat')
+  await page.getByRole('tab', { name: '属性', exact: true }).click()
+  await dps.filter({ hasText: /^208\.1$/ }).waitFor()
+  assert.equal(await readDps(), 208.1)
+  await page.getByText('286.9', { exact: true }).first().waitFor()
+  console.log('Rifter rack overheat passed: DPS 208.1, volley 286.9')
+  await page.getByRole('tab', { name: '槽位', exact: true }).click()
+  await heatRack.tap()
+  await high.locator('[data-state="active"]').first().waitFor()
+
+  step = 'open the Rifter low slot market tree and expand Armor Plates'
+  const rifterLow = rack('低槽').getByRole('button', { name: /空槽/ })
+  await rifterLow.tap()
+  const market = page.getByRole('region', { name: '按市场分类' })
+  const armor = market.getByRole('button', { name: /^船体和装甲 717$/ })
+  await armor.waitFor()
+  assert.equal(await page.getByRole('searchbox').getAttribute('placeholder'), '搜索全部 999 种低槽装备')
+  assert.equal(await page.locator('.fit-chips[aria-label]').count(), 0, 'Market groups must not use a horizontal tab row')
+  assert.equal(await page.getByRole('combobox').count(), 0)
+  assert.equal(await armor.getAttribute('aria-expanded'), 'false')
+  await armor.tap()
+  const plates = market.getByRole('button', { name: /^装甲附甲板 [0-9]/ })
+  await plates.tap()
+  await market.getByRole('button', { name: /^二级.*[0-9]/ }).tap()
+  await market.locator('button.candidate').first().waitFor()
+  await market.getByText('正在试装…', { exact: true }).waitFor({ state: 'hidden' })
+  assert.equal(await market.getByText('无法检查装配资源', { exact: true }).count(), 0)
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await screenshot('add-a-market-tree')
+  console.log('Rifter low slot market tree passed: 999 modules, Hull & Armor → Armor Plates')
+  await page.getByRole('link', { name: '返回', exact: true }).click()
+  if (hadReload) {
+    await page.getByRole('tab', { name: '属性', exact: true }).tap()
+    await reloadOption.tap()
+  }
+
   step = 'verify independent item-name language'
   await page.getByRole('button', { name: '返回', exact: true }).click()
   await page.getByRole('link', { name: '设置', exact: true }).click()
@@ -192,7 +283,6 @@ try {
   await context.setOffline(false)
 
   step = 'measure Rifter low-slot browser performance at 4× CPU throttling'
-  const cdp = await context.newCDPSession(page)
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 })
   await page.getByRole('button', { name: '返回', exact: true }).click()
   await page.getByRole('button', { name: '新建', exact: true }).click()
@@ -200,14 +290,16 @@ try {
   await page.getByRole('button', { name: 'Rifter', exact: true }).click()
   const add = page.locator('section').filter({ has: page.getByRole('heading', { name: '低槽', exact: true }) })
     .getByRole('button', { name: /空槽/ })
+  await page.evaluate(() => sessionStorage.removeItem('pyfa.addModule.market.low'))
   const entering = performance.now()
   await add.click()
-  await page.locator('.candidate').first().waitFor()
-  const collapsed = page.locator('button.mh[aria-expanded="false"]').first()
-  const label = await collapsed.locator('.tag').innerText()
-  const group = page.locator('button.mh').filter({ has: page.getByText(label, { exact: true }) }).first()
+  await page.locator('.market-tree .market-category > button').first().waitFor()
   const listed = ms(entering)
+  // Category names follow the item-name language, which was switched to English above.
   const expanding = performance.now()
+  await page.getByRole('button', { name: /^Hull & Armor/ }).click()
+  await page.getByRole('button', { name: /^Armor Plates/ }).click()
+  const group = page.getByRole('button', { name: /^二级.*[0-9]/ }).first()
   await group.click()
   const expanded = group.locator('..')
   await expanded.locator('.candidate').first().waitFor()

@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MODULE_STATES, type FitDoc, type ChargeGroup, type ModulePos, type ModuleSlotRow, type ModuleState } from '../engine/types'
+import { MODULE_STATES, type FitDoc, type ChargeGroup, type ModulePos, type ModuleSlotRow, type ModuleState, type CalcResult } from '../engine/types'
 import { _t } from '../i18n/t'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { AmmoList } from '../ui/AmmoList'
 import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { ItemIcon } from '../ui/ItemIcon'
 import { Segmented } from '../ui/Segmented'
+import { Icon } from '../ui/icons'
+import { MODULE_STATE_ICONS } from '../ui/ModuleRow'
 import { positionKey, useFitServices, useFitSession, useRemoveModules, withModules } from './fitSession'
 
 function stateName(state: ModuleState) {
@@ -16,6 +18,19 @@ function stateName(state: ModuleState) {
     case 'active': return _t('Active')
     case 'overheated': return _t('Overheated')
   }
+}
+
+function stateMetrics({ stats }: CalcResult) {
+  return [
+    { label: _t('DPS'), value: stats.firepower.dps },
+    { label: _t('Volley'), value: stats.firepower.volley },
+    { label: _t('Max velocity'), value: stats.navigation.maxVelocity },
+    { label: _t('EHP'), value: stats.defense.ehp },
+    { label: _t('Shield'), value: stats.repair.raw.reinforced.passiveShield + stats.repair.raw.reinforced.shield + stats.remoteRepair.shield },
+    { label: _t('Armor'), value: stats.repair.raw.reinforced.armor + stats.remoteRepair.armor },
+    { label: _t('Hull'), value: stats.repair.raw.reinforced.hull + stats.remoteRepair.hull },
+    { label: _t('Capacitor'), value: stats.capacitor.delta },
+  ]
 }
 
 export function ModuleSheet({ selected, row, onClose }: { selected?: ModulePos; row?: ModuleSlotRow; onClose: () => void }) {
@@ -35,6 +50,9 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   const removeModules = useRemoveModules()
   const [ammo, setAmmo] = useState<{ fit: FitDoc; index: number; groups: ChargeGroup[] }>()
   const [error, setError] = useState(false)
+  const [stateChange, setStateChange] = useState<{
+    before: CalcResult; fit: FitDoc; source: number; typeId: number; state: ModuleState; keyLine: string
+  }>()
   const [individual, setIndividual] = useState<{ positions: number[]; index: number }>()
   const { slot, index } = selected
   const positions = individual ? [individual.index] : row.positions
@@ -45,7 +63,17 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   const path = `/fit/${record.id}`
   const spoolCycles = current?.spoolCycles
   const maxSpoolCycles = row.maxSpoolCycles
-  const states = row.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] as const : MODULE_STATES)
+  const states = MODULE_STATES.filter((state) => row.supportedStates?.includes(state) ?? (
+    state === 'offline' || state === 'online' || state === row.state))
+  const showDelta = stateChange && stateChange.fit === fit && stateChange.source === source &&
+    stateChange.typeId === typeId && current?.state === stateChange.state &&
+    result && result !== stateChange.before && row.state === stateChange.state
+  const priorMetrics = showDelta ? stateMetrics(stateChange.before) : []
+  const delta = showDelta ? stateMetrics(result).flatMap(({ label, value }, index) => {
+    const before = fmt(priorMetrics[index]!.value)
+    const after = fmt(value)
+    return before === after ? [] : [{ label, before, after }]
+  }).slice(0, 2) : []
 
   const slotCount = result?.resources.slots[slot].total ?? 0
   const hasRoom = Array.from({ length: slotCount }, (_, index) => index).some((index) => !fit.modules[slot][index])
@@ -105,8 +133,23 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
         {_t('Slot {n}').replace('{n}', String(position + 1))}
       </button>)}
     </div>}
-    {current && <Segmented small value={row.adjustment ? row.state : current.state} options={states.map((value) => ({ value, label: stateName(value) }))}
-      onChange={(state) => edit((fit) => withModules(fit, slot, positions, (mod) => mod && { ...mod, state }))} />}
+    {current && <div className="module-states">
+      <Segmented small value={row.adjustment ? row.state : current.state}
+        options={states.map((value) => ({ value, label: <span data-state={value}>
+          <Icon name={MODULE_STATE_ICONS[value]} /> {stateName(value)}
+        </span> }))}
+        onChange={(state) => {
+          if (state === current.state) return
+          const next = withModules(fit, slot, positions, (mod) => mod && { ...mod, state })
+          if (result) setStateChange({ before: result, fit: next, typeId: current.typeId, source, state, keyLine: row.keyLine })
+          edit((currentFit) => currentFit === fit ? next : currentFit)
+        }} />
+      {showDelta && <div className="module-state-delta" aria-live="polite">
+        {delta.map(({ label, before, after }) => <span key={label}>{label} <b className="num">{before} → {after}</b></span>)}
+        {delta.length === 0 && row.keyLine !== stateChange.keyLine && row.keyLine &&
+          <span className="num">{stateChange.keyLine ? `${stateChange.keyLine} → ` : ''}{row.keyLine}</span>}
+      </div>}
+    </div>}
     {maxSpoolCycles !== undefined && current && <label className="fit-preheat">
       <span>{_t('Preheat cycles')}</span>
       <input className="fit-input num" type="number" min={0} max={maxSpoolCycles} step={1}

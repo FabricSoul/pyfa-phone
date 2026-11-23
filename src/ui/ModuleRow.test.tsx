@@ -21,7 +21,7 @@ describe('ModuleRow', () => {
     expect(screen.getByText(merged.keyParts[0]!).tagName).toBe('B')
   })
 
-  it('cycles the state offline → online → active → online on tap', () => {
+  it('cycles the state offline → online → active → offline on tap', () => {
     const seen: ModuleState[] = []
     function Harness() {
       const [state, setState] = useState<ModuleState>('offline')
@@ -29,7 +29,7 @@ describe('ModuleRow', () => {
     }
     render(<Harness />)
     for (let i = 0; i < 3; i++) fireEvent.click(screen.getByTestId('state-button'))
-    expect(seen).toEqual(['online', 'active', 'online'])
+    expect(seen).toEqual(['online', 'active', 'offline'])
   })
 
   it('passive modules only toggle online/offline', () => {
@@ -78,7 +78,7 @@ describe('ModuleRow', () => {
     seen.length = 0
     render(<Harness states={['offline', 'online', 'active']} />)
     for (let i = 0; i < 4; i++) fireEvent.click(screen.getByTestId('state-button'))
-    expect(seen).toEqual(['online', 'active', 'online', 'active'])
+    expect(seen).toEqual(['online', 'active', 'offline', 'online'])
   })
 
   it('long press only picks overheated when the engine offers it', () => {

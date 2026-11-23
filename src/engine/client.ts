@@ -11,6 +11,7 @@ import {
 
 export interface WorkerEngineClient extends EngineClient {
   marketGroupsForSlot(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
+  marketTreeForSlot: NonNullable<EngineClient['marketTreeForSlot']>
   shipCatalog: NonNullable<EngineClient['shipCatalog']>
   itemsForExtra: NonNullable<EngineClient['itemsForExtra']>
   fillEmptySlots: NonNullable<EngineClient['fillEmptySlots']>
@@ -55,6 +56,7 @@ export async function createEngine(report?: ReportStage): Promise<WorkerEngineCl
     itemInfo: (typeId, fit, pos, options) =>
       remote.itemInfo(typeId, fit, pos, fit && { ...calcOptions(), ...options }),
     getDataVersion: () => remote.getDataVersion(),
+    marketTreeForSlot: (slot) => remote.marketTreeForSlot(slot),
     marketGroupsForSlot: (...args) => remote.marketGroupsForSlot(...args),
     itemsForSlot: (fit, slot, filters, options) =>
       remote.itemsForSlot(fit, slot, filters, { calcOptions: calcOptions(), ...options }),

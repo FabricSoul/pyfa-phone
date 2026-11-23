@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 23:19-0500\n"
+"POT-Creation-Date: 2026-11-22 23:44-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Activate {item}"
 msgstr ""
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:74 src/pages/FitExtras.tsx:85 src/pages/ModuleSheet.tsx:16 src/ui/ModuleRow.tsx:97
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:74 src/pages/FitExtras.tsx:85 src/pages/ModuleSheet.tsx:18 src/ui/ModuleRow.tsx:112
 msgid "Active"
 msgstr ""
 
@@ -68,7 +68,7 @@ msgstr ""
 msgid "Add fighter"
 msgstr ""
 
-#: src/pages/AddModule.tsx:40
+#: src/pages/AddModule.tsx:43
 msgid "Add high slot module"
 msgstr ""
 
@@ -76,11 +76,11 @@ msgstr ""
 msgid "Add implant"
 msgstr ""
 
-#: src/pages/AddModule.tsx:42
+#: src/pages/AddModule.tsx:45
 msgid "Add low slot module"
 msgstr ""
 
-#: src/pages/AddModule.tsx:41
+#: src/pages/AddModule.tsx:44
 msgid "Add mid slot module"
 msgstr ""
 
@@ -88,11 +88,11 @@ msgstr ""
 msgid "Add notes"
 msgstr ""
 
-#: src/pages/AddModule.tsx:43
+#: src/pages/AddModule.tsx:46
 msgid "Add rig"
 msgstr ""
 
-#: src/pages/AddModule.tsx:44
+#: src/pages/AddModule.tsx:47
 msgid "Add subsystem"
 msgstr ""
 
@@ -104,7 +104,7 @@ msgstr ""
 msgid "Affects effective HP · built into pyfa"
 msgstr ""
 
-#: src/pages/AddModule.tsx:302
+#: src/pages/AddModule.tsx:303
 msgid "After fitting: {resources}"
 msgstr ""
 
@@ -112,11 +112,11 @@ msgstr ""
 msgid "Align time"
 msgstr ""
 
-#: src/pages/Fit.tsx:202 src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Fit.tsx:220 src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr ""
 
-#: src/pages/Fit.tsx:202 src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Fit.tsx:220 src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr ""
 
@@ -136,10 +136,6 @@ msgstr ""
 msgid "All skills level 5 · Security status 5.0"
 msgstr ""
 
-#: src/pages/AddModule.tsx:207
-msgid "All technology levels"
-msgstr ""
-
 #: src/pages/ShipBrowser.tsx:17
 msgid "Amarr"
 msgstr ""
@@ -148,13 +144,13 @@ msgstr ""
 msgid "Appearance & language"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:125
+#: src/pages/ModuleSheet.tsx:168
 msgid "Applies to {n} module"
 msgid_plural "Applies to {n} modules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/ui/StatsPage.tsx:82 src/ui/StatsPage.tsx:135 src/ui/StatsPage.tsx:144
+#: src/pages/ModuleSheet.tsx:30 src/ui/StatsPage.tsx:82 src/ui/StatsPage.tsx:135 src/ui/StatsPage.tsx:144
 msgid "Armor"
 msgstr ""
 
@@ -170,7 +166,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/pages/Fit.tsx:177 src/pages/fitSession.tsx:203 src/pages/shared.tsx:82
+#: src/pages/Fit.tsx:195 src/pages/fitSession.tsx:203 src/pages/shared.tsx:82
 msgid "Back to fittings"
 msgstr ""
 
@@ -194,19 +190,19 @@ msgstr ""
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
-#: src/pages/Fit.tsx:245 src/pages/FitExtras.tsx:33
+#: src/pages/Fit.tsx:263 src/pages/FitExtras.tsx:33
 msgid "Boosters"
 msgstr ""
 
-#: src/pages/AddModule.tsx:224
-msgid "Browse all market groups"
+#: src/pages/AddModule.tsx:178 src/pages/AddModule.tsx:179
+msgid "Browse by market category"
 msgstr ""
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:166 src/pages/AddModule.tsx:270 src/pages/AddModule.tsx:298 src/pages/Import.tsx:122 src/pages/ModuleSheet.tsx:98 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:122 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
 msgid "CPU"
 msgstr ""
 
-#: src/pages/Fit.tsx:123
+#: src/pages/Fit.tsx:131
 msgid "Calculating fit…"
 msgstr ""
 
@@ -226,7 +222,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:146 src/ui/StatsPage.tsx:150
+#: src/pages/ModuleSheet.tsx:32 src/ui/StatsPage.tsx:146 src/ui/StatsPage.tsx:150
 msgid "Capacitor"
 msgstr ""
 
@@ -234,7 +230,7 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/Fit.tsx:243 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:261 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
@@ -242,11 +238,11 @@ msgstr ""
 msgid "Cargo bay"
 msgstr ""
 
-#: src/pages/Fit.tsx:202 src/pages/Fit.tsx:213 src/pages/Settings.tsx:28 src/pages/Settings.tsx:220 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Fit.tsx:220 src/pages/Fit.tsx:231 src/pages/Settings.tsx:28 src/pages/Settings.tsx:220 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:124
+#: src/pages/ModuleSheet.tsx:167
 msgid "Charges"
 msgstr ""
 
@@ -254,12 +250,8 @@ msgstr ""
 msgid "Check the link or go back to the fittings list."
 msgstr ""
 
-#: src/pages/AddModule.tsx:259
+#: src/pages/AddModule.tsx:260
 msgid "Checking fit…"
-msgstr ""
-
-#: src/pages/AddModule.tsx:201
-msgid "Compatible modules"
 msgstr ""
 
 #: src/pages/Settings.tsx:232
@@ -290,7 +282,7 @@ msgstr ""
 msgid "Copy of {name}"
 msgstr ""
 
-#: src/pages/AddModule.tsx:260
+#: src/pages/AddModule.tsx:261
 msgid "Could not check fitting resources"
 msgstr ""
 
@@ -298,11 +290,11 @@ msgstr ""
 msgid "Could not complete action"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:147
+#: src/pages/ModuleSheet.tsx:190
 msgid "Could not fill empty slots"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:122
+#: src/pages/ModuleSheet.tsx:165
 msgid "Could not load charges"
 msgstr ""
 
@@ -318,7 +310,7 @@ msgstr ""
 msgid "Could not load items"
 msgstr ""
 
-#: src/pages/AddModule.tsx:172
+#: src/pages/AddModule.tsx:163 src/pages/AddModule.tsx:219
 msgid "Could not load modules"
 msgstr ""
 
@@ -338,7 +330,7 @@ msgstr ""
 msgid "Could not read this fit text"
 msgstr ""
 
-#: src/pages/Fit.tsx:172 src/pages/fitSession.tsx:197
+#: src/pages/Fit.tsx:190 src/pages/fitSession.tsx:197
 msgid "Could not recalculate fit"
 msgstr ""
 
@@ -366,7 +358,7 @@ msgstr ""
 msgid "Custom profiles are not in the first version."
 msgstr ""
 
-#: src/pages/Import.tsx:117 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
+#: src/pages/Fit.tsx:112 src/pages/Import.tsx:117 src/pages/ModuleSheet.tsx:25 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
 msgid "DPS"
 msgstr ""
 
@@ -374,7 +366,7 @@ msgstr ""
 msgid "Damage over distance"
 msgstr ""
 
-#: src/pages/Fit.tsx:270 src/pages/Settings.tsx:29 src/pages/Settings.tsx:222 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Fit.tsx:288 src/pages/Settings.tsx:29 src/pages/Settings.tsx:222 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr ""
 
@@ -402,11 +394,11 @@ msgstr ""
 msgid "Decrease {label} for {item}"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:113
+#: src/pages/ModuleSheet.tsx:156
 msgid "Default"
 msgstr ""
 
-#: src/pages/Fit.tsx:252 src/pages/Settings.tsx:236
+#: src/pages/Fit.tsx:270 src/pages/Settings.tsx:236
 msgid "Default preheat"
 msgstr ""
 
@@ -466,7 +458,7 @@ msgstr ""
 msgid "Drone control range"
 msgstr ""
 
-#: src/pages/Fit.tsx:241 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:47
+#: src/pages/Fit.tsx:259 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:47
 msgid "Drones"
 msgstr ""
 
@@ -482,7 +474,7 @@ msgstr ""
 msgid "EDENCOM and Upwell"
 msgstr ""
 
-#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:118 src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:115
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:118 src/pages/ModuleSheet.tsx:28 src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:115
 msgid "EHP"
 msgstr ""
 
@@ -498,7 +490,7 @@ msgstr ""
 msgid "EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf."
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:51
+#: src/ui/ModuleRow.tsx:50
 msgid "Empty slot"
 msgstr ""
 
@@ -514,7 +506,7 @@ msgstr ""
 msgid "Exported fit"
 msgstr ""
 
-#: src/pages/Fit.tsx:115
+#: src/pages/Fit.tsx:123
 msgid "Extras"
 msgstr ""
 
@@ -526,11 +518,11 @@ msgstr ""
 msgid "Factor in Reload Time"
 msgstr ""
 
-#: src/pages/Fit.tsx:242 src/pages/FitExtras.tsx:33
+#: src/pages/Fit.tsx:260 src/pages/FitExtras.tsx:33
 msgid "Fighters"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:144
+#: src/pages/ModuleSheet.tsx:187
 msgid "Fill empty slots of this type"
 msgstr ""
 
@@ -554,7 +546,7 @@ msgstr ""
 msgid "Fit not found"
 msgstr ""
 
-#: src/pages/Fit.tsx:114
+#: src/pages/Fit.tsx:122
 msgid "Fit view"
 msgstr ""
 
@@ -598,7 +590,7 @@ msgstr ""
 msgid "High slots"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:83 src/ui/StatsPage.tsx:136 src/ui/StatsPage.tsx:145
+#: src/pages/ModuleSheet.tsx:31 src/ui/StatsPage.tsx:83 src/ui/StatsPage.tsx:136 src/ui/StatsPage.tsx:145
 msgid "Hull"
 msgstr ""
 
@@ -606,7 +598,7 @@ msgstr ""
 msgid "ISK"
 msgstr ""
 
-#: src/pages/Fit.tsx:244 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:49
+#: src/pages/Fit.tsx:262 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:49
 msgid "Implants"
 msgstr ""
 
@@ -622,7 +614,7 @@ msgstr ""
 msgid "Incoming damage pattern"
 msgstr ""
 
-#: src/pages/AddModule.tsx:283
+#: src/pages/AddModule.tsx:284
 msgid "Incompatible with this ship"
 msgstr ""
 
@@ -642,7 +634,7 @@ msgstr ""
 msgid "Interface language"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:46 src/pages/ModuleSheet.tsx:140
+#: src/pages/ItemInfo.tsx:46 src/pages/ModuleSheet.tsx:183
 msgid "Item information"
 msgstr ""
 
@@ -654,7 +646,7 @@ msgstr ""
 msgid "Item names"
 msgstr ""
 
-#: src/pages/Fit.tsx:120 src/pages/FitExtras.tsx:57 src/ui/ModuleRow.tsx:61 src/ui/ModuleRow.tsx:124
+#: src/pages/Fit.tsx:128 src/pages/FitExtras.tsx:57 src/ui/ModuleRow.tsx:60 src/ui/ModuleRow.tsx:139
 msgid "Item removed"
 msgstr ""
 
@@ -674,7 +666,7 @@ msgstr ""
 msgid "Launcher hardpoints"
 msgstr ""
 
-#: src/pages/Fit.tsx:131
+#: src/pages/Fit.tsx:142
 msgid "Launchers"
 msgstr ""
 
@@ -682,7 +674,7 @@ msgstr ""
 msgid "Light"
 msgstr ""
 
-#: src/pages/Fit.tsx:240
+#: src/pages/Fit.tsx:258
 msgid "Loaded charges"
 msgstr ""
 
@@ -702,7 +694,7 @@ msgstr ""
 msgid "Loading item…"
 msgstr ""
 
-#: src/pages/AddModule.tsx:174
+#: src/pages/AddModule.tsx:164 src/pages/AddModule.tsx:220
 msgid "Loading modules…"
 msgstr ""
 
@@ -714,7 +706,7 @@ msgstr ""
 msgid "Loading variations…"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:99
+#: src/ui/ModuleRow.tsx:114
 msgid "Long press to overheat"
 msgstr ""
 
@@ -734,15 +726,15 @@ msgstr ""
 msgid "Max targets"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:167
+#: src/pages/ModuleSheet.tsx:27 src/ui/StatsPage.tsx:167
 msgid "Max velocity"
 msgstr ""
 
-#: src/pages/AddModule.tsx:282
+#: src/pages/AddModule.tsx:283
 msgid "Maximum for this module group fitted"
 msgstr ""
 
-#: src/pages/AddModule.tsx:281
+#: src/pages/AddModule.tsx:282
 msgid "Maximum of this module fitted"
 msgstr ""
 
@@ -758,23 +750,19 @@ msgstr ""
 msgid "Minmatar"
 msgstr ""
 
-#: src/pages/Fit.tsx:205
+#: src/pages/Fit.tsx:223
 msgid "Missing skills"
 msgstr ""
 
-#: src/dev/Gallery.tsx:109 src/dev/Gallery.tsx:110 src/pages/ModuleSheet.tsx:22
+#: src/dev/Gallery.tsx:109 src/dev/Gallery.tsx:110 src/pages/ModuleSheet.tsx:37
 msgid "Module actions"
-msgstr ""
-
-#: src/pages/AddModule.tsx:186
-msgid "Module groups"
 msgstr ""
 
 #: src/pages/Variations.tsx:63
 msgid "Module not found"
 msgstr ""
 
-#: src/pages/Fit.tsx:239
+#: src/pages/Fit.tsx:257
 msgid "Modules"
 msgstr ""
 
@@ -782,11 +770,11 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:122
+#: src/ui/ModuleRow.tsx:137
 msgid "Needs adjustment: state changed"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:61
+#: src/ui/ModuleRow.tsx:60
 msgid "Needs adjustment: wrong slot"
 msgstr ""
 
@@ -806,7 +794,7 @@ msgstr ""
 msgid "No attributes available"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:147
+#: src/pages/ModuleSheet.tsx:190
 msgid "No compatible empty slots"
 msgstr ""
 
@@ -822,7 +810,7 @@ msgstr ""
 msgid "No drones can be activated with the current fit."
 msgstr ""
 
-#: src/pages/AddModule.tsx:176 src/pages/AddModule.tsx:287
+#: src/pages/AddModule.tsx:165 src/pages/AddModule.tsx:288
 msgid "No empty slot"
 msgstr ""
 
@@ -830,7 +818,7 @@ msgstr ""
 msgid "No fits yet"
 msgstr ""
 
-#: src/pages/AddModule.tsx:288
+#: src/pages/AddModule.tsx:289
 msgid "No free hardpoint"
 msgstr ""
 
@@ -838,7 +826,7 @@ msgstr ""
 msgid "No matching fits"
 msgstr ""
 
-#: src/pages/AddModule.tsx:175 src/pages/AddModule.tsx:212
+#: src/pages/AddModule.tsx:181 src/pages/AddModule.tsx:221
 msgid "No matching modules"
 msgstr ""
 
@@ -870,11 +858,11 @@ msgstr ""
 msgid "Officer"
 msgstr ""
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:14 src/ui/ModuleRow.tsx:97 src/ui/ModuleRow.tsx:110
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:16 src/ui/ModuleRow.tsx:112 src/ui/ModuleRow.tsx:125
 msgid "Offline"
 msgstr ""
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:15 src/ui/ModuleRow.tsx:97
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:112
 msgid "Online"
 msgstr ""
 
@@ -886,11 +874,15 @@ msgstr ""
 msgid "Other ships"
 msgstr ""
 
-#: src/pages/AddModule.tsx:299 src/pages/shared.tsx:36 src/ui/ResourceGauge.tsx:24
+#: src/pages/AddModule.tsx:300 src/pages/shared.tsx:36 src/ui/ResourceGauge.tsx:24
 msgid "Over"
 msgstr ""
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:97
+#: src/pages/Fit.tsx:154
+msgid "Overheat rack"
+msgstr ""
+
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:19 src/ui/ModuleRow.tsx:112
 msgid "Overheated"
 msgstr ""
 
@@ -930,11 +922,11 @@ msgstr ""
 msgid "PowerGrid"
 msgstr ""
 
-#: src/pages/AddModule.tsx:166 src/pages/AddModule.tsx:270 src/pages/AddModule.tsx:298 src/pages/Import.tsx:123 src/pages/ModuleSheet.tsx:98 src/pages/shared.tsx:21
+#: src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:123 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21
 msgid "Powergrid"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:111
+#: src/pages/ModuleSheet.tsx:154
 msgid "Preheat cycles"
 msgstr ""
 
@@ -946,7 +938,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: src/pages/AddModule.tsx:178
+#: src/pages/AddModule.tsx:166 src/pages/AddModule.tsx:167
 msgid "Recent modules"
 msgstr ""
 
@@ -982,15 +974,15 @@ msgstr ""
 msgid "Remote Repairs"
 msgstr ""
 
-#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:166 src/pages/FitExtras.tsx:94 src/ui/ModuleRow.tsx:63 src/ui/ModuleRow.tsx:111
+#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:184 src/pages/FitExtras.tsx:94 src/ui/ModuleRow.tsx:62 src/ui/ModuleRow.tsx:126
 msgid "Remove"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:154
+#: src/pages/ModuleSheet.tsx:197
 msgid "Remove module"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:154
+#: src/pages/ModuleSheet.tsx:197
 msgid "Remove {n} modules"
 msgstr ""
 
@@ -1002,7 +994,7 @@ msgstr ""
 msgid "Rename fit"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:137 src/pages/Variations.tsx:61
+#: src/pages/ModuleSheet.tsx:180 src/pages/Variations.tsx:61
 msgid "Replace with a variation"
 msgstr ""
 
@@ -1014,7 +1006,7 @@ msgstr ""
 msgid "Requirements"
 msgstr ""
 
-#: src/pages/AddModule.tsx:286
+#: src/pages/AddModule.tsx:287
 msgid "Requires a capital ship"
 msgstr ""
 
@@ -1034,10 +1026,6 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: src/pages/AddModule.tsx:224
-msgid "Return to modules"
-msgstr ""
-
 #: src/pages/shared.tsx:13
 msgid "Rigs"
 msgstr ""
@@ -1054,6 +1042,26 @@ msgstr ""
 msgid "Scan resolution"
 msgstr ""
 
+#: src/pages/AddModule.tsx:60
+msgid "Search all {n} high slot modules"
+msgstr ""
+
+#: src/pages/AddModule.tsx:62
+msgid "Search all {n} low slot modules"
+msgstr ""
+
+#: src/pages/AddModule.tsx:61
+msgid "Search all {n} mid slot modules"
+msgstr ""
+
+#: src/pages/AddModule.tsx:63
+msgid "Search all {n} rigs"
+msgstr ""
+
+#: src/pages/AddModule.tsx:64
+msgid "Search all {n} subsystems"
+msgstr ""
+
 #: src/pages/Home.tsx:77
 msgid "Search fits or ships"
 msgstr ""
@@ -1066,7 +1074,7 @@ msgstr ""
 msgid "Search items"
 msgstr ""
 
-#: src/pages/AddModule.tsx:169
+#: src/pages/AddModule.tsx:159 src/pages/AddModule.tsx:160
 msgid "Search modules"
 msgstr ""
 
@@ -1082,11 +1090,11 @@ msgstr ""
 msgid "Sensor strength"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:134
+#: src/pages/ModuleSheet.tsx:177
 msgid "Set together"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:134
+#: src/pages/ModuleSheet.tsx:177
 msgid "Set {n} modules individually"
 msgstr ""
 
@@ -1094,7 +1102,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:81 src/ui/StatsPage.tsx:134 src/ui/StatsPage.tsx:143
+#: src/pages/ModuleSheet.tsx:29 src/ui/StatsPage.tsx:81 src/ui/StatsPage.tsx:134 src/ui/StatsPage.tsx:143
 msgid "Shield"
 msgstr ""
 
@@ -1118,19 +1126,19 @@ msgstr ""
 msgid "Skill requirements"
 msgstr ""
 
-#: src/pages/Fit.tsx:211
+#: src/pages/Fit.tsx:229
 msgid "Skill requirements met"
 msgstr ""
 
-#: src/pages/AddModule.tsx:51
+#: src/pages/AddModule.tsx:54
 msgid "Slot not found"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:105
+#: src/pages/ModuleSheet.tsx:133
 msgid "Slot {n}"
 msgstr ""
 
-#: src/pages/Fit.tsx:115
+#: src/pages/Fit.tsx:123
 msgid "Slots"
 msgstr ""
 
@@ -1146,7 +1154,7 @@ msgstr ""
 msgid "Stable: "
 msgstr ""
 
-#: src/pages/Fit.tsx:115
+#: src/pages/Fit.tsx:123
 msgid "Stats"
 msgstr ""
 
@@ -1162,7 +1170,7 @@ msgstr ""
 msgid "Strict skill requirements"
 msgstr ""
 
-#: src/pages/AddModule.tsx:285
+#: src/pages/AddModule.tsx:286
 msgid "Subsystem slot already occupied"
 msgstr ""
 
@@ -1178,11 +1186,11 @@ msgstr ""
 msgid "Swap for a similar module"
 msgstr ""
 
-#: src/pages/Fit.tsx:117
+#: src/pages/Fit.tsx:125
 msgid "Swipe a module row left for offline and remove."
 msgstr ""
 
-#: src/pages/Fit.tsx:191
+#: src/pages/Fit.tsx:209
 msgid "Tactical mode"
 msgstr ""
 
@@ -1194,7 +1202,7 @@ msgstr ""
 msgid "Tap the share button"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:52
+#: src/ui/ModuleRow.tsx:51
 msgid "Tap to add a module"
 msgstr ""
 
@@ -1202,7 +1210,7 @@ msgstr ""
 msgid "Target Resists"
 msgstr ""
 
-#: src/pages/Fit.tsx:270 src/ui/pickers/TargetProfilePicker.tsx:25
+#: src/pages/Fit.tsx:288 src/ui/pickers/TargetProfilePicker.tsx:25
 msgid "Target profile"
 msgstr ""
 
@@ -1216,10 +1224,6 @@ msgstr ""
 
 #: src/ui/MetaGroupList.tsx:11
 msgid "Tech II"
-msgstr ""
-
-#: src/pages/AddModule.tsx:202
-msgid "Technology level"
 msgstr ""
 
 #: src/pages/Settings.tsx:169
@@ -1270,7 +1274,7 @@ msgstr ""
 msgid "Turret hardpoints"
 msgstr ""
 
-#: src/pages/Fit.tsx:130
+#: src/pages/Fit.tsx:141
 msgid "Turrets"
 msgstr ""
 
@@ -1278,12 +1282,8 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-#: src/pages/Fit.tsx:112
+#: src/pages/Fit.tsx:120
 msgid "Unsaved preview"
-msgstr ""
-
-#: src/pages/AddModule.tsx:192
-msgid "Up one market group"
 msgstr ""
 
 #: src/ui/PriceValue.tsx:5
@@ -1302,7 +1302,7 @@ msgstr ""
 msgid "View only without saving"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:98
+#: src/pages/ModuleSheet.tsx:26 src/ui/StatsPage.tsx:98
 msgid "Volley"
 msgstr ""
 
@@ -1310,7 +1310,7 @@ msgstr ""
 msgid "Warp Speed"
 msgstr ""
 
-#: src/pages/AddModule.tsx:284
+#: src/pages/AddModule.tsx:285
 msgid "Wrong rig size"
 msgstr ""
 
@@ -1382,12 +1382,16 @@ msgstr ""
 msgid "{n} items"
 msgstr ""
 
-#: src/pages/AddModule.tsx:293
+#: src/pages/AddModule.tsx:294
 msgid "{n} remaining"
 msgstr ""
 
 #: src/pages/FitExtras.tsx:41
 msgid "{ship} has no drone bay"
+msgstr ""
+
+#: src/pages/Fit.tsx:114
+msgid "{slot} overheated"
 msgstr ""
 
 #: src/pages/Settings.tsx:90 src/pages/Settings.tsx:311

@@ -4,83 +4,81 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, expect, it, vi } from 'vitest'
 import { FittingRoutes } from '../App'
-import type { ItemGroup } from '../engine/types'
-import { mockEngine } from '../engine/mockClient'
+import { mockEngine, sampleFits } from '../engine/mockClient'
 import { createFitStore } from '../store/fits'
 
-afterEach(cleanup)
+afterEach(() => { cleanup(); sessionStorage.clear(); localStorage.clear() })
 
-it('opens only the first technology group with results', async () => {
-  render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
-    engine={mockEngine} store={createFitStore(new IDBFactory())}
-  /></MemoryRouter>)
-  const first = await screen.findByRole('button', { name: /^Tech II.*items/ }, { timeout: 4000 })
-  const second = screen.getByRole('button', { name: /^Tech I\b.*items/ })
-  expect(first.getAttribute('aria-expanded')).toBe('true')
-  expect(second.getAttribute('aria-expanded')).toBe('false')
-}, 12_000)
-
-it('loads one default market group and only previews the expanded technology group', async () => {
-  localStorage.removeItem('pyfa.recentModuleIds')
+it('starts with a collapsed market tree and previews only the open technology group', async () => {
   const itemsForSlot = vi.fn(mockEngine.itemsForSlot)
-  const marketGroupsForSlot = vi.fn(mockEngine.marketGroupsForSlot!)
   render(<StrictMode><MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
-    engine={{ ...mockEngine, itemsForSlot, marketGroupsForSlot }} store={createFitStore(new IDBFactory())}
+    engine={{ ...mockEngine, itemsForSlot }} store={createFitStore(new IDBFactory())}
   /></MemoryRouter></StrictMode>)
-  await screen.findByRole('button', { name: /^Tech II.*items/ }, { timeout: 4000 })
-  expect(marketGroupsForSlot).toHaveBeenCalledTimes(1)
-  await waitFor(() => expect(itemsForSlot).toHaveBeenCalledTimes(2))
-  const first = itemsForSlot.mock.calls[0]?.[3]
-  expect(first).toEqual({ marketGroupId: expect.any(Number), preview: false })
-  const candidates: ItemGroup[] | undefined = await itemsForSlot.mock.results[0]?.value
-  expect(candidates?.map(({ items }) => items.length)).toEqual([1, 3, 3, 2, 8])
-  expect(itemsForSlot.mock.calls[1]?.[3]).toEqual({
-    marketGroupId: first?.marketGroupId, meta: 'tech2', preview: true,
-  })
-  expect(await screen.findByText(/^After fitting:/)).toBeTruthy()
+  const turrets = await screen.findByRole('button', { name: /Turrets & Launchers/ })
+  expect(turrets.getAttribute('aria-expanded')).toBe('false')
+  expect(screen.queryByRole('combobox')).toBeNull()
+  expect(screen.queryByLabelText('Module groups')).toBeNull()
+  expect(screen.getByRole('searchbox').getAttribute('placeholder')).toMatch(/^Search all \d+ low slot modules$/)
+  expect(itemsForSlot).not.toHaveBeenCalled()
 
-  fireEvent.click(screen.getByRole('button', { name: /^Tech I\b.*items/ }))
-  await waitFor(() => expect(itemsForSlot).toHaveBeenCalledTimes(3))
-  expect(itemsForSlot.mock.calls[2]?.[3]).toEqual({
-    marketGroupId: first?.marketGroupId, meta: 'tech1', preview: true,
-  })
-  const trial: ItemGroup[] | undefined = await itemsForSlot.mock.results[2]?.value
-  expect(trial?.map(({ items }) => items.length)).toEqual([3])
+  fireEvent.click(turrets)
+  fireEvent.click(screen.getByRole('button', { name: /Weapon Upgrades/ }))
+  expect(screen.queryByRole('button', { name: /Gyrostabilizers/ })).toBeNull()
+  const first = await screen.findByRole('button', { name: /^Tech II.*items/ })
+  expect(first.getAttribute('aria-expanded')).toBe('false')
+  expect(itemsForSlot.mock.calls.map((call) => call[3])).toEqual([{ marketGroupId: 143, preview: false }])
+  fireEvent.click(first)
+  await waitFor(() => expect(itemsForSlot.mock.calls[1]?.[3]).toEqual({
+    marketGroupId: 143, meta: 'tech2', preview: true,
+  }))
+  expect((await screen.findAllByText(/^After fitting:/)).length).toBeGreaterThan(0)
 }, 12_000)
 
-it('restores and persists search query per slot in sessionStorage', async () => {
+it('restores and persists the search query independently of the market branch', async () => {
   sessionStorage.setItem('pyfa.addModule.query.low', JSON.stringify('Gyrostabilizer'))
-
   render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
     engine={mockEngine} store={createFitStore(new IDBFactory())}
   /></MemoryRouter>)
-
-  const input = (await screen.findByRole('searchbox', { name: 'Search modules' }, { timeout: 4000 })) as HTMLInputElement
+  const input = await screen.findByRole<HTMLInputElement>('searchbox', { name: 'Search modules' })
   expect(input.value).toBe('Gyrostabilizer')
-
+  expect(await screen.findByRole('button', { name: /Gyrostabilizer II/ })).toBeTruthy()
   fireEvent.change(input, { target: { value: 'Damage Control' } })
   expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.query.low')!)).toBe('Damage Control')
-  // Verify high slot is not touched
   expect(sessionStorage.getItem('pyfa.addModule.query.high')).toBeNull()
 }, 12_000)
 
-it('restores and persists expanded technology groups per slot in sessionStorage', async () => {
-  sessionStorage.setItem('pyfa.addModule.expanded.low', JSON.stringify(['tech2', 'tech1']))
-
+it('restores only the saved market branch down to its technology group', async () => {
+  sessionStorage.setItem('pyfa.addModule.market.low', JSON.stringify({ branch: [14, 615], meta: 'tech2' }))
   render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
     engine={mockEngine} store={createFitStore(new IDBFactory())}
   /></MemoryRouter>)
-
-  const first = await screen.findByRole('button', { name: /^Tech II.*items/ }, { timeout: 4000 })
-  const second = screen.getByRole('button', { name: /^Tech I\b.*items/ })
-
-  // Both should be expanded from sticky state
-  expect(first.getAttribute('aria-expanded')).toBe('true')
-  expect(second.getAttribute('aria-expanded')).toBe('true')
-
-  // Clicking second should collapse it and update sessionStorage
-  fireEvent.click(second)
-  expect(second.getAttribute('aria-expanded')).toBe('false')
-  expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.expanded.low')!)).toEqual(['tech2'])
+  const tech = await screen.findByRole('button', { name: /^Tech II.*items/ })
+  expect(tech.getAttribute('aria-expanded')).toBe('true')
+  expect(screen.getByRole('button', { name: /Turrets & Launchers/ }).getAttribute('aria-expanded')).toBe('false')
+  fireEvent.click(screen.getByRole('button', { name: /Hull & Armor/ }))
+  expect(screen.queryByRole('button', { name: /Damage Controls/ })).toBeNull()
+  expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.market.low')!)).toEqual({ branch: [] })
 }, 12_000)
 
+it('shows at most six recently added modules from the requested slot', async () => {
+  const groups = await mockEngine.itemsForSlot(sampleFits.rifter, 'low', undefined, { preview: false })
+  const ids = groups.flatMap((group) => group.items).slice(0, 7).map((item) => ({ typeId: item.typeId, slot: 'low' }))
+  localStorage.setItem('pyfa.recentModuleIds', JSON.stringify([{ typeId: 2889, slot: 'high' }, ...ids]))
+  render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
+    engine={mockEngine} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+  const recent = await screen.findByRole('region', { name: 'Recent modules' })
+  expect(recent.querySelectorAll('button')).toHaveLength(6)
+  expect(recent.querySelector('img')).toBeTruthy()
+}, 12_000)
+
+it('remembers the market path when a candidate is added from search', async () => {
+  const store = createFitStore(new IDBFactory())
+  render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes engine={mockEngine} store={store} /></MemoryRouter>)
+  fireEvent.change(await screen.findByRole('searchbox'), { target: { value: 'Damage Control II' } })
+  fireEvent.click(await screen.findByRole('button', { name: /Damage Control II/ }))
+  await screen.findByRole('tab', { name: 'Slots' })
+  expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.market.low')!)).toEqual({
+    branch: [14, 615], meta: 'tech2',
+  })
+}, 12_000)

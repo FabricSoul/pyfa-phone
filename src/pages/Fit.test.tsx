@@ -18,7 +18,10 @@ it('recalculates the Rifter resources when a module state changes and navigates 
   const first = screen.getAllByTestId('state-button')[0]!
   expect(first.getAttribute('data-state')).toBe('active')
   fireEvent.click(first)
-  await waitFor(() => expect(calc.mock.lastCall?.[0].modules.high[0]?.state).toBe('online'), { timeout: 4000 })
+  await waitFor(() => expect(calc.mock.lastCall?.[0].modules.high[0]?.state).toBe('offline'), { timeout: 4000 })
+  await waitFor(() => expect(screen.getAllByTestId('state-button')[0]?.getAttribute('data-state')).toBe('offline'))
+  fireEvent.click(screen.getAllByTestId('state-button')[0]!)
+  await waitFor(() => expect(calc.mock.lastCall?.[0].modules.high[0]?.state).toBe('online'))
   fireEvent.click(screen.getAllByTestId('module-row')[0]!)
   fireEvent.click(await screen.findByRole('radio', { name: 'Offline' }))
   expect(await screen.findByText('142/162.5', {}, { timeout: 4000 })).toBeTruthy()
@@ -50,3 +53,45 @@ it('recalculates with the selected target, incoming damage and reload option', a
   await waitFor(() => expect(calc.mock.lastCall?.[1]).toEqual({ includeReload: true }))
   expect(reload.getAttribute('aria-pressed')).toBe('true')
 })
+
+it('switches all supported high slot modules together and clears heat back to active', async () => {
+  const calc = vi.fn<typeof mockEngine.calc>(async (fit, options) => {
+    const result = await mockEngine.calc(fit, options)
+    if (fit.modules.high.filter(Boolean).every((mod) => mod?.state === 'overheated')) {
+      result.stats.firepower = { ...result.stats.firepower, dps: 208.1 }
+    }
+    return result
+  })
+  render(<MemoryRouter initialEntries={['/fit/rifter']}><FittingRoutes
+    engine={{ ...mockEngine, calc }} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+  const high = (await screen.findByRole('heading', { name: 'High slots' })).closest('section')!
+  const rackSwitch = within(high).getByRole('switch', { name: 'Overheat rack' })
+  expect(rackSwitch.getAttribute('aria-checked')).toBe('false')
+  fireEvent.click(rackSwitch)
+  await waitFor(() => expect(calc.mock.lastCall?.[0].modules.high.filter(Boolean).map((mod) => mod?.state))
+    .toEqual(['overheated', 'overheated', 'overheated']))
+  expect(rackSwitch.getAttribute('aria-checked')).toBe('true')
+  expect(await screen.findByText(/DPS 208\.1.*High slots overheated/)).toBeTruthy()
+  fireEvent.click(rackSwitch)
+  await waitFor(() => expect(calc.mock.lastCall?.[0].modules.high.filter(Boolean).map((mod) => mod?.state))
+    .toEqual(['active', 'active', 'active']))
+}, 10_000)
+
+it('shows calculated DPS and volley changes when selecting overheat in the module sheet', async () => {
+  const calc = vi.fn<typeof mockEngine.calc>(async (fit, options) => {
+    const result = await mockEngine.calc(fit, options)
+    if (fit.modules.high[0]?.state === 'overheated') {
+      result.stats.firepower = { ...result.stats.firepower, dps: 208.1, volley: 286.9 }
+    }
+    return result
+  })
+  render(<MemoryRouter initialEntries={['/fit/rifter']}><FittingRoutes
+    engine={{ ...mockEngine, calc }} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+  fireEvent.click((await screen.findAllByTestId('module-row'))[0]!)
+  const sheet = await screen.findByRole('dialog')
+  fireEvent.click(within(sheet).getByRole('radio', { name: 'Overheated' }))
+  expect(await within(sheet).findByText(/180\.9 → 208\.1/)).toBeTruthy()
+  expect(await within(sheet).findByText(/249\.5 → 286\.9/)).toBeTruthy()
+}, 10_000)

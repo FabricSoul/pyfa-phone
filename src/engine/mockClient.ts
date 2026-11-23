@@ -28,6 +28,7 @@ import {
   type ItemGroup,
   type ItemDetails,
   type LName,
+  type MarketTreeNode,
   type ModuleSlotRow,
   type ModuleState,
   type ItemRow,
@@ -382,12 +383,43 @@ export const mockEngine: EngineClient = {
     return [...new Map(groups.map((group) => [group.id, group])).values()]
   },
 
+  async marketTreeForSlot(slot) {
+    const rootId = slot === 'rig' ? 1111 : slot === 'subsystem' ? 1112 : 9
+    const roots: MarketTreeNode[] = []
+    for (const item of catalog.modules) {
+      if (item.slot !== slot) continue
+      const group = marketGroupFor(item.family)
+      if (!group) continue
+      const path = [...group.ancestors ?? [], group]
+      const root = path.findIndex(({ id }) => id === rootId)
+      if (root < 0) continue
+      let children = roots
+      for (const { id, name } of path.slice(root + 1)) {
+        let node = children.find((candidate) => candidate.id === id)
+        if (!node) {
+          node = { id, name, iconId: item.iconId, count: 0, directCount: 0, children: [] }
+          children.push(node)
+        }
+        node.count++
+        if (id === group.id) node.directCount++
+        children = node.children
+      }
+    }
+    return { rootId, total: roots.reduce((count, group) => count + group.count, 0), groups: roots }
+  },
+
   async itemsForSlot(fit, slot, filters, options) {
     const request = { ...options, ...(typeof filters === 'string' ? { query: filters } : filters) }
     const meta = request.metaGroup ?? request.meta
     const source = catalog.modules.filter((item) => item.slot === slot && matches(item, request.query))
       .filter((item) => request.group === undefined || item.groupId === request.group)
-      .filter((item) => request.marketGroupId === undefined || marketLeaves[item.family] === request.marketGroupId)
+      .filter((item) => {
+        if (request.marketGroupId === undefined) return true
+        const group = marketGroupFor(item.family)
+        return group?.id === request.marketGroupId ||
+          !request.exactMarketGroup && group?.ancestors?.some(({ id }) => id === request.marketGroupId)
+      })
+      .filter((item) => !request.typeIds || request.typeIds.includes(item.typeId))
       .filter((item) => meta === undefined || item.meta === meta)
     const rows = source.map(browseRow)
     if (!request.preview) return groupItems(rows)

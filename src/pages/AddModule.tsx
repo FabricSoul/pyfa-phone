@@ -1,19 +1,19 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
-  META_GROUPS, SlotKindSchema, type FitDoc, type ItemGroup, type ItemRow, type MarketGroup, type MetaGroup, type SlotKind,
+  SlotKindSchema, type ItemGroup, type ItemRow, type MarketTreeNode, type MetaGroup, type SlotItemsOptions, type SlotKind, type SlotMarketTree,
 } from '../engine/types'
 import { _t } from '../i18n/t'
 import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { ItemIcon } from '../ui/ItemIcon'
-import { MetaGroupList, defaultExpanded, metaLabel } from '../ui/MetaGroupList'
+import { MetaGroupList } from '../ui/MetaGroupList'
 import { useFitServices, useFitSession, withModules } from './fitSession'
 import { useSticky } from '../app/sticky'
 import { EmptyMessage, NotFound, PageHeading } from './shared'
 
 const RECENT_KEY = 'pyfa.recentModuleIds'
-interface RecentModule { typeId: number; marketGroupId?: number; slot: SlotKind }
+interface RecentModule { typeId: number; slot: SlotKind }
 
 function readRecent(): RecentModule[] {
   try {
@@ -28,8 +28,11 @@ function readRecent(): RecentModule[] {
 
 function remember(item: ItemRow, slot: SlotKind) {
   try {
-    const next = { typeId: item.typeId, marketGroupId: item.marketGroup?.id, slot }
-    localStorage.setItem(RECENT_KEY, JSON.stringify([next, ...readRecent().filter(({ typeId }) => typeId !== item.typeId)].slice(0, 24)))
+    const recent = readRecent().filter((entry) => entry.typeId !== item.typeId)
+    const sameSlot = recent.filter((entry) => entry.slot === slot).slice(0, 5)
+    localStorage.setItem(RECENT_KEY, JSON.stringify([
+      { typeId: item.typeId, slot }, ...sameSlot, ...recent.filter((entry) => entry.slot !== slot),
+    ]))
   } catch {
     // The fit itself is saved independently in IndexedDB.
   }
@@ -51,12 +54,18 @@ export function AddModule() {
   return parsed.success ? <ModulePicker key={parsed.data} slot={parsed.data} /> : <NotFound title={_t('Slot not found')} />
 }
 
-interface Listing {
-  fit: FitDoc
-  query: string
-  groupId?: number
-  groups: ItemGroup[]
+function searchPlaceholder(slot: SlotKind, count: number) {
+  const n = fmt(count)
+  switch (slot) {
+    case 'high': return _t('Search all {n} high slot modules').replace('{n}', n)
+    case 'mid': return _t('Search all {n} mid slot modules').replace('{n}', n)
+    case 'low': return _t('Search all {n} low slot modules').replace('{n}', n)
+    case 'rig': return _t('Search all {n} rigs').replace('{n}', n)
+    case 'subsystem': return _t('Search all {n} subsystems').replace('{n}', n)
+  }
 }
+
+interface MarketSelection { branch: number[]; meta?: MetaGroup }
 
 function ModulePicker({ slot }: { slot: SlotKind }) {
   const language = useNameLanguage()
@@ -65,178 +74,170 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   const { engine } = useFitServices()
   const { record, fit, result, edit } = useFitSession()
   const [query, setQuery] = useSticky(`pyfa.addModule.query.${slot}`, '')
-  const [expandedMeta, setExpandedMeta] = useSticky<MetaGroup[] | undefined>(`pyfa.addModule.expanded.${slot}`, undefined)
-  const [selected, setSelected] = useState<number>()
-  const [meta, setMeta] = useState<MetaGroup>()
-  const [browse, setBrowse] = useState(false)
-  const [branch, setBranch] = useState<number[]>([])
-  const [listing, setListing] = useState<Listing>()
-  const [marketGroups, setMarketGroups] = useState<MarketGroup[]>()
+  const [selection, setSelection] = useSticky<MarketSelection>(`pyfa.addModule.market.${slot}`, { branch: [] })
+  const [tree, setTree] = useState<SlotMarketTree>()
   const [marketError, setMarketError] = useState(false)
-  const [error, setError] = useState(false)
-  const [previews, setPreviews] = useState<{ listing: Listing; groups: Partial<Record<MetaGroup, ItemGroup>> }>()
-  const [recents] = useState(readRecent)
+  const [recentIds] = useState(() => [...new Set(readRecent().filter((item) => item.slot === slot)
+    .map((item) => item.typeId))].slice(0, 6))
+  const [recentItems, setRecentItems] = useState<ItemRow[]>([])
   const path = `/fit/${record.id}`
   const search = query.trim()
 
   useEffect(() => {
-    let current = true
+    let live = true
     const timer = setTimeout(() => {
-      void engine.marketGroupsForSlot?.(fit, slot).then((groups) => {
-        if (current) { setMarketGroups(groups); setMarketError(false) }
-      }, () => { if (current) setMarketError(true) })
+      void engine.marketTreeForSlot?.(slot).then((value) => {
+        if (live) setTree(value)
+      }, () => { if (live) setMarketError(true) })
     }, 0)
-    return () => { current = false; clearTimeout(timer) }
-  }, [engine, fit, slot])
-
-  const families = useMemo(() => (marketGroups ?? []).slice().sort((a, b) =>
-    lname(a.name, language).localeCompare(lname(b.name, language), language === 'zh' ? 'zh-CN' : 'en')),
-  [marketGroups, language])
-  const recent = recents.find((item) => item.slot === slot && families.some((group) => group.id === item.marketGroupId))
-  const family = selected ?? recent?.marketGroupId ?? families[0]?.id
-  const groupId = search ? undefined : family
-  const request = search !== '' || groupId !== undefined
+    return () => { live = false; clearTimeout(timer) }
+  }, [engine, slot])
 
   useEffect(() => {
-    if (!request || browse) return
-    let current = true
+    if (!recentIds.length) return
+    let live = true
     const timer = setTimeout(() => {
-      void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId: groupId, preview: false }).then((groups) => {
-        if (!current) return
-        setListing({ fit, query: search, groupId, groups: groups.filter((group) => group.items.length > 0) })
-        setError(false)
-      }, () => { if (current) setError(true) })
-    }, search ? 120 : 0)
-    return () => { current = false; clearTimeout(timer) }
-  }, [browse, engine, fit, groupId, request, search, slot])
+      void engine.itemsForSlot(fit, slot, undefined, { typeIds: recentIds, preview: false }).then((groups) => {
+        if (!live) return
+        const items = new Map(groups.flatMap((group) => group.items.map((item) => [item.typeId, item])))
+        setRecentItems(recentIds.flatMap((id) => items.get(id) ?? []))
+      }, () => { if (live) setRecentItems([]) })
+    }, 0)
+    return () => { live = false; clearTimeout(timer) }
+  }, [engine, fit, recentIds, slot])
 
-  const loaded = listing?.fit === fit && listing.query === search && listing.groupId === groupId
-  const groups = loaded ? listing.groups.map((group) =>
-    previews?.listing === listing ? previews.groups[group.meta] ?? group : group) : []
-  const items = groups.flatMap((group) => group.items)
-  const visible = meta ? groups.filter((group) => group.meta === meta) : groups
-  const installed = fit.modules[slot].flatMap((module) => module ? [module.typeId] : [])
-  const recentIds = recents.filter((item) => item.slot === slot).map((item) => item.typeId)
-  const recentItems = [...new Set([...recentIds, ...installed])].flatMap((id) => items.find((item) => item.typeId === id) ?? []).slice(0, 3)
   const selectedIndex = params.has('index') ? Number(params.get('index')) : undefined
   const total = result?.resources.slots[slot].total ?? 0
   const empty = Array.from({ length: total }, (_, index) => index).filter((index) => !fit.modules[slot][index])
   const index = selectedIndex === undefined ? empty[0] : empty.find((index) => index === selectedIndex)
   const cpu = result && result.resources.cpu.total - result.resources.cpu.used
-  const powergrid = result && result.resources.powergrid.total - result.resources.powergrid.used
+  const grid = result && result.resources.powergrid.total - result.resources.powergrid.used
   const ship = result?.ship.name
-  const focus = families.find((group) => group.id === family)
-  const marketNodes = marketChildren(families, branch)
-
-  const marketLabel = (group: MarketGroup) => {
-    const parent = group.ancestors?.at(-1)
-    const name = lname(group.name, language)
-    const generic = /^(Small|Medium|Large|Extra Large|Capital)$/.test(group.name.en)
-    const duplicate = families.some((other) => other.id !== group.id && lname(other.name, language) === name)
-    return parent && (generic || duplicate) ? `${lname(parent.name, language)} · ${name}` : name
-  }
 
   function pick(item: ItemRow) {
     if (index === undefined || item.fitRestriction) return
     edit((fit) => withModules(fit, slot, [index], () => ({
       typeId: item.typeId, state: item.initialState ?? 'online', chargeTypeId: null,
     })), { [item.typeId]: item.name })
-    remember(item.marketGroup || !focus ? item : { ...item, marketGroup: focus }, slot)
+    remember(item, slot)
+    if (tree && item.marketGroup) {
+      const ids = [...item.marketGroup.ancestors ?? [], item.marketGroup].map(({ id }) => id)
+      const root = ids.indexOf(tree.rootId)
+      if (root >= 0) setSelection({ branch: ids.slice(root + 1, root + 3), meta: item.meta })
+    }
     navigate(path)
   }
 
-  function changeFamily(group: MarketGroup) {
-    setSelected(group.id)
-    setError(false)
-    setMeta(undefined)
-    setBrowse(false)
-    setBranch([])
-  }
-
-  function handleToggleExpanded(toggled: MetaGroup) {
-    const current = expandedMeta ?? (visible.length > 0 ? Array.from(defaultExpanded(visible, undefined)) : [])
-    const next = current.includes(toggled)
-      ? current.filter((m) => m !== toggled)
-      : [...current, toggled]
-    setExpandedMeta(next)
+  function renderNode(node: MarketTreeNode, parents: number[]) {
+    const depth = parents.length
+    const branch = [...parents, node.id]
+    const expanded = selection.branch[depth] === node.id
+    const defaultMeta = selection.branch.length === branch.length ? selection.meta : undefined
+    const showChildren = depth === 0 && node.children.length > 0
+    return <div key={node.id} className={depth === 0 ? 'market-category' : 'market-branch'}>
+      <button className="mh market-node" type="button" aria-expanded={expanded}
+        onClick={() => setSelection({ branch: expanded ? parents : branch })}>
+        <span className="cv"><Icon name="chevron-down" size={16} /></span>
+        <ItemIcon src={iconUrl(node.displayIconId ?? node.iconId)} />
+        <span>{lname(node.name, language)}</span>
+        <em className="num">{fmt(node.count)}</em>
+      </button>
+      {expanded && <>
+        {showChildren && node.children.map((child) => renderNode(child, branch))}
+        {(!showChildren || node.directCount > 0) && <CandidateList slot={slot} groupId={node.id} exactGroup={showChildren}
+          disabled={index === undefined} expanded={defaultMeta ? [defaultMeta] : []} onPick={pick}
+          onToggle={(meta) => setSelection({ branch, meta: defaultMeta === meta ? undefined : meta })} />}
+      </>}
+    </div>
   }
 
   return <main>
     <PageHeading back={path} title={addTitle(slot)} subtitle={ship && <>
-      {lname(ship, language)} · {_t('CPU')} {available(cpu)} · {_t('Powergrid')} {available(powergrid)}
+      {lname(ship, language)} · {_t('CPU')} {available(cpu)} · {_t('Powergrid')} {available(grid)}
     </>} />
-    <div className="fit-search-row">
-      <input className="fit-input" type="search" aria-label={_t('Search modules')} placeholder={_t('Search modules')}
-        value={query} onChange={(event) => { setQuery(event.target.value); setMeta(undefined); setBrowse(false) }} />
+    <div className="fit-search-row market-search">
+      <input className="fit-input" type="search" aria-label={_t('Search modules')}
+        placeholder={tree ? searchPlaceholder(slot, tree.total) : _t('Search modules')}
+        value={query} onChange={(event) => setQuery(event.target.value)} />
     </div>
-    {(request ? error : marketError) && <p role="alert" className="page-message">{_t('Could not load modules')}</p>}
-    {!browse && !loaded && (request && !error || !marketGroups && !marketError && engine.marketGroupsForSlot) &&
-      <p role="status" className="page-message">{_t('Loading modules…')}</p>}
-    {!search && marketGroups?.length === 0 && <EmptyMessage>{_t('No matching modules')}</EmptyMessage>}
+    {marketError && <p role="alert" className="page-message">{_t('Could not load modules')}</p>}
+    {!tree && !marketError && engine.marketTreeForSlot && <p role="status" className="page-message">{_t('Loading modules…')}</p>}
     {result && index === undefined && <p role="status" className="page-message">{_t('No empty slot')}</p>}
-    {!search && !browse && recentItems.length > 0 && <>
+    {!search && recentItems.length > 0 && <section aria-label={_t('Recent modules')}>
       <h2 className="fit-filter-label">{_t('Recent modules')}</h2>
-      <div className="fit-chips">
+      <div className="fit-chips market-recent">
         {recentItems.map((item) => <button key={item.typeId} type="button" className="fit-chip"
           disabled={index === undefined || item.fitRestriction !== undefined} onClick={() => pick(item)}>
-          {lname(item.name, language)}{item.fitRestriction && <> · {restrictionLabel(item.fitRestriction)}</>}
+          <ItemIcon src={iconUrl(item.iconId)} />
+          <span>{lname(item.name, language)}{item.fitRestriction && <small>{restrictionLabel(item.fitRestriction)}</small>}</span>
         </button>)}
       </div>
-    </>}
-    {!search && families.length > 0 && !browse && <div className="fit-chips" aria-label={_t('Module groups')}>
-      {families.map((group) => <button key={group.id} type="button" className="fit-chip" aria-pressed={group.id === family}
-        onClick={() => changeFamily(group)}>{marketLabel(group)}</button>)}
-    </div>}
-    {browse ? <div className="list">
-      {branch.length > 0 && <button type="button" className="ar" onClick={() => setBranch(branch.slice(0, -1))}>
-        <Icon name="chevron-left" /> {_t('Up one market group')}
-      </button>}
-      {marketNodes.map(({ group, leaf }) => <button key={group.id} type="button" className="ar"
-        onClick={() => leaf ? changeFamily(leaf) : setBranch([...branch, group.id])}>
-        <span className="mn">{lname(group.name, language)}</span>
-        {!leaf && <Icon name="chevron-down" />}
-      </button>)}
-    </div> : <>
-      {loaded && items.length > 0 && <div className="fit-filter-bar">
-        <h2>{focus && !search ? marketLabel(focus) : _t('Compatible modules')}</h2>
-        <select className="fit-input" aria-label={_t('Technology level')} value={meta ?? ''}
-          onChange={(event) => {
-            const code = event.target.value as MetaGroup | ''
-            setMeta(code || undefined)
-          }}>
-          <option value="">{_t('All technology levels')}</option>
-          {META_GROUPS.filter((code) => groups.some((group) => group.meta === code)).map((code) =>
-            <option key={code} value={code}>{metaLabel(code)}</option>)}
-        </select>
-      </div>}
-      {loaded && !visible.length && <EmptyMessage>{_t('No matching modules')}</EmptyMessage>}
-      {visible.length > 0 && <MetaGroupList key={JSON.stringify([search, groupId, meta])} groups={visible}
-        expanded={expandedMeta} onToggleExpanded={handleToggleExpanded}
-        renderGroup={(group) => <CandidateRows group={group} slot={slot} search={search} groupId={groupId}
-          disabled={index === undefined} checked={previews?.listing === listing && Boolean(previews?.groups[group.meta])}
-          onChecked={(preview) => {
-            if (listing) setPreviews((before) => ({
-              listing, groups: { ...(before?.listing === listing ? before.groups : {}), [group.meta]: preview },
-            }))
-          }} onPick={pick} />} />}
-    </>}
-    {!search && families.length > 0 && <button type="button" className="market-link" onClick={() => { setBrowse(!browse); setBranch([]) }}>
-      {browse ? _t('Return to modules') : _t('Browse all market groups')} <Icon name="chevron-down" />
-    </button>}
+    </section>}
+    {search && (tree || !engine.marketTreeForSlot || marketError)
+      ? <CandidateList key={search} slot={slot} search={search} groupId={tree?.rootId} disabled={index === undefined} onPick={pick} />
+      : !search && tree && <section aria-label={_t('Browse by market category')}>
+        <h2 className="fit-filter-label">{_t('Browse by market category')}</h2>
+        {tree.total ? <div className="list market-tree">{tree.groups.map((node) => renderNode(node, []))}</div>
+          : <EmptyMessage>{_t('No matching modules')}</EmptyMessage>}
+      </section>}
   </main>
 }
 
-function CandidateRows({ group, slot, search, groupId, disabled, checked, onChecked, onPick }: {
+function CandidateList({ slot, search = '', groupId, exactGroup = false, disabled, expanded, onToggle, onPick }: {
+  slot: SlotKind
+  search?: string
+  groupId?: number
+  exactGroup?: boolean
+  disabled: boolean
+  expanded?: MetaGroup[]
+  onToggle?: (meta: MetaGroup) => void
+  onPick: (item: ItemRow) => void
+}) {
+  const { engine } = useFitServices()
+  const { fit } = useFitSession()
+  const [groups, setGroups] = useState<ItemGroup[]>()
+  const [error, setError] = useState(false)
+  const [previews, setPreviews] = useState<Partial<Record<MetaGroup, ItemGroup>>>({})
+  const filter: SlotItemsOptions = exactGroup ? { marketGroupId: groupId, exactMarketGroup: true } : { marketGroupId: groupId }
+
+  useEffect(() => {
+    let live = true
+    const timer = setTimeout(() => {
+      void engine.itemsForSlot(fit, slot, search || undefined, {
+        marketGroupId: groupId, ...(exactGroup ? { exactMarketGroup: true } : {}), preview: false,
+      }).then((value) => {
+        if (live) {
+          setGroups(value.filter((group) => group.items.length > 0))
+          setPreviews({})
+          setError(false)
+        }
+      }, () => { if (live) setError(true) })
+    }, search ? 120 : 0)
+    return () => { live = false; clearTimeout(timer) }
+  }, [engine, exactGroup, fit, groupId, search, slot])
+
+  if (error) return <p role="alert" className="page-message">{_t('Could not load modules')}</p>
+  if (!groups) return <p role="status" className="page-message">{_t('Loading modules…')}</p>
+  if (!groups.length) return <EmptyMessage>{_t('No matching modules')}</EmptyMessage>
+  return <MetaGroupList groups={groups.map((group) => previews[group.meta] ?? group)}
+    expanded={expanded} onToggleExpanded={onToggle}
+    renderGroup={(group) => <CandidateRows group={group} slot={slot} search={search} filter={filter}
+      disabled={disabled} checked={Boolean(previews[group.meta])}
+      onChecked={(preview) => setPreviews((before) => ({ ...before, [group.meta]: preview }))} onPick={onPick} />} />
+}
+
+function CandidateRows({ group, slot, search, filter, disabled, checked, onChecked, onPick }: {
   group: ItemGroup
   slot: SlotKind
   search: string
-  groupId?: number
+  filter: SlotItemsOptions
   disabled: boolean
   checked: boolean
   onChecked: (preview: ItemGroup) => void
   onPick: (item: ItemRow) => void
 }) {
   const lang = useNameLanguage()
+  const { marketGroupId, exactMarketGroup } = filter
   const { engine } = useFitServices()
   const { fit } = useFitSession()
   const onCheckedRef = useRef(onChecked)
@@ -247,13 +248,13 @@ function CandidateRows({ group, slot, search, groupId, disabled, checked, onChec
     if (disabled || checked) return
     let current = true
     const timer = setTimeout(() => {
-      void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId: groupId, meta: group.meta, preview: true })
+      void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId, ...(exactMarketGroup ? { exactMarketGroup } : {}), meta: group.meta, preview: true })
         .then((groups) => {
           if (current) onCheckedRef.current(groups.find((entry) => entry.meta === group.meta) ?? group)
         }, () => { if (current) setError(true) })
     }, 0)
     return () => { current = false; clearTimeout(timer) }
-  }, [checked, disabled, engine, fit, group, groupId, search, slot])
+  }, [checked, disabled, engine, exactMarketGroup, fit, group, marketGroupId, search, slot])
 
   return <>
     {!disabled && !checked && !error && <p className="fit-caption fit-preview" role="status">{_t('Checking fit…')}</p>}
@@ -300,15 +301,4 @@ function fittingWarnings(item?: ItemRow) {
   })
   if (!over?.length) return ''
   return _t('After fitting: {resources}').replace('{resources}', over.join(' · '))
-}
-
-function marketChildren(groups: MarketGroup[], branch: number[]) {
-  const nodes = new Map<number, { group: MarketGroup; leaf?: MarketGroup }>()
-  for (const leaf of groups) {
-    const path = [...leaf.ancestors ?? [], leaf]
-    if (!branch.every((id, index) => path[index]?.id === id)) continue
-    const group = path[branch.length]
-    if (group) nodes.set(group.id, { group, leaf: group.id === leaf.id ? leaf : undefined })
-  }
-  return [...nodes.values()]
 }
