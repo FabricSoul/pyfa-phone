@@ -361,3 +361,107 @@ def invoke(operation, arguments_json):
     # The worker supplies operation from its static method table.
     args = json.loads(arguments_json)
     return json.dumps(globals()[operation](*args), allow_nan=False)
+
+
+def ship_catalog():
+    from sqlalchemy import text
+
+    with _engine.db.gamedata_engine.connect() as conn:
+        records = conn.execute(text("""
+            SELECT item.typeID, item.typeName, item.typeName_zh, item.graphicID, item.raceID,
+                   hull.groupID, hull.name, hull.name_zh
+            FROM invtypes item JOIN invgroups hull USING (groupID) JOIN invcategories category USING (categoryID)
+            WHERE item.published AND category.name = 'Ship'
+            ORDER BY hull.name, hull.groupID, item.typeName, item.typeID
+        """)).all()
+    groups = {}
+    for type_id, en, zh, graphic, race, group_id, group_en, group_zh in records:
+        group = groups.setdefault(group_id, {
+            'id': group_id, 'name': {'en': group_en, 'zh': group_zh or group_en}, 'ships': [],
+        })
+        group['ships'].append({
+            'typeId': type_id, 'name': {'en': en, 'zh': zh or en}, 'graphicId': graphic, 'raceId': race,
+        })
+    return {'dataVersion': _engine.data_version, 'groups': list(groups.values())}
+
+
+def _extra_catalog(collection, query, remaining=None, attribute=None, occupied=()):
+    from sqlalchemy import text
+
+    category = {'drones': 'Drone', 'fighters': 'Fighter', 'implants': 'Implant'}.get(collection)
+    with _engine.db.gamedata_engine.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT item.typeID, item.typeName, item.typeName_zh, item.iconID, item.metaGroupID, item.metaLevel,
+                   value.value
+            FROM invtypes item JOIN invgroups USING (groupID) JOIN invcategories category USING (categoryID)
+            JOIN dgmtypeattribs value USING (typeID) JOIN dgmattribs attr USING (attributeID)
+            WHERE item.published AND attr.attributeName = :attribute AND value.value > 0
+              AND (:category IS NULL OR category.name = :category)
+              AND (:collection != 'boosters' OR invgroups.name = 'Booster')
+              AND (:remaining IS NULL OR value.value <= :remaining)
+        """), {'category': category, 'attribute': attribute, 'collection': collection, 'remaining': remaining}).all()
+    term = query.strip().casefold()
+    return [(type_id, en, zh, icon, meta, level) for type_id, en, zh, icon, meta, level, value in rows
+            if value not in occupied and (not term or term in en.casefold() or term in (zh or '').casefold())]
+
+
+def items_for_extra(fit_json, collection, query=''):
+    from eos.saveddata.drone import Drone
+    from eos.saveddata.fighter import Fighter
+
+    bay = {'cargo': 'cargo', 'drones': 'droneBay', 'fighters': 'fighterBay'}.get(collection)
+    if collection == 'cargo' and not query.strip():
+        return []
+    with _temporary_fit():
+        fit, _ = _engine.build(fit_json)
+        if bay:
+            resource = _engine.resources(fit)[bay]
+            remaining = resource['total'] - resource['used']
+            if remaining <= 0:
+                return []
+            rows = _extra_catalog(collection, query, remaining=remaining + 1e-9, attribute='volume')
+        else:
+            attribute = {'implants': 'implantness', 'boosters': 'boosterness'}[collection]
+            occupied = {item.slot for item in getattr(fit, collection)}
+            rows = _extra_catalog(collection, query, attribute=attribute, occupied=occupied)
+        if collection in ('drones', 'fighters'):
+            constructor = Drone if collection == 'drones' else Fighter
+            rows = [row for row in rows if constructor(_engine.item(row[0])).fits(fit)]
+        return _groups([
+            {'typeId': type_id, 'name': {'en': en, 'zh': zh or en}, 'iconId': icon,
+             'meta': meta_of(meta), 'metaLevel': level, 'keyValue': None, 'keyLine': ''}
+            for type_id, en, zh, icon, meta, level in rows
+        ])
+
+
+def fill_empty_slots(fit_json, source):
+    from engine import STATES, STATE_NAMES
+    from eos.saveddata.module import Module
+
+    slot, source_index = source['slot'], source['index']
+    rack = fit_json['modules'][slot]
+    if not 0 <= source_index < len(rack) or rack[source_index] is None:
+        return []
+    template = rack[source_index]
+    with _temporary_fit():
+        fit, positions = _engine.build(fit_json)
+        fitted = next(mod for mod in fit.modules if positions[id(mod)] == (slot, source_index))
+        if fitted.isEmpty:
+            return []
+        fills = []
+        for index in range(int(fit.getNumSlots(fitted.slot))):
+            if index < len(rack) and rack[index] is not None:
+                continue
+            clone = Module(fitted.item)
+            if not clone.fits(fit):
+                break
+            clone.charge = fitted.charge
+            clone.owner = fit
+            clone.state = clone.getMaxState(STATES[template['state']])
+            fit.modules.appendIgnoreEmpty(clone)
+            allowed = clone.canHaveState(clone.state)
+            if allowed is not True:
+                clone.state = allowed
+            _engine.recalc(fit)
+            fills.append({'index': index, 'module': {**template, 'state': STATE_NAMES[clone.state]}})
+        return fills

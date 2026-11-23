@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import type { FitDoc } from '../engine/types'
+import type { ExtraCollection, FitDoc } from '../engine/types'
 import { _t } from '../i18n/t'
+import { ExtraItemPicker, extraAddLabel } from './ExtraItemPicker'
+import { FitNotes } from './FitNotes'
 import { fmt, lname, useNameLanguage } from '../ui/format'
 import { removedMessage, useToast } from '../ui/Toast'
 import { useFitSession } from './fitSession'
@@ -12,6 +15,7 @@ export function FitExtras() {
   const language = useNameLanguage()
   const { fit, record, result, edit, removed } = useFitSession()
   const toast = useToast()
+  const [picker, setPicker] = useState<ExtraCollection>()
   const { cargo, droneBay } = result?.resources ?? {}
   const headings = {
     cargo: _t('Cargo'), drones: _t('Drones'), implants: _t('Implants'), boosters: _t('Boosters'),
@@ -52,24 +56,26 @@ export function FitExtras() {
     </ul>
   }
 
+  function addButton(collection: ExtraCollection) {
+    return <div className="fit-inset">
+      <button type="button" className="fit-button" onClick={() => setPicker(collection)}>{extraAddLabel(collection)}</button>
+    </div>
+  }
+
   return <>
     {(['cargo', 'drones', 'implants', 'boosters'] as const).map((collection) => {
       const resource = collection === 'cargo' ? cargo : collection === 'drones' ? droneBay : undefined
       return <FitSection key={collection} title={headings[collection]}
         info={resource && resource.total > 0 && `${fmt(resource.used)}/${fmt(resource.total)} ${_t('m³')}`}>
         {items(collection)}
+        {addButton(collection)}
       </FitSection>
     })}
-    <FitSection title={_t('Notes')}>
-      <div className="fit-inset">
-        <textarea className="fit-input" key={fit.notes} defaultValue={fit.notes} rows={4} aria-label={_t('Notes')}
-          placeholder={_t('Add notes')}
-          onBlur={(event) => {
-            const notes = event.currentTarget.value
-            if (notes !== fit.notes) edit((fit) => ({ ...fit, notes }))
-          }} />
-      </div>
+    <FitSection title={_t('Fighters')}>
+      {addButton('fighters')}
     </FitSection>
+    <FitNotes key={record.id} />
+    {picker && <ExtraItemPicker key={picker} collection={picker} onClose={() => setPicker(undefined)} />}
   </>
 }
 

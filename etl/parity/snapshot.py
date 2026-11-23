@@ -16,6 +16,39 @@ def module_ids(doc, slot):
     return sorted(m['typeId'] for m in doc['modules'][slot] if m)
 
 
+def content_snapshot(doc):
+    catalog = api.ship_catalog()
+    cruiser = next(group for group in catalog['groups'] if group['name']['en'] == 'Cruiser')
+    vexor = next(ship for ship in cruiser['ships'] if ship['typeId'] == 626)
+    assert vexor['name'] == {'en': 'Vexor', 'zh': '狂怒者级'}, vexor
+    assert vexor['raceId'] == 8, vexor
+    empty = {**doc, 'shipTypeId': vexor['typeId'], 'name': 'Vexor',
+             'modules': {slot: [] for slot in doc['modules']}}
+    result = api.calc(empty)
+    assert result['ship']['name'] == vexor['name']
+    assert result['resources']['slots']['high']['used'] == 0
+
+    drones = api.items_for_extra(empty, 'drones', '战锤')
+    assert any(row['name']['en'] == 'Hammerhead II' for group in drones for row in group['items'])
+    assert api.items_for_extra({**empty, 'shipTypeId': 587}, 'drones', 'Hammerhead') == []
+    assert api.items_for_extra(empty, 'fighters', 'Templar') == []
+    fighters = api.items_for_extra({**empty, 'shipTypeId': 23911}, 'fighters', 'Templar')
+    assert any(row['name']['en'] == 'Templar I' for group in fighters for row in group['items'])
+    cargo = api.items_for_extra(empty, 'cargo', 'Antimatter Charge S')
+    assert any(row['name']['en'] == 'Antimatter Charge S' for group in cargo for row in group['items'])
+    implants = api.items_for_extra(empty, 'implants', 'Ocular Filter')
+    assert implants and api.items_for_extra({**empty, 'implants': [10216]}, 'implants', 'Ocular Filter') == []
+    boosters = api.items_for_extra(empty, 'boosters', 'Blue Pill')
+    assert boosters
+
+    fills = api.fill_empty_slots(doc, {'slot': 'low', 'index': 0})
+    assert fills == [{'index': 3, 'module': doc['modules']['low'][0]}], fills
+    assert api.fill_empty_slots(doc, {'slot': 'low', 'index': 2}) == []
+    return {'vexor': vexor, 'shipCount': sum(len(group['ships']) for group in catalog['groups']),
+            'resources': result['resources'], 'drones': drones, 'fighters': fighters,
+            'cargo': cargo, 'implants': implants, 'boosters': boosters, 'fills': fills}
+
+
 def snapshot(doc):
     result = api.calc(doc)
     assert result['ship']['group']['en']
@@ -85,6 +118,7 @@ def snapshot(doc):
     missing = api.missing_skills({**doc, 'character': 'all0'})
     assert missing and all(s['requiredLevel'] > s['currentLevel'] == 0 for s in missing), missing
     return {
+        **({'content': content_snapshot(doc)} if doc['shipTypeId'] == 587 else {}),
         'calc': result, 'marketGroupsForSlot': market, 'itemInfo': item,
         'getDataVersion': api.get_data_version(), 'itemsForSlot': items, 'chargesFor': charges,
         'exports': exports, 'chineseEft': chinese, 'variations': variations, 'missingSkills': missing,

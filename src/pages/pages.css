@@ -149,3 +149,5 @@
 }
 .import-form button { justify-self: end; }
 .import-warnings { overflow-wrap: anywhere; color: var(--color-warn); }
+
+.fit-export-options { min-inline-size: 0; border: 0; padding: 0; margin: 0; }

@@ -10,6 +10,9 @@ import {
 
 export interface WorkerEngineClient extends EngineClient {
   marketGroupsForSlot(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
+  shipCatalog: NonNullable<EngineClient['shipCatalog']>
+  itemsForExtra: NonNullable<EngineClient['itemsForExtra']>
+  fillEmptySlots: NonNullable<EngineClient['fillEmptySlots']>
   itemInfo: NonNullable<EngineClient['itemInfo']>
   getDataVersion(): Promise<string>
   exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh'): Promise<string>
@@ -45,6 +48,9 @@ export async function createEngine(report?: ReportStage): Promise<WorkerEngineCl
       if (!isCalcResult(result)) throw new Error('Invalid CalcResult from engine Worker')
       return result
     },
+    shipCatalog: (...args) => remote.shipCatalog(...args),
+    itemsForExtra: (...args) => remote.itemsForExtra(...args),
+    fillEmptySlots: (...args) => remote.fillEmptySlots(...args),
     itemInfo: (...args) => remote.itemInfo(...args),
     getDataVersion: () => remote.getDataVersion(),
     marketGroupsForSlot: (...args) => remote.marketGroupsForSlot(...args),

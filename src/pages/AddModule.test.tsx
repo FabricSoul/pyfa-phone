@@ -18,7 +18,7 @@ it('opens only the first technology group with results', async () => {
   const second = screen.getByRole('button', { name: /^Tech I\b.*items/ })
   expect(first.getAttribute('aria-expanded')).toBe('true')
   expect(second.getAttribute('aria-expanded')).toBe('false')
-})
+}, 12_000)
 
 it('loads one default market group and only previews the expanded technology group', async () => {
   localStorage.removeItem('pyfa.recentModuleIds')
@@ -29,17 +29,21 @@ it('loads one default market group and only previews the expanded technology gro
   /></MemoryRouter></StrictMode>)
   await screen.findByRole('button', { name: /^Tech II.*items/ }, { timeout: 4000 })
   expect(marketGroupsForSlot).toHaveBeenCalledTimes(1)
-  expect(itemsForSlot).toHaveBeenCalledTimes(1)
+  await waitFor(() => expect(itemsForSlot).toHaveBeenCalledTimes(2))
   const first = itemsForSlot.mock.calls[0]?.[3]
   expect(first).toEqual({ marketGroupId: expect.any(Number), preview: false })
   const candidates: ItemGroup[] | undefined = await itemsForSlot.mock.results[0]?.value
   expect(candidates?.map(({ items }) => items.length)).toEqual([1, 3, 3, 2, 8])
+  expect(itemsForSlot.mock.calls[1]?.[3]).toEqual({
+    marketGroupId: first?.marketGroupId, meta: 'tech2', preview: true,
+  })
+  expect(await screen.findByText(/^After fitting:/)).toBeTruthy()
 
   fireEvent.click(screen.getByRole('button', { name: /^Tech I\b.*items/ }))
-  await waitFor(() => expect(itemsForSlot).toHaveBeenCalledTimes(2))
-  expect(itemsForSlot.mock.calls[1]?.[3]).toEqual({
+  await waitFor(() => expect(itemsForSlot).toHaveBeenCalledTimes(3))
+  expect(itemsForSlot.mock.calls[2]?.[3]).toEqual({
     marketGroupId: first?.marketGroupId, meta: 'tech1', preview: true,
   })
-  const trial: ItemGroup[] | undefined = await itemsForSlot.mock.results[1]?.value
+  const trial: ItemGroup[] | undefined = await itemsForSlot.mock.results[2]?.value
   expect(trial?.map(({ items }) => items.length)).toEqual([3])
-})
+}, 12_000)

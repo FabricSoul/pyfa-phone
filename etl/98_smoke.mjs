@@ -179,7 +179,8 @@ try {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 })
   await page.getByRole('button', { name: '返回', exact: true }).click()
   await page.getByRole('button', { name: '新建', exact: true }).click()
-  await page.getByRole('dialog').getByRole('button', { name: 'Rifter', exact: true }).click()
+  await page.getByRole('searchbox', { name: '搜索舰船' }).fill('Rifter')
+  await page.getByRole('button', { name: 'Rifter', exact: true }).click()
   const add = page.locator('section').filter({ has: page.getByRole('heading', { name: '低槽', exact: true }) })
     .getByRole('button', { name: /空槽/ })
   const entering = performance.now()
@@ -198,6 +199,28 @@ try {
   console.log(`Rifter low slot at 4× CPU: list ${listed} ms, group preview ${ms(expanding)} ms`)
 
   await usability('add module')
+
+  step = 'create a non-example Vexor, add a module and export DNA'
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 })
+  await page.getByRole('link', { name: '返回', exact: true }).click()
+  await page.getByRole('button', { name: '返回', exact: true }).click()
+  await page.getByRole('button', { name: '新建', exact: true }).click()
+  await page.getByRole('button', { name: 'Cruiser', exact: true }).click()
+  await page.getByRole('combobox', { name: '舰船阵营' }).selectOption({ label: '盖伦特' })
+  await page.getByRole('searchbox', { name: '搜索舰船' }).fill('狂怒者')
+  await usability('ship browser')
+  await page.getByRole('button', { name: 'Vexor', exact: true }).click()
+  await page.locator('section').filter({ has: page.getByRole('heading', { name: '低槽', exact: true }) })
+    .getByRole('button', { name: /空槽/ }).click()
+  await page.getByRole('searchbox').fill('Damage Control II')
+  await page.locator('.candidate').filter({ hasText: 'Damage Control II' }).click()
+  await page.getByText('Damage Control II', { exact: true }).waitFor()
+  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true }))
+  await page.getByRole('button', { name: '更多', exact: true }).click()
+  await page.getByRole('button', { name: '复制 DNA', exact: true }).click()
+  const dna = await page.getByRole('textbox', { name: '导出的装配' }).inputValue()
+  assert.match(dna, /^626:.*2048;1:/)
+  console.log('Non-example ship creation, module addition and DNA fallback passed')
 
   step = 'show a 404 page with a way home (I7) and reach home from a directly opened settings page (C1)'
   await page.goto(`${base}#/nonsense/route`)

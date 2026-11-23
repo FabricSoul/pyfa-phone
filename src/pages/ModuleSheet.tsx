@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MODULE_STATES, type FitDoc, type ChargeGroup, type ModulePos, type ModuleSlotRow, type ModuleState } from '../engine/types'
 import { _t } from '../i18n/t'
@@ -28,7 +28,10 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   const language = useNameLanguage()
   const navigate = useNavigate()
   const { engine } = useFitServices()
-  const { edit, fit, record } = useFitSession()
+  const { edit, fit, record, result } = useFitSession()
+  const isMounted = useRef(false)
+  const [filling, setFilling] = useState(false)
+  const [fillMessage, setFillMessage] = useState<'error' | 'none'>()
   const removeModules = useRemoveModules()
   const [ammo, setAmmo] = useState<{ fit: FitDoc; index: number; groups: ChargeGroup[] }>()
   const [error, setError] = useState(false)
@@ -41,6 +44,38 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   const chargeTypeId = current?.chargeTypeId
   const path = `/fit/${record.id}`
   const states = row.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] as const : MODULE_STATES)
+
+  const slotCount = result?.resources.slots[slot].total ?? 0
+  const hasRoom = Array.from({ length: slotCount }, (_, index) => index).some((index) => !fit.modules[slot][index])
+
+  useEffect(() => {
+    isMounted.current = true
+    return () => { isMounted.current = false }
+  }, [])
+
+  async function fill() {
+    if (!engine.fillEmptySlots || filling) return
+    setFilling(true)
+    setFillMessage(undefined)
+    try {
+      const slots = await engine.fillEmptySlots(fit, { slot, index: source })
+      if (!isMounted.current) return
+      if (!slots.length) { setFillMessage('none'); return }
+      let edited = false
+      edit((current) => {
+        if (current !== fit) return current
+        edited = true
+        return withModules(current, slot, slots.map(({ index }) => index),
+          (_, index) => slots.find((entry) => entry.index === index)?.module ?? null)
+      })
+      if (edited) onClose()
+      else setFillMessage('error')
+    } catch {
+      if (isMounted.current) setFillMessage('error')
+    } finally {
+      if (isMounted.current) setFilling(false)
+    }
+  }
 
   useEffect(() => {
     let live = true
@@ -90,6 +125,14 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
     <SheetAction icon="info" onClick={() => navigate(`/item/${row.typeId}?fit=${encodeURIComponent(record.id)}&pos=${positionKey({ slot, index: source })}`)}>
       {_t('Item information')}
     </SheetAction>
+    {current && hasRoom && engine.fillEmptySlots && <>
+      <button type="button" className="act" disabled={filling} onClick={() => void fill()}>
+        {_t('Fill empty slots of this type')}
+      </button>
+      {fillMessage && <p role="status" className="page-message">
+        {fillMessage === 'none' ? _t('No compatible empty slots') : _t('Could not fill empty slots')}
+      </p>}
+    </>}
     <SheetAction warn icon="trash" onClick={() => {
       removeModules(slot, positions, lname(row.name, language))
       onClose()

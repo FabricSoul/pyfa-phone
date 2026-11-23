@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import type { CalcResult } from '../engine/types'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
 import { useSettings } from '../settings/settings'
 import { _t } from '../i18n/t'
-import { exampleFitDocs, type StoredFit } from '../store/fits'
-import { ActionSheet, SheetAction } from '../ui/ActionSheet'
+import type { StoredFit } from '../store/fits'
 import { FitRow } from '../ui/FitRow'
 import { ItemIcon } from '../ui/ItemIcon'
 import { lname, renderUrl, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { useFitServices } from './fitSession'
+import { ShipBrowser } from './ShipBrowser'
 import { FitSection, warningText } from './shared'
 
 interface Entry {
@@ -19,14 +19,17 @@ interface Entry {
 }
 
 export function Home() {
+  const [params] = useSearchParams()
+  return params.has('new') ? <ShipBrowser /> : <FitLibrary />
+}
+
+function FitLibrary() {
   const lang = useNameLanguage()
   const { considerReload, priceIncluded } = useSettings()
   const navigate = useNavigate()
   const { engine, store } = useFitServices()
   const [entries, setEntries] = useState<Entry[]>()
   const [query, setQuery] = useState('')
-  const [creating, setCreating] = useState(false)
-  const [examples, setExamples] = useState<Pick<CalcResult, 'ship' | 'dataVersion'>[]>()
   const [error, setError] = useState(false)
 
   useEffect(() => {
@@ -44,17 +47,6 @@ export function Home() {
     return () => { current = false }
   }, [considerReload, engine, store])
 
-  useEffect(() => {
-    if (!creating || examples || !entries) return
-    let current = true
-    void Promise.allSettled(exampleFitDocs.map(({ fit }) => {
-      const existing = entries.find(({ result }) => result?.ship.typeId === fit.shipTypeId)?.result
-      return existing ?? engine.calc(emptyFit(fit, ''), { includeReload: considerReload })
-    })).then((ships) => {
-      if (current) setExamples(ships.flatMap((ship) => ship.status === 'fulfilled' ? [ship.value] : []))
-    })
-    return () => { current = false }
-  }, [considerReload, creating, engine, entries, examples])
   const quotes = usePriceQuotes((entries ?? []).flatMap(({ result }) =>
     result ? totalPriceItems(result.priceItems, priceIncluded) : []))
   const needle = query.trim().toLowerCase()
@@ -70,21 +62,11 @@ export function Home() {
   const recent = entries?.filter(({ record }) => record.openedAt !== null)
     .sort((a, b) => (b.record.openedAt ?? 0) - (a.record.openedAt ?? 0)).slice(0, 6) ?? []
 
-  function create(ship: CalcResult['ship'], dataVersion: string) {
-    const example = exampleFitDocs.find(({ fit }) => fit.shipTypeId === ship.typeId)
-    if (!example) return
-    const id = crypto.randomUUID()
-    const fit = emptyFit({ ...example.fit, dataVersion }, lname(ship.name, lang))
-    setCreating(false)
-    void store.save({ id, fit, openedAt: null, itemNames: { [ship.typeId]: ship.name } })
-      .then(() => navigate(`/fit/${id}`), () => setError(true))
-  }
-
   return <main>
     <header className="home-heading">
       <h1>{_t('Fittings')}</h1>
       <Link className="fit-button" to="/settings">{_t('Settings')}</Link>
-      <button type="button" className="fit-button primary" onClick={() => setCreating(true)} disabled={!entries}>
+      <button type="button" className="fit-button primary" onClick={() => navigate('/?new')}>
         <Icon name="plus" />{_t('New')}
       </button>
     </header>
@@ -118,24 +100,7 @@ export function Home() {
       </div>
     </FitSection>)}
     {entries && !groups.size && <p className="page-message">{needle ? _t('No matching fits') : _t('No fits yet')}</p>}
-    <ActionSheet open={creating} title={_t('New fit')} onClose={() => setCreating(false)}>
-      <FitSection title={_t('New fit')}>
-        {!examples && <p className="page-message" role="status">{_t('Loading ships…')}</p>}
-        {examples?.length === 0 && <p className="page-message">{_t('No ships available')}</p>}
-        {examples?.map(({ ship, dataVersion }) => <SheetAction key={ship.typeId} onClick={() => create(ship, dataVersion)}>
-          {lname(ship.name, lang)}
-        </SheetAction>)}
-      </FitSection>
-    </ActionSheet>
   </main>
 }
 
 const fmtCount = (count: number) => _t('{n} fits').replace('{n}', String(count))
-
-function emptyFit(fit: StoredFit['fit'], name: string): StoredFit['fit'] {
-  return {
-    ...fit, name,
-    modules: { high: [], mid: [], low: [], rig: [], subsystem: [] },
-    cargo: [], drones: [], implants: [], boosters: [], notes: '',
-  }
-}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
   META_GROUPS, SlotKindSchema, type FitDoc, type ItemGroup, type ItemRow, type MarketGroup, type MetaGroup, type SlotKind,
@@ -65,7 +65,6 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   const { record, fit, result, edit } = useFitSession()
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<number>()
-  const [previewed, setPreviewed] = useState<ReadonlySet<MetaGroup>>(new Set())
   const [meta, setMeta] = useState<MetaGroup>()
   const [browse, setBrowse] = useState(false)
   const [branch, setBranch] = useState<number[]>([])
@@ -73,6 +72,7 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   const [marketGroups, setMarketGroups] = useState<MarketGroup[]>()
   const [marketError, setMarketError] = useState(false)
   const [error, setError] = useState(false)
+  const [previews, setPreviews] = useState<{ listing: Listing; groups: Partial<Record<MetaGroup, ItemGroup>> }>()
   const [recents] = useState(readRecent)
   const path = `/fit/${record.id}`
   const search = query.trim()
@@ -101,7 +101,6 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     const timer = setTimeout(() => {
       void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId: groupId, preview: false }).then((groups) => {
         if (!current) return
-        setPreviewed(new Set())
         setListing({ fit, query: search, groupId, groups: groups.filter((group) => group.items.length > 0) })
         setError(false)
       }, () => { if (current) setError(true) })
@@ -110,7 +109,8 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   }, [browse, engine, fit, groupId, request, search, slot])
 
   const loaded = listing?.fit === fit && listing.query === search && listing.groupId === groupId
-  const groups = loaded ? listing.groups : []
+  const groups = loaded ? listing.groups.map((group) =>
+    previews?.listing === listing ? previews.groups[group.meta] ?? group : group) : []
   const items = groups.flatMap((group) => group.items)
   const visible = meta ? groups.filter((group) => group.meta === meta) : groups
   const installed = fit.modules[slot].flatMap((module) => module ? [module.typeId] : [])
@@ -147,7 +147,6 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     setSelected(group.id)
     setError(false)
     setMeta(undefined)
-    setPreviewed(new Set())
     setBrowse(false)
     setBranch([])
   }
@@ -193,7 +192,6 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
           onChange={(event) => {
             const code = event.target.value as MetaGroup | ''
             setMeta(code || undefined)
-            if (code) setPreviewed((previous) => new Set([...previous, code]))
           }}>
           <option value="">{_t('All technology levels')}</option>
           {META_GROUPS.filter((code) => groups.some((group) => group.meta === code)).map((code) =>
@@ -202,9 +200,13 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
       </div>}
       {loaded && !visible.length && <EmptyMessage>{_t('No matching modules')}</EmptyMessage>}
       {visible.length > 0 && <MetaGroupList key={JSON.stringify([search, groupId, meta])} groups={visible}
-        onExpand={(code) => setPreviewed((previous) => new Set([...previous, code]))}
         renderGroup={(group) => <CandidateRows group={group} slot={slot} search={search} groupId={groupId}
-          disabled={index === undefined} checkFit={previewed.has(group.meta)} onPick={pick} />} />}
+          disabled={index === undefined} checked={previews?.listing === listing && Boolean(previews?.groups[group.meta])}
+          onChecked={(preview) => {
+            if (listing) setPreviews((before) => ({
+              listing, groups: { ...(before?.listing === listing ? before.groups : {}), [group.meta]: preview },
+            }))
+          }} onPick={pick} />} />}
     </>}
     {!search && families.length > 0 && <button type="button" className="market-link" onClick={() => { setBrowse(!browse); setBranch([]) }}>
       {browse ? _t('Return to modules') : _t('Browse all market groups')} <Icon name="chevron-down" />
@@ -212,37 +214,39 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   </main>
 }
 
-function CandidateRows({ group, slot, search, groupId, disabled, checkFit, onPick }: {
+function CandidateRows({ group, slot, search, groupId, disabled, checked, onChecked, onPick }: {
   group: ItemGroup
   slot: SlotKind
   search: string
   groupId?: number
   disabled: boolean
-  checkFit: boolean
+  checked: boolean
+  onChecked: (preview: ItemGroup) => void
   onPick: (item: ItemRow) => void
 }) {
   const lang = useNameLanguage()
   const { engine } = useFitServices()
   const { fit } = useFitSession()
-  const [previews, setPreviews] = useState<ItemRow[]>()
+  const onCheckedRef = useRef(onChecked)
+  onCheckedRef.current = onChecked
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    if (disabled || !checkFit) return
+    if (disabled || checked) return
     let current = true
     const timer = setTimeout(() => {
       void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId: groupId, meta: group.meta, preview: true })
         .then((groups) => {
-          if (current) setPreviews(groups.flatMap((group) => group.items))
+          if (current) onCheckedRef.current(groups.find((entry) => entry.meta === group.meta) ?? group)
         }, () => { if (current) setError(true) })
     }, 0)
     return () => { current = false; clearTimeout(timer) }
-  }, [checkFit, disabled, engine, fit, group.meta, groupId, search, slot])
+  }, [checked, disabled, engine, fit, group, groupId, search, slot])
 
   return <>
-    {checkFit && !disabled && !previews && !error && <p className="fit-caption fit-preview" role="status">{_t('Checking fit…')}</p>}
+    {!disabled && !checked && !error && <p className="fit-caption fit-preview" role="status">{_t('Checking fit…')}</p>}
     {error && <p className="fit-caption fit-preview warn" role="status">{_t('Could not check fitting resources')}</p>}
-    {(previews ?? group.items).map((item) => {
+    {group.items.map((item) => {
       const warnings = fittingWarnings(item)
       return <button key={item.typeId} type="button" className="ar candidate" disabled={disabled} onClick={() => onPick(item)}>
         <ItemIcon src={iconUrl(item.iconId)} />

@@ -313,6 +313,26 @@ export const mockEngine: EngineClient = {
     return projected
   },
 
+  async shipCatalog() {
+    return {
+      dataVersion: catalog.dataVersion,
+      groups: [
+        {
+          id: 25, name: shipGroups[587]!,
+          ships: [587, 603].map((id) => ({ ...resultByShip.get(id)!.ship, raceId: id === 587 ? 2 : 1 })),
+        },
+        { id: 420, name: shipGroups[16242]!, ships: [{ ...resultByShip.get(16242)!.ship, raceId: 2 }] },
+      ],
+    }
+  },
+
+  async itemsForExtra(_fit, collection, query) {
+    if (collection !== 'cargo' || !query.trim()) return []
+    const term = query.trim().toLowerCase()
+    return groupItems([...charges.values()].filter(({ name }) =>
+      [name.en, name.zh].some((title) => title.toLowerCase().includes(term))))
+  },
+
   async getDataVersion() {
     return catalog.dataVersion
   },

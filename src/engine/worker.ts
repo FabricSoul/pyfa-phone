@@ -78,6 +78,9 @@ const runtime = (report?: Parameters<EngineWorkerApi['ready']>[0]) => (startup ?
 type Operation = Exclude<keyof EngineWorkerApi, 'ready'>
 const pythonFunction: Record<Operation, string> = {
   calc: 'calc',
+  shipCatalog: 'ship_catalog',
+  itemsForExtra: 'items_for_extra',
+  fillEmptySlots: 'fill_empty_slots',
   itemInfo: 'item_info',
   getDataVersion: 'get_data_version',
   marketGroupsForSlot: 'market_groups_for_slot',
@@ -107,6 +110,9 @@ async function call<K extends Operation>(
 expose({
   async ready(report) { await runtime(report) },
   calc: (...args) => call('calc', ...args),
+  shipCatalog: (...args) => call('shipCatalog', ...args),
+  itemsForExtra: (...args) => call('itemsForExtra', ...args),
+  fillEmptySlots: (...args) => call('fillEmptySlots', ...args),
   itemInfo: (...args) => call('itemInfo', ...args),
   getDataVersion: () => call('getDataVersion'),
   marketGroupsForSlot: (...args) => call('marketGroupsForSlot', ...args),

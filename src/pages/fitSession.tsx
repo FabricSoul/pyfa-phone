@@ -46,11 +46,11 @@ export function useFitSession() {
   return useContext(FitContext)!
 }
 
-export function withModules(fit: FitDoc, slot: SlotKind, positions: number[], update: (mod: FitModule | null) => FitModule | null): FitDoc {
+export function withModules(fit: FitDoc, slot: SlotKind, positions: number[], update: (mod: FitModule | null, index: number) => FitModule | null): FitDoc {
   const modules = [...fit.modules[slot]]
   for (const index of positions) {
     while (modules.length <= index) modules.push(null)
-    modules[index] = update(modules[index] ?? null)
+    modules[index] = update(modules[index] ?? null, index)
   }
   return { ...fit, modules: { ...fit.modules, [slot]: modules } }
 }

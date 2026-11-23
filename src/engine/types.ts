@@ -348,6 +348,25 @@ export interface MissingSkill {
 
 export type ExportFormat = 'eft' | 'dna' | 'multibuy'
 
+export interface CatalogShip {
+  typeId: number
+  name: LName
+  graphicId: number | null
+  raceId: number | null
+}
+
+export interface ShipCatalog {
+  dataVersion: string
+  groups: { id: number; name: LName; ships: CatalogShip[] }[]
+}
+
+export type ExtraCollection = 'cargo' | 'drones' | 'fighters' | 'implants' | 'boosters'
+
+export interface SlotFill {
+  index: number
+  module: FitModule
+}
+
 /** What the UI calls; implemented by the Worker client and by `mockEngine`. */
 export interface EngineClient {
   calc(fit: FitDoc, options?: CalcOptions): Promise<CalcResult>
@@ -358,7 +377,10 @@ export interface EngineClient {
   chargesFor(fit: FitDoc, pos: ModulePos, metaGroup?: MetaGroup): Promise<ChargeGroup[]>
   variationsOf(typeId: number): Promise<ItemGroup[]>
   importText(text: string): Promise<ImportResult>
-  exportText(fit: FitDoc, format: ExportFormat): Promise<string>
+  exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh'): Promise<string>
+  shipCatalog?(): Promise<ShipCatalog>
+  itemsForExtra?(fit: FitDoc, collection: ExtraCollection, query: string): Promise<ItemGroup[]>
+  fillEmptySlots?(fit: FitDoc, source: ModulePos): Promise<SlotFill[]>
   missingSkills(fit: FitDoc): Promise<MissingSkill[]>
   /** Current asset version, used to detect retired IDs before calculating an old fit. */
   getDataVersion?(): Promise<string>
