@@ -43,6 +43,7 @@
   justify-content: center;
   gap: var(--space-1);
   min-height: var(--control);
+  min-width: var(--control);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-s);
   background: var(--color-fill);
@@ -69,7 +70,7 @@
 }
 .fit-input::placeholder { color: var(--color-text-secondary); }
 .fit-filter-bar { justify-content: space-between; padding: var(--space-2) var(--space-4); }
-.fit-filter-bar select { width: auto; max-width: 52%; }
+.fit-filter-bar select { width: auto; max-width: 100%; }
 .fit-filter-label { margin: var(--space-2) var(--space-4) var(--space-1); color: var(--color-text-secondary); }
 .fit-chips, .recent-fits {
   display: flex;

@@ -499,6 +499,18 @@ try {
   await screenshot('g3-extras-fighters')
   console.log('G3 Thanatos: light 1/3, heavy 0/0, support 0/2, Dragonfly I 6/6')
 
+  step = 'verify English stats page tap targets and usability (D03)'
+  await page.evaluate(() => {
+    const s = JSON.parse(localStorage.getItem('pyfa.settings') || '{}')
+    s.uiLanguage = 'en_US'
+    localStorage.setItem('pyfa.settings', JSON.stringify(s))
+  })
+  await page.reload()
+  await page.goto(`${base}#/fit/rifter?view=stats`)
+  await page.getByRole('tab', { name: 'Stats', exact: true }).waitFor()
+  await usability('fit stats en')
+  console.log('English stats page tap targets passed')
+
   await context.close()
 
   step = 'retry a failed engine startup'

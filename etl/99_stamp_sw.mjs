@@ -92,6 +92,57 @@ export function stampSw(distDir = path.resolve('dist')) {
     precacheUrls.add(df)
   }
 
+  // 4. 离线图标与舰船渲染图预缓存（P19：装配里已有的物品和全部舰船渲染图，不含全部 1734 个图标）
+  const rendersDir = path.join(distDir, 'img', 'renders')
+  if (fs.existsSync(rendersDir)) {
+    for (const f of fs.readdirSync(rendersDir)) {
+      if (f.endsWith('.png')) precacheUrls.add(`/img/renders/${f}`)
+    }
+  }
+
+  const iconsDir = path.join(distDir, 'img', 'icons')
+  if (fs.existsSync(iconsDir)) {
+    const fitIcons = new Set()
+    const fixtureDirs = [
+      path.resolve('src/engine/fixtures'),
+      path.resolve('etl/fixtures'),
+    ]
+    for (const dir of fixtureDirs) {
+      if (fs.existsSync(dir)) {
+        for (const file of fs.readdirSync(dir)) {
+          if (file.endsWith('.json') && file !== 'catalog.json') {
+            try {
+              const data = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'))
+              JSON.stringify(data, (key, val) => {
+                if (key === 'iconId' && typeof val === 'number') fitIcons.add(val)
+                return val
+              })
+            } catch { /* skip */ }
+          }
+        }
+      }
+    }
+    for (const id of fitIcons) {
+      if (fs.existsSync(path.join(iconsDir, `${id}.png`))) {
+        precacheUrls.add(`/img/icons/${id}.png`)
+      }
+    }
+
+    // 全部图标清单供设置页“下载全部图标供离线使用”读取
+    const allIcons = fs.readdirSync(iconsDir)
+      .filter((f) => f.endsWith('.png'))
+      .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
+      .map((f) => `/img/icons/${f}`)
+    const distData = path.join(distDir, 'data')
+    if (fs.existsSync(distData)) {
+      fs.writeFileSync(path.join(distData, 'icons.json'), JSON.stringify(allIcons))
+    }
+    const pubData = path.resolve('public', 'data')
+    if (fs.existsSync(pubData)) {
+      fs.writeFileSync(path.join(pubData, 'icons.json'), JSON.stringify(allIcons))
+    }
+  }
+
   const cacheName = `pyfa-${buildHash}-${dataVersion}`
   const precacheList = Array.from(precacheUrls)
 

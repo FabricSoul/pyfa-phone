@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 00:16-0500\n"
+"POT-Creation-Date: 2026-11-23 00:26-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -18,7 +18,7 @@ msgid_plural "%d attributes."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/pages/Settings.tsx:170
+#: src/pages/Settings.tsx:226
 msgid "A fit in the file is invalid:"
 msgstr ""
 
@@ -26,7 +26,7 @@ msgstr ""
 msgid "AU/s"
 msgstr ""
 
-#: src/pages/About.tsx:8 src/pages/Home.tsx:107 src/pages/Settings.tsx:263
+#: src/pages/About.tsx:8 src/pages/Home.tsx:107 src/pages/Settings.tsx:322
 msgid "About"
 msgstr ""
 
@@ -130,16 +130,20 @@ msgstr ""
 msgid "Align time"
 msgstr ""
 
-#: src/pages/Fit.tsx:220 src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Fit.tsx:220 src/pages/Settings.tsx:94 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr ""
 
-#: src/pages/Fit.tsx:220 src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Fit.tsx:220 src/pages/Settings.tsx:94 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr ""
 
 #: src/pages/ShipBrowser.tsx:100
 msgid "All factions"
+msgstr ""
+
+#: src/pages/Settings.tsx:155
+msgid "All icons downloaded for offline use"
 msgstr ""
 
 #: src/pages/ShipBrowser.tsx:106
@@ -162,7 +166,7 @@ msgstr ""
 msgid "Ambiguous item name: {name}. Candidates: {candidates}"
 msgstr ""
 
-#: src/pages/Settings.tsx:209
+#: src/pages/Settings.tsx:265
 msgid "Appearance & language"
 msgstr ""
 
@@ -196,15 +200,15 @@ msgstr ""
 msgid "Back to fittings"
 msgstr ""
 
-#: src/pages/Settings.tsx:282
+#: src/pages/Settings.tsx:381
 msgid "Backup JSON, copy it and save it"
 msgstr ""
 
-#: src/pages/Settings.tsx:178 src/pages/Settings.tsx:183
+#: src/pages/Settings.tsx:234 src/pages/Settings.tsx:239
 msgid "Backup rejected"
 msgstr ""
 
-#: src/pages/Settings.tsx:197
+#: src/pages/Settings.tsx:253
 msgid "Backup restored: {n} fits"
 msgstr ""
 
@@ -212,7 +216,7 @@ msgstr ""
 msgid "Base → fitted"
 msgstr ""
 
-#: src/pages/About.tsx:30 src/pages/Settings.tsx:260
+#: src/pages/About.tsx:30 src/pages/Settings.tsx:319
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
@@ -236,7 +240,7 @@ msgstr ""
 msgid "Calculating fit…"
 msgstr ""
 
-#: src/pages/Settings.tsx:228
+#: src/pages/Settings.tsx:284
 msgid "Calculation"
 msgstr ""
 
@@ -248,7 +252,7 @@ msgstr ""
 msgid "Calibration"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:225 src/pages/FitMenu.tsx:232 src/pages/Settings.tsx:278
+#: src/pages/FitMenu.tsx:225 src/pages/FitMenu.tsx:232 src/pages/Settings.tsx:377
 msgid "Cancel"
 msgstr ""
 
@@ -260,7 +264,7 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/Fit.tsx:261 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:178 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:261 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:178 src/pages/Settings.tsx:50 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
@@ -268,7 +272,7 @@ msgstr ""
 msgid "Cargo bay"
 msgstr ""
 
-#: src/pages/Fit.tsx:220 src/pages/Fit.tsx:231 src/pages/Settings.tsx:28 src/pages/Settings.tsx:220 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Fit.tsx:220 src/pages/Fit.tsx:231 src/pages/Settings.tsx:28 src/pages/Settings.tsx:276 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr ""
 
@@ -296,11 +300,11 @@ msgstr ""
 msgid "Compared with the current base damage multiplier and CPU. Replacing changes {n} modules."
 msgstr ""
 
-#: src/pages/Settings.tsx:232
+#: src/pages/Settings.tsx:288
 msgid "Consider reboot"
 msgstr ""
 
-#: src/pages/Settings.tsx:230
+#: src/pages/Settings.tsx:286
 msgid "Consider reload"
 msgstr ""
 
@@ -330,6 +334,10 @@ msgstr ""
 
 #: src/pages/FitMenu.tsx:158
 msgid "Could not complete action"
+msgstr ""
+
+#: src/pages/Settings.tsx:157
+msgid "Could not download all icons"
 msgstr ""
 
 #: src/pages/ModuleSheet.tsx:193
@@ -420,15 +428,15 @@ msgstr ""
 msgid "Damage over distance"
 msgstr ""
 
-#: src/pages/Fit.tsx:288 src/pages/Settings.tsx:29 src/pages/Settings.tsx:222 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Fit.tsx:288 src/pages/Settings.tsx:29 src/pages/Settings.tsx:278 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr ""
 
-#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:292
+#: src/pages/Settings.tsx:88 src/pages/Settings.tsx:391
 msgid "Dark"
 msgstr ""
 
-#: src/pages/Settings.tsx:247
+#: src/pages/Settings.tsx:304
 msgid "Data"
 msgstr ""
 
@@ -444,6 +452,14 @@ msgstr ""
 msgid "Decides skill levels · two built-in characters in the first version"
 msgstr ""
 
+#: src/pages/Settings.tsx:336
+msgid "Decrease by 1%"
+msgstr ""
+
+#: src/pages/Settings.tsx:333
+msgid "Decrease by 5%"
+msgstr ""
+
 #: src/ui/ExtraQuantity.tsx:20
 msgid "Decrease {label} for {item}"
 msgstr ""
@@ -452,8 +468,12 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: src/pages/Fit.tsx:270 src/pages/Settings.tsx:236
+#: src/pages/Fit.tsx:270 src/pages/Settings.tsx:31 src/pages/Settings.tsx:292 src/pages/Settings.tsx:329
 msgid "Default preheat"
+msgstr ""
+
+#: src/pages/Settings.tsx:340
+msgid "Default preheat percent"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:108
@@ -488,6 +508,14 @@ msgstr ""
 msgid "Does not fit"
 msgstr ""
 
+#: src/pages/Settings.tsx:308
+msgid "Download all icons for offline use"
+msgstr ""
+
+#: src/pages/Settings.tsx:166
+msgid "Downloaded (4.1 MB)"
+msgstr ""
+
 #: src/App.tsx:103
 msgid "Downloading Python runtime…"
 msgstr ""
@@ -512,7 +540,7 @@ msgstr ""
 msgid "Drone control range"
 msgstr ""
 
-#: src/pages/Fit.tsx:259 src/pages/FitExtras.tsx:51 src/pages/Settings.tsx:47
+#: src/pages/Fit.tsx:259 src/pages/FitExtras.tsx:51 src/pages/Settings.tsx:49
 msgid "Drones"
 msgstr ""
 
@@ -544,7 +572,7 @@ msgstr ""
 msgid "EM"
 msgstr ""
 
-#: src/pages/About.tsx:27 src/pages/Settings.tsx:259
+#: src/pages/About.tsx:27 src/pages/Settings.tsx:318
 msgid "EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf."
 msgstr ""
 
@@ -556,7 +584,7 @@ msgstr ""
 msgid "Explosive"
 msgstr ""
 
-#: src/pages/Settings.tsx:32 src/pages/Settings.tsx:249
+#: src/pages/Settings.tsx:33 src/pages/Settings.tsx:306
 msgid "Export all fits backup"
 msgstr ""
 
@@ -640,7 +668,7 @@ msgstr ""
 msgid "Fittings"
 msgstr ""
 
-#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:88 src/pages/Settings.tsx:290
+#: src/pages/Settings.tsx:88 src/pages/Settings.tsx:90 src/pages/Settings.tsx:389
 msgid "Follow system"
 msgstr ""
 
@@ -656,7 +684,7 @@ msgstr ""
 msgid "Gallente"
 msgstr ""
 
-#: src/pages/Settings.tsx:251
+#: src/pages/Settings.tsx:310
 msgid "Game data version"
 msgstr ""
 
@@ -688,7 +716,7 @@ msgstr ""
 msgid "Implant source"
 msgstr ""
 
-#: src/pages/Fit.tsx:262 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:179 src/pages/Settings.tsx:49
+#: src/pages/Fit.tsx:262 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:179 src/pages/Settings.tsx:51
 msgid "Implants"
 msgstr ""
 
@@ -708,6 +736,14 @@ msgstr ""
 msgid "Incompatible with this ship"
 msgstr ""
 
+#: src/pages/Settings.tsx:350
+msgid "Increase by 1%"
+msgstr ""
+
+#: src/pages/Settings.tsx:353
+msgid "Increase by 5%"
+msgstr ""
+
 #: src/ui/ExtraQuantity.tsx:33
 msgid "Increase {label} for {item}"
 msgstr ""
@@ -720,7 +756,7 @@ msgstr ""
 msgid "Install now"
 msgstr ""
 
-#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:212 src/pages/Settings.tsx:300
+#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:268 src/pages/Settings.tsx:399
 msgid "Interface language"
 msgstr ""
 
@@ -732,7 +768,7 @@ msgstr ""
 msgid "Item information unavailable"
 msgstr ""
 
-#: src/pages/Settings.tsx:27 src/pages/Settings.tsx:214 src/pages/Settings.tsx:309
+#: src/pages/Settings.tsx:27 src/pages/Settings.tsx:270 src/pages/Settings.tsx:408
 msgid "Item names"
 msgstr ""
 
@@ -760,7 +796,7 @@ msgstr ""
 msgid "Launchers"
 msgstr ""
 
-#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:291
+#: src/pages/Settings.tsx:88 src/pages/Settings.tsx:390
 msgid "Light"
 msgstr ""
 
@@ -832,7 +868,7 @@ msgstr ""
 msgid "Maximum of this module fitted"
 msgstr ""
 
-#: src/pages/Settings.tsx:277
+#: src/pages/Settings.tsx:376
 msgid "Merge (keep existing)"
 msgstr ""
 
@@ -884,7 +920,7 @@ msgstr ""
 msgid "New fit"
 msgstr ""
 
-#: src/pages/Settings.tsx:218
+#: src/pages/Settings.tsx:274
 msgid "New fit defaults"
 msgstr ""
 
@@ -1044,7 +1080,7 @@ msgstr ""
 msgid "Preheat cycles"
 msgstr ""
 
-#: src/pages/Settings.tsx:239
+#: src/pages/Settings.tsx:296
 msgid "Price"
 msgstr ""
 
@@ -1124,7 +1160,7 @@ msgstr ""
 msgid "Replace with a variation"
 msgstr ""
 
-#: src/pages/Settings.tsx:275
+#: src/pages/Settings.tsx:374
 msgid "Replace {n} fits"
 msgstr ""
 
@@ -1140,11 +1176,11 @@ msgstr ""
 msgid "Resources and prices"
 msgstr ""
 
-#: src/pages/Settings.tsx:199
+#: src/pages/Settings.tsx:255
 msgid "Restore failed. Your existing fits were not changed."
 msgstr ""
 
-#: src/pages/Settings.tsx:31 src/pages/Settings.tsx:250
+#: src/pages/Settings.tsx:32 src/pages/Settings.tsx:307
 msgid "Restore from backup"
 msgstr ""
 
@@ -1224,7 +1260,7 @@ msgstr ""
 msgid "Set {n} modules individually"
 msgstr ""
 
-#: src/pages/Home.tsx:71 src/pages/Settings.tsx:33 src/pages/Settings.tsx:203
+#: src/pages/Home.tsx:71 src/pages/Settings.tsx:34 src/pages/Settings.tsx:259
 msgid "Settings"
 msgstr ""
 
@@ -1276,7 +1312,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: src/pages/Settings.tsx:241
+#: src/pages/Settings.tsx:298
 msgid "Source"
 msgstr ""
 
@@ -1308,7 +1344,7 @@ msgstr ""
 msgid "Storyline"
 msgstr ""
 
-#: src/pages/Settings.tsx:234
+#: src/pages/Settings.tsx:290
 msgid "Strict skill requirements"
 msgstr ""
 
@@ -1372,23 +1408,23 @@ msgstr ""
 msgid "Tech II"
 msgstr ""
 
-#: src/pages/Settings.tsx:169
+#: src/pages/Settings.tsx:225
 msgid "The file contains no fits."
 msgstr ""
 
-#: src/pages/Settings.tsx:178
+#: src/pages/Settings.tsx:234
 msgid "The file could not be read."
 msgstr ""
 
-#: src/pages/Settings.tsx:168
+#: src/pages/Settings.tsx:224
 msgid "The file is not a list of fits."
 msgstr ""
 
-#: src/pages/Settings.tsx:167
+#: src/pages/Settings.tsx:223
 msgid "The file is not valid JSON."
 msgstr ""
 
-#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:211 src/pages/Settings.tsx:287
+#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:267 src/pages/Settings.tsx:386
 msgid "Theme"
 msgstr ""
 
@@ -1396,11 +1432,11 @@ msgstr ""
 msgid "Thermal"
 msgstr ""
 
-#: src/pages/About.tsx:24 src/pages/Settings.tsx:258
+#: src/pages/About.tsx:24 src/pages/Settings.tsx:317
 msgid "This application is not affiliated with, endorsed by, or associated with CCP hf."
 msgstr ""
 
-#: src/pages/Settings.tsx:271
+#: src/pages/Settings.tsx:370
 msgid "This will replace {n} fits with the {m} fits in the file."
 msgstr ""
 
@@ -1408,7 +1444,7 @@ msgstr ""
 msgid "Total DPS"
 msgstr ""
 
-#: src/pages/Settings.tsx:30 src/pages/Settings.tsx:242 src/pages/Settings.tsx:326
+#: src/pages/Settings.tsx:30 src/pages/Settings.tsx:299 src/pages/Settings.tsx:425
 msgid "Total price includes"
 msgstr ""
 
@@ -1444,7 +1480,7 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
-#: src/pages/Settings.tsx:224
+#: src/pages/Settings.tsx:280
 msgid "Use character implants"
 msgstr ""
 
@@ -1480,7 +1516,7 @@ msgstr ""
 msgid "best"
 msgstr ""
 
-#: src/pages/Settings.tsx:241
+#: src/pages/Settings.tsx:298
 msgid "fuzzwork · Jita"
 msgstr ""
 
@@ -1516,11 +1552,11 @@ msgstr ""
 msgid "pyfa original source on GitHub"
 msgstr ""
 
-#: src/pages/Settings.tsx:262
+#: src/pages/Settings.tsx:321
 msgid "pyfa-phone"
 msgstr ""
 
-#: src/pages/About.tsx:12 src/pages/Settings.tsx:257
+#: src/pages/About.tsx:12 src/pages/Settings.tsx:316
 msgid "pyfa-phone is an unofficial EVE Online fitting tool."
 msgstr ""
 
@@ -1549,8 +1585,10 @@ msgid "{n} fits"
 msgstr ""
 
 #: src/ui/MetaGroupList.tsx:77
-msgid "{n} items"
-msgstr ""
+msgid "{n} item"
+msgid_plural "{n} items"
+msgstr[0] "{n} item"
+msgstr[1] "{n} items"
 
 #: src/pages/AddModule.tsx:340
 msgid "{n} remaining"
@@ -1572,6 +1610,6 @@ msgstr ""
 msgid "{unit} m³ each · {total} m³ total"
 msgstr ""
 
-#: src/pages/Settings.tsx:90 src/pages/Settings.tsx:311
+#: src/pages/Settings.tsx:92 src/pages/Settings.tsx:410
 msgid "中文"
 msgstr ""

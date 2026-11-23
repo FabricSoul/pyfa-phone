@@ -58,6 +58,23 @@ test('price API domains are not in precache list', () => {
   assert.ok(!precacheBlock.includes('esi.evetech.net'), 'esi.evetech.net must not be in precache list')
 })
 
+test('precache list includes ship renders and fit item icons, but not all 1734 icons', () => {
+  const swContent = fs.readFileSync(SW_PATH, 'utf8')
+  const precacheMatch = swContent.match(/PRECACHE_URLS\s*=\s*(\[[\s\S]*?\]);?/)
+  assert.ok(precacheMatch, 'PRECACHE_URLS found in sw.js')
+  const list = JSON.parse(precacheMatch[1])
+
+  // Ship renders are precached
+  const renders = list.filter((url) => url.startsWith('/img/renders/'))
+  assert.ok(renders.length > 0, 'ship renders must be precached')
+
+  // Fit item icons are precached
+  const icons = list.filter((url) => url.startsWith('/img/icons/'))
+  assert.ok(icons.length > 0, 'fit item icons must be precached')
+  // Should NOT precache all 1734 icons
+  assert.ok(icons.length < 500, `icons count (${icons.length}) must be bounded, not all 1734 icons`)
+})
+
 // ── #11 install / activate safety ───────────────────────────────────────────
 import vm from 'node:vm'
 

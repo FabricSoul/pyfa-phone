@@ -15,6 +15,19 @@ export function fmt(n: number, maxDigits = 1): string {
   return (rounded === 0 || n >= 0 ? rounded : -rounded).toLocaleString('en-US', { maximumFractionDigits: maxDigits })
 }
 
+/** Align time formatted to at most 1 decimal place (DESIGN.md §3). */
+export function fmtAlignTime(n: number): string {
+  return fmt(n, 1)
+}
+
+/** Item attribute formatted according to its unit/type (DESIGN.md §3). */
+export function fmtAttribute(value: number, unit?: string): string {
+  if (unit === 'x' || unit === 'multiplier') {
+    return fmt(value, Math.abs(value) < 10 ? 2 : 1)
+  }
+  return fmt(value, 1)
+}
+
 export function lname(n: LName, lang: UiLanguage | ItemNameLanguage): string {
   return lang === 'zh_CN' || lang === 'zh' ? n.zh || n.en : n.en
 }

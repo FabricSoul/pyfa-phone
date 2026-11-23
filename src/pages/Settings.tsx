@@ -17,7 +17,7 @@ import { CharacterPicker } from '../ui/pickers/CharacterPicker'
 import { DamagePatternPicker } from '../ui/pickers/DamagePatternPicker'
 import { getPatternData, labelOf } from '../ui/pickers/patterns'
 
-type Sheet = 'restore' | 'exportText' | 'theme' | 'uiLanguage' | 'itemName' | 'character' | 'damage' | 'priceIncluded' | null
+type Sheet = 'restore' | 'exportText' | 'theme' | 'uiLanguage' | 'itemName' | 'character' | 'damage' | 'priceIncluded' | 'preheat' | null
 
 // 弹窗的可访问名称，和对应设置行的标签一致。
 function sheetTitle(sheet: Sheet): string {
@@ -28,6 +28,7 @@ function sheetTitle(sheet: Sheet): string {
     case 'character': return _t('Character')
     case 'damage': return _t('Damage pattern')
     case 'priceIncluded': return _t('Total price includes')
+    case 'preheat': return _t('Default preheat')
     case 'restore': return _t('Restore from backup')
     case 'exportText': return _t('Export all fits backup')
     default: return _t('Settings')
@@ -35,7 +36,8 @@ function sheetTitle(sheet: Sheet): string {
 }
 
 const sectionStyle: CSSProperties = {
-  padding: '18px 16px 6px', font: '600 12px/16px var(--font-body)',
+  padding: 'var(--space-4) var(--space-4) var(--space-2)',
+  font: 'var(--type-label)',
   color: 'var(--color-text-secondary)',
 }
 const Section = ({ children }: { children: string }) => (
@@ -55,7 +57,7 @@ function Row({ label, value, name, onClick }: {
   return (
     <button type="button" className="row" aria-label={name ?? label} onClick={onClick}
       style={{ width: '100%', border: 0, textAlign: 'left' }}>
-      <div className="mn"><span style={{ fontSize: 15 }}>{label}</span></div>
+      <div className="mn"><span>{label}</span></div>
       {value !== undefined && <span className="settings-value">{value}</span>}
       <span style={{ color: 'var(--color-text-secondary)' }}>›</span>
     </button>
@@ -66,7 +68,7 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
   return (
     <button type="button" className="row" role="switch" aria-checked={checked} aria-label={label}
       onClick={() => onChange(!checked)} style={{ width: '100%', border: 0, textAlign: 'left' }}>
-      <div className="mn"><span style={{ fontSize: 15 }}>{label}</span></div>
+      <div className="mn"><span>{label}</span></div>
       <span aria-hidden="true" style={{
         width: 44, height: 26, borderRadius: 13, flex: 'none',
         background: checked ? 'var(--color-accent)' : 'var(--color-fill)', position: 'relative',
@@ -109,6 +111,60 @@ export default function Settings() {
   const toast = useToast()
   const [pending, setPending] = useState<{ fits: FitDoc[]; existing: number }>()
   const [exportJson, setExportJson] = useState('')
+  const [downloadingIcons, setDownloadingIcons] = useState(false)
+  const [iconsDownloaded, setIconsDownloaded] = useState(() => {
+    try { return typeof localStorage !== 'undefined' && localStorage.getItem('pyfa.iconsDownloaded') === 'true' } catch { return false }
+  })
+  const [downloadProgress, setDownloadProgress] = useState(0)
+
+  async function downloadAllIcons() {
+    if (downloadingIcons) return
+    setDownloadingIcons(true)
+    setDownloadProgress(0)
+    try {
+      let iconUrls: string[] = []
+      try {
+        const res = await fetch('/data/icons.json')
+        if (res.ok) iconUrls = await res.json()
+      } catch { /* skip */ }
+      const cacheName = typeof caches !== 'undefined'
+        ? (await caches.keys()).find((k) => k.startsWith('pyfa-')) ?? 'pyfa-icons'
+        : null
+      const cache = cacheName && typeof caches !== 'undefined' ? await caches.open(cacheName) : null
+
+      const total = iconUrls.length || 1734
+      const batchSize = 30
+      for (let i = 0; i < iconUrls.length; i += batchSize) {
+        const batch = iconUrls.slice(i, i + batchSize)
+        await Promise.all(batch.map(async (url) => {
+          try {
+            if (cache) {
+              const hit = await cache.match(url)
+              if (hit) return
+            }
+            const res = await fetch(url)
+            if (res.ok && cache) {
+              await cache.put(url, res.clone())
+            }
+          } catch { /* skip individual errors */ }
+        }))
+        setDownloadProgress(Math.min(100, Math.round(((i + batch.length) / total) * 100)))
+      }
+      try { localStorage.setItem('pyfa.iconsDownloaded', 'true') } catch { /* ignore */ }
+      setIconsDownloaded(true)
+      toast.show({ message: _t('All icons downloaded for offline use') })
+    } catch {
+      toast.show({ message: _t('Could not download all icons') })
+    } finally {
+      setDownloadingIcons(false)
+    }
+  }
+
+  const iconStatus = downloadingIcons
+    ? `${downloadProgress}%`
+    : iconsDownloaded
+      ? _t('Downloaded (4.1 MB)')
+      : '4.1 MB'
 
   useEffect(() => {
     let alive = true
@@ -233,7 +289,8 @@ export default function Settings() {
           onChange={(v) => updateSettings({ considerReboot: v })} />
         <Toggle label={_t('Strict skill requirements')} checked={settings.strictSkills}
           onChange={(v) => updateSettings({ strictSkills: v })} />
-        <Row label={_t('Default preheat')} name={_t('Default preheat')} value={`${settings.preheatPercent}%`} />
+        <Row label={_t('Default preheat')} name={_t('Default preheat')} value={`${settings.preheatPercent}%`}
+          onClick={() => setSheet('preheat')} />
       </div>
 
       <Section>{_t('Price')}</Section>
@@ -248,12 +305,14 @@ export default function Settings() {
       <div className="list">
         <Row label={_t('Export all fits backup')} name={_t('Export all fits backup')} onClick={backup} />
         <Row label={_t('Restore from backup')} name={_t('Restore from backup')} onClick={() => fileRef.current?.click()} />
+        <Row label={_t('Download all icons for offline use')} name={_t('Download all icons for offline use')}
+          value={iconStatus} onClick={() => void downloadAllIcons()} />
         <Row label={_t('Game data version')} name={_t('Game data version')} value={dataVersion || undefined} />
       </div>
       <input ref={fileRef} type="file" accept="application/json" hidden
         onChange={(event) => { void restore(event.target.files?.[0]); event.target.value = '' }} />
 
-      <div className="hint" style={{ paddingTop: 12 }}>
+      <div className="hint" style={{ paddingTop: 'var(--space-3)' }}>
         <p>{_t('pyfa-phone is an unofficial EVE Online fitting tool.')}</p>
         <p>{_t('This application is not affiliated with, endorsed by, or associated with CCP hf.')}</p>
         <p>{_t('EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf.')}</p>
@@ -265,6 +324,46 @@ export default function Settings() {
       </div>
 
       <ActionSheet open={sheet !== null} title={sheetTitle(sheet)} onClose={() => setSheet(null)}>
+        {sheet === 'preheat' && (
+          <div style={{ padding: '0 var(--space-4) var(--space-4)' }}>
+            <div className="row" style={{ paddingTop: 0, paddingInline: 0 }}><div className="mn"><span>{_t('Default preheat')}</span></div></div>
+            <div className="fit-stepper">
+              <div className="fit-stepper-controls" style={{ justifyContent: 'center' }}>
+                <button type="button" className="fit-button" disabled={settings.preheatPercent <= 0}
+                  aria-label={_t('Decrease by 5%')}
+                  onClick={() => updateSettings({ preheatPercent: Math.max(0, settings.preheatPercent - 5) })}>−5%</button>
+                <button type="button" className="fit-button" disabled={settings.preheatPercent <= 0}
+                  aria-label={_t('Decrease by 1%')}
+                  onClick={() => updateSettings({ preheatPercent: Math.max(0, settings.preheatPercent - 1) })}>−</button>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-1)' }}>
+                  <input className="fit-input num" type="number" min={0} max={100} step={1}
+                    aria-label={_t('Default preheat percent')}
+                    value={settings.preheatPercent}
+                    style={{ width: '8ch', textAlign: 'center' }}
+                    onChange={(e) => {
+                      const v = e.target.valueAsNumber
+                      if (Number.isFinite(v)) updateSettings({ preheatPercent: Math.max(0, Math.min(100, Math.round(v))) })
+                    }} />
+                  <span className="fit-caption">%</span>
+                </div>
+                <button type="button" className="fit-button" disabled={settings.preheatPercent >= 100}
+                  aria-label={_t('Increase by 1%')}
+                  onClick={() => updateSettings({ preheatPercent: Math.min(100, settings.preheatPercent + 1) })}>+</button>
+                <button type="button" className="fit-button" disabled={settings.preheatPercent >= 100}
+                  aria-label={_t('Increase by 5%')}
+                  onClick={() => updateSettings({ preheatPercent: Math.min(100, settings.preheatPercent + 5) })}>+5%</button>
+              </div>
+              <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center', marginTop: 'var(--space-2)' }}>
+                {[0, 25, 50, 75, 100].map((pct) => (
+                  <button key={pct} type="button" className={`fit-chip${settings.preheatPercent === pct ? ' primary' : ''}`}
+                    onClick={() => updateSettings({ preheatPercent: pct })}>
+                    {pct}%
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
         {sheet === 'restore' && pending && (
           <>
             <div className="row" style={{ paddingTop: 0 }}><div className="mn">
@@ -280,7 +379,7 @@ export default function Settings() {
         )}
         {sheet === 'exportText' && (
           <textarea className="fit-input" readOnly rows={10} value={exportJson} aria-label={_t('Backup JSON, copy it and save it')}
-            onFocus={(event) => event.currentTarget.select()} style={{ width: '100%', fontSize: 16 }} />
+            onFocus={(event) => event.currentTarget.select()} style={{ width: '100%' }} />
         )}
         {sheet === 'theme' && (
           <>

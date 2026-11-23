@@ -74,7 +74,7 @@ export function MetaGroupList<T extends ItemRow>({
               <span className="cv"><Icon name="chevron-down" size={14} /></span>
               <MetaTag meta={g.meta} />
               <em className="num">
-                {_t('{n} items').replace('{n}', String(g.items.length))}
+                {_t('{n} item', '{n} items', g.items.length).replace('{n}', String(g.items.length))}
                 {!expanded && g.best != null && <> · {_t('best')} {fmt(g.best)}{valueUnit ? ` ${valueUnit}` : ''}</>}
               </em>
             </button>

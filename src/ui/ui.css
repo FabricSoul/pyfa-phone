@@ -3,8 +3,8 @@
 .warn { color: var(--color-warn) !important; }
 
 /* Pill / Segmented */
-.pill { display: inline-flex; align-items: center; gap: var(--space-1); position: relative; min-height: 32px; padding: 0 calc(var(--space-1) * 2.5); border: 0; border-radius: 999px;
-  background: var(--color-fill); color: var(--color-text); font: var(--type-caption); font-weight: 500; cursor: pointer; }
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-1); position: relative; min-width: var(--control); min-height: 32px; padding: 0 calc(var(--space-1) * 2.5); border: 0; border-radius: 999px;
+  background: var(--color-fill); color: var(--color-text); font: var(--type-caption); font-weight: 500; cursor: pointer; box-sizing: border-box; }
 /* Visual height stays small; the invisible ::before brings the tap area to 44px. */
 .pill::before { content: ''; position: absolute; inset: -7px 0; }
 .pill.on { background: var(--color-accent); color: var(--color-surface); }
@@ -109,7 +109,7 @@
 .ph .cv { display: inline-grid; color: var(--color-text-secondary); transition: transform var(--dur-fast) var(--ease); }
 .ph[aria-expanded="false"] .cv { transform: rotate(-90deg); }
 .ph[aria-expanded="false"] { border-bottom: 1px solid var(--color-separator); }
-.tools { display: flex; gap: calc(var(--space-1) * 1.5); padding: var(--space-2) var(--space-4); flex-wrap: wrap; }
+.tools { display: flex; gap: var(--space-2); padding: var(--space-2) var(--space-4); flex-wrap: wrap; }
 .hero { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--color-surface); border-top: 1px solid var(--color-separator); border-bottom: 1px solid var(--color-separator); }
 .hero div { padding: calc(var(--space-1) * 2.5) var(--space-4); } .hero div + div { box-shadow: inset 1px 0 0 var(--color-separator); }
 .hero small { display: block; font: var(--type-caption); font-weight: 500; color: var(--color-text-secondary); }

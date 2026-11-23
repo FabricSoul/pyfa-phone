@@ -52,7 +52,7 @@ it('restores only the saved market branch down to its technology group', async (
   render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
     engine={mockEngine} store={createFitStore(new IDBFactory())}
   /></MemoryRouter>)
-  const tech = await screen.findByRole('button', { name: /^Tech II.*items/ })
+  const tech = await screen.findByRole('button', { name: /^Tech II.*item/ })
   expect(tech.getAttribute('aria-expanded')).toBe('true')
   expect(screen.getByRole('button', { name: /Turrets & Launchers/ }).getAttribute('aria-expanded')).toBe('false')
   fireEvent.click(screen.getByRole('button', { name: /Hull & Armor/ }))

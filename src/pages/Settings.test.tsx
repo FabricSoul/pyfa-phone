@@ -55,9 +55,36 @@ describe('Settings page', () => {
     expect(screen.getByRole('link', { name: 'About' }).getAttribute('href')).toBe('/about')
   })
 
+  it('shows Chinese legal notice when UI language is Chinese', async () => {
+    render(<MemoryRouter><Settings /></MemoryRouter>)
+    await setUiLanguage('zh_CN')
+    expect(screen.getByText(/非官方的 EVE Online 配装工具/)).toBeTruthy()
+    expect(screen.getAllByText(/CCP hf/).length).toBeGreaterThan(0)
+    expect(screen.getByText(/GPLv3/)).toBeTruthy()
+  })
+
+  it('renders download all icons option with size and allows triggering download', async () => {
+    render(<MemoryRouter><Settings /></MemoryRouter>)
+    const row = screen.getByRole('button', { name: /Download all icons for offline use/i })
+    expect(row).toBeTruthy()
+    expect(row.textContent).toMatch(/MB/i)
+  })
+
   it('matches pyfa: reload time is not considered by default', () => {
     // vendor/pyfa/service/fit.py serviceFittingOptions["useGlobalForceReload"] defaults to False
     expect(defaultSettings.considerReload).toBe(false)
+  })
+
+  it('opens preheat configuration and adjusts preheat percent with stepper', async () => {
+    render(<MemoryRouter><Settings /></MemoryRouter>)
+    const preheatBtn = screen.getByRole('button', { name: 'Default preheat' })
+    expect(preheatBtn.textContent).toContain('100%')
+    fireEvent.click(preheatBtn)
+    const dialog = await screen.findByRole('dialog')
+    expect(within(dialog).getByRole('heading', { name: 'Default preheat' })).toBeTruthy()
+    const decreaseBtn = within(dialog).getByRole('button', { name: 'Decrease by 5%' })
+    fireEvent.click(decreaseBtn)
+    expect(localStorage.getItem('pyfa.settings')).toMatch(/"preheatPercent":\s*95/)
   })
 })
 

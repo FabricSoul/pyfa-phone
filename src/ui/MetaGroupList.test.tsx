@@ -68,4 +68,14 @@ describe('MetaGroupList', () => {
     fireEvent.click(tech2Header)
     expect(onToggleExpanded).toHaveBeenCalledWith('tech2')
   })
+
+  it('uses singular "1 item" for single item and plural "2 items" for multiple items', () => {
+    render(<MetaGroupList groups={groups} />)
+    const tech1Header = screen.getByRole('button', { name: /Tech I\b(?!I)/ })
+    expect(tech1Header.textContent).toContain('1 item')
+    expect(tech1Header.textContent).not.toContain('1 items')
+
+    const tech2Header = screen.getByRole('button', { name: /Tech II\b/ })
+    expect(tech2Header.textContent).toContain('2 items')
+  })
 })
