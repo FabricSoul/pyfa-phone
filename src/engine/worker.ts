@@ -60,7 +60,8 @@ api.initialize('/eve.db', '/names.json')
 let startup: ReturnType<typeof initialize> | undefined
 const runtime = () => (startup ??= initialize())
 
-type Operation = Exclude<keyof EngineWorkerApi, 'ready'>
+// 只列出 Worker 已实现的操作；EngineClient 里的可选方法（itemInfo 等）由集成任务补上。
+type Operation = 'calc' | 'itemsForSlot' | 'chargesFor' | 'variationsOf' | 'importText' | 'exportText' | 'missingSkills'
 const pythonFunction: Record<Operation, string> = {
   calc: 'calc',
   itemsForSlot: 'items_for_slot',
