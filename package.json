@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "i18n": "node etl/i18n_extract.mjs && node etl/i18n_merge.mjs && node etl/i18n_compile.mjs",
+    "i18n:check": "node etl/i18n_check_literals.mjs"
   },
   "dependencies": {
     "@tanstack/react-virtual": "^3.14.10",
@@ -25,10 +27,12 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.1.0",
+    "gettext-parser": "^10.0.0",
     "jsdom": "^26.0.0",
     "playwright-core": "^1.62.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
+    "typescript-api": "npm:typescript@5.9.3",
     "vite": "^8.2.2",
     "vitest": "^4.0.0"
   }

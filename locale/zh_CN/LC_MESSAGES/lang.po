@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: pyfa-phone\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-22 19:13-0500\n"
+"PO-Revision-Date: 2026-11-22 19:13-0500\n"
+"Last-Translator: \n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/i18n/seed.ts:8
+msgid "%d attribute."
+msgid_plural "%d attributes."
+msgstr[0] "共%d个属性。"
+
+#: src/i18n/seed.ts:7
+msgid "Firepower"
+msgstr "火力"
+
+#: src/App.tsx:7
+msgid "pyfa"
+msgstr ""
