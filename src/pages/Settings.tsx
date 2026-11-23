@@ -15,6 +15,19 @@ import { getPatternData, labelOf } from '../ui/pickers/patterns'
 
 type Sheet = 'theme' | 'uiLanguage' | 'itemName' | 'character' | 'damage' | 'priceIncluded' | null
 
+// 弹窗的可访问名称，和对应设置行的标签一致。
+function sheetTitle(sheet: Sheet): string {
+  switch (sheet) {
+    case 'theme': return _t('Theme')
+    case 'uiLanguage': return _t('Interface language')
+    case 'itemName': return _t('Item names')
+    case 'character': return _t('Character')
+    case 'damage': return _t('Damage pattern')
+    case 'priceIncluded': return _t('Total price includes')
+    default: return _t('Settings')
+  }
+}
+
 const sectionStyle: CSSProperties = {
   padding: '18px 16px 6px', font: '600 12px/16px var(--font-body)',
   color: 'var(--color-text-secondary)',
@@ -190,7 +203,7 @@ export default function Settings() {
         <a href="https://github.com/FabricSoul/pyfa-phone">{_t('pyfa-phone')}</a>
       </p>
 
-      <ActionSheet open={sheet !== null} onClose={() => setSheet(null)}>
+      <ActionSheet open={sheet !== null} title={sheetTitle(sheet)} onClose={() => setSheet(null)}>
         {sheet === 'theme' && (
           <>
             <div className="row" style={{ paddingTop: 0 }}><div className="mn"><span>{_t('Theme')}</span></div></div>

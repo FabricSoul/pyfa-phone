@@ -65,11 +65,11 @@ msgstr "装上后：{resources}"
 msgid "Align time"
 msgstr "起跳时间"
 
-#: src/pages/Settings.tsx:73 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:86 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr "全 0"
 
-#: src/pages/Settings.tsx:73 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:86 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr "全 V"
 
@@ -85,7 +85,7 @@ msgstr "所有技能 5 级 · 安全等级 5.0"
 msgid "All technology levels"
 msgstr "全部科技等级"
 
-#: src/pages/Settings.tsx:141
+#: src/pages/Settings.tsx:154
 msgid "Appearance & language"
 msgstr "外观与语言"
 
@@ -115,7 +115,7 @@ msgstr "返回装配列表"
 msgid "Base → fitted"
 msgstr "基础值 → 装配值"
 
-#: src/pages/Settings.tsx:189
+#: src/pages/Settings.tsx:202
 msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
 msgstr "基于 pyfa（GPLv3）。EVE Online 相关名称和图像归 CCP hf. 所有。"
 
@@ -139,7 +139,7 @@ msgstr "CPU"
 msgid "Calculating fit…"
 msgstr "正在计算装配…"
 
-#: src/pages/Settings.tsx:160
+#: src/pages/Settings.tsx:173
 msgid "Calculation"
 msgstr "计算"
 
@@ -159,7 +159,7 @@ msgstr "电容"
 msgid "Capacity"
 msgstr "容量"
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:29 src/pages/shared.tsx:25
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:42 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr "货舱"
 
@@ -167,7 +167,7 @@ msgstr "货舱"
 msgid "Cargo bay"
 msgstr "货舱"
 
-#: src/pages/Settings.tsx:152 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:165 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr "角色"
 
@@ -183,11 +183,11 @@ msgstr "正在试装…"
 msgid "Compatible modules"
 msgstr "兼容装备"
 
-#: src/pages/Settings.tsx:164
+#: src/pages/Settings.tsx:177
 msgid "Consider reboot"
 msgstr "考虑重启计时"
 
-#: src/pages/Settings.tsx:162
+#: src/pages/Settings.tsx:175
 msgid "Consider reload"
 msgstr "考虑装填时间"
 
@@ -267,15 +267,15 @@ msgstr "伤害"
 msgid "Damage over distance"
 msgstr "伤害随距离"
 
-#: src/pages/Settings.tsx:154 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:167 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr "伤害模式"
 
-#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:201
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:214
 msgid "Dark"
 msgstr "深色"
 
-#: src/pages/Settings.tsx:179
+#: src/pages/Settings.tsx:192
 msgid "Data"
 msgstr "数据"
 
@@ -287,7 +287,7 @@ msgstr "死亡空间"
 msgid "Decides skill levels · two built-in characters in the first version"
 msgstr "决定技能等级 · 首个版本提供两个内置角色"
 
-#: src/pages/Settings.tsx:168
+#: src/pages/Settings.tsx:181
 msgid "Default preheat"
 msgstr "默认预热"
 
@@ -335,7 +335,7 @@ msgstr "无人机仓库"
 msgid "Drone control range"
 msgstr "无人机控制范围"
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:28
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:41
 msgid "Drones"
 msgstr "无人机"
 
@@ -363,7 +363,7 @@ msgstr "空槽"
 msgid "Explosive"
 msgstr "爆炸"
 
-#: src/pages/Settings.tsx:181
+#: src/pages/Settings.tsx:194
 msgid "Export all fits backup"
 msgstr "导出全部装配备份"
 
@@ -411,7 +411,7 @@ msgstr "装配"
 msgid "Fittings"
 msgstr "装配"
 
-#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:69 src/pages/Settings.tsx:199
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:82 src/pages/Settings.tsx:212
 msgid "Follow system"
 msgstr "跟随系统"
 
@@ -423,7 +423,7 @@ msgstr "GJ"
 msgid "GJ/s"
 msgstr "GJ/s"
 
-#: src/pages/Settings.tsx:183
+#: src/pages/Settings.tsx:196
 msgid "Game data version"
 msgstr "游戏数据版本"
 
@@ -447,7 +447,7 @@ msgstr "结构"
 msgid "ISK"
 msgstr "ISK"
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:30
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:43
 msgid "Implants"
 msgstr "植入体"
 
@@ -459,7 +459,7 @@ msgstr "导入"
 msgid "Incoming damage pattern"
 msgstr "伤害分布"
 
-#: src/pages/Settings.tsx:144 src/pages/Settings.tsx:209
+#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:157 src/pages/Settings.tsx:222
 msgid "Interface language"
 msgstr "界面语言"
 
@@ -471,7 +471,7 @@ msgstr "物品信息"
 msgid "Item information unavailable"
 msgstr "物品信息不可用"
 
-#: src/pages/Settings.tsx:146 src/pages/Settings.tsx:218
+#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:159 src/pages/Settings.tsx:231
 msgid "Item names"
 msgstr "物品名称"
 
@@ -495,7 +495,7 @@ msgstr "发射器"
 msgid "Launchers"
 msgstr "发射器"
 
-#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:200
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:213
 msgid "Light"
 msgstr "轻型"
 
@@ -571,7 +571,7 @@ msgstr "新建"
 msgid "New fit"
 msgstr "新建装配"
 
-#: src/pages/Settings.tsx:150
+#: src/pages/Settings.tsx:163
 msgid "New fit defaults"
 msgstr "新装配默认"
 
@@ -675,7 +675,7 @@ msgstr "PG"
 msgid "Powergrid"
 msgstr "能量栅格"
 
-#: src/pages/Settings.tsx:171
+#: src/pages/Settings.tsx:184
 msgid "Price"
 msgstr "价格"
 
@@ -743,7 +743,7 @@ msgstr "技能需求"
 msgid "Resources"
 msgstr "装配资源"
 
-#: src/pages/Settings.tsx:182
+#: src/pages/Settings.tsx:195
 msgid "Restore from backup"
 msgstr "从备份恢复"
 
@@ -787,7 +787,7 @@ msgstr "统一设置"
 msgid "Set {n} modules individually"
 msgstr "分别设置 {n} 门"
 
-#: src/pages/Home.tsx:81 src/pages/Settings.tsx:134
+#: src/pages/Home.tsx:81 src/pages/Settings.tsx:27 src/pages/Settings.tsx:147
 msgid "Settings"
 msgstr "设置"
 
@@ -823,7 +823,7 @@ msgstr "槽位 {n}"
 msgid "Slots"
 msgstr "槽位"
 
-#: src/pages/Settings.tsx:173
+#: src/pages/Settings.tsx:186
 msgid "Source"
 msgstr "来源"
 
@@ -847,7 +847,7 @@ msgstr "状态"
 msgid "Storyline"
 msgstr "故事线"
 
-#: src/pages/Settings.tsx:166
+#: src/pages/Settings.tsx:179
 msgid "Strict skill requirements"
 msgstr "严格技能要求"
 
@@ -891,7 +891,7 @@ msgstr "二级"
 msgid "Technology level"
 msgstr "科技等级"
 
-#: src/pages/Settings.tsx:143 src/pages/Settings.tsx:196
+#: src/pages/Settings.tsx:21 src/pages/Settings.tsx:156 src/pages/Settings.tsx:209
 msgid "Theme"
 msgstr "主题"
 
@@ -907,7 +907,7 @@ msgstr ""
 msgid "Total DPS"
 msgstr "总 DPS"
 
-#: src/pages/Settings.tsx:174 src/pages/Settings.tsx:235
+#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:187 src/pages/Settings.tsx:248
 msgid "Total price includes"
 msgstr "总价包含"
 
@@ -931,7 +931,7 @@ msgstr "返回上一级市场分组"
 msgid "Usage"
 msgstr "消耗"
 
-#: src/pages/Settings.tsx:156
+#: src/pages/Settings.tsx:169
 msgid "Use character implants"
 msgstr "使用角色植入体"
 
@@ -955,7 +955,7 @@ msgstr "最高"
 msgid "calibration"
 msgstr "校准"
 
-#: src/pages/Settings.tsx:173
+#: src/pages/Settings.tsx:186
 msgid "fuzzwork · Jita"
 msgstr "fuzzwork · 吉他"
 
@@ -995,7 +995,7 @@ msgstr "栅格"
 msgid "pyfa original source on GitHub"
 msgstr ""
 
-#: src/pages/Settings.tsx:190
+#: src/pages/Settings.tsx:203
 msgid "pyfa-phone"
 msgstr "pyfa-phone"
 
@@ -1027,7 +1027,7 @@ msgstr "剩 {n}"
 msgid "{ship} has no drone bay"
 msgstr "{ship}没有无人机舱"
 
-#: src/pages/Settings.tsx:71 src/pages/Settings.tsx:220
+#: src/pages/Settings.tsx:84 src/pages/Settings.tsx:233
 msgid "中文"
 msgstr "中文"
 

@@ -72,11 +72,11 @@ msgstr ""
 msgid "Align time"
 msgstr ""
 
-#: src/pages/Settings.tsx:73 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:86 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr ""
 
-#: src/pages/Settings.tsx:73 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:86 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr ""
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "All technology levels"
 msgstr ""
 
-#: src/pages/Settings.tsx:141
+#: src/pages/Settings.tsx:154
 msgid "Appearance & language"
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Base → fitted"
 msgstr ""
 
-#: src/pages/Settings.tsx:189
+#: src/pages/Settings.tsx:202
 msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
 msgstr ""
 
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Calculating fit…"
 msgstr ""
 
-#: src/pages/Settings.tsx:160
+#: src/pages/Settings.tsx:173
 msgid "Calculation"
 msgstr ""
 
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:29 src/pages/shared.tsx:25
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:42 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 msgid "Cargo bay"
 msgstr ""
 
-#: src/pages/Settings.tsx:152 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:165 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr ""
 
@@ -190,11 +190,11 @@ msgstr ""
 msgid "Compatible modules"
 msgstr ""
 
-#: src/pages/Settings.tsx:164
+#: src/pages/Settings.tsx:177
 msgid "Consider reboot"
 msgstr ""
 
-#: src/pages/Settings.tsx:162
+#: src/pages/Settings.tsx:175
 msgid "Consider reload"
 msgstr ""
 
@@ -274,15 +274,15 @@ msgstr ""
 msgid "Damage over distance"
 msgstr ""
 
-#: src/pages/Settings.tsx:154 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:167 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr ""
 
-#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:201
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:214
 msgid "Dark"
 msgstr ""
 
-#: src/pages/Settings.tsx:179
+#: src/pages/Settings.tsx:192
 msgid "Data"
 msgstr ""
 
@@ -294,7 +294,7 @@ msgstr ""
 msgid "Decides skill levels · two built-in characters in the first version"
 msgstr ""
 
-#: src/pages/Settings.tsx:168
+#: src/pages/Settings.tsx:181
 msgid "Default preheat"
 msgstr ""
 
@@ -342,7 +342,7 @@ msgstr ""
 msgid "Drone control range"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:28
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:41
 msgid "Drones"
 msgstr ""
 
@@ -370,7 +370,7 @@ msgstr ""
 msgid "Explosive"
 msgstr ""
 
-#: src/pages/Settings.tsx:181
+#: src/pages/Settings.tsx:194
 msgid "Export all fits backup"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "Fittings"
 msgstr ""
 
-#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:69 src/pages/Settings.tsx:199
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:82 src/pages/Settings.tsx:212
 msgid "Follow system"
 msgstr ""
 
@@ -430,7 +430,7 @@ msgstr ""
 msgid "GJ/s"
 msgstr ""
 
-#: src/pages/Settings.tsx:183
+#: src/pages/Settings.tsx:196
 msgid "Game data version"
 msgstr ""
 
@@ -454,7 +454,7 @@ msgstr ""
 msgid "ISK"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:30
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:43
 msgid "Implants"
 msgstr ""
 
@@ -466,7 +466,7 @@ msgstr ""
 msgid "Incoming damage pattern"
 msgstr ""
 
-#: src/pages/Settings.tsx:144 src/pages/Settings.tsx:209
+#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:157 src/pages/Settings.tsx:222
 msgid "Interface language"
 msgstr ""
 
@@ -478,7 +478,7 @@ msgstr ""
 msgid "Item information unavailable"
 msgstr ""
 
-#: src/pages/Settings.tsx:146 src/pages/Settings.tsx:218
+#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:159 src/pages/Settings.tsx:231
 msgid "Item names"
 msgstr ""
 
@@ -502,7 +502,7 @@ msgstr ""
 msgid "Launchers"
 msgstr ""
 
-#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:200
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:213
 msgid "Light"
 msgstr ""
 
@@ -578,7 +578,7 @@ msgstr ""
 msgid "New fit"
 msgstr ""
 
-#: src/pages/Settings.tsx:150
+#: src/pages/Settings.tsx:163
 msgid "New fit defaults"
 msgstr ""
 
@@ -682,7 +682,7 @@ msgstr ""
 msgid "Powergrid"
 msgstr ""
 
-#: src/pages/Settings.tsx:171
+#: src/pages/Settings.tsx:184
 msgid "Price"
 msgstr ""
 
@@ -750,7 +750,7 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-#: src/pages/Settings.tsx:182
+#: src/pages/Settings.tsx:195
 msgid "Restore from backup"
 msgstr ""
 
@@ -794,7 +794,7 @@ msgstr ""
 msgid "Set {n} modules individually"
 msgstr ""
 
-#: src/pages/Home.tsx:81 src/pages/Settings.tsx:134
+#: src/pages/Home.tsx:81 src/pages/Settings.tsx:27 src/pages/Settings.tsx:147
 msgid "Settings"
 msgstr ""
 
@@ -830,7 +830,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: src/pages/Settings.tsx:173
+#: src/pages/Settings.tsx:186
 msgid "Source"
 msgstr ""
 
@@ -854,7 +854,7 @@ msgstr ""
 msgid "Storyline"
 msgstr ""
 
-#: src/pages/Settings.tsx:166
+#: src/pages/Settings.tsx:179
 msgid "Strict skill requirements"
 msgstr ""
 
@@ -898,7 +898,7 @@ msgstr ""
 msgid "Technology level"
 msgstr ""
 
-#: src/pages/Settings.tsx:143 src/pages/Settings.tsx:196
+#: src/pages/Settings.tsx:21 src/pages/Settings.tsx:156 src/pages/Settings.tsx:209
 msgid "Theme"
 msgstr ""
 
@@ -914,7 +914,7 @@ msgstr ""
 msgid "Total DPS"
 msgstr ""
 
-#: src/pages/Settings.tsx:174 src/pages/Settings.tsx:235
+#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:187 src/pages/Settings.tsx:248
 msgid "Total price includes"
 msgstr ""
 
@@ -938,7 +938,7 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
-#: src/pages/Settings.tsx:156
+#: src/pages/Settings.tsx:169
 msgid "Use character implants"
 msgstr ""
 
@@ -962,7 +962,7 @@ msgstr ""
 msgid "calibration"
 msgstr ""
 
-#: src/pages/Settings.tsx:173
+#: src/pages/Settings.tsx:186
 msgid "fuzzwork · Jita"
 msgstr ""
 
@@ -1002,7 +1002,7 @@ msgstr ""
 msgid "pyfa original source on GitHub"
 msgstr ""
 
-#: src/pages/Settings.tsx:190
+#: src/pages/Settings.tsx:203
 msgid "pyfa-phone"
 msgstr ""
 
@@ -1034,6 +1034,6 @@ msgstr ""
 msgid "{ship} has no drone bay"
 msgstr ""
 
-#: src/pages/Settings.tsx:71 src/pages/Settings.tsx:220
+#: src/pages/Settings.tsx:84 src/pages/Settings.tsx:233
 msgid "中文"
 msgstr ""
