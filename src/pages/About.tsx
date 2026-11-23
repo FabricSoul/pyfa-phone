@@ -16,7 +16,7 @@ export default function About() {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--space-2)',
+          gap: 'var(--space-3)',
           font: 'var(--type-name)',
         }}
       >
@@ -35,7 +35,7 @@ export default function About() {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--space-2)',
+          gap: 'var(--space-3)',
           font: 'var(--type-name)',
         }}
       >

@@ -23,7 +23,7 @@ msgstr "AU/s"
 
 #: src/pages/About.tsx:8
 msgid "About"
-msgstr ""
+msgstr "关于"
 
 #: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:41 src/pages/ModuleSheet.tsx:16 src/ui/ModuleRow.tsx:97
 msgid "Active"

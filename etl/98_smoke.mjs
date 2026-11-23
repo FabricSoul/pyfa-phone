@@ -49,6 +49,38 @@ try {
     await page.getByRole('textbox').fill(eft)
   }
 
+  // F3 usability assertions, measured in real Chromium on the page that is on screen right now.
+  const usability = async (name) => {
+    const found = await page.evaluate(() => {
+      const hits = (el, x, y) => { const at = document.elementFromPoint(x, y); return Boolean(at && (at === el || el.contains(at))) }
+      const reach = (el, rect, dx, dy) => {
+        const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2
+        let n = 0
+        while (n < 30 && hits(el, cx + dx * (rect.width / 2 + n + 1), cy + dy * (rect.height / 2 + n + 1))) n++
+        return n
+      }
+      const small = []
+      for (const el of document.querySelectorAll('button, a[href], input:not([type=hidden]), select, textarea, [role=tab], [role=switch]')) {
+        if (el.closest('[aria-hidden="true"]') || getComputedStyle(el).visibility === 'hidden') continue
+        if (!el.getBoundingClientRect().width) continue
+        el.scrollIntoView({ block: 'center' })
+        const rect = el.getBoundingClientRect()
+        const w = rect.width + reach(el, rect, -1, 0) + reach(el, rect, 1, 0)
+        const h = rect.height + reach(el, rect, 0, -1) + reach(el, rect, 0, 1)
+        if (w < 43.5 || h < 43.5) small.push(`${(el.getAttribute('aria-label') || el.textContent || el.tagName).trim().slice(0, 24)} ${Math.round(w)}x${Math.round(h)}`)
+      }
+      const fields = [...document.querySelectorAll('input:not([type=hidden]), select, textarea')]
+        .filter((el) => el.getBoundingClientRect().width > 0 && parseFloat(getComputedStyle(el).fontSize) < 16)
+        .map((el) => `${el.tagName} ${getComputedStyle(el).fontSize}`)
+      window.scrollTo(0, 0)
+      return { small, fields, h1: document.querySelectorAll('h1').length, overflow: document.documentElement.scrollWidth > window.innerWidth }
+    })
+    assert.deepEqual(found.small, [], `${name}: tap targets under 44×44`)
+    assert.deepEqual(found.fields, [], `${name}: form fields under 16px`)
+    assert.equal(found.h1, 1, `${name}: exactly one h1`)
+    assert.equal(found.overflow, false, `${name}: horizontal overflow`)
+  }
+
   step = 'wait for the engine and Chinese UI'
   let documentLoads = 0
   page.on('request', (request) => {
@@ -59,15 +91,18 @@ try {
   await page.getByRole('link', { name: '粘贴导入' }).waitFor()
   const ready = ms(start)
   assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN')
+  await usability('home')
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
   assert.equal(documentLoads, 1, 'Initial Service Worker claim must preserve the booted page')
   console.log(`Engine ready in ${ready} ms`)
 
   step = 'open and recalculate a temporary Chinese EFT fit'
   await pasteFit()
+  await page.getByRole('button', { name: '保存并打开' }).waitFor()
+  await usability('import')
   await page.getByRole('button', { name: '仅查看，不保存', exact: true }).click()
   await page.getByText('未保存的装配预览', { exact: true }).waitFor()
-  await page.getByRole('radio', { name: '属性', exact: true }).click()
+  await page.getByRole('tab', { name: '属性', exact: true }).click()
   const reloading = await readDps()
   await page.getByRole('button', { name: '考虑换弹时间', exact: true }).click()
   await waitForChangedDps(reloading)
@@ -82,18 +117,35 @@ try {
   await pasteFit()
   await page.getByRole('button', { name: '保存并打开' }).click()
   await page.getByText('200mm自动加农炮 II', { exact: true }).waitFor()
+  await usability('fit slots')
+
+  step = 'undo a removal from the module sheet (C4) and reload the stats tab from the URL (I6)'
+  await page.getByText('200mm自动加农炮 II', { exact: true }).click()
+  await page.getByRole('dialog').getByRole('button', { name: /^移除装备/ }).click()
+  const toast = page.locator('[role="status"][aria-live="polite"]').filter({ hasText: '已移除' })
+  await toast.waitFor()
+  await page.getByRole('dialog').waitFor({ state: 'hidden' })
+  assert.equal(await page.getByText('200mm自动加农炮 II', { exact: true }).count(), 0)
+  await toast.getByRole('button', { name: '撤销', exact: true }).click()
+  await page.getByText('200mm自动加农炮 II', { exact: true }).waitFor()
+  await page.getByRole('tab', { name: '属性', exact: true }).click()
+  assert.match(page.url(), /[?&]view=stats/)
+  await usability('fit stats')
+  await page.reload()
+  await page.getByRole('tab', { name: '属性', exact: true }).waitFor()
+  assert.equal(await page.getByRole('tab', { name: '属性', exact: true }).getAttribute('aria-selected'), 'true')
 
   step = 'change ammo and verify DPS'
-  await page.getByRole('radio', { name: '属性', exact: true }).click()
+  await page.getByRole('tab', { name: '属性', exact: true }).click()
   const before = await readDps()
   assert.ok(before > 0, 'Imported weapon must deal damage')
-  await page.getByRole('radio', { name: '槽位', exact: true }).click()
+  await page.getByRole('tab', { name: '槽位', exact: true }).click()
   await page.getByText('200mm自动加农炮 II', { exact: true }).click()
   const sheet = page.getByRole('dialog')
   await sheet.getByRole('button', { name: /^二级.*[0-9]/ }).click()
   await sheet.getByRole('button', { name: /^雷暴 S\b/ }).click()
   await page.keyboard.press('Escape')
-  await page.getByRole('radio', { name: '属性', exact: true }).click()
+  await page.getByRole('tab', { name: '属性', exact: true }).click()
   await waitForChangedDps(before)
   const after = await readDps()
   assert.ok(after > 0 && after !== before, `DPS must change after replacing ammo: ${before} → ${after}`)
@@ -102,11 +154,13 @@ try {
   step = 'verify independent item-name language'
   await page.getByRole('button', { name: '返回', exact: true }).click()
   await page.getByRole('link', { name: '设置', exact: true }).click()
+  await usability('settings')
   await page.getByRole('button', { name: /物品名称/ }).click()
   const english = page.getByRole('radio', { name: 'English', exact: true })
   await english.click()
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 402)
-  await page.goBack()
+  await page.keyboard.press('Escape')
+  await page.getByRole('button', { name: '返回', exact: true }).click()
   await fitRow(fitName).getByText('Thrasher', { exact: true }).waitFor()
   await page.getByRole('link', { name: '粘贴导入' }).waitFor()
 
@@ -115,7 +169,7 @@ try {
   await context.setOffline(true)
   await page.reload()
   await fitRow(fitName).click()
-  await page.getByRole('radio', { name: '属性', exact: true }).click()
+  await page.getByRole('tab', { name: '属性', exact: true }).click()
   assert.equal(await readDps(), after, 'Offline engine must recalculate the saved fit')
   console.log('Offline home and fit recalculation passed')
   await context.setOffline(false)
@@ -142,6 +196,18 @@ try {
   await expanded.getByText('正在试装…', { exact: true }).waitFor({ state: 'hidden' })
   assert.equal(await page.getByText('无法检查装配资源', { exact: true }).count(), 0)
   console.log(`Rifter low slot at 4× CPU: list ${listed} ms, group preview ${ms(expanding)} ms`)
+
+  await usability('add module')
+
+  step = 'show a 404 page with a way home (I7) and reach home from a directly opened settings page (C1)'
+  await page.goto(`${base}#/nonsense/route`)
+  await page.getByRole('heading', { level: 1, name: '找不到此页面' }).waitFor()
+  await page.getByRole('link', { name: '返回装配列表' }).click()
+  await page.getByRole('link', { name: '粘贴导入' }).waitFor()
+  await page.goto(`${base}#/about`)
+  await page.getByRole('heading', { level: 1, name: '关于' }).waitFor()
+  await page.getByRole('button', { name: '返回', exact: true }).click()
+  await page.getByRole('link', { name: '粘贴导入' }).waitFor()
 
   await context.close()
 
