@@ -60,7 +60,7 @@ try {
   // F3 usability assertions, measured in real Chromium on the page that is on screen right now.
   const usability = async (name) => {
     // A page that was just left stays (inert) for its 120 ms fade-out (UX3): measure once only the current page is left.
-    await page.waitForFunction(() => document.querySelectorAll('[data-testid="page"]').length <= 1)
+    await page.waitForFunction(() => !document.querySelector('[data-testid="page"][aria-hidden="true"]'))
     const found = await page.evaluate(() => {
       const hits = (el, x, y) => { const at = document.elementFromPoint(x, y); return Boolean(at && (at === el || el.contains(at))) }
       const reach = (el, rect, dx, dy) => {
