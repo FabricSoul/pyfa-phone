@@ -1,0 +1,45 @@
+/* 第 1–4 步已选（第 4 步加：伤害类型、科技等级、图表、good）。第 2 步：：颜色=警戒琥珀(t-color-b) 数字=SF Pro 等宽数字(t-type-b) 行高52/图标32(t-size-b) 层次=通栏列表(t-depth-b) 动效=利落(t-motion-a) */
+:root {
+  --color-bg: #EDF0F3;
+  --color-surface: #FFFFFF;
+  --color-fill: #E1E6EB;
+  --color-text: #0E1620;
+  --color-text-secondary: #4A5765;
+  --color-separator: #D2D9E0;
+  --color-accent: #8A5300;
+  --color-warn: #B8261E;
+  --color-good: #2E7347;
+  /* 伤害类型（抗性格子、弹药色条）：EVE 惯例 */
+  --dmg-em: #3B7DD8; --dmg-th: #D0463B; --dmg-ki: #8A96A3; --dmg-ex: #D98A1F;
+  /* 科技等级标签（第 4 步）*/
+  --meta-t2: #A2480F; --meta-t1: #4A5765; --meta-faction: #266A26; --meta-storyline: #0B6A5E; --meta-deadspace: #1F5FB8; --meta-officer: #7B3FB5;
+  /* 图表系列（validate_palette 通过）*/
+  --chart-1: #8A5300; --chart-2: #2F6FD6; --chart-3: #0B8A78;
+  --color-glass: rgba(255,255,255,.72);
+  --font-body: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  --font-num: -apple-system, "SF Pro Text", sans-serif; /* 配合 font-variant-numeric: tabular-nums */
+  --type-page: 700 28px/34px var(--font-body);   /* 首页大标题 */
+  --type-title: 600 17px/22px var(--font-body);  /* 导航标题 */
+  --type-name: 500 15px/20px var(--font-body);   /* 模块名、行标题 */
+  --type-label: 600 13px/18px var(--font-body);  /* 分组标题 */
+  --type-caption: 400 12px/16px var(--font-body);/* 次要信息、参数行 */
+  --type-stat: 600 22px/28px var(--font-num);    /* 属性大数字 */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --radius-s: 6px; --radius-m: 10px;
+  --control: 36px; --row: 52px; --icon: 32px;
+  --list-inset: 0px; /* 通栏列表：行铺满屏宽，只用分隔线 */
+  --dur-fast: 120ms; --dur: 180ms; --ease: cubic-bezier(.2, 0, 0, 1);
+}
+[data-appearance="dark"] {
+  --color-bg: #090E13;
+  --color-surface: #111921;
+  --color-fill: #1A2530;
+  --color-text: #E4ECF2;
+  --color-text-secondary: #8A99A7;
+  --color-separator: #22303D;
+  --color-accent: #F2B13A;
+  --color-warn: #FF6A5C;
+  --color-good: #6CC48E;
+  --meta-t2: #FF9A57; --meta-t1: #A3B1BE; --meta-faction: #74D274; --meta-storyline: #4FD1BD; --meta-deadspace: #7DB0FF; --meta-officer: #C39BFF;
+  --chart-1: #C0841F; --chart-2: #5B8FEE; --chart-3: #239A87;
+}

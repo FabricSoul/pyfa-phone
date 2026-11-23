@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: var(--type-name);
+  -webkit-font-smoothing: antialiased;
+}
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-appearance="light"]) { color-scheme: dark; }
+}

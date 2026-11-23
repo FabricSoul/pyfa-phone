@@ -1,0 +1,579 @@
+<doc>
+  <h1 id="uT8MBLKP">pyfa 手机网页版 · 设计文档</h1>
+  <p id="QM-zopl2">把 EVE Online 装配模拟器 pyfa 做成手机优先的网页应用，部署在 Cloudflare Pages。计算引擎原样复用 pyfa 的 eos（在浏览器里用 Pyodide 跑），界面按手机重新设计。功能范围见 <ref document="pyfa-feature-inventory" to="Lv6wYBQlvCDXnCH2Amrby" />，视觉和交互见画板 <ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" />。</p>
+  <h2 id="NPdFt44L">1. 为什么做</h2>
+  <p id="h1T9d5T1">pyfa 只有桌面版。玩家不在电脑前时，想在手机上查看、修改装配，或者判断聊天里别人发来的一段 EFT 装配，目前没有和 pyfa 数值一致的工具。市面上的手机装配器（EVE Nexus、Neocom 等）各自实现计算，和 pyfa 的结果存在差异。</p>
+  <p id="RZC3pMnO">这个项目的核心价值是<b>数值和 pyfa 完全一致、随 pyfa 一起更新</b>：直接运行 pyfa 的 eos 引擎，而不是重新实现。界面是这个项目真正要做的工作。它是装配模拟器，不是资料大全，所以不能照搬 mhxx-web 的界面。</p>
+  <h2 id="uD8ynLsO">2. 目标、非目标、反目标</h2>
+  <ul id="nrlbneuo">
+    <li><b>目标</b>：在手机上逐槽改装配，每改一处立刻看到资源余量和全部属性；数值与桌面 pyfa 一致；粘贴 EFT 即可打开；离线可用；中文界面、中文物品名。</li>
+    <li><b>非目标（首版不做）</b>：投射、指挥加成、图表（除“伤害随距离”）、角色编辑、ESI 登录、突变质体、自定义伤害模式和目标抗性、轰炸面板、多标签同时打开多个装配、拖拽排序槽位。</li>
+    <li><b>反目标</b>：自己重写计算逻辑（哪怕只是一部分）；为了好看牺牲信息量（pyfa 有的属性，属性页里不能少）；桌面那种右键和多选交互直接搬到手机上。</li>
+  </ul>
+  <h2 id="-ZTgjeKP">3. 约束</h2>
+  <ul id="pmJNNgCJ">
+    <li><b>许可</b>：pyfa 是 GPLv3，本项目也必须以 GPLv3 开源，站点上提供源码链接。网页会把代码发到用户浏览器里，算作分发。</li>
+    <li><b>游戏数据版权</b>：EVE 名称、图标和图像归 CCP hf.，站点上要有和 pyfa 相同的声明（设置页底部已画）。</li>
+    <li><b>服务器</b>：以欧服 Tranquility 为准，包括物品中文名、价格和以后的 ESI。</li>
+    <li><b>部署</b>：Cloudflare Pages，和 ~/mhxx-web 相同（Pages 加 Functions 中间件）。Pages 单个文件上限 25 MiB：eve.db 原始 98 MB、gzip 后 18.6 MB，必须压缩后分发，在浏览器里解压。</li>
+    <li><b>必须 HTTPS</b>：否则 Service Worker 和离线缓存会静默失效（mhxx-web 的 DEPLOY.md 记录过）。</li>
+    <li><b>性能（首版不作为验收标准）</b>：eos 在 Pyodide 里的实测只在 Mac 的 Node 上做过：启动加载包 2–5 秒，首次计算约 2 秒，本机 CPython 是 0.54 秒。手机上还没测过，是最大的不确定点。</li>
+  </ul>
+  <h2 id="PwiclQWM">4. 已定的技术方案</h2>
+  <h3 id="OAMeSnYY">4.1 项目骨架：复用 mhxx-web</h3>
+  <p id="AWk1EdDj">从 ~/mhxx-web 复制骨架到 ~/pyfa-phone：React 19、TypeScript、Vite、Tailwind 4、react-router、@tanstack/react-virtual、comlink（主线程和 worker 通信）、Service Worker 离线缓存、Cloudflare Pages（<code>wrangler.toml</code>、<code>functions/_middleware.js</code>）、<code>etl/</code> 下用 Python 做数据处理、<code>check-all.sh</code> 串起全部检查。新增依赖：<b>Motion</b>（<code>motion/react</code>），用于模块装上、拆下、换位置的动画（用户已同意）。</p>
+  <h3 id="SokShjIb">4.2 计算引擎：Pyodide + eos</h3>
+  <ul id="lq7RvKR9">
+    <li>pyfa 作为 git 子模块引入并固定提交，pyfa 源码一行不改。</li>
+    <li>Pyodide 跑在 Web Worker 里。<code>sqlalchemy</code>、<code>pyyaml</code>、<code>cryptography</code>、<code>sqlite3</code> 用 Pyodide 自带的包。</li>
+    <li>
+      需要两个替代模块（已验证可行）：
+      <ul>
+        <li><code>wx</code>：<code>eos/db/migration.py</code> 会导入根目录的 <code>config.py</code>，这个文件只用到 <code>wx.Colour</code>，补一个空壳即可。</li>
+        <li><code>logbook</code>：没有纯 Python 版本，用标准库 logging 包一层；需要提供 <code>Logger</code>、<code>FingersCrossedHandler</code>、<code>NestedSetup</code>、<code>NullHandler</code> 等名字。</li>
+      </ul>
+    </li>
+    <li>
+      已知用法（实测踩过）：
+      <ul>
+        <li>Fit 必须先 <code>saveddata_session.add(fit)</code> 再 <code>flush()</code>，模块才会关联到装配。</li>
+        <li><code>fit.implantLocation</code> 必须赋值。</li>
+        <li>建表用 <code>saveddata_meta.create_all(engine)</code>。</li>
+        <li>重新计算的流程是先 <code>fit.clear()</code>，再 <code>fit.calculateModifiedAttributes()</code>。</li>
+        <li>电容不稳定时 <code>capState</code> 是能撑多少<b>秒</b>，不是百分比。</li>
+      </ul>
+    </li>
+    <li>在 Worker 里写一层很薄的 Python 接口：接收装配的 JSON，返回槽位逐行数据、全部属性和“伤害随距离”曲线。曲线用 pyfa 的 <code>calculateRangeFactor</code> 和 <code>_calcTurretMult</code> 计算（静止目标、不计跟踪），和 pyfa 图表的公式相同。</li>
+    <li>已验证：裂谷级同一套装配在 Pyodide 和 CPython 里算出 DPS 143.66、EHP 2262.2，完全一致。</li>
+  </ul>
+  <h3 id="fiTD3eJ8">4.3 游戏数据</h3>
+  <ul id="DQ1523Fj">
+    <li><code>etl/</code> 调用 pyfa 自带的 <code>db_update.py</code>，从 <code>staticdata/</code> 生成 eve.db（含 <code>typeName_zh</code> 等中文列），压缩后放进 <code>public/</code>。</li>
+    <li>图标用 pyfa 的 <code>imgs/icons/{iconID}@2x.png</code>（32×32），舰船缩略图用 <code>imgs/renders/{graphicID}@2x.png</code>。</li>
+    <li>伤害模式、目标抗性的中文名来自 pyfa 的 <code>locale/zh_CN/LC_MESSAGES/lang.po</code>。没有翻译的条目（比如 “Condenser Packs”）保持英文，和 pyfa 中文版一致。<i>这一条是我的判断。</i></li>
+  </ul>
+  <h3 id="EJKBRa_3">4.4 价格</h3>
+  <p id="NbeRDcrG">首版就要价格（用户已定）。主来源是 fuzzwork（<code>market.fuzzwork.co.uk/aggregates/?region=10000002</code>，吉他所在的伏尔戈星域，取卖单最低价），失败时用 ESI 的 <code>markets/prices</code> 均价兜底。2026-11-22 实测两者都返回 <code>Access-Control-Allow-Origin: *</code>，浏览器可以直接调用；evetycoon 没有这个头，首版不用。</p>
+  <h3 id="Ze2-iFJT">4.5 装配存储（我的判断）</h3>
+  <p id="WtJ3zwdq">用户的装配存在浏览器的 IndexedDB 里，格式是我们自己定的 JSON：船、每个槽位的模块、状态、弹药，以及货柜、植入体、增效剂、备注。不使用 pyfa 的 saveddata 数据库；每次计算时把 JSON 交给 Worker，在内存里构建 pyfa 的 Fit 对象。导入导出用 EFT 文本，另外提供全部备份和恢复（JSON 文件）。</p>
+  <p id="Mkv39E3n">JSON 里物品一律存 typeID，不存名称，并带上生成它时的游戏数据版本号。数据更新后，如果某个 typeID 已经不存在，打开装配时把那一行标成“物品已移除”并保留原名，不静默丢弃。<i>这一条是我的判断。</i></p>
+  <h3 id="N3SfaT2E">4.6 复用 pyfa 的哪些代码（我的判断）</h3>
+  <p id="UJCMXVqY">不只 eos。首版需要的这些逻辑都直接 import pyfa 的原代码，不重写：</p>
+  <ul id="nJ2hNGlV">
+    <li>EFT、DNA、MultiBuy 的导入导出：<code>service/port/*</code>。</li>
+    <li>某个槽位能装什么、同系列型号、模块能用哪些弹药、按科技等级分组：<code>service/market</code>。</li>
+    <li>缺哪些技能：<code>service/character</code>。</li>
+    <li>模块行的关键参数：pyfa 模块列表里的 Misc 列，即 <code>gui/builtinViewColumns/misc.py</code>。它按物品类别计算要显示的文字，只是挂在 wx 的列基类上。</li>
+  </ul>
+  <p id="eTR9cPW5">为此 wx 替代模块要补全：<code>CallAfter</code>（直接同步调用）、<code>GetTranslation</code>、<code>CommandProcessor</code>、<code>Colour</code>，以及 misc.py 等文件用到的基类。pyfa 源码仍然一行不改。这些模块能不能在 Pyodide 里导入，放到第一个里程碑一起验证；某个模块确实导入不了时，只把它需要的那一小段逻辑移植过来，并给它加数值对拍。</p>
+  <h3 id="ywzEzdqe">4.7 语言：照 pyfa 的做法（用户已定）</h3>
+  <p id="Oo5jBA-y">pyfa 的做法：界面文字用 GNU gettext，代码里写 <code>_t(&quot;英文原文&quot;)</code>（另有复数和上下文两种写法），<code>xgettext</code> 提取成 <code>locale/lang.pot</code>，每种语言一个 <code>locale/ll_CC/LC_MESSAGES/lang.po</code>，通过 Crowdin 协作翻译，<code>scripts/compile_lang.py</code> 编译。游戏数据（物品名、描述）的语言是另一个独立设置，直接取 eve.db 里的 <code>typeName_zh</code> 等列。我们照搬这套结构：</p>
+  <ul id="-K1meHpN">
+    <li>界面文字在 TSX 里写 <code>_t(&quot;English msgid&quot;)</code>，复数和上下文也沿用 pyfa 的写法。</li>
+    <li><code>etl/</code> 里写一个提取脚本，扫描 <code>src/</code>，生成 <code>locale/lang.pot</code>；目录结构和 pyfa 一样，<code>crowdin.yml</code> 也照抄。xgettext 不认识 TSX，所以用 TypeScript 的语法树来提取。</li>
+    <li><b>复用 pyfa 已有的翻译</b>：用 <code>msgmerge --compendium</code> 把 pyfa 自己的 <code>lang.po</code> 当作翻译库。和 pyfa 原文相同的 msgid（比如“Firepower”“Capacitor”和伤害模式名称）自动带上 pyfa 社区的中文翻译。</li>
+    <li>构建时把 <code>.po</code> 编译成每种语言一个 JSON，运行时按语言加载。缺翻译时显示英文原文，和 gettext 一样。</li>
+    <li>首版提供 zh_CN 和 en_US 两种界面语言，结构上支持 pyfa 的全部 9 种。物品名称语言单独设置：中文或英文。</li>
+    <li><b>导入</b>：中文、英文、中英混合的 EFT 都接受，先用 <code>typeName_zh</code> / <code>typeName</code> 换成 typeID，再交给 pyfa 解析。<b>导出</b>：默认英文名，另有“复制中文版”。<i>这一条是我的判断。</i></li>
+    <li>check-all 加一项检查：<code>src/</code> 里没有包在 <code>_t()</code> 里的中文或英文界面文字，测试失败。</li>
+  </ul>
+  <h3 id="MtNNeT_t">4.8 跟随 pyfa 更新（我的判断）</h3>
+  <p id="9Hi8VnwP">首版用手动脚本：升级 pyfa 子模块、重新生成 eve.db、跑 check-all（含数值对拍），然后部署。eve.db 的文件名带数据版本号，Service Worker 按版本号让旧缓存失效。设置页显示当前的游戏数据版本。不做自动 CI。</p>
+  <h2 id="axhlDkOl">5. 首版功能</h2>
+  <p id="v8SwnNBa">以 <ref document="pyfa-feature-inventory" to="Lv6wYBQlvCDXnCH2Amrby" /> 里标为“首版”的条目为准。用户回答已经写进那份文档：欧服；首版范围按表格；“伤害随距离”图表进首版；价格进首版。</p>
+  <h2 id="JWT2ds1E">6. 设计系统</h2>
+  <h3 id="H5vsBQnF">6.1 方向（第 1 步，选 <ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="dir-a" />）</h3>
+  <ul id="tWtEufip">
+    <li><b>产品</b>：玩家在手机上逐槽调整装配，每改一处都要立刻看到资源余量和输出变化。</li>
+    <li><b>性格</b>：精确、紧凑、冷静。</li>
+    <li><b>世界</b>：舰船装配界面的仪表盘：电容格、资源条、深色舱内照明。</li>
+    <li><b>重点时刻</b>：资源条接近上限的那一下；属性页的完整数值。</li>
+    <li><b>标志</b>：20 格的分格资源条，超限时整条变成警示色。</li>
+  </ul>
+  <h3 id="ecnwxXwW">6.2 Token 表</h3>
+  <p id="homTl8II">代码里唯一的 token 来源是 <code>src/styles/tokens.css</code>，从画板的 <code>pages/tokens.css</code> 原样搬过去。浅色写在 <code>:root</code>，深色写在 <code>[data-appearance=&quot;dark&quot;]</code>，跟随系统、也可手动切换。完整列表和对比度见 <ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="t-sheet" />。</p>
+  <table id="q6hjgC-6">
+    <tr>
+      <th>
+        <p>Token</p>
+      </th>
+      <th>
+        <p>浅色</p>
+      </th>
+      <th>
+        <p>深色</p>
+      </th>
+      <th>
+        <p>用途</p>
+      </th>
+      <th>
+        <p>来源板</p>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-bg</p>
+      </td>
+      <td>
+        <p>#EDF0F3</p>
+      </td>
+      <td>
+        <p>#090E13</p>
+      </td>
+      <td>
+        <p>页面底色</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-surface</p>
+      </td>
+      <td>
+        <p>#FFFFFF</p>
+      </td>
+      <td>
+        <p>#111921</p>
+      </td>
+      <td>
+        <p>列表行、面板</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-fill</p>
+      </td>
+      <td>
+        <p>#E1E6EB</p>
+      </td>
+      <td>
+        <p>#1A2530</p>
+      </td>
+      <td>
+        <p>控件底、空槽、条底</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-separator</p>
+      </td>
+      <td>
+        <p>#D2D9E0</p>
+      </td>
+      <td>
+        <p>#22303D</p>
+      </td>
+      <td>
+        <p>1px 分隔线</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-text</p>
+      </td>
+      <td>
+        <p>#0E1620</p>
+      </td>
+      <td>
+        <p>#E4ECF2</p>
+      </td>
+      <td>
+        <p>主文字（18.2 / 14.8 : 1）</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-text-secondary</p>
+      </td>
+      <td>
+        <p>#4A5765</p>
+      </td>
+      <td>
+        <p>#8A99A7</p>
+      </td>
+      <td>
+        <p>次要文字（7.4 / 6.1 : 1）</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-accent</p>
+      </td>
+      <td>
+        <p>#8A5300</p>
+      </td>
+      <td>
+        <p>#F2B13A</p>
+      </td>
+      <td>
+        <p>资源条已用格、激活按钮、选中（6.3 / 9.4 : 1）</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-warn</p>
+      </td>
+      <td>
+        <p>#B8261E</p>
+      </td>
+      <td>
+        <p>#FF6A5C</p>
+      </td>
+      <td>
+        <p>超限、装不上、电容耗尽（6.3 : 1）</p>
+      </td>
+      <td>
+        <p>t-color-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--color-good</p>
+      </td>
+      <td>
+        <p>#2E7347</p>
+      </td>
+      <td>
+        <p>#6CC48E</p>
+      </td>
+      <td>
+        <p>技能满足（5.7 / 8.4 : 1）</p>
+      </td>
+      <td>
+        <p>r-stats-spec</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--dmg-em / th / ki / ex</p>
+      </td>
+      <td>
+        <p>#3B7DD8 / #D0463B / #8A96A3 / #D98A1F</p>
+      </td>
+      <td>
+        <p>伤害类型（抗性格子、弹药色条）</p>
+      </td>
+      <td>
+        <p>r-res-a</p>
+      </td>
+      <td>
+        <p />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--meta-t2 / t1 / faction / storyline / deadspace / officer</p>
+      </td>
+      <td>
+        <p>#A2480F / #4A5765 / #266A26 / #0B6A5E / #1F5FB8 / #7B3FB5</p>
+      </td>
+      <td>
+        <p>#FF9A57 / #A3B1BE / #74D274 / #4FD1BD / #7DB0FF / #C39BFF</p>
+      </td>
+      <td>
+        <p>科技等级标签（全部 ≥ 6 : 1）</p>
+      </td>
+      <td>
+        <p>r-ammo-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--chart-1 / 2 / 3</p>
+      </td>
+      <td>
+        <p>#8A5300 / #2F6FD6 / #0B8A78</p>
+      </td>
+      <td>
+        <p>#C0841F / #5B8FEE / #239A87</p>
+      </td>
+      <td>
+        <p>图表系列，dataviz 校验器通过</p>
+      </td>
+      <td>
+        <p>r-stats-spec</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--font-body / --font-num</p>
+      </td>
+      <td>
+        <p>系统字体 + 苹方；数字用系统字体并开启 tabular-nums</p>
+      </td>
+      <td>
+        <p>正文 / 数字</p>
+      </td>
+      <td>
+        <p>t-type-b</p>
+      </td>
+      <td>
+        <p />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--type-page / title / name / label / caption / stat</p>
+      </td>
+      <td>
+        <p>700 28/34、600 17/22、500 15/20、600 13/18、400 12/16、600 22/28（数字）</p>
+      </td>
+      <td>
+        <p>字号</p>
+      </td>
+      <td>
+        <p>t-sheet</p>
+      </td>
+      <td>
+        <p />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--space-1…6</p>
+      </td>
+      <td>
+        <p>4 / 8 / 12 / 16 / 24 / 32</p>
+      </td>
+      <td>
+        <p>间距（4px 网格）</p>
+      </td>
+      <td>
+        <p>t-sheet</p>
+      </td>
+      <td>
+        <p />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--radius-s / m</p>
+      </td>
+      <td>
+        <p>6 / 10</p>
+      </td>
+      <td>
+        <p>按钮标签 / 卡片搜索框</p>
+      </td>
+      <td>
+        <p>t-sheet</p>
+      </td>
+      <td>
+        <p />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--row / --icon / --control</p>
+      </td>
+      <td>
+        <p>52 / 32 / 36</p>
+      </td>
+      <td>
+        <p>模块行最小高 / 物品图标 / 控件高</p>
+      </td>
+      <td>
+        <p>t-size-b</p>
+      </td>
+      <td>
+        <p />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>--dur-fast / --dur / --ease</p>
+      </td>
+      <td>
+        <p>120ms / 180ms / cubic-bezier(.2,0,0,1)</p>
+      </td>
+      <td>
+        <p>动效，也作为 Motion 的 transition 参数</p>
+      </td>
+      <td>
+        <p>t-motion-a</p>
+      </td>
+      <td>
+        <p />
+      </td>
+    </tr>
+  </table>
+  <h3 id="YhfXuobp">6.3 布局（第 3 步）</h3>
+  <table id="gRDqJTHg">
+    <tr>
+      <th>
+        <p>页面</p>
+      </th>
+      <th>
+        <p>结构</p>
+      </th>
+      <th>
+        <p>来源板</p>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <p>首页</p>
+      </td>
+      <td>
+        <p>大标题、设置和新建按钮；搜索框加“粘贴导入”；最近打开（横向卡片）；按船型分组的装配列表，装不下的标红</p>
+      </td>
+      <td>
+        <p>l-home-d</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>装配页</p>
+      </td>
+      <td>
+        <p>导航（返回、船图、名称、撤销、更多），下面是 CPU / 栅格 / 校准三联资源条，再下面是“槽位 / 属性 / 附加”分段</p>
+      </td>
+      <td>
+        <p>l-struct-a</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>槽位</p>
+      </td>
+      <td>
+        <p>高槽 / 中槽 / 低槽 / 改装件四组，通栏列表，每行加一行关键参数</p>
+      </td>
+      <td>
+        <p>l-row-b</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>添加模块</p>
+      </td>
+      <td>
+        <p>搜索框；不输入时显示最近使用、分组标签、科技等级和按槽位过滤的列表；输入后跨分组搜索；底部可进入市场分组树</p>
+      </td>
+      <td>
+        <p>l-add-d</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>模块操作</p>
+      </td>
+      <td>
+        <p>底部弹出面板</p>
+      </td>
+      <td>
+        <p>l-act-a</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>全部页面尺寸</p>
+      </td>
+      <td>
+        <p>布局表</p>
+      </td>
+      <td>
+        <p>l-sheet</p>
+      </td>
+    </tr>
+  </table>
+  <p id="BSab8Pb-">手机宽度（402px）以外，桌面宽屏的处理<i>留给实现</i>：首版内容居中，最大宽度 480px。<i>这一条是我的判断。</i></p>
+  <h3 id="ZVENW6de">6.4 组件规则（第 4 步）</h3>
+  <ul id="7uQa7FXR">
+    <li>
+      <b>模块行</b>（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="r-row-spec" />）：
+      <ul>
+        <li>右侧是图标状态按钮（离线、在线、激活、超载），点按循环切换，长按选超载。</li>
+        <li>同类模块合并成一行“×N”。</li>
+        <li>副文字第一行是弹药，第二行是关键参数。</li>
+        <li>资源超限时只有顶部资源条和改装件标题变红，模块行不变色；槽位数量超出时整行变成警示色。</li>
+      </ul>
+    </li>
+    <li><b>资源条</b>（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="r-gauge-spec" />）：20 格刻度，显示“已用 / 总量”；用满不算错误；超限时整条换警示色。</li>
+    <li>
+      <b>模块操作面板</b>（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="r-sheet-spec" />）：
+      <ul>
+        <li>依次是状态分段、弹药、分别设置 N 门、换同系列型号、物品信息，最后是移除。</li>
+        <li>合并的模块写明数量，操作默认对全部生效。</li>
+      </ul>
+    </li>
+    <li>
+      <b>物品列表</b>（弹药、添加模块、同系列型号）：
+      <ul>
+        <li>按科技等级分组，顺序是二级、一级、势力、故事线、死亡空间、官员，组内按关键数值从高到低。</li>
+        <li>分组可以折叠：默认展开当前物品所在的组，没有当前物品时展开第一组；折叠时显示数量和这一组的最佳数值。</li>
+        <li>选弹药用可折叠的分组列表（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="r-ammo-b" />）。</li>
+      </ul>
+    </li>
+    <li>
+      <b>属性页</b>（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="r-stats-spec" />）：
+      <ul>
+        <li>面板顺序固定：火力、伤害随距离、防御、回复、远程维修、电容、锁定与机动、资源与价格。每个面板可以折叠，没有数据的面板默认折叠。</li>
+        <li>抗性用“格子 + 进度条”（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="r-res-a" />）。</li>
+        <li>图表最多 3 条线，当前弹药固定为第一条；按住图表显示十字线和每公里数值。</li>
+      </ul>
+    </li>
+  </ul>
+  <p id="OsxdHaFX">整体页面和跳转流程见画板“5 · 整体：装配主流程”（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="pf-slots" /> 等）和“6 · 整体：导入、设置、选择器”（<ref artboard="pyfa-phone-design-system" to="OubYJdCJjEi0z5525i8IW" board="pm-import" /> 等），用户已确认“过”。</p>
+  <h2 id="n1ECK5r4">7. 落地</h2>
+  <ul id="8fbgraPq">
+    <li><b>DESIGN.md</b>（仓库根目录）：写清五条方向、指向 tokens.css 的 token 表和用途、字号间距圆角规则、每种页面的布局、每个组件什么时候用哪种样式和不能做什么、反例、上线前检查清单。只写规则，不写过程。</li>
+    <li><b>Token 页面</b>：开发环境下的 <code>/dev/tokens</code> 路由，运行时读取 CSS 变量，分组列出每个 token 和它的用途。项目没有 Storybook，所以不做组件画廊。</li>
+    <li><b>守卫测试</b>：tokens.css 里有、但 token 页面没列出的变量，测试失败；另外检查 <code>src/</code> 里在 tokens.css 之外直接写死的颜色值。两项都加进 check-all.sh。</li>
+    <li><b>数值对拍</b>（新增检查项）：用固定的一组装配（裂谷级、小鹰级、长尾鲛级），对比 Pyodide 和本机 CPython 跑 eos 的 DPS、EHP、CPU、栅格、速度、电容，必须完全一致。</li>
+    <li><b>替换计划</b>：新产品，没有旧样式需要替换。</li>
+    <li><b>验证计划</b>：每个做好的页面截图，和画板对照：首页对 pf-home，槽位对 pf-slots，属性对 pf-stats，附加对 pf-extra，添加模块对 pf-add，操作面板对 pf-sheet，物品信息对 pf-info，换型号对 pf-vars，导入对 pm-import，设置对 pm-settings，三个选择器对 pm-char、pm-dp、pm-tp。</li>
+  </ul>
+  <h2 id="i2snch69">8. 交付标准与部署</h2>
+  <p id="8pL-FfvP"><b>首版交付标准（用户已定）</b>：站点能在 Cloudflare Pages 上正常访问并使用，就算完成。不做手机性能测试，也不设速度指标。</p>
+  <ul id="ikP-91KQ">
+    <li><b>代码仓库</b>：用 <code>gh</code> 在用户的 GitHub 账号（FabricSoul）下新建公开仓库 <code>pyfa-phone</code>。公开是 GPLv3 的要求（用户已同意用 gh 创建）。pyfa 作为子模块引入，仓库带 GPLv3 的 LICENSE。</li>
+    <li><b>部署</b>：用 <code>wrangler pages deploy</code> 部署到 Pages 项目 <code>pyfa</code>，地址 <code>pyfa.pages.dev</code>（用户已定）。2026-11-22 查过 DNS，这个名字还没有被占用；如果创建时 Cloudflare 分配的不是 <code>pyfa.pages.dev</code>（名字已被别人占用时会加随机后缀），就改用项目名 <code>mpyfa</code>，地址 <code>mpyfa.pages.dev</code>。做法和 mhxx-web 相同，用本机已登录的 Cloudflare 账号。</li>
+    <li><b>访问控制（我的判断）</b>：沿用 mhxx-web 的 <code>functions/_middleware.js</code>，设 <code>ACCESS_MODE=public</code> 公开访问。站上写明：非官方、与 CCP 无关联、名称和图像归 CCP hf.、基于 pyfa（GPLv3）并附源码链接、非商业。</li>
+    <li><b>完成的判断</b>：<code>check-all.sh</code> 全部通过（含数值对拍），并且在正式地址上用手机浏览器跑通这条流程：打开站点 → 粘贴一段 EFT 导入 → 改一个模块 → 属性页数值更新 → 断网后刷新仍能打开。</li>
+  </ul>
+  <h2 id="X6buGlUj">9. 留给实现者决定</h2>
+  <ul id="2eiBfZy9">
+    <li>Worker 接口的具体函数划分和 JSON 字段名。</li>
+    <li>eve.db 是否裁掉不用的语言列和表，以及压缩格式（gzip 或 brotli，要兼顾 25 MiB 上限和浏览器的 DecompressionStream）。</li>
+    <li>Pyodide 运行时自己托管，还是从 jsDelivr CDN 加载。离线可用的前提是 Service Worker 能缓存它。</li>
+    <li>路由结构、状态管理（沿用 mhxx-web 的 store.ts 写法即可）。</li>
+    <li>撤销 / 重做的实现方式，至少支持 50 步。</li>
+  </ul>
+  <h2 id="27Vv89ot">10. 本次用到的产物</h2>
+  <ul id="P2tFOBXs">
+    <li>
+      画板 <code>artboard/pyfa-phone-design-system</code>（<code>.ryugi/artifacts/artboard/pyfa-phone-design-system/</code>）：
+      <ul>
+        <li>第 1 步方向：dir-a。</li>
+        <li>第 2 步参数：t-color-b、t-type-b、t-size-b、t-depth-b、t-motion-a，Token 表 t-sheet。</li>
+        <li>第 3 步布局：l-struct-a、l-row-b、l-add-d、l-act-a、l-home-d，布局表 l-sheet。</li>
+        <li>第 4 步组件：r-row-spec（状态用 r-state-b，同类合并用 r-stack-a）、r-gauge-spec（数字用 r-num-a）、r-sheet-spec（弹药用 r-ammo-b）、r-stats-spec（抗性用 r-res-a）。</li>
+        <li>整体页面：pf-* 和 pm-*。</li>
+      </ul>
+    </li>
+    <li>文档 <code>document/pyfa-feature-inventory</code>：pyfa 功能盘点和首版范围，含 4 个已回答的问题。</li>
+    <li>OwlMem：<code>projects/pyfa-phone/feasibility.md</code>，记录可行性和实测数据。</li>
+  </ul>
+</doc>
+

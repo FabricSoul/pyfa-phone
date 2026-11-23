@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "threads": [
+    {
+      "id": "nkNeuxylfI",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "server",
+        "choice": "tq",
+        "answer": null
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:51:53.476Z",
+      "statusBy": "human",
+      "messages": [
+        {
+          "id": "tkOvXmWaqv",
+          "author": "human",
+          "name": "FabricSoul",
+          "avatar": "/api/avatar/gravatar/625e89afc53e6f63e15712e8b76d5f7d8d3fb5cd511e7c9af1843ad83c5a40e0",
+          "text": "tq",
+          "at": "2026-11-22T21:51:53.476Z"
+        }
+      ]
+    },
+    {
+      "id": "1M8LI0Wr4N",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "v1-scope",
+        "choice": "as-listed",
+        "answer": null
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:54:22.429Z",
+      "statusBy": "human",
+      "messages": [
+        {
+          "id": "zQceeFpgye",
+          "author": "human",
+          "name": "FabricSoul",
+          "avatar": "/api/avatar/gravatar/625e89afc53e6f63e15712e8b76d5f7d8d3fb5cd511e7c9af1843ad83c5a40e0",
+          "text": "as-listed",
+          "at": "2026-11-22T21:54:22.429Z"
+        }
+      ]
+    },
+    {
+      "id": "uOabVI14Kd",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "graphs-v1",
+        "choice": "dps-range",
+        "answer": null
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:54:29.098Z",
+      "statusBy": "human",
+      "messages": [
+        {
+          "id": "u0GnEMiZnn",
+          "author": "human",
+          "name": "FabricSoul",
+          "avatar": "/api/avatar/gravatar/625e89afc53e6f63e15712e8b76d5f7d8d3fb5cd511e7c9af1843ad83c5a40e0",
+          "text": "dps-range",
+          "at": "2026-11-22T21:54:29.098Z"
+        }
+      ]
+    },
+    {
+      "id": "tDgQ8YJGPB",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "price-v1",
+        "choice": "v1",
+        "answer": null
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:54:40.914Z",
+      "statusBy": "human",
+      "messages": [
+        {
+          "id": "OBqxffYwFc",
+          "author": "human",
+          "name": "FabricSoul",
+          "avatar": "/api/avatar/gravatar/625e89afc53e6f63e15712e8b76d5f7d8d3fb5cd511e7c9af1843ad83c5a40e0",
+          "text": "v1",
+          "at": "2026-11-22T21:54:40.914Z"
+        }
+      ]
+    },
+    {
+      "id": "P4diIhBedz",
+      "anchor": {
+        "blockId": "*",
+        "quote": "",
+        "submit": true,
+        "asks": [
+          "server",
+          "v1-scope",
+          "graphs-v1",
+          "price-v1"
+        ]
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:54:44.146Z",
+      "statusBy": "human",
+      "messages": [
+        {
+          "id": "aLl6m_tbvZ",
+          "author": "human",
+          "name": "FabricSoul",
+          "avatar": "/api/avatar/gravatar/625e89afc53e6f63e15712e8b76d5f7d8d3fb5cd511e7c9af1843ad83c5a40e0",
+          "text": "Submitted the answers",
+          "at": "2026-11-22T21:54:44.146Z"
+        }
+      ]
+    },
+    {
+      "id": "ChDrzaulZR",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "server",
+        "note": true
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:55:30.558Z",
+      "statusBy": "agent",
+      "messages": [
+        {
+          "id": "J6UOdMmHNi",
+          "author": "agent",
+          "name": "Claude Code",
+          "text": "已定欧服（Tranquility）：物品中文名用欧服中文数据，价格取吉他，ESI 以后接欧服。",
+          "at": "2026-11-22T21:55:30.558Z"
+        }
+      ]
+    },
+    {
+      "id": "SImV-Fijq1",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "v1-scope",
+        "note": true
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:55:31.013Z",
+      "statusBy": "agent",
+      "messages": [
+        {
+          "id": "DLAhyzq7DL",
+          "author": "agent",
+          "name": "Claude Code",
+          "text": "首版范围按表格；另按后两题把价格和“伤害随距离”图表也调成首版。",
+          "at": "2026-11-22T21:55:31.013Z"
+        }
+      ]
+    },
+    {
+      "id": "iGawuuwjmY",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "graphs-v1",
+        "note": true
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:55:31.459Z",
+      "statusBy": "agent",
+      "messages": [
+        {
+          "id": "aVrJqsymVa",
+          "author": "agent",
+          "name": "Claude Code",
+          "text": "第 7 节改为：首版只做“伤害随距离”，其余图表后续。",
+          "at": "2026-11-22T21:55:31.459Z"
+        }
+      ]
+    },
+    {
+      "id": "4Z5UjP7Kvw",
+      "anchor": {
+        "blockId": "PB6lYfNr",
+        "quote": "",
+        "ask": "price-v1",
+        "note": true
+      },
+      "status": "open",
+      "statusAt": "2026-11-22T21:55:32.065Z",
+      "statusBy": "agent",
+      "messages": [
+        {
+          "id": "389HqCEEVK",
+          "author": "agent",
+          "name": "Claude Code",
+          "text": "模块价格、价格面板、价格设置改为首版；第 12 节补了跨域实测：fuzzwork 和 ESI 均价可直接调用，evetycoon 需转发。",
+          "at": "2026-11-22T21:55:32.065Z"
+        }
+      ]
+    }
+  ]
+}
