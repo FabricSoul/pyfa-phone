@@ -29,18 +29,20 @@ const StartupContext = createContext<Startup | null>(null)
 /** An EngineClient whose calls wait for the engine, so pages that do not calculate never block on it. */
 export function deferredEngine(ready: Promise<EngineClient>): EngineClient {
   void ready.catch(() => {})
-  return {
-    calc: (...a) => ready.then((e) => e.calc(...a)),
-    itemsForSlot: (...a) => ready.then((e) => e.itemsForSlot(...a)),
-    marketGroupsForSlot: (...a) => ready.then((e) => e.marketGroupsForSlot?.(...a) ?? []),
-    chargesFor: (...a) => ready.then((e) => e.chargesFor(...a)),
-    variationsOf: (...a) => ready.then((e) => e.variationsOf(...a)),
-    importText: (...a) => ready.then((e) => e.importText(...a)),
-    exportText: (...a) => ready.then((e) => e.exportText(...a)),
-    missingSkills: (...a) => ready.then((e) => e.missingSkills(...a)),
-    getDataVersion: () => ready.then((e) => e.getDataVersion?.() ?? ''),
-    itemInfo: (...a) => ready.then((e) => e.itemInfo?.(...a) ?? null),
-  }
+  // 现有的可选方法缺失时的兜底值，保持原来的行为。
+  const fallbacks: Record<string, unknown> = { marketGroupsForSlot: [], getDataVersion: '', itemInfo: null }
+  // 用 Proxy 转发任意方法名：EngineClient 以后新增的方法不会再被漏掉。
+  return new Proxy({} as EngineClient, {
+    get(_target, prop) {
+      if (typeof prop !== 'string' || prop === 'then') return undefined
+      return (...args: unknown[]) => ready.then((engine) => {
+        const method = (engine as unknown as Record<string, unknown>)[prop]
+        if (typeof method === 'function') return (method as (...a: unknown[]) => unknown).apply(engine, args)
+        if (prop in fallbacks) return fallbacks[prop]
+        throw new Error(`Engine does not implement ${prop}`)
+      })
+    },
+  })
 }
 
 /** Pages that calculate show startup progress until the engine is ready. */
