@@ -112,6 +112,7 @@ export const ModuleSlotRowSchema = z.object({
   powergrid: num,
   /** True when a merged module sits beyond the ship's slot count. */
   overSlots: z.boolean(),
+  supportedStates: z.array(ModuleStateSchema).optional(),
 })
 export const EmptySlotRowSchema = z.object({
   kind: z.literal('empty'),
@@ -192,7 +193,7 @@ export type RangeCurve = z.infer<typeof RangeCurveSchema>
 
 export const CalcResultSchema = z.object({
   dataVersion: z.string(),
-  ship: z.object({ typeId: z.number().int(), name: LNameSchema, graphicId: z.number().int().nullable() }),
+  ship: z.object({ typeId: z.number().int(), name: LNameSchema, graphicId: z.number().int().nullable(), group: LNameSchema.optional() }),
   resources: z.object({
     cpu: UsedTotalSchema,
     powergrid: UsedTotalSchema,
@@ -234,6 +235,20 @@ export function isCalcResult(x: unknown): x is CalcResult {
 // ---------------------------------------------------------------------------
 // Item lists (add module, charges, variations)
 
+export const MarketGroupSchema = z.object({
+  id: z.number().int(), name: LNameSchema,
+  /** Root through immediate parent. */
+  ancestors: z.array(z.object({ id: z.number().int(), name: LNameSchema })).optional(),
+})
+export type MarketGroup = z.infer<typeof MarketGroupSchema>
+
+export interface SlotItemsOptions {
+  marketGroupId?: number
+  meta?: MetaGroup
+  /** Skip eos insertion/recalculation during the initial list request. */
+  preview?: boolean
+}
+
 export const ItemRowSchema = z.object({
   typeId: z.number().int(),
   name: LNameSchema,
@@ -243,6 +258,10 @@ export const ItemRowSchema = z.object({
   /** The number the group is sorted by (descending); null when there is none. */
   keyValue: num.nullable(),
   keyLine: z.string(),
+  marketGroup: MarketGroupSchema.optional(),
+  resourceOverages: z.array(WarningSchema.extend({ overBy: num })).optional(),
+  supportedStates: z.array(ModuleStateSchema).optional(),
+  fitting: z.object({ cpu: num, powergrid: num }).optional(),
 })
 export type ItemRow = z.infer<typeof ItemRowSchema>
 
@@ -273,10 +292,27 @@ export type ExportFormat = 'eft' | 'dna' | 'multibuy'
 export interface EngineClient {
   calc(fit: FitDoc): Promise<CalcResult>
   /** Groups in META_GROUPS order, empty groups omitted. */
-  itemsForSlot(fit: FitDoc, slot: SlotKind, query?: string): Promise<ItemGroup[]>
+  itemsForSlot(fit: FitDoc, slot: SlotKind, query?: string, options?: SlotItemsOptions): Promise<ItemGroup[]>
+  /** Lightweight market navigation for eligible modules, with no insertion previews. */
+  marketGroupsForSlot?(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
   chargesFor(fit: FitDoc, pos: ModulePos): Promise<ItemGroup[]>
   variationsOf(typeId: number): Promise<ItemGroup[]>
   importText(text: string): Promise<ImportResult>
   exportText(fit: FitDoc, format: ExportFormat): Promise<string>
   missingSkills(fit: FitDoc): Promise<MissingSkill[]>
+  /** Current game data build, used to detect retired IDs before calculating an old fit. */
+  getDataVersion?(): Promise<string>
+  /** An absent type resolves to null. Attributes reflect fit context when supplied. */
+  itemInfo?(typeId: number, fit?: FitDoc, pos?: ModulePos): Promise<ItemDetails | null>
+}
+
+export interface ItemDetails {
+  typeId: number
+  name: LName
+  iconId: number | null
+  meta?: MetaGroup
+  group?: LName
+  description?: LName
+  attributes: { id: number; name: LName; base: number; current?: number; unit?: string }[]
+  skills: MissingSkill[]
 }

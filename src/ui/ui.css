@@ -91,7 +91,7 @@
 .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; max-height: 90dvh; overflow-y: auto; background: var(--color-surface); color: var(--color-text);
   border-radius: 16px 16px 0 0; padding: var(--space-2) 0 calc(env(safe-area-inset-bottom, 0px) + var(--space-2));
   box-shadow: 0 -8px 24px color-mix(in srgb, var(--color-text) 25%, transparent); }
-.grab { width: 36px; height: 5px; border-radius: 3px; background: var(--color-separator); margin: 0 auto var(--space-2); }
+.grab { width: 36px; height: 5px; border-radius: 3px; background: var(--color-separator); margin: 0 auto var(--space-2); touch-action: none; cursor: grab; }
 .act { display: flex; align-items: center; gap: var(--space-3); width: 100%; height: 48px; padding: 0 var(--space-4); border: 0; background: transparent; color: var(--color-text); font: 400 15px/20px var(--font-body); text-align: left; cursor: pointer; }
 .act.warn { color: var(--color-warn); }
 .act + .act { box-shadow: inset 48px 1px 0 var(--color-surface), inset 0 1px 0 var(--color-separator); }

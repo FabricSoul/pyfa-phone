@@ -3,7 +3,15 @@ import type { UiLanguage } from '../i18n/t'
 
 /** One decimal at most, integers without ".0", thousands separated (DESIGN.md §3). */
 export function fmt(n: number, maxDigits = 1): string {
-  return n.toLocaleString('en-US', { maximumFractionDigits: maxDigits })
+  if (!Number.isFinite(n)) return n === Infinity ? '∞' : n === -Infinity ? '−∞' : ''
+  const absolute = Math.abs(n)
+  const scale = 10 ** maxDigits
+  const scaled = absolute * scale
+  // Like Python round(), exact binary midpoints round to the even neighbour.
+  const binaryMidpoint = (absolute * 2 ** (maxDigits + 1)) % 2 === 1
+  const evenTie = binaryMidpoint && scaled % 2 === 0.5
+  const rounded = evenTie ? Math.floor(scaled) / scale : Number(absolute.toFixed(maxDigits))
+  return (rounded === 0 || n >= 0 ? rounded : -rounded).toLocaleString('en-US', { maximumFractionDigits: maxDigits })
 }
 
 export function lname(n: LName, lang: UiLanguage): string {

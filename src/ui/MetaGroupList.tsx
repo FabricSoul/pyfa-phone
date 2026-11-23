@@ -29,12 +29,14 @@ export function defaultExpanded(groups: ItemGroup[], currentTypeId?: number): Se
 }
 
 /** Items grouped by tech level, collapsible. Collapsed headers show the count and the best value. */
-export function MetaGroupList({ groups, currentTypeId, onPick, renderItem, valueUnit }: {
+export function MetaGroupList({ groups, currentTypeId, onPick, renderItem, renderGroup, valueUnit }: {
   groups: ItemGroup[]
   currentTypeId?: number
   onPick?: (item: ItemRow) => void
   /** Replaces the default row; `current` marks the selected item. */
   renderItem?: (item: ItemRow, current: boolean) => ReactNode
+  /** Replaces the contents of an expanded group. */
+  renderGroup?: (group: ItemGroup) => ReactNode
   /** Unit shown after the best value, e.g. "DPS". */
   valueUnit?: string
 }) {
@@ -57,7 +59,7 @@ export function MetaGroupList({ groups, currentTypeId, onPick, renderItem, value
             </button>
             {expanded && (
               <div className="list">
-                {g.items.map((it) => {
+                {renderGroup ? renderGroup(g) : g.items.map((it) => {
                   const current = it.typeId === currentTypeId
                   return renderItem ? <div key={it.typeId}>{renderItem(it, current)}</div> : (
                     <button key={it.typeId} type="button" className={`ar${current ? ' on' : ''}`} onClick={() => onPick?.(it)}>

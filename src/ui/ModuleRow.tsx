@@ -69,6 +69,7 @@ export function ModuleRow({ row, passive = false, selected, pressed, onStateChan
   }
 
   const [first, ...rest] = row.keyParts
+  const Label = onTap ? 'button' : 'div'
   const cls = ['row']
   if (row.state === 'offline') cls.push('off')
   if (row.overSlots) cls.push('warn')
@@ -79,23 +80,23 @@ export function ModuleRow({ row, passive = false, selected, pressed, onStateChan
 
   return (
     <div className="swipe">
-      <div className="acts">
-        <button type="button" onClick={() => { onStateChange?.('offline'); setDx(0) }}>{_t('Offline')}</button>
-        <button type="button" className="rm" onClick={() => { onRemove?.(); setDx(0) }}>{_t('Remove')}</button>
+      <div className="acts" aria-hidden={dx === 0}>
+        <button type="button" tabIndex={dx === 0 ? -1 : 0} onClick={() => { onStateChange?.('offline'); setDx(0) }}>{_t('Offline')}</button>
+        <button type="button" className="rm" tabIndex={dx === 0 ? -1 : 0} onClick={() => { onRemove?.(); setDx(0) }}>{_t('Remove')}</button>
       </div>
       <div data-testid="module-row" className={cls.join(' ')} style={{ transform: `translateX(${dx}px)` }}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
         onClick={() => { if (!dragging && dx === 0) onTap?.() }}>
         <ItemIcon src={iconUrl(row.iconId)} />
-        <div className="mn">
+        <Label className="mn" type={onTap ? 'button' : undefined}>
           <span>{lname(row.name, lang)}</span>
           {row.charge && (
-            <small><span className="mini-ic" />{lname(row.charge.name, lang)} · {row.charge.count}</small>
+            <small><ItemIcon className="mini-ic" size={16} src={iconUrl(row.charge.iconId)} />{lname(row.charge.name, lang)} · {row.charge.count}</small>
           )}
           {row.keyParts.length > 0 && (
             <small className="num">{first && <b>{first}</b>}{rest.map((p) => <span key={p}> · {p}</span>)}</small>
           )}
-        </div>
+        </Label>
         {row.count > 1 && <span className="cnt num">×{row.count}</span>}
         <button type="button" data-testid="state-button" data-state={row.state} className="sb" aria-label={label}
           onPointerDown={(e) => { e.stopPropagation(); startPress() }} onPointerUp={endPress} onPointerLeave={endPress} onPointerCancel={endPress}
