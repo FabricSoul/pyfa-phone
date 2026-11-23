@@ -47,3 +47,40 @@ it('loads one default market group and only previews the expanded technology gro
   const trial: ItemGroup[] | undefined = await itemsForSlot.mock.results[2]?.value
   expect(trial?.map(({ items }) => items.length)).toEqual([3])
 }, 12_000)
+
+it('restores and persists search query per slot in sessionStorage', async () => {
+  sessionStorage.setItem('pyfa.addModule.query.low', JSON.stringify('Gyrostabilizer'))
+
+  render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
+    engine={mockEngine} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+
+  const input = (await screen.findByRole('searchbox', { name: 'Search modules' }, { timeout: 4000 })) as HTMLInputElement
+  expect(input.value).toBe('Gyrostabilizer')
+
+  fireEvent.change(input, { target: { value: 'Damage Control' } })
+  expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.query.low')!)).toBe('Damage Control')
+  // Verify high slot is not touched
+  expect(sessionStorage.getItem('pyfa.addModule.query.high')).toBeNull()
+}, 12_000)
+
+it('restores and persists expanded technology groups per slot in sessionStorage', async () => {
+  sessionStorage.setItem('pyfa.addModule.expanded.low', JSON.stringify(['tech2', 'tech1']))
+
+  render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes
+    engine={mockEngine} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+
+  const first = await screen.findByRole('button', { name: /^Tech II.*items/ }, { timeout: 4000 })
+  const second = screen.getByRole('button', { name: /^Tech I\b.*items/ })
+
+  // Both should be expanded from sticky state
+  expect(first.getAttribute('aria-expanded')).toBe('true')
+  expect(second.getAttribute('aria-expanded')).toBe('true')
+
+  // Clicking second should collapse it and update sessionStorage
+  fireEvent.click(second)
+  expect(second.getAttribute('aria-expanded')).toBe('false')
+  expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.expanded.low')!)).toEqual(['tech2'])
+}, 12_000)
+

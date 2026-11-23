@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { ItemGroup, ItemRow } from '../engine/types'
 import { MetaGroupList } from './MetaGroupList'
 
@@ -56,5 +56,16 @@ describe('MetaGroupList', () => {
     expect(screen.getByText('Republic EMP S')).toBeTruthy()
     expect(screen.queryByText('Hail S')).toBeNull()
     expect(screen.queryByText('EMP S')).toBeNull()
+  })
+
+  it('supports controlled expanded and onToggleExpanded', () => {
+    const onToggleExpanded = vi.fn()
+    render(<MetaGroupList groups={groups} expanded={['tech1']} onToggleExpanded={onToggleExpanded} />)
+    expect(screen.getByText('EMP S')).toBeTruthy()
+    expect(screen.queryByText('Hail S')).toBeNull()
+
+    const tech2Header = screen.getByRole('button', { name: /Tech II\b/ })
+    fireEvent.click(tech2Header)
+    expect(onToggleExpanded).toHaveBeenCalledWith('tech2')
   })
 })

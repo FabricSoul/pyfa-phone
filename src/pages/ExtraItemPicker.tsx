@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useSticky } from '../app/sticky'
 import type { ExtraCollection, FitDoc, ItemGroup, ItemRow } from '../engine/types'
 import { _t } from '../i18n/t'
 import { ActionSheet } from '../ui/ActionSheet'
@@ -19,7 +20,7 @@ export function extraAddLabel(collection: ExtraCollection) {
 export function ExtraItemPicker({ collection, onClose }: { collection: ExtraCollection; onClose: () => void }) {
   const { engine } = useFitServices()
   const { fit, edit } = useFitSession()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useSticky('pyfa.extraPicker.query', '')
   const [result, setResult] = useState<{ fit: FitDoc; term: string; groups: ItemGroup[] | null }>()
   const term = query.trim()
   const needsSearch = collection === 'cargo' && !term

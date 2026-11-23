@@ -29,9 +29,13 @@ export function defaultExpanded(groups: ItemGroup[], currentTypeId?: number): Se
 }
 
 /** Items grouped by tech level, collapsible. Collapsed headers show the count and the best value. */
-export function MetaGroupList<T extends ItemRow>({ groups, currentTypeId, onPick, onExpand, renderItem, renderGroup, valueUnit }: {
+export function MetaGroupList<T extends ItemRow>({
+  groups, currentTypeId, expanded: controlledExpanded, onToggleExpanded, onPick, onExpand, renderItem, renderGroup, valueUnit,
+}: {
   groups: ItemGroup<T>[]
   currentTypeId?: number
+  expanded?: MetaGroup[]
+  onToggleExpanded?: (meta: MetaGroup) => void
   onExpand?: (meta: MetaGroup) => void
   onPick?: (item: T) => void
   /** Replaces the default row; `current` marks the selected item. */
@@ -47,8 +51,12 @@ export function MetaGroupList<T extends ItemRow>({ groups, currentTypeId, onPick
   const seed = `${currentTypeId ?? ''}|${defaultExpanded(groups, currentTypeId).values().next().value ?? ''}`
   const [state, setState] = useState(() => ({ seed, open: defaultExpanded(groups, currentTypeId) }))
   if (state.seed !== seed) setState({ seed, open: defaultExpanded(groups, currentTypeId) })
-  const open = state.seed === seed ? state.open : defaultExpanded(groups, currentTypeId)
+  const open = controlledExpanded !== undefined ? new Set(controlledExpanded) : (state.seed === seed ? state.open : defaultExpanded(groups, currentTypeId))
   function toggle(meta: MetaGroup) {
+    if (onToggleExpanded) {
+      onToggleExpanded(meta)
+      return
+    }
     const next = new Set(open)
     if (!next.delete(meta)) {
       next.add(meta)

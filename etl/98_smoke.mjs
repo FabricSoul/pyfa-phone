@@ -217,6 +217,14 @@ try {
 
   await usability('add module')
 
+  step = 'remember module search query across visits'
+  const moduleSearch = page.getByRole('searchbox', { name: '搜索装备' })
+  await moduleSearch.fill('Gyrostabilizer')
+  await page.getByRole('link', { name: '返回', exact: true }).click()
+  await add.click()
+  assert.equal(await moduleSearch.inputValue(), 'Gyrostabilizer', 'Search query must persist in session when returning to add module')
+  await moduleSearch.fill('')
+
   step = 'create a non-example Vexor, add a module and export DNA'
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 })
   await page.getByRole('link', { name: '返回', exact: true }).click()

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSticky } from '../app/sticky'
 import type { CatalogShip, ShipCatalog } from '../engine/types'
 import { _t } from '../i18n/t'
 import { useSettings } from '../settings/settings'
@@ -33,9 +34,9 @@ export function ShipBrowser() {
   const [catalogError, setCatalogError] = useState(false)
   const [saveError, setSaveError] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [groupId, setGroupId] = useState<number>()
+  const [groupId, setGroupId] = useSticky<number | undefined>('pyfa.shipBrowser.groupId', undefined)
   const [race, setRace] = useState<number>()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useSticky('pyfa.shipBrowser.query', '')
   const term = query.trim().toLowerCase()
   const compare = (a: string, b: string) => a.localeCompare(b, lang === 'zh' ? 'zh-CN' : 'en')
 
@@ -75,6 +76,8 @@ export function ShipBrowser() {
           character: defaultCharacter, damagePatternId: defaultDamagePatternId, targetProfileId: null,
         },
       })
+      setQuery('')
+      setGroupId(undefined)
       navigate(`/fit/${id}`, { replace: true })
     } catch {
       setSaveError(true)

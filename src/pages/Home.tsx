@@ -7,6 +7,7 @@ import { _t } from '../i18n/t'
 import type { StoredFit } from '../store/fits'
 import { FitRow } from '../ui/FitRow'
 import { ItemIcon } from '../ui/ItemIcon'
+import { InstallCard } from '../ui/InstallCard'
 import { lname, renderUrl, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { useFitServices } from './fitSession'
@@ -77,6 +78,7 @@ function FitLibrary() {
         value={query} onChange={(event) => setQuery(event.target.value)} />
       <Link className="fit-button" to="/import">{_t('Paste to import')}</Link>
     </div>
+    <InstallCard />
     {error && <p role="alert" className="page-message">{_t('Could not load or save fits')}</p>}
     {!entries && !error && <p role="status" className="page-message">{_t('Loading fits…')}</p>}
     {recent.length > 0 && !needle && <FitSection title={_t('Recently opened')}>

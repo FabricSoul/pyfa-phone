@@ -7,8 +7,9 @@ import { _t } from '../i18n/t'
 import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { ItemIcon } from '../ui/ItemIcon'
-import { MetaGroupList, metaLabel } from '../ui/MetaGroupList'
+import { MetaGroupList, defaultExpanded, metaLabel } from '../ui/MetaGroupList'
 import { useFitServices, useFitSession, withModules } from './fitSession'
+import { useSticky } from '../app/sticky'
 import { EmptyMessage, NotFound, PageHeading } from './shared'
 
 const RECENT_KEY = 'pyfa.recentModuleIds'
@@ -63,7 +64,8 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   const [params] = useSearchParams()
   const { engine } = useFitServices()
   const { record, fit, result, edit } = useFitSession()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useSticky(`pyfa.addModule.query.${slot}`, '')
+  const [expandedMeta, setExpandedMeta] = useSticky<MetaGroup[] | undefined>(`pyfa.addModule.expanded.${slot}`, undefined)
   const [selected, setSelected] = useState<number>()
   const [meta, setMeta] = useState<MetaGroup>()
   const [browse, setBrowse] = useState(false)
@@ -151,6 +153,14 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     setBranch([])
   }
 
+  function handleToggleExpanded(toggled: MetaGroup) {
+    const current = expandedMeta ?? (visible.length > 0 ? Array.from(defaultExpanded(visible, undefined)) : [])
+    const next = current.includes(toggled)
+      ? current.filter((m) => m !== toggled)
+      : [...current, toggled]
+    setExpandedMeta(next)
+  }
+
   return <main>
     <PageHeading back={path} title={addTitle(slot)} subtitle={ship && <>
       {lname(ship, language)} · {_t('CPU')} {available(cpu)} · {_t('Powergrid')} {available(powergrid)}
@@ -201,6 +211,7 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
       </div>}
       {loaded && !visible.length && <EmptyMessage>{_t('No matching modules')}</EmptyMessage>}
       {visible.length > 0 && <MetaGroupList key={JSON.stringify([search, groupId, meta])} groups={visible}
+        expanded={expandedMeta} onToggleExpanded={handleToggleExpanded}
         renderGroup={(group) => <CandidateRows group={group} slot={slot} search={search} groupId={groupId}
           disabled={index === undefined} checked={previews?.listing === listing && Boolean(previews?.groups[group.meta])}
           onChecked={(preview) => {
