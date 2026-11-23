@@ -171,3 +171,36 @@ test('dist/sw.js precaches pyfa gui icons so the home page and boot page work of
     assert.ok(swContent.includes(`/img/gui/${name}.png`), `precache list includes ${name}.png`)
   }
 })
+
+// 2026-11-23 outage: Cloudflare Pages answers /index.html with a 308 to /, so the precached
+// /index.html is a redirected response, and Chrome fails a navigation answered with one (ERR_FAILED).
+async function navigate(entries) {
+  const source = fs.readFileSync(path.resolve('public', 'sw.js'), 'utf8')
+  const shellName = JSON.parse(source.match(/^const CACHE_LAYERS = (.*)$/m)[1]).shell.name
+  const store = new Map([[shellName, new Map(entries)]])
+  const listeners = {}
+  const caches = {
+    async open(name) { if (!store.has(name)) store.set(name, new Map()); const e = store.get(name); return { async match(u) { return e.get(u) }, async put() {}, async addAll() {} } },
+    async keys() { return [...store.keys()] },
+    async delete(name) { return store.delete(name) },
+  }
+  const self = { addEventListener: (type, fn) => { listeners[type] = fn }, skipWaiting: async () => {}, clients: { claim: async () => {} } }
+  vm.runInNewContext(source, { self, caches, console, URL, Headers, location: { origin: 'http://x' }, fetch: async () => new Response('network'), Response })
+  let answer
+  listeners.fetch({ request: { method: 'GET', mode: 'navigate', url: 'http://x/', headers: new Headers() }, respondWith: (p) => { answer = p } })
+  return await answer
+}
+
+test('a navigation is never answered with a redirected cached response', async () => {
+  const cached = new Response('index via redirect', { status: 200 })
+  Object.defineProperty(cached, 'redirected', { value: true })
+  const response = await navigate([['/index.html', cached]])
+  assert.equal(response.redirected, false)
+  assert.equal(await response.text(), 'index via redirect')
+})
+
+test('a navigation prefers the cached / over /index.html', async () => {
+  const index = new Response('index'); Object.defineProperty(index, 'redirected', { value: true })
+  const response = await navigate([['/', new Response('root')], ['/index.html', index]])
+  assert.equal(await response.text(), 'root')
+})

@@ -69,8 +69,15 @@ self.addEventListener('fetch', (event) => {
   const { pathname } = url
 
   if (request.mode === 'navigate') {
-    event.respondWith(caches.open(shell.name).then(async (cache) =>
-      (await cache.match('/index.html')) ?? fetch(request)))
+    event.respondWith((async () => {
+      const cache = await caches.open(shell.name)
+      const hit = (await cache.match('/')) ?? (await cache.match('/index.html'))
+      if (!hit) return fetch(request)
+      // Pages redirects /index.html to /, and a navigation answered with a redirected response fails (ERR_FAILED).
+      return hit.redirected
+        ? new Response(hit.body, { status: hit.status, statusText: hit.statusText, headers: hit.headers })
+        : hit
+    })())
     return
   }
 
