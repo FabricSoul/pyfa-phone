@@ -14,16 +14,16 @@ const app = (path: string, calc = vi.fn(mockEngine.calc)) => render(<MemoryRoute
 
 it('keeps the fit workspace mounted while its add page enters and leaves: no skeleton, no second load', async () => {
   const calc = vi.fn(mockEngine.calc)
-  const { container } = app('/fit/rifter', calc)
+  app('/fit/rifter', calc)
   await screen.findByText('162.2/162.5', {}, { timeout: 4000 })
   const callsBefore = calc.mock.calls.length
   fireEvent.click(screen.getAllByTestId('empty-row')[0]!)
   await screen.findByRole('heading', { name: 'Add low slot module' }, { timeout: 4000 })
-  expect(container.querySelector('[aria-busy="true"]')).toBeNull()
+  expect(screen.queryByRole('status', { name: /Loading fit|Calculating fit/ })).toBeNull()
   fireEvent.click(screen.getByRole('link', { name: 'Back' }))
   await screen.findByRole('tab', { name: 'Stats' })
   expect(calc.mock.calls.length).toBe(callsBefore)
-  expect(container.querySelector('[aria-busy="true"]')).toBeNull()
+  expect(screen.queryByRole('status', { name: /Loading fit|Calculating fit/ })).toBeNull()
 }, 12_000)
 
 it('the in-app back button of the fit page returns to the library entering from the left, and the fit page leaves inert', async () => {
