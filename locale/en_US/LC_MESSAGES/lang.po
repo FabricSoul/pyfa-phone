@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 19:13-0500\n"
+"POT-Creation-Date: 2026-11-22 19:31-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -18,10 +18,362 @@ msgid_plural "%d attributes."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/i18n/seed.ts:7
+#: src/ui/StatsPage.tsx:141
+msgid "AU/s"
+msgstr ""
+
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:115 src/ui/ModuleRow.tsx:78
+msgid "Active"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:139
+msgid "Align time"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:60 src/ui/StatsPage.tsx:106 src/ui/StatsPage.tsx:115
+msgid "Armor"
+msgstr ""
+
+#: src/ui/NavBar.tsx:11
+msgid "Back"
+msgstr ""
+
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/ui/ResourceGauge.tsx:41
+msgid "CPU"
+msgstr ""
+
+#: src/dev/Gallery.tsx:73 src/ui/ResourceGauge.tsx:43
+msgid "Calibration"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:117 src/ui/StatsPage.tsx:121
+msgid "Capacitor"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:123
+msgid "Capacity"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:153
+msgid "Cargo hold"
+msgstr ""
+
+#: src/ui/AmmoList.tsx:35 src/ui/FitRow.tsx:18
+msgid "DPS"
+msgstr ""
+
+#: src/ui/DamageRangeChart.tsx:37 src/ui/StatsPage.tsx:75
+msgid "Damage over distance"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:15
+msgid "Deadspace"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:80
+msgid "Defense"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:127
+msgid "Delta"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:77
+msgid "Distance in km, DPS on the vertical axis; stationary target, tracking ignored. Press and hold the chart for per-km values."
+msgstr ""
+
+#: src/ui/FitRow.tsx:16
+msgid "Does not fit"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:71
+msgid "Drone DPS"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:155
+msgid "Drone bandwidth"
+msgstr ""
+
+#: src/dev/Gallery.tsx:75 src/ui/StatsPage.tsx:154
+msgid "Drone bay"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:146
+msgid "Drone control range"
+msgstr ""
+
+#: src/dev/Gallery.tsx:82 src/ui/FitRow.tsx:18 src/ui/StatsPage.tsx:80 src/ui/StatsPage.tsx:82 src/ui/StatsPage.tsx:86
+msgid "EHP"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:36
+msgid "EM"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:43
+msgid "Empty slot"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:36
+msgid "Explosive"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:13
+msgid "Faction"
+msgstr ""
+
+#: src/i18n/seed.ts:7 src/ui/StatsPage.tsx:67
 msgid "Firepower"
 msgstr ""
 
-#: src/App.tsx:7
+#: src/ui/StatsPage.tsx:162
+msgid "Fit"
+msgstr ""
+
+#: src/dev/Gallery.tsx:66
+msgid "Fitting"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:123
+msgid "GJ"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:125 src/ui/StatsPage.tsx:126 src/ui/StatsPage.tsx:127
+msgid "GJ/s"
+msgstr ""
+
+#: src/dev/Gallery.tsx:82 src/ui/StatsPage.tsx:83 src/ui/StatsPage.tsx:86
+msgid "HP"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:105 src/ui/StatsPage.tsx:106 src/ui/StatsPage.tsx:107 src/ui/StatsPage.tsx:108
+msgid "HP/s"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:61 src/ui/StatsPage.tsx:107 src/ui/StatsPage.tsx:116
+msgid "Hull"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:161 src/ui/StatsPage.tsx:162
+msgid "ISK"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:36
+msgid "Kinetic"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:131
+msgid "Lasts"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:157
+msgid "Launcher hardpoints"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:147
+msgid "Mass"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:142
+msgid "Max target range"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:143
+msgid "Max targets"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:138
+msgid "Max velocity"
+msgstr ""
+
+#: src/dev/Gallery.tsx:110
+msgid "Module actions"
+msgstr ""
+
+#: src/ui/NavBar.tsx:15
+msgid "More"
+msgstr ""
+
+#: src/ui/ResourceGauge.tsx:14
+msgid "None"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:16
+msgid "Officer"
+msgstr ""
+
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:114 src/ui/ModuleRow.tsx:78 src/ui/ModuleRow.tsx:83
+msgid "Offline"
+msgstr ""
+
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:114 src/ui/ModuleRow.tsx:78
+msgid "Online"
+msgstr ""
+
+#: src/ui/ResourceGauge.tsx:24
+msgid "Over"
+msgstr ""
+
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:115 src/ui/ModuleRow.tsx:78
+msgid "Overheated"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:108
+msgid "Passive shield"
+msgstr ""
+
+#: src/ui/ResourceGauge.tsx:42
+msgid "Powergrid"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:125
+msgid "Recharge"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:99
+msgid "Recharge rates"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:124
+msgid "Recharge time"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:101
+msgid "Reinforced"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:112
+msgid "Remote repairs"
+msgstr ""
+
+#: src/dev/Gallery.tsx:117 src/ui/ModuleRow.tsx:84
+msgid "Remove"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:151
+msgid "Resources"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:144
+msgid "Scan resolution"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:145
+msgid "Sensor strength"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:59 src/ui/StatsPage.tsx:105 src/ui/StatsPage.tsx:114
+msgid "Shield"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:161
+msgid "Ship"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:140
+msgid "Signature radius"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:131
+msgid "Stable"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:128
+msgid "Status"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:14
+msgid "Storyline"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:102
+msgid "Sustained"
+msgstr ""
+
+#: src/dev/Gallery.tsx:116
+msgid "Swap for a similar module"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:44
+msgid "Tap to add a module"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:136
+msgid "Targeting"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:12
+msgid "Tech I"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:11
+msgid "Tech II"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:36
+msgid "Thermal"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:69
+msgid "Total DPS"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:156
+msgid "Turret hardpoints"
+msgstr ""
+
+#: src/ui/NavBar.tsx:14
+msgid "Undo"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:126
+msgid "Usage"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:70
+msgid "Volley"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:141
+msgid "Warp speed"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:55
+msgid "best"
+msgstr ""
+
+#: src/ui/DamageRangeChart.tsx:34
+msgid "current"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:147
+msgid "kg"
+msgstr ""
+
+#: src/ui/DamageRangeChart.tsx:56 src/ui/StatsPage.tsx:142 src/ui/StatsPage.tsx:146
+msgid "km"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:140
+msgid "m"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:138
+msgid "m/s"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:144
+msgid "mm"
+msgstr ""
+
+#: src/App.tsx:8
 msgid "pyfa"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:124 src/ui/StatsPage.tsx:131 src/ui/StatsPage.tsx:139
+msgid "s"
+msgstr ""
+
+#: src/ui/MetaGroupList.tsx:54
+msgid "{n} items"
 msgstr ""

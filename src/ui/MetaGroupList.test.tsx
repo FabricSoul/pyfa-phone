@@ -1,0 +1,41 @@
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it } from 'vitest'
+import type { ItemGroup, ItemRow } from '../engine/types'
+import { MetaGroupList } from './MetaGroupList'
+
+afterEach(cleanup)
+
+const item = (typeId: number, en: string, meta: ItemRow['meta'], keyValue: number): ItemRow => ({
+  typeId, name: { en, zh: en }, iconId: null, meta, metaLevel: null, keyValue, keyLine: `${keyValue} dmg`,
+})
+const groups: ItemGroup[] = [
+  { meta: 'tech2', best: 17.7, items: [item(1, 'Hail S', 'tech2', 17.7), item(2, 'Barrage S', 'tech2', 11)] },
+  { meta: 'tech1', best: 12, items: [item(3, 'EMP S', 'tech1', 12)] },
+  { meta: 'faction', best: 14, items: [item(4, 'Republic EMP S', 'faction', 14)] },
+]
+
+describe('MetaGroupList', () => {
+  it('expands only the group holding the current item', () => {
+    render(<MetaGroupList groups={groups} currentTypeId={4} />)
+    expect(screen.getByText('Republic EMP S')).toBeTruthy()
+    expect(screen.queryByText('Hail S')).toBeNull()
+    expect(screen.queryByText('EMP S')).toBeNull()
+  })
+
+  it('expands the first group when there is no current item', () => {
+    render(<MetaGroupList groups={groups} />)
+    expect(screen.getByText('Hail S')).toBeTruthy()
+    expect(screen.queryByText('EMP S')).toBeNull()
+    expect(screen.queryByText('Republic EMP S')).toBeNull()
+  })
+
+  it('shows the count and the best value on collapsed groups, and expands on click', () => {
+    render(<MetaGroupList groups={groups} />)
+    const header = screen.getByRole('button', { name: /Tech I\b(?!I)/ })
+    expect(header.getAttribute('aria-expanded')).toBe('false')
+    expect(header.textContent).toContain('1')
+    expect(header.textContent).toContain('12')
+    fireEvent.click(header)
+    expect(screen.getByText('EMP S')).toBeTruthy()
+  })
+})

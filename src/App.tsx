@@ -1,4 +1,5 @@
 import { HashRouter, Route, Routes } from 'react-router-dom'
+import Gallery from './dev/Gallery'
 import TokensPage from './dev/TokensPage'
 import { _t, useUiLanguage } from './i18n/t'
 
@@ -13,6 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dev/tokens" element={<TokensPage />} />
+        <Route path="/dev/gallery" element={<Gallery />} />
       </Routes>
     </HashRouter>
   )
