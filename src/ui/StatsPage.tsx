@@ -8,17 +8,34 @@ import { Pill } from './Pill'
 import { ResourceGauge } from './ResourceGauge'
 import { fmt } from './format'
 
-export interface Prices { ship?: number; fit?: number }
+export interface PriceLine { label: string; value: number }
+export interface Prices { ship?: number; fit?: number; /** Per-item breakdown, shown under the totals. */ lines?: PriceLine[] }
+/** Labels for the setting pills; the page does not own these choices, the fit does. */
+export interface StatsSettings {
+  /** Name of the target profile, "None" when empty. */
+  targetProfile?: string
+  damagePattern?: string
+  onTargetProfile?: () => void
+  onDamagePattern?: () => void
+}
+
+const STORAGE_KEY = 'pyfa-phone:stats-panels'
+function loadOpen(): Partial<Record<string, boolean>> {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}') as Partial<Record<string, boolean>> } catch { return {} }
+}
+function saveOpen(v: Partial<Record<string, boolean>>) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(v)) } catch { /* storage unavailable: state stays in memory */ }
+}
 
 type PanelId = 'firepower' | 'range' | 'defense' | 'repair' | 'remote' | 'capacitor' | 'nav' | 'resources'
 
-function Panel({ title, note, open, onToggle, children }: {
-  title: string; note?: string; open: boolean; onToggle: () => void; children: ReactNode
+function Panel({ title, note, empty, open, onToggle, children }: {
+  title: string; note?: string; empty?: boolean; open: boolean; onToggle: () => void; children: ReactNode
 }) {
   return (
     <section>
       <button type="button" className="ph" aria-expanded={open} onClick={onToggle}>
-        <span className="cv"><Icon name="chevron-down" size={14} /></span>{title}{note && <em className="num">{note}</em>}
+        <span className="cv"><Icon name="chevron-down" size={14} /></span>{title}{(empty || note) && <em className="num">{empty ? _t('None') : note}</em>}
       </button>
       {open && <div className="pb">{children}</div>}
     </section>
@@ -35,7 +52,7 @@ const DMG: [keyof DamageTypes, string][] = [
 const dmgLabel = (k: keyof DamageTypes) =>
   k === 'em' ? _t('EM') : k === 'thermal' ? _t('Thermal') : k === 'kinetic' ? _t('Kinetic') : _t('Explosive')
 
-export function StatsPage({ result, prices }: { result: CalcResult; prices?: Prices }) {
+export function StatsPage({ result, prices, settings }: { result: CalcResult; prices?: Prices; settings?: StatsSettings }) {
   const { stats, resources } = result
   const rep = stats.repair
   const has: Record<PanelId, boolean> = {
@@ -48,11 +65,13 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
     nav: true,
     resources: true,
   }
-  // Panels without data start collapsed.
-  const [open, setOpen] = useState<Record<PanelId, boolean>>(has)
+  // Panels without data start collapsed; what the user toggled is remembered in localStorage.
+  const [saved, setSaved] = useState(loadOpen)
+  const open = Object.fromEntries((Object.keys(has) as PanelId[]).map((id) => [id, saved[id] ?? has[id]])) as Record<PanelId, boolean>
+  const [reload, setReload] = useState(true)
   const [effective, setEffective] = useState(true)
   const [sustained, setSustained] = useState(false)
-  const flip = (id: PanelId) => () => setOpen((o) => ({ ...o, [id]: !o[id] }))
+  const flip = (id: PanelId) => () => setSaved((o) => { const n = { ...o, [id]: !open[id] }; saveOpen(n); return n })
   const cap = stats.capacitor
   const nav = stats.navigation
   const layers = [
@@ -64,7 +83,11 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
 
   return (
     <div>
-      <Panel title={_t('Firepower')} open={open.firepower} onToggle={flip('firepower')}>
+      <Panel title={_t('Firepower')} empty={!has.firepower} open={open.firepower} onToggle={flip('firepower')}>
+        <div className="tools">
+          <Pill onClick={settings?.onTargetProfile}>{_t('Target Resists')}: {settings?.targetProfile ?? _t('None')} ▾</Pill>
+          <Pill on={reload} onClick={() => setReload((v) => !v)}>{_t('Factor in Reload Time')}</Pill>
+        </div>
         <div className="hero">
           <div><small>{_t('Total DPS')}</small><b className="num">{fmt(stats.firepower.dps)}</b></div>
           <div><small>{_t('Volley')}</small><b className="num">{fmt(stats.firepower.volley)}</b></div>
@@ -72,13 +95,14 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
         </div>
       </Panel>
 
-      <Panel title={_t('Damage over distance')} open={open.range} onToggle={flip('range')}>
+      <Panel title={_t('Damage over distance')} empty={!has.range} open={open.range} onToggle={flip('range')}>
         <DamageRangeChart curve={result.rangeCurve} />
         <div className="hint">{_t('Distance in km, DPS on the vertical axis; stationary target, tracking ignored. Press and hold the chart for per-km values.')}</div>
       </Panel>
 
-      <Panel title={_t('Defense')} note={`${_t('EHP')} ${fmt(stats.defense.ehp, 0)}`} open={open.defense} onToggle={flip('defense')}>
+      <Panel title={_t('Defense')} note={`${_t('EHP')} ${fmt(stats.defense.ehp, 0)}`} empty={!has.defense} open={open.defense} onToggle={flip('defense')}>
         <div className="tools">
+          <Pill onClick={settings?.onDamagePattern}>{_t('Incoming damage pattern')}: {settings?.damagePattern ?? _t('None')} ▾</Pill>
           <Pill on={effective} onClick={() => setEffective(true)}>{_t('EHP')}</Pill>
           <Pill on={!effective} onClick={() => setEffective(false)}>{_t('HP')}</Pill>
         </div>
@@ -96,7 +120,7 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
         </div>
       </Panel>
 
-      <Panel title={_t('Recharge rates')} open={open.repair} onToggle={flip('repair')}>
+      <Panel title={_t('Recharge rates')} empty={!has.repair} open={open.repair} onToggle={flip('repair')}>
         <div className="tools">
           <Pill on={!sustained} onClick={() => setSustained(false)}>{_t('Reinforced')}</Pill>
           <Pill on={sustained} onClick={() => setSustained(true)}>{_t('Sustained')}</Pill>
@@ -109,7 +133,7 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
         </div>
       </Panel>
 
-      <Panel title={_t('Remote repairs')} open={open.remote} onToggle={flip('remote')}>
+      <Panel title={_t('Remote Repairs')} empty={!has.remote} open={open.remote} onToggle={flip('remote')}>
         <div className="kv">
           <KV k={_t('Shield')} v={fmt(stats.remoteRepair.shield)} />
           <KV k={_t('Armor')} v={fmt(stats.remoteRepair.armor)} />
@@ -118,7 +142,7 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
         </div>
       </Panel>
 
-      <Panel title={_t('Capacitor')} open={open.capacitor} onToggle={flip('capacitor')}>
+      <Panel title={_t('Capacitor')} empty={!has.capacitor} open={open.capacitor} onToggle={flip('capacitor')}>
         <div className="kv">
           <KV k={_t('Capacity')} v={<>{fmt(cap.capacity)} <small>{_t('GJ')}</small></>} />
           <KV k={_t('Recharge time')} v={<>{fmt(cap.rechargeTime)} <small>{_t('s')}</small></>} />
@@ -128,7 +152,7 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
           <div><span>{_t('Status')}</span>
             {/* Stable is a normal state (plain colour); only running dry is a warning. */}
             <b data-testid="cap-status" data-warn={!cap.stable} className={`num${cap.stable ? '' : ' warn'}`}>
-              {cap.stable ? `${_t('Stable')} ${fmt(cap.stablePercent ?? 0)}%` : `${_t('Lasts')} ${fmt(cap.lastsSeconds ?? 0, 0)} ${_t('s')}`}
+              {cap.stable ? `${_t('Stable: ')}${fmt(cap.stablePercent ?? 0)}%` : `${_t('Lasts ')}${fmt(cap.lastsSeconds ?? 0, 0)} ${_t('s')}`}
             </b></div>
         </div>
       </Panel>
@@ -138,7 +162,7 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
           <KV k={_t('Max velocity')} v={<>{fmt(nav.maxVelocity)} <small>{_t('m/s')}</small></>} />
           <KV k={_t('Align time')} v={<>{fmt(nav.alignTime, 2)} <small>{_t('s')}</small></>} />
           <KV k={_t('Signature radius')} v={<>{fmt(nav.signatureRadius, 0)} <small>{_t('m')}</small></>} />
-          <KV k={_t('Warp speed')} v={<>{fmt(nav.warpSpeed)} <small>{_t('AU/s')}</small></>} />
+          <KV k={_t('Warp Speed')} v={<>{fmt(nav.warpSpeed)} <small>{_t('AU/s')}</small></>} />
           <KV k={_t('Max target range')} v={<>{fmt(nav.maxTargetRange / 1000)} <small>{_t('km')}</small></>} />
           <KV k={_t('Max targets')} v={fmt(nav.maxTargets, 0)} />
           <KV k={_t('Scan resolution')} v={<>{fmt(nav.scanResolution, 0)} <small>{_t('mm')}</small></>} />
@@ -150,7 +174,7 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
 
       <Panel title={_t('Resources')} open={open.resources} onToggle={flip('resources')}>
         <div style={{ display: 'grid', gap: 'var(--space-3)', padding: 'var(--space-1) var(--space-4) var(--space-3)' }}>
-          <ResourceGauge tall label={_t('Cargo hold')} {...resources.cargo} />
+          <ResourceGauge tall label={_t('Cargo bay')} {...resources.cargo} />
           <ResourceGauge tall label={_t('Drone bay')} {...resources.droneBay} />
           <ResourceGauge tall label={_t('Drone bandwidth')} {...resources.droneBandwidth} />
           <ResourceGauge tall label={_t('Turret hardpoints')} {...resources.turretHardpoints} />
@@ -160,6 +184,7 @@ export function StatsPage({ result, prices }: { result: CalcResult; prices?: Pri
           <div className="kv">
             {prices.ship != null && <KV k={_t('Ship')} v={<>{fmt(prices.ship, 0)} <small>{_t('ISK')}</small></>} />}
             {prices.fit != null && <KV k={_t('Fit')} v={<>{fmt(prices.fit, 0)} <small>{_t('ISK')}</small></>} />}
+            {prices.lines?.map((l) => <KV key={l.label} k={l.label} v={<>{fmt(l.value, 0)} <small>{_t('ISK')}</small></>} />)}
           </div>
         )}
       </Panel>

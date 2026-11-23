@@ -39,7 +39,7 @@ export function ResourceBar({ cpu, powergrid, calibration }: {
   return (
     <div className="res">
       <ResourceGauge label={_t('CPU')} {...cpu} />
-      <ResourceGauge label={_t('Powergrid')} {...powergrid} />
+      <ResourceGauge label={_t('PowerGrid')} {...powergrid} />
       <ResourceGauge label={_t('Calibration')} {...calibration} />
     </div>
   )

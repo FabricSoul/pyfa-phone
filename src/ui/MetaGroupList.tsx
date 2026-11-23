@@ -41,8 +41,16 @@ export function MetaGroupList({ groups, currentTypeId, onPick, renderItem, rende
   valueUnit?: string
 }) {
   const lang = useUiLanguage()
-  const [open, setOpen] = useState(() => defaultExpanded(groups, currentTypeId))
-  const toggle = (m: MetaGroup) => setOpen((s) => { const n = new Set(s); if (!n.delete(m)) n.add(m); return n })
+  // The default rule re-applies when the list first gets data or the current item changes (or moves to
+  // another group); manual expand/collapse survives re-renders and refetches of the same object.
+  const seed = `${currentTypeId ?? ''}|${defaultExpanded(groups, currentTypeId).values().next().value ?? ''}`
+  const [state, setState] = useState(() => ({ seed, open: defaultExpanded(groups, currentTypeId) }))
+  if (state.seed !== seed) setState({ seed, open: defaultExpanded(groups, currentTypeId) })
+  const open = state.seed === seed ? state.open : defaultExpanded(groups, currentTypeId)
+  const toggle = (m: MetaGroup) => setState((st) => {
+    const n = new Set(st.open); if (!n.delete(m)) n.add(m)
+    return { ...st, open: n }
+  })
   return (
     <div>
       {groups.map((g) => {

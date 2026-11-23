@@ -112,7 +112,7 @@ export function Home() {
       </div>
     </FitSection>)}
     {entries && !groups.size && <p className="page-message">{needle ? _t('No matching fits') : _t('No fits yet')}</p>}
-    <ActionSheet open={creating} onClose={() => setCreating(false)}>
+    <ActionSheet open={creating} title={_t('New fit')} onClose={() => setCreating(false)}>
       <FitSection title={_t('New fit')}>
         {!examples && <p className="page-message" role="status">{_t('Loading ships…')}</p>}
         {examples?.length === 0 && <p className="page-message">{_t('No ships available')}</p>}

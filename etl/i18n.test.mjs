@@ -128,3 +128,27 @@ test('check literals: flags raw JSX text and attributes, skips _t, tests and src
   const found = findLiterals(root).map((f) => `${f.file}:${f.line}:${f.text}`)
   assert.deepEqual(found, ['src/Bad.tsx:2:Hello', 'src/Bad.tsx:3:搜索', 'src/Bad.tsx:3:Search'])
 })
+
+test('check literals: flags strings in JSX expression children and every text-like attribute', () => {
+  const root = sampleRoot({
+    'src/Expr.tsx': `export const E = ({ on }: { on: boolean }) => <div aria-description="Long text" alt="Ship" aria-roledescription={on ? 'Dial' : _t('ok')}>
+  {'Hello'}
+  {on && 'Shown'}
+  {on ? 'Yes' : _t('No')}
+  {\`Tpl \${on}\`}
+  {on === true ? _t('ok') : null}
+  <img src="/x.png" data-state="active" className={on ? 'row on' : 'row'} />
+</div>`,
+  })
+  const found = findLiterals(root).map((f) => f.text)
+  assert.deepEqual(found, ['Long text', 'Ship', 'Dial', 'Hello', 'Shown', 'Yes', 'Tpl'])
+})
+
+test('extract and check literals: follow an aliased _t import', () => {
+  const root = sampleRoot({
+    'src/Alias.tsx': `import { _t as tr } from '../i18n/t'
+export const A = () => <div title={tr('Aliased')}>{tr('Body')}{'raw'}</div>`,
+  })
+  assert.deepEqual([...extractMessages(root).values()].map((m) => m.msgid).sort(), ['Aliased', 'Body'])
+  assert.deepEqual(findLiterals(root).map((f) => f.text), ['raw'])
+})

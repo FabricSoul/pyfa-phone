@@ -100,3 +100,14 @@ export function nowStamp(d = new Date()) {
 
 /** True when the module at metaUrl is the script node was started with. */
 export const isMain = (metaUrl) => process.argv[1] && fileURLToPath(metaUrl) === process.argv[1]
+
+/** Local names the file binds to the `_t` export (`import { _t as tr }`), plus `_t` itself. */
+export function tNames(sf) {
+  const names = new Set(['_t'])
+  for (const st of sf.statements) {
+    const b = ts.isImportDeclaration(st) && st.importClause?.namedBindings
+    if (!b || !ts.isNamedImports(b)) continue
+    for (const el of b.elements) if ((el.propertyName ?? el.name).text === '_t') names.add(el.name.text)
+  }
+  return names
+}

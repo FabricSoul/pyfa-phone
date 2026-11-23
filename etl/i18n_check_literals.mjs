@@ -1,10 +1,14 @@
 // Fails when UI text is written straight into JSX instead of going through _t():
-// JSX text nodes, and string values of the placeholder / aria-label / title attributes.
+// JSX text nodes, strings in JSX expression children, and string values of the
+// placeholder / title / alt / aria-* attributes.
 // Text counts as UI text when it contains a Latin letter or a CJK character.
 // Test files (*.test.ts[x]) and src/dev/ are not checked.
 import { REPO_ROOT, isMain, lineOf, listSources, parseSource, ts } from './i18n_po.mjs'
 
-const TEXT_ATTRS = new Set(['placeholder', 'aria-label', 'title'])
+// aria-* attributes whose value is read out as text (not ids, booleans or tokens).
+const TEXT_ATTRS = new Set(['placeholder', 'title', 'alt', 'aria-label', 'aria-description', 'aria-roledescription',
+  'aria-placeholder', 'aria-valuetext', 'aria-braillelabel', 'aria-brailleroledescription'])
+const isTextAttr = (n) => TEXT_ATTRS.has(n)
 const WORDY = /[A-Za-z㐀-鿿豈-﫿぀-ヿ]/
 
 /** @returns {{file: string, line: number, text: string}[]} */
@@ -16,20 +20,25 @@ export function findLiterals(root) {
       const t = text.replace(/\s+/g, ' ').trim()
       if (WORDY.test(t)) found.push({ file: rel, line: lineOf(sf, node), text: t })
     }
-    // Literals inside an attribute expression, not descending into _t() calls.
+    // Strings that end up on screen from a JSX expression: literals, templates, ternary branches,
+    // `a && 'text'` / `a || 'text'`. Calls (incl. _t) and comparisons are not text.
     const visitExpr = (node) => {
-      if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === '_t') return
       if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return report(node, node.text)
       if (ts.isTemplateExpression(node)) {
         report(node.head, node.head.text)
-        for (const s of node.templateSpans) { visitExpr(s.expression); report(s.literal, s.literal.text) }
-        return
-      }
-      ts.forEachChild(node, visitExpr)
+        for (const sp of node.templateSpans) { visitExpr(sp.expression); report(sp.literal, sp.literal.text) }
+      } else if (ts.isParenthesizedExpression(node) || ts.isAsExpression(node) || ts.isNonNullExpression(node)) visitExpr(node.expression)
+      else if (ts.isConditionalExpression(node)) { visitExpr(node.whenTrue); visitExpr(node.whenFalse) }
+      else if (ts.isBinaryExpression(node)) {
+        const k = node.operatorToken.kind
+        if (k === ts.SyntaxKind.AmpersandAmpersandToken) visitExpr(node.right)
+        else if (k === ts.SyntaxKind.BarBarToken || k === ts.SyntaxKind.QuestionQuestionToken) { visitExpr(node.left); visitExpr(node.right) }
+      } else if (ts.isArrayLiteralExpression(node)) node.elements.forEach(visitExpr)
     }
     const visit = (node) => {
       if (ts.isJsxText(node)) report(node, node.text)
-      else if (ts.isJsxAttribute(node) && TEXT_ATTRS.has(node.name.getText(sf)) && node.initializer) {
+      else if (ts.isJsxExpression(node) && node.expression && (ts.isJsxElement(node.parent) || ts.isJsxFragment(node.parent))) visitExpr(node.expression)
+      else if (ts.isJsxAttribute(node) && isTextAttr(node.name.getText(sf)) && node.initializer) {
         const init = node.initializer
         if (ts.isStringLiteral(init)) report(init, init.text)
         else if (ts.isJsxExpression(init) && init.expression) visitExpr(init.expression)

@@ -95,7 +95,7 @@ export default function Gallery() {
       <H>ModuleRow · states (tap, long press, swipe left)</H>
       <div className="list">
         {first && <ModuleRow row={{ ...first, state }} onStateChange={setState} />}
-        {first && <ModuleRow passive row={{ ...first, count: 1, charge: null, keyParts: [], state: state === 'offline' ? 'offline' : 'online' }} onStateChange={(s) => setState(s)} />}
+        {first && <ModuleRow availableStates={['offline', 'online']} row={{ ...first, count: 1, charge: null, keyParts: [], state: state === 'offline' ? 'offline' : 'online' }} onStateChange={(s) => setState(s)} />}
         {[demo({ state: 'offline' }), demo({ state: 'overheated' }), demo({ overSlots: true })].map((row, i) => row && <ModuleRow key={i} row={row} />)}
         <ModuleRow row={{ kind: 'empty', count: 1, positions: [5] }} />
       </div>
@@ -108,7 +108,7 @@ export default function Gallery() {
 
       <H>ActionSheet</H>
       <div style={{ padding: '0 var(--space-4)' }}><Pill onClick={() => setSheet(true)}>{_t('Module actions')}</Pill></div>
-      <ActionSheet open={sheet} onClose={() => setSheet(false)}>
+      <ActionSheet open={sheet} title={_t('Module actions')} onClose={() => setSheet(false)}>
         {first && <ModuleRow row={first} />}
         <Segmented small value={state} onChange={setState} options={[
           { value: 'offline', label: _t('Offline') }, { value: 'online', label: _t('Online') },

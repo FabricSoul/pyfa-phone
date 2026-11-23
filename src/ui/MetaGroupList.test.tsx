@@ -38,4 +38,23 @@ describe('MetaGroupList', () => {
     fireEvent.click(header)
     expect(screen.getByText('EMP S')).toBeTruthy()
   })
+
+  it('applies the default rule again when an async list goes from empty to loaded', () => {
+    const { rerender } = render(<MetaGroupList groups={[]} />)
+    rerender(<MetaGroupList groups={groups} />)
+    expect(screen.getByText('Hail S')).toBeTruthy()
+    expect(screen.queryByText('EMP S')).toBeNull()
+  })
+
+  it('re-initialises when the current item changes, keeps manual toggles otherwise', () => {
+    const { rerender } = render(<MetaGroupList groups={groups} currentTypeId={1} />)
+    fireEvent.click(screen.getByRole('button', { name: /Tech I\b(?!I)/ })) // user opens Tech I
+    rerender(<MetaGroupList groups={[...groups]} currentTypeId={1} />) // same object, new array identity
+    expect(screen.getByText('EMP S')).toBeTruthy()
+    expect(screen.getByText('Hail S')).toBeTruthy()
+    rerender(<MetaGroupList groups={groups} currentTypeId={4} />) // current moved to Faction
+    expect(screen.getByText('Republic EMP S')).toBeTruthy()
+    expect(screen.queryByText('Hail S')).toBeNull()
+    expect(screen.queryByText('EMP S')).toBeNull()
+  })
 })

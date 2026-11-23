@@ -1,6 +1,5 @@
+import { lazy, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
-import Gallery from './dev/Gallery'
-import TokensPage from './dev/TokensPage'
 import { mockEngine } from './engine/mockClient'
 import type { EngineClient } from './engine/types'
 import { initApp } from './i18n/initial'
@@ -18,6 +17,11 @@ import './pages/pages.css'
 
 // Apply the stored theme / browser-derived UI language before the first page renders.
 initApp()
+
+// Dev pages exist only in `vite dev`: import.meta.env.DEV is a build-time constant, so the dynamic
+// imports (and the pages) are dropped from production bundles. check-all.sh greps dist/ to prove it.
+const Gallery = import.meta.env.DEV ? lazy(() => import('./dev/Gallery')) : null
+const TokensPage = import.meta.env.DEV ? lazy(() => import('./dev/TokensPage')) : null
 
 export function FittingRoutes({ engine, store }: { engine: EngineClient; store: FitStore }) {
   return <FitServices engine={engine} store={store}>
@@ -39,14 +43,16 @@ export default function App() {
   const store = defaultFitStore()
   return (
     <HashRouter>
-      <Routes>
-        <Route path="/about" element={<About />} />
-        <Route path="/import" element={<Import />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/dev/tokens" element={<TokensPage />} />
-        <Route path="/dev/gallery" element={<Gallery />} />
-        <Route path="*" element={<FittingRoutes engine={mockEngine} store={store} />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/import" element={<Import />} />
+          <Route path="/settings" element={<Settings />} />
+          {TokensPage && <Route path="/dev/tokens" element={<TokensPage />} />}
+          {Gallery && <Route path="/dev/gallery" element={<Gallery />} />}
+          <Route path="*" element={<FittingRoutes engine={mockEngine} store={store} />} />
+        </Routes>
+      </Suspense>
     </HashRouter>
   )
 }

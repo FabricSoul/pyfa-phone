@@ -66,7 +66,7 @@ export function Fit() {
               const activePositions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
               if (!activePositions.length) return null
               return <ModuleRow key={`module-${entry.positions[0]}`} row={entry}
-                passive={entry.supportedStates ? !entry.supportedStates.includes('active') : slot === 'rig'}
+                availableStates={entry.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] : undefined)}
                 onTap={() => setSelected({ slot, index: activePositions[0]! })}
                 onStateChange={(state) => edit((fit) => withModules(fit, slot, activePositions, (mod) => mod && { ...mod, state }))}
                 onRemove={() => edit((fit) => withModules(fit, slot, activePositions, () => null))} />

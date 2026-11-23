@@ -4,7 +4,7 @@
 //   _t("msgid")   _t("msgid", "plural", n)   _t("msgid", { context: "ctx" })
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
-import { CTX_SEP, REPO_ROOT, byMsgid, isMain, lineOf, listSources, literalValue, nowStamp, parseSource, renderEntry, renderHeader, ts } from './i18n_po.mjs'
+import { CTX_SEP, REPO_ROOT, byMsgid, isMain, lineOf, listSources, literalValue, nowStamp, parseSource, renderEntry, renderHeader, tNames, ts } from './i18n_po.mjs'
 
 /** @returns Map<ctx\u0004msgid, { msgctxt?, msgid, msgid_plural?, refs: string[] }> */
 export function extractMessages(root) {
@@ -12,8 +12,9 @@ export function extractMessages(root) {
   const errors = []
   for (const rel of listSources(root)) {
     const sf = parseSource(root, rel)
+    const names = tNames(sf)
     const visit = (node) => {
-      if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === '_t') {
+      if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && names.has(node.expression.text)) {
         const where = `${rel}:${lineOf(sf, node)}`
         const [a0, a1, a2] = node.arguments
         const msgid = literalValue(a0)

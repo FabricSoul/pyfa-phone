@@ -19,7 +19,7 @@ function stateName(state: ModuleState) {
 }
 
 export function ModuleSheet({ selected, row, onClose }: { selected?: ModulePos; row?: ModuleSlotRow; onClose: () => void }) {
-  return <ActionSheet open={Boolean(selected && row)} onClose={onClose}>
+  return <ActionSheet open={Boolean(selected && row)} title={_t('Module actions')} onClose={onClose}>
     {selected && row && <ModuleControls key={positionKey(selected)} selected={selected} row={row} onClose={onClose} />}
   </ActionSheet>
 }

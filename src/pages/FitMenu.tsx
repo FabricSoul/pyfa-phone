@@ -37,7 +37,7 @@ export function FitMenu({ open, onClose }: { open: boolean; onClose: () => void 
     void work().catch(() => setError(true))
   }
 
-  return <ActionSheet open={open} onClose={close}>
+  return <ActionSheet open={open} title={_t('Fit actions')} onClose={close}>
     {error && <p className="page-message warn" role="alert">{_t('Could not complete action')}</p>}
     {mode === 'menu' && <>
       <button type="button" className="act" disabled={!canRedo} onClick={() => { redo(); close() }}>{_t('Redo')}</button>

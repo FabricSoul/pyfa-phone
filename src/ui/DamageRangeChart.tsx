@@ -31,7 +31,7 @@ export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
     <div className="chart" data-testid="range-chart">
       <div className="lg">
         {series.map((s, i) => (
-          <span key={i}><i style={{ background: COLORS[i] }} />{lname(s.name, lang)}{i === 0 && ` (${_t('current')})`}</span>
+          <span key={i}><i style={{ background: COLORS[i] }} />{lname(s.name, lang)}{i === 0 && ` (${_t('Current')})`}</span>
         ))}
       </div>
       <svg ref={ref} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={_t('Damage over distance')}

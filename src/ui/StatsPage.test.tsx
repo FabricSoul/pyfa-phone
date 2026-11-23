@@ -1,11 +1,12 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import merlin from '../engine/fixtures/merlin.json'
 import rifter from '../engine/fixtures/rifter.json'
 import { CalcResultSchema } from '../engine/types'
 import { StatsPage } from './StatsPage'
 
-afterEach(cleanup)
+beforeEach(() => localStorage.clear())
+afterEach(() => { cleanup(); vi.restoreAllMocks() })
 
 const stable = CalcResultSchema.parse(merlin)
 const unstable = CalcResultSchema.parse(rifter)
@@ -33,5 +34,46 @@ describe('StatsPage capacitor', () => {
     expect(head.getAttribute('aria-expanded')).toBe('true')
     fireEvent.click(head)
     expect(head.getAttribute('aria-expanded')).toBe('false')
+  })
+})
+
+describe('StatsPage panels', () => {
+  it('collapses panels without data by default and says "None"', () => {
+    const noRemote = { ...unstable, stats: { ...unstable.stats, remoteRepair: { shield: 0, armor: 0, hull: 0, capacitor: 0 } } }
+    render(<StatsPage result={noRemote} />)
+    const head = screen.getByRole('button', { name: /Remote Repairs/ })
+    expect(head.getAttribute('aria-expanded')).toBe('false')
+    expect(head.textContent).toContain('None')
+  })
+
+  it('remembers collapsed panels in localStorage', () => {
+    const first = render(<StatsPage result={unstable} />)
+    fireEvent.click(screen.getByRole('button', { name: /Capacitor/ }))
+    first.unmount()
+    render(<StatsPage result={unstable} />)
+    expect(screen.getByRole('button', { name: /Capacitor/ }).getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('does not break when localStorage throws', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('denied') })
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('denied') })
+    render(<StatsPage result={unstable} />)
+    fireEvent.click(screen.getByRole('button', { name: /Capacitor/ }))
+    expect(screen.getByRole('button', { name: /Capacitor/ }).getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('shows the setting pills under the panel titles', () => {
+    render(<StatsPage result={unstable} settings={{ targetProfile: 'Frigate', damagePattern: 'Uniform' }} />)
+    expect(screen.getByRole('button', { name: /Target Resists/ }).textContent).toContain('Frigate')
+    expect(screen.getByRole('button', { name: /Factor in Reload Time/ })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /Incoming damage pattern/ }).textContent).toContain('Uniform')
+    expect(screen.getByRole('button', { name: 'EHP' })).toBeTruthy()
+  })
+
+  it('lists the price breakdown from the prices prop', () => {
+    render(<StatsPage result={unstable} prices={{ ship: 400000, fit: 1500000, lines: [{ label: 'Implants', value: 12000 }] }} />)
+    expect(screen.getByText('Implants')).toBeTruthy()
+    expect(screen.getByText(/12,000/)).toBeTruthy()
+    expect(screen.getByText(/1,500,000/)).toBeTruthy()
   })
 })
