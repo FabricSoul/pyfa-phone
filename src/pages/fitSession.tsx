@@ -144,7 +144,7 @@ function Workspace({ id }: { id: string }) {
       historyRef.current = loaded
       setHistory(loaded)
       setRecord(initial)
-    })().catch(() => { if (current) setLoadError(true) })
+    })().catch((error: unknown) => { console.error('Could not load fit', error); if (current) setLoadError(true) })
     return () => { current = false }
   }, [id, store, histories, engine])
 
@@ -157,7 +157,7 @@ function Workspace({ id }: { id: string }) {
       setResult(calc)
       setCalcError(false)
       void store.rememberNames(id, resultNames(calc)).catch(() => { if (current) setSaveError(true) })
-    }, () => { if (current) setCalcError(true) })
+    }, (error: unknown) => { console.error('Could not calculate fit', error); if (current) setCalcError(true) })
     return () => { current = false }
   }, [considerReload, engine, fit, id, removed, store])
 
