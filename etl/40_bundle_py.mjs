@@ -58,8 +58,13 @@ export async function bundlePy() {
   const stage = await mkdtemp(join(data, '.bundle-'))
   const bundle = join(stage, 'engine.zip')
   try {
-    // The pyfa submodule remains untouched. Use Python's stdlib for a reproducible ZIP.
-    execFileSync('python3', ['-c', `
+    const lockPath = join(root, 'public/pyodide', pyodide.version, 'pyodide-lock.json')
+    const lock = JSON.parse(await readFile(lockPath, 'utf8'))
+    const python = lock.info.python.split('.').slice(0, 2).join('.')
+    const sqlalchemy = join(root, 'public/pyodide', pyodide.version, lock.packages.sqlalchemy.file_name)
+    execFileSync('uv', ['run', '--python', python, 'python', '-c', `
+from importlib.util import MAGIC_NUMBER, cache_from_source, source_hash
+from marshal import dumps
 from pathlib import Path
 from sys import argv
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
@@ -86,10 +91,28 @@ files = {name: vendor / name for name in vendor_files}
 own = Path('src/engine/py')
 files.update({p.relative_to(own).as_posix(): p for p in own.rglob('*.py')})
 
+def put(archive, name, data):
+    archive.writestr(ZipInfo(name), data, compress_type=ZIP_DEFLATED, compresslevel=9)
+
+def bytecode(source, filename):
+    code = compile(source, filename, 'exec', dont_inherit=True)
+    # Unchecked hashes skip rereading source. The content-addressed archive versions both.
+    return MAGIC_NUMBER + bytes((1, 0, 0, 0)) + source_hash(source) + dumps(code)
+
 with ZipFile(argv[1], 'w') as archive:
     for name, path in sorted(files.items()):
-        archive.writestr(ZipInfo(name), path.read_bytes(), compress_type=ZIP_DEFLATED, compresslevel=9)
-    `, bundle], { cwd: root, stdio: 'inherit' })
+        source = path.read_bytes()
+        put(archive, name, source)
+        if name.endswith('.py'):
+            put(archive, name + 'c', bytecode(source, '/pyfa.zip/' + name))
+
+    # Keep using the unmodified, locked wheel and its native extensions. Only add the
+    # bytecode that the filesystem importer would otherwise compile on each boot.
+    with ZipFile(argv[2]) as wheel:
+        for name in sorted(wheel.namelist()):
+            if name.startswith('sqlalchemy/') and name.endswith('.py'):
+                put(archive, 'site-bytecode/' + cache_from_source(name), bytecode(wheel.read(name), name))
+    `, bundle, sqlalchemy], { cwd: root, stdio: 'inherit', env: { ...process.env, PYTHONHASHSEED: '0' } })
 
     const bytes = (await stat(bundle)).size
     const sha256 = createHash('sha256').update(await readFile(bundle)).digest('hex')

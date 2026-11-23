@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
+import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { stampSw } from './99_stamp_sw.mjs'
 
@@ -22,47 +23,20 @@ test('dist/sw.js precache list includes db file from manifest after build and st
   )
 })
 
-test('changing dataVersion in manifest and restamping changes cache name', () => {
-  const originalManifestRaw = fs.readFileSync(MANIFEST_PATH, 'utf8')
-  try {
-    stampSw(DIST)
-    const swOriginal = fs.readFileSync(SW_PATH, 'utf8')
-    const matchOriginal = swOriginal.match(/CACHE_NAME\s*=\s*['"`]([^'"`]+)['"`]/)
-    assert.ok(matchOriginal, 'CACHE_NAME found in original sw.js')
-    const originalCacheName = matchOriginal[1]
-
-    const manifestObj = JSON.parse(originalManifestRaw)
-    manifestObj.dataVersion = 'modified-version-9999'
-    fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifestObj, null, 2), 'utf8')
-
-    stampSw(DIST)
-    const swModified = fs.readFileSync(SW_PATH, 'utf8')
-    const matchModified = swModified.match(/CACHE_NAME\s*=\s*['"`]([^'"`]+)['"`]/)
-    assert.ok(matchModified, 'CACHE_NAME found in restamped sw.js')
-    const modifiedCacheName = matchModified[1]
-
-    assert.notEqual(originalCacheName, modifiedCacheName, 'Cache name must change when dataVersion changes')
-    assert.ok(modifiedCacheName.includes('modified-version-9999'), 'New cache name includes new dataVersion')
-  } finally {
-    fs.writeFileSync(MANIFEST_PATH, originalManifestRaw, 'utf8')
-    stampSw(DIST)
-  }
-})
+const listOf = (source) => {
+  const match = source.match(/^const CACHE_LAYERS = (.*)$/m)
+  assert.ok(match, 'CACHE_LAYERS found in SW')
+  const { shell, runtime, data, icons } = JSON.parse(match[1])
+  return [shell, runtime, icons, ...data].filter(Boolean).flatMap(({ urls }) => urls)
+}
 
 test('price API domains are not in precache list', () => {
-  const swContent = fs.readFileSync(SW_PATH, 'utf8')
-  const precacheMatch = swContent.match(/PRECACHE_URLS\s*=\s*\[([\s\S]*?)\]/)
-  const precacheBlock = precacheMatch ? precacheMatch[1] : swContent
-
-  assert.ok(!precacheBlock.includes('fuzzwork.co.uk'), 'fuzzwork.co.uk must not be in precache list')
-  assert.ok(!precacheBlock.includes('esi.evetech.net'), 'esi.evetech.net must not be in precache list')
+  const list = listOf(fs.readFileSync(SW_PATH, 'utf8'))
+  assert.ok(list.every((url) => url.startsWith('/') && !url.startsWith('//')))
 })
 
 test('precache list includes ship renders and fit item icons, but not all 1734 icons', () => {
-  const swContent = fs.readFileSync(SW_PATH, 'utf8')
-  const precacheMatch = swContent.match(/PRECACHE_URLS\s*=\s*(\[[\s\S]*?\]);?/)
-  assert.ok(precacheMatch, 'PRECACHE_URLS found in sw.js')
-  const list = JSON.parse(precacheMatch[1])
+  const list = listOf(fs.readFileSync(SW_PATH, 'utf8'))
 
   // Ship renders are precached
   const renders = list.filter((url) => url.startsWith('/img/renders/'))
@@ -78,9 +52,9 @@ test('precache list includes ship renders and fit item icons, but not all 1734 i
 // ── #11 install / activate safety ───────────────────────────────────────────
 import vm from 'node:vm'
 
-function runSw(source, { failing = [], existing = ['pyfa-old-1'] } = {}) {
-  const store = new Map(existing.map((n) => [n, new Map()]))
+function runSw(source, { failing = [], store = new Map([['pyfa-old-1', new Map()]]) } = {}) {
   const listeners = {}
+  const requested = []
   let skipped = false
   const caches = {
     async open(name) {
@@ -88,10 +62,12 @@ function runSw(source, { failing = [], existing = ['pyfa-old-1'] } = {}) {
       const entries = store.get(name)
       return {
         async addAll(urls) {
+          requested.push(...urls)
           for (const u of urls) entries.set(u, 'partial')
           if (urls.some((u) => failing.includes(u))) throw new TypeError('network error')
         },
-        async match() {}, async put() {},
+        async match(url) { return entries.get(url) },
+        async put(url, response) { entries.set(url, response) },
       }
     },
     async keys() { return [...store.keys()] },
@@ -108,8 +84,65 @@ function runSw(source, { failing = [], existing = ['pyfa-old-1'] } = {}) {
     listeners[type]({ waitUntil: (p) => { pending = p } })
     await pending
   }
-  return { store, dispatch, skipped: () => skipped }
+  return { store, dispatch, requested, skipped: () => skipped }
 }
+
+test('app deploys preserve runtime and data caches, and a new database replaces only that cache', async () => {
+  const dir = fs.mkdtempSync(path.join(tmpdir(), 'pyfa-sw-'))
+  const sha = (digit) => digit.repeat(64)
+  const dbUrl = (digit) => `/data/eve.${sha(digit)}.db.gz`
+  const pyUrl = `/data/py.${sha('b')}.zip`
+  const runtimeUrl = '/pyodide/0.29.3/pyodide.asm.wasm'
+  const legacy = `pyfa-old-app-${sha('a')}`
+  const store = new Map([[legacy, new Map([
+    [dbUrl('a'), 'legacy DB'], [runtimeUrl, 'legacy runtime'],
+  ])]])
+  const deploy = async (app, db) => {
+    fs.copyFileSync('public/sw.js', path.join(dir, 'sw.js'))
+    fs.rmSync(path.join(dir, 'assets'), { force: true, recursive: true })
+    fs.mkdirSync(path.join(dir, 'assets'))
+    fs.writeFileSync(path.join(dir, 'index.html'), `<script src="/assets/index-${app}.js"></script>`)
+    fs.writeFileSync(path.join(dir, 'assets', `index-${app}.js`), app)
+    fs.writeFileSync(path.join(dir, 'data', 'manifest.json'), JSON.stringify({
+      dataVersion: sha(db), db: { file: path.basename(dbUrl(db)), sha256: sha(db) },
+      py: { file: path.basename(pyUrl), sha256: sha('b') },
+      pyodide: { version: '0.29.3', files: [{ file: runtimeUrl }] },
+    }))
+    stampSw(dir)
+    const sw = runSw(fs.readFileSync(path.join(dir, 'sw.js'), 'utf8'), { store })
+    await sw.dispatch('install')
+    await sw.dispatch('activate')
+    return sw.requested
+  }
+  const containing = (url) => [...store.values()].find((cache) => cache.has(url))
+  try {
+    fs.mkdirSync(path.join(dir, 'data'))
+    const first = await deploy('one', 'a')
+    assert.ok(!first.includes(runtimeUrl) && !first.includes(dbUrl('a')), 'migrate the legacy cache without HTTP')
+    assert.ok(!store.has(legacy))
+    const runtime = containing(runtimeUrl)
+    const database = containing(dbUrl('a'))
+    const sources = containing(pyUrl)
+    assert.ok(runtime && database && sources)
+    assert.equal(runtime.get(runtimeUrl), 'legacy runtime')
+    assert.equal(database.get(dbUrl('a')), 'legacy DB')
+    const second = await deploy('two', 'a')
+    assert.equal(containing(runtimeUrl), runtime)
+    assert.equal(containing(dbUrl('a')), database)
+    assert.equal(containing(pyUrl), sources)
+    assert.ok(!second.includes(runtimeUrl) && !second.includes(dbUrl('a')) && !second.includes(pyUrl))
+    assert.equal(containing('/assets/index-one.js'), undefined)
+    const shell = containing('/assets/index-two.js')
+    const third = await deploy('two', 'c')
+    assert.equal(containing(runtimeUrl), runtime)
+    assert.equal(containing(pyUrl), sources)
+    assert.equal(containing('/assets/index-two.js'), shell)
+    assert.equal(containing(dbUrl('a')), undefined)
+    assert.ok(third.includes(dbUrl('c')))
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true })
+  }
+})
 
 test('a failed precache keeps the old cache and fails the install so the old worker stays', async () => {
   const source = fs.readFileSync(path.resolve('public', 'sw.js'), 'utf8')
@@ -128,7 +161,7 @@ test('old caches are deleted only after a fully successful install, at activate'
   assert.equal(sw.skipped(), true)
   await sw.dispatch('activate')
   assert.ok(!sw.store.has('pyfa-old-1'))
-  assert.ok(sw.store.has('pyfa-dev-dev'))
+  assert.ok(sw.store.has('pyfa:app:dev'))
 })
 
 test('dist/sw.js precaches pyfa gui icons so the home page and boot page work offline', () => {

@@ -5,6 +5,7 @@ import importlib.abc
 import importlib.machinery
 import sys
 import tempfile
+import threading
 import types
 from functools import lru_cache, wraps
 
@@ -29,6 +30,7 @@ class _StubModule(types.ModuleType):
 
 
 STUB_PACKAGES = {'wx', 'requests_cache', 'requests', 'jose'}
+BROWSER_CRYPTO = {'cryptography', 'cryptography.fernet'}
 # pyfa GUI modules that misc.py / maxRange.py import but only use inside __init__, which we
 # never call. Importing the real ones drags in the whole wx GUI (and a circular import).
 STUB_MODULES = {'gui.mainFrame', 'gui.ssoLogin', 'gui.viewColumn', 'gui.bitmap_loader',
@@ -43,6 +45,8 @@ class _StubFinder(importlib.abc.MetaPathFinder, importlib.abc.Loader):
             original = importlib.machinery.PathFinder.find_spec(name, path)
             if original is not None:
                 return self.namespace(name, original.submodule_search_locations)
+        if sys.platform == 'emscripten' and name in BROWSER_CRYPTO:
+            return importlib.machinery.ModuleSpec(name, self, is_package=name == 'cryptography')
         if name.split('.')[0] in STUB_PACKAGES or name in STUB_MODULES:
             return importlib.machinery.ModuleSpec(name, self, is_package=name not in STUB_MODULES)
 
@@ -63,6 +67,16 @@ class _StubFinder(importlib.abc.MetaPathFinder, importlib.abc.Loader):
             mod.Colour = lambda *a: a
             mod.GetTranslation = lambda s, *a, **k: s
             mod.CallAfter = lambda f, *a, **k: f(*a, **k)
+        elif mod.__name__ == 'cryptography.fernet':
+            class UnsupportedFernet:
+                def __init__(self, *_args):
+                    self.generate_key()
+
+                @staticmethod
+                def generate_key():
+                    raise RuntimeError('Desktop token encryption is unavailable in the fitting worker')
+
+            mod.Fernet = UnsupportedFernet
         elif mod.__name__ == 'gui.viewColumn':
             class ViewColumn:
                 columns = {}
@@ -102,8 +116,24 @@ def _cache_game_query(_amount, *_keywords):
     return decorate
 
 
+def _install_package_bytecode():
+    from pathlib import Path
+    from site import getsitepackages
+    from zipfile import ZipFile
+
+    target = Path(getsitepackages()[0])
+    with ZipFile(Path(__file__).parent) as archive:
+        for name in archive.namelist():
+            if name.startswith('site-bytecode/'):
+                path = target / name.removeprefix('site-bytecode/')
+                path.parent.mkdir(exist_ok=True)
+                path.write_bytes(archive.read(name))
+
+
 def bootstrap(db_path):
     sys.dont_write_bytecode = True  # keep the submodule clean
+    if sys.platform == 'emscripten':
+        _install_package_bytecode()
     install_stubs()
     builtins._ = lambda s: s  # pyfa.py installs gettext's _ as a builtin
     sys._called_from_test = True  # in-memory saveddata
@@ -118,7 +148,12 @@ def bootstrap(db_path):
     import eos.db
     eos.db.saveddata_meta.create_all(eos.db.saveddata_engine)
 
-    # These services start desktop background threads for asynchronous search and ship browsing.
-    # The worker calls Market synchronously and never sends them requests.
-    from service.market import SearchWorkerThread, ShipBrowserWorkerThread
+@lru_cache(maxsize=1)
+def market_service():
+    from service.market import Market, SearchWorkerThread, ShipBrowserWorkerThread
+
+    # The worker calls Market synchronously and never sends these threads requests.
+    # The unused desktop search thread eagerly parses the jargon dictionary in its constructor.
+    SearchWorkerThread.__init__ = threading.Thread.__init__
     SearchWorkerThread.start = ShipBrowserWorkerThread.start = lambda self: None
+    return Market

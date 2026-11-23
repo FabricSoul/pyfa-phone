@@ -109,6 +109,18 @@ window.testEngine = async () => {
   assert.deepEqual(external, [], 'Worker attempted an external request')
   console.log(`Chromium Worker with external requests blocked: Rifter DPS ${result.dps}, EFT typeID ${result.imported}`)
 
+  const dbPath = `/data/${manifest.db.file}`
+  const hotDatabaseRequests = []
+  context.on('request', request => {
+    if (new URL(request.url()).pathname === dbPath) hotDatabaseRequests.push(dbPath)
+  })
+  await page.reload()
+  await page.waitForFunction(() => typeof window.testEngine === 'function')
+  const warm = await page.evaluate(() => window.testEngine())
+  assert.deepEqual(warm, result, 'startup from OPFS must preserve the engine result')
+  assert.deepEqual(hotDatabaseRequests, [], 'hot startup must reuse the expanded database')
+  console.log('Chromium Worker reused the expanded database from OPFS')
+
   const files = await readdir(output, { recursive: true })
   for (const file of files.filter((name) => /\.(?:m?js|json|map|html)$/.test(name))) {
     assert.doesNotMatch(await readFile(join(output, file), 'utf8'), /cdn\.jsdelivr\.net/, file)

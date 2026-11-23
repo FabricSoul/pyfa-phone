@@ -2,7 +2,10 @@
 
 import math
 from collections import Counter
+from functools import cached_property
 from types import SimpleNamespace
+
+from headless import market_service
 
 # Capacities exposed by pyfa's targeting/misc panel. All are measured in m³.
 SPECIALIZED_BAYS = (
@@ -55,25 +58,12 @@ class Engine:
     def __init__(self, data_version):
         import eos.db
         from eos.const import FittingSlot, FittingHardpoint
-        from gui.builtinViewColumns.capacitorUse import CapacitorUse
-        from gui.builtinViewColumns.misc import Miscellanea
-        from gui.builtinViewColumns.maxRange import MaxRange
-        from service.market import Market
         self.db = eos.db
         self.Slot = FittingSlot
         self.Hardpoint = FittingHardpoint
         self.slot_of = {FittingSlot.HIGH: 'high', FittingSlot.MED: 'mid', FittingSlot.LOW: 'low',
                         FittingSlot.RIG: 'rig', FittingSlot.SUBSYSTEM: 'subsystem'}
         self.kind_slot = {v: k for k, v in self.slot_of.items()}
-        # The column constructors expect wx controls. The ancillary repair column also
-        # reads the active fit and pyfa's default effective-HP setting when rendering ammo.
-        self.misc = object.__new__(Miscellanea)
-        self.misc.mainFrame = SimpleNamespace(statsPane=SimpleNamespace(
-            nameViewMap={'resistancesViewFull': SimpleNamespace(showEffective=True)},
-        ))
-        self.range = object.__new__(MaxRange)
-        self.capacitor_column = object.__new__(CapacitorUse)
-        self.market = Market.getInstance()
         from sqlalchemy import text
         with eos.db.gamedata_engine.connect() as conn:
             self.client_build = str(conn.execute(text(
@@ -87,6 +77,35 @@ class Engine:
 
         self.data_version = data_version
         self.market_groups = {}
+
+    @cached_property
+    def market(self):
+        return market_service().getInstance()
+
+    @cached_property
+    def misc(self):
+        market_service()
+        from gui.builtinViewColumns.misc import Miscellanea
+
+        # Only the column methods run headlessly. The ancillary repair column
+        # also reads the active fit and pyfa's default effective-HP setting.
+        column = object.__new__(Miscellanea)
+        column.mainFrame = SimpleNamespace(statsPane=SimpleNamespace(
+            nameViewMap={'resistancesViewFull': SimpleNamespace(showEffective=True)},
+        ))
+        return column
+
+    @cached_property
+    def range(self):
+        from gui.builtinViewColumns.maxRange import MaxRange
+
+        return object.__new__(MaxRange)
+
+    @cached_property
+    def capacitor_column(self):
+        from gui.builtinViewColumns.capacitorUse import CapacitorUse
+
+        return object.__new__(CapacitorUse)
 
     def item(self, type_id):
         it = self.db.getItem(type_id)

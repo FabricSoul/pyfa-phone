@@ -4,6 +4,7 @@ import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promis
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { test } from 'node:test'
+import { fileURLToPath } from 'node:url'
 import { extractManifestFiles } from './99_stamp_sw.mjs'
 import { cleanStaleAssets } from './40_bundle_py.mjs'
 
@@ -24,7 +25,7 @@ test('Pyodide runtime and the locked dependency closure are hashed and precached
     pkgFiles.add(pkg.file_name)
     for (const dependency of pkg.depends) addPackage(dependency)
   }
-  for (const name of ['sqlalchemy', 'pyyaml', 'cryptography', 'sqlite3']) addPackage(name)
+  for (const name of ['sqlalchemy', 'pyyaml', 'sqlite3']) addPackage(name)
   const cached = new Set(extractManifestFiles(data))
   const required = ['pyodide.mjs', 'pyodide.asm.js', 'pyodide.asm.wasm', 'pyodide-lock.json', 'python_stdlib.zip', 'package.json', ...pkgFiles]
   for (const name of required) {
@@ -42,6 +43,26 @@ test('Pyodide runtime and the locked dependency closure are hashed and precached
 
 test('the browser Worker loads Pyodide from the application origin', async () => {
   assert.doesNotMatch((await read('src/engine/worker.ts')).toString(), /cdn\.jsdelivr\.net/)
+})
+
+test('the engine archive contains Pyodide-compatible bytecode beside the original source', async () => {
+  const { py, pyodide } = await manifest()
+  const { spawnSync } = await import('node:child_process')
+  const python = JSON.parse(await read(`public/pyodide/${pyodide.version}/pyodide-lock.json`)).info.python
+  const result = spawnSync('uv', ['run', '--python', python.split('.').slice(0, 2).join('.'), 'python', '-c', `
+from importlib.util import MAGIC_NUMBER
+from zipfile import ZipFile
+from sys import argv
+
+with ZipFile(argv[1]) as archive:
+    assert 'api.py' in archive.namelist()
+    assert 'eos/db/__init__.py' in archive.namelist()
+    for module in ('api', 'eos/db/__init__'):
+        assert f'{module}.pyc' in archive.namelist(), f'Missing bytecode for {module}'
+        assert archive.read(f'{module}.pyc').startswith(MAGIC_NUMBER)
+    assert any(name.startswith('site-bytecode/sqlalchemy/__pycache__/__init__.') for name in archive.namelist())
+`, fileURLToPath(new URL(`../public/data/${py.file}`, import.meta.url))], { encoding: 'utf8' })
+  assert.equal(result.status, 0, result.stderr)
 })
 
 test('cleanStaleAssets removes unreferenced eve.*, names.*, py.* files and unreferenced pyodide directories', async () => {

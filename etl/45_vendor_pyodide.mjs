@@ -24,7 +24,7 @@ function includePackage(name) {
   wheels.set(item.file_name, item.sha256)
   for (const dep of item.depends) includePackage(dep)
 }
-for (const name of ['sqlalchemy', 'pyyaml', 'cryptography', 'sqlite3']) includePackage(name)
+for (const name of ['sqlalchemy', 'pyyaml', 'sqlite3']) includePackage(name)
 
 const dir = join(root, 'public', 'pyodide', version)
 const build = join(root, 'build')

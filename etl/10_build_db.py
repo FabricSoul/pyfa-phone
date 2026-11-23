@@ -110,7 +110,7 @@ def main() -> None:
         ).fetchone()[0]
     (BUILD / "game-db.json").write_text(json.dumps({
         "clientBuild": client_build,
-        "db": {"file": asset, "bytes": size, "sha256": digest, "encoding": "gzip"},
+        "db": {"file": asset, "bytes": size, "sha256": digest, "encoding": "gzip", "expandedBytes": db.stat().st_size},
     }))
     print(f"{asset}: {size} bytes ({size / 1024 / 1024:.2f} MiB)")
 

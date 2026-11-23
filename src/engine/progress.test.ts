@@ -11,14 +11,24 @@ describe('startup byte progress', () => {
     expect(progress.snapshot()).toEqual({ runtime: { loaded: 100, total: 100 }, data: { loaded: 10, total: 50 } })
     expect(seen.length).toBe(3)
   })
+  it('distinguishes fully cached stages and stages that fetched any bytes from the network', () => {
+    const progress = createProgress({ runtime: 100, data: 50 }, () => {})
+    progress.add('runtime', 100, 'cache')
+    progress.add('data', 25, 'cache')
+    progress.add('data', 25, 'network')
+    expect(progress.snapshot()).toEqual({
+      runtime: { loaded: 100, total: 100, source: 'cache' },
+      data: { loaded: 50, total: 50, source: 'network' },
+    })
+  })
   it('counts the bytes of a fetch response while the caller reads it normally', async () => {
     const onBytes = vi.fn()
-    const inner = vi.fn(async () => new Response(new Uint8Array(10).fill(7), { status: 200, headers: { 'content-type': 'application/wasm' } }))
+    const inner = vi.fn(async () => new Response(new Uint8Array(10).fill(7), { status: 200, headers: { 'content-type': 'application/wasm', 'X-Pyfa-Source': 'cache' } }))
     const wrapped = countingFetch(inner as unknown as typeof fetch, (url) => url.startsWith('https://x/rt/'), onBytes)
     const hit = await wrapped('https://x/rt/a.wasm')
     expect(hit.headers.get('content-type')).toBe('application/wasm')
     expect((await hit.arrayBuffer()).byteLength).toBe(10)
-    expect(onBytes).toHaveBeenCalledWith(10)
+    expect(onBytes).toHaveBeenCalledWith(10, 'cache')
     const miss = await wrapped('https://x/other')
     await miss.arrayBuffer()
     expect(onBytes).toHaveBeenCalledTimes(1)

@@ -1,8 +1,6 @@
-/* 构建后把 dist 的文件清单和 manifest 内容写进 dist/sw.js。
- *
- * 缓存名带 dataVersion 和构建哈希，任何一个变了就清掉旧缓存。
- */
+/* Build the offline cache layers from the production assets and data manifest. */
 import fs from 'node:fs'
+import { createHash } from 'node:crypto'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -44,67 +42,40 @@ export function stampSw(distDir = path.resolve('dist')) {
     }
   }
 
-  // 1. 构建哈希：优先从 index-*.js 提取
-  let buildHash = 'dev'
+  const manifestBytes = fs.existsSync(manifestPath) ? fs.readFileSync(manifestPath) : undefined
+  const manifest = manifestBytes ? JSON.parse(manifestBytes) : undefined
+  const shellUrls = ['/', '/index.html', '/manifest.webmanifest']
   if (fs.existsSync(assetsDir)) {
-    const assets = fs.readdirSync(assetsDir)
-    const main = assets.find((f) => /^index-.*\.js$/.test(f))
-    if (main) {
-      buildHash = main.replace(/^index-|\.js$/g, '')
-    }
+    for (const file of fs.readdirSync(assetsDir).sort()) shellUrls.push(`/assets/${file}`)
   }
-
-  // 2. dataVersion 及数据文件列表
-  let dataVersion = 'dev'
-  let dataFiles = []
-  if (fs.existsSync(manifestPath)) {
-    try {
-      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
-      if (manifest.dataVersion) {
-        dataVersion = manifest.dataVersion
-      }
-      dataFiles = extractManifestFiles(manifest)
-    } catch (err) {
-      console.warn('⚠️ 读取 manifest.json 失败:', err)
+  const digest = (urls) => {
+    const hash = createHash('sha256')
+    for (const url of urls.sort()) {
+      const file = path.join(distDir, url === '/' ? '/index.html' : url)
+      hash.update(url).update('\0')
+      if (fs.existsSync(file)) hash.update(createHash('sha256').update(fs.readFileSync(file)).digest())
     }
+    return hash.digest('hex')
   }
-
-  // 3. 应用壳文件（HTML、JS/CSS、manifest、图标）
-  const precacheUrls = new Set([
-    '/',
-    '/index.html',
-    '/manifest.webmanifest',
-  ])
-
-  if (fs.existsSync(assetsDir)) {
-    for (const f of fs.readdirSync(assetsDir)) {
-      precacheUrls.add(`/assets/${f}`)
-    }
-  }
-
-  for (const icon of ['icon-192.png', 'icon-512.png']) {
-    if (fs.existsSync(path.join(distDir, icon))) {
-      precacheUrls.add(`/${icon}`)
-    }
+  const iconUrls = new Set()
+  const allIconUrls = new Set()
+  for (const icon of ['favicon.png', 'icon-192.png', 'icon-512.png']) {
+    if (fs.existsSync(path.join(distDir, icon))) iconUrls.add(`/${icon}`)
   }
 
   // pyfa's own UI icons (home key numbers, boot page logo) so they work offline from the first launch
   const guiDir = path.join(distDir, 'img', 'gui')
   if (fs.existsSync(guiDir)) {
     for (const f of fs.readdirSync(guiDir).sort()) {
-      if (f.endsWith('.png')) precacheUrls.add(`/img/gui/${f}`)
+      if (f.endsWith('.png')) iconUrls.add(`/img/gui/${f}`)
     }
-  }
-
-  for (const df of dataFiles) {
-    precacheUrls.add(df)
   }
 
   // 4. 离线图标与舰船渲染图预缓存（P19：装配里已有的物品和全部舰船渲染图，不含全部 1734 个图标）
   const rendersDir = path.join(distDir, 'img', 'renders')
   if (fs.existsSync(rendersDir)) {
-    for (const f of fs.readdirSync(rendersDir)) {
-      if (f.endsWith('.png')) precacheUrls.add(`/img/renders/${f}`)
+    for (const f of fs.readdirSync(rendersDir).sort()) {
+      if (f.endsWith('.png')) iconUrls.add(`/img/renders/${f}`)
     }
   }
 
@@ -132,7 +103,7 @@ export function stampSw(distDir = path.resolve('dist')) {
     }
     for (const id of fitIcons) {
       if (fs.existsSync(path.join(iconsDir, `${id}.png`))) {
-        precacheUrls.add(`/img/icons/${id}.png`)
+        iconUrls.add(`/img/icons/${id}.png`)
       }
     }
 
@@ -141,9 +112,11 @@ export function stampSw(distDir = path.resolve('dist')) {
       .filter((f) => f.endsWith('.png'))
       .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
       .map((f) => `/img/icons/${f}`)
+    for (const url of allIcons) allIconUrls.add(url)
     const distData = path.join(distDir, 'data')
     if (fs.existsSync(distData)) {
       fs.writeFileSync(path.join(distData, 'icons.json'), JSON.stringify(allIcons))
+      iconUrls.add('/data/icons.json')
     }
     const pubData = path.resolve('public', 'data')
     if (fs.existsSync(pubData)) {
@@ -151,18 +124,29 @@ export function stampSw(distDir = path.resolve('dist')) {
     }
   }
 
-  const cacheName = `pyfa-${buildHash}-${dataVersion}`
-  const precacheList = Array.from(precacheUrls)
-
-  let sw = fs.readFileSync(swPath, 'utf8')
-  sw = sw.replace(/const BUILD_HASH = '[^']*'/, `const BUILD_HASH = '${buildHash}'`)
-  sw = sw.replace(/const DATA_VERSION = '[^']*'/, `const DATA_VERSION = '${dataVersion}'`)
-  sw = sw.replace(/const CACHE_NAME = '[^']*'/, `const CACHE_NAME = '${cacheName}'`)
-  sw = sw.replace(/const PRECACHE_URLS = \[\s*[\s\S]*?\s*\];?/, `const PRECACHE_URLS = ${JSON.stringify(precacheList, null, 2)}`)
-
+  const data = []
+  if (manifest) {
+    data.push({ name: `pyfa:manifest:${createHash('sha256').update(manifestBytes).digest('hex')}`,
+      urls: ['/data/manifest.json'] })
+    for (const asset of [manifest.db, manifest.names, manifest.py]) {
+      if (asset) data.push({ name: `pyfa:data:${asset.sha256}`, urls: [`/data/${asset.file}`] })
+    }
+  }
+  const cacheLayers = {
+    shell: { name: `pyfa:app:${digest([...shellUrls])}`, urls: shellUrls },
+    icons: { name: `pyfa-icons-${digest([...new Set([...iconUrls, ...allIconUrls])])}`, urls: [...iconUrls] },
+    runtime: manifest?.pyodide ? {
+      name: `pyfa:runtime:${manifest.pyodide.version}`,
+      urls: manifest.pyodide.files.map(({ file }) => file),
+    } : null,
+    data,
+  }
+  const sw = fs.readFileSync(swPath, 'utf8').replace(
+    /^const CACHE_LAYERS = .*$/m, () => `const CACHE_LAYERS = ${JSON.stringify(cacheLayers)}`,
+  )
   fs.writeFileSync(swPath, sw, 'utf8')
-  console.log(`✅ sw.js 盖印完成: cacheName = ${cacheName}, precached ${precacheList.length} files`)
-  return { buildHash, dataVersion, cacheName, precacheList }
+  console.log(`✅ sw.js 盖印完成: ${cacheLayers.shell.name}, ${cacheLayers.runtime?.name ?? 'no runtime'}`)
+  return cacheLayers
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {

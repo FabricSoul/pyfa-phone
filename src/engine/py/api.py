@@ -9,10 +9,10 @@ from functools import lru_cache
 from pathlib import Path
 
 from engine import Engine, META_ORDER, SLOT_KINDS, STATE_NAMES, meta_of, r, requires_omega
-from headless import bootstrap
+from headless import bootstrap, market_service
 
 _engine = None
-_port = None
+_names_path = None
 
 _SLOT_EFFECT = {
     'high': 'hiPower', 'mid': 'medPower', 'low': 'loPower',
@@ -34,11 +34,9 @@ def _name_matcher(term):
 
 
 def initialize(db_path, names_path, data_version, client_build):
-    global _engine, _port
-    from port_adapter import PortAdapter
+    global _engine, _names_path
 
     bootstrap(db_path)
-    from service.character import Character
 
     _engine = Engine(data_version)
     _slot_items.cache_clear()
@@ -46,13 +44,25 @@ def initialize(db_path, names_path, data_version, client_build):
     _market_tree_data.cache_clear()
     if _engine.client_build != client_build:
         raise ValueError('Game database client build does not match the asset manifest')
-    # Construct the built-in characters once, before the temporary fit transactions.
-    Character.getInstance()
-    _port = PortAdapter(_engine, json.loads(Path(names_path).read_text(encoding='utf-8')))
+    _names_path = names_path
+    _port_adapter.cache_clear()
+
+
+@lru_cache(maxsize=1)
+def _port_adapter():
+    market_service()
+    from port_adapter import PortAdapter
+
+    return PortAdapter(_engine, json.loads(Path(_names_path).read_text(encoding='utf-8')))
 
 
 @contextmanager
 def _temporary_fit():
+    from service.character import Character
+
+    # The first fitting operation creates the built-ins before the savepoint,
+    # since eos commits their creation. Ready and the ship catalog need neither.
+    Character.getInstance()
     # eos requires flushed relationships, even though the UI owns fit persistence.
     transaction = _engine.db.saveddata_session.begin_nested()
     try:
@@ -569,17 +579,17 @@ def variations_of(type_id, fit_json=None, pos=None, count=1):
 
 
 def import_text(text):
-    return _port.import_text(text)
+    return _port_adapter().import_text(text)
 
 
 def import_additions(text, destination):
-    return _port.import_additions(text, destination)
+    return _port_adapter().import_additions(text, destination)
 
 
 def export_text(fit_json, fmt, language='en', eft_options=None):
     with _temporary_fit():
         fit, _ = _engine.build(fit_json)
-        return _port.export_text(fit, fmt, language, eft_options)
+        return _port_adapter().export_text(fit, fmt, language, eft_options)
 
 
 def missing_skills(fit_json):

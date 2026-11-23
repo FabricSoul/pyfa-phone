@@ -32,7 +32,7 @@ const cpython = execFileSync('uv', [
 const expected = JSON.parse(cpython)
 const pyodide = await loadPyodide({
   indexURL: runtimeDir,
-  packages: ['sqlalchemy', 'pyyaml', 'cryptography', 'sqlite3'],
+  packages: ['sqlalchemy', 'pyyaml', 'sqlite3'],
 })
 pyodide.FS.writeFile('/eve.db', db)
 pyodide.FS.writeFile('/pyfa.zip', bundle)
