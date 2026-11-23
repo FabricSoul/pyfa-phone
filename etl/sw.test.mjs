@@ -130,3 +130,11 @@ test('old caches are deleted only after a fully successful install, at activate'
   assert.ok(!sw.store.has('pyfa-old-1'))
   assert.ok(sw.store.has('pyfa-dev-dev'))
 })
+
+test('dist/sw.js precaches pyfa gui icons so the home page and boot page work offline', () => {
+  assert.ok(fs.existsSync(path.join(DIST, 'img', 'gui', 'pyfa.png')), 'dist/img/gui/pyfa.png exists (run pnpm etl)')
+  const swContent = fs.readFileSync(SW_PATH, 'utf8')
+  for (const name of ['pyfa', 'turret_big', 'shieldActive_big', 'maxVelocity_big', 'capacitorInfo_big']) {
+    assert.ok(swContent.includes(`/img/gui/${name}.png`), `precache list includes ${name}.png`)
+  }
+})

@@ -88,6 +88,14 @@ export function stampSw(distDir = path.resolve('dist')) {
     }
   }
 
+  // pyfa's own UI icons (home key numbers, boot page logo) so they work offline from the first launch
+  const guiDir = path.join(distDir, 'img', 'gui')
+  if (fs.existsSync(guiDir)) {
+    for (const f of fs.readdirSync(guiDir).sort()) {
+      if (f.endsWith('.png')) precacheUrls.add(`/img/gui/${f}`)
+    }
+  }
+
   for (const df of dataFiles) {
     precacheUrls.add(df)
   }

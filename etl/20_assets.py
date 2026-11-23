@@ -3,6 +3,8 @@
   vendor/pyfa/imgs/icons/<iconID>@2x.png      -> public/img/icons/<iconID>.png
   vendor/pyfa/imgs/renders/<graphicID>@2x.png -> public/img/renders/<graphicID>.png
 
+  vendor/pyfa/imgs/gui/<name>.png             -> public/img/gui/<name>.png   (only the ones in GUI_ICONS)
+
 Reads build/eve.db written by 10_build_db.py. IDs without a source image are skipped.
 """
 
@@ -14,6 +16,10 @@ ROOT = Path(__file__).resolve().parent.parent
 IMGS = ROOT / "vendor" / "pyfa" / "imgs"
 OUT = ROOT / "public" / "img"
 DB = ROOT / "build" / "eve.db"
+# pyfa's own UI icons the app draws: key numbers on the home page, the boot page logo.
+GUI_ICONS = (
+    "turret_big", "shieldActive_big", "maxVelocity_big", "capacitorInfo_big", "cpu_big", "pg_big", "pyfa",
+)
 
 
 def published_ids(column: str) -> set[int]:
@@ -41,10 +47,21 @@ def copy_set(ids: set[int], src_dir: Path, dest_dir: Path) -> tuple[int, int]:
     return copied, missing
 
 
+def copy_gui() -> int:
+    dest = OUT / "gui"
+    if dest.exists():
+        shutil.rmtree(dest)
+    dest.mkdir(parents=True)
+    for name in GUI_ICONS:
+        shutil.copyfile(IMGS / "gui" / f"{name}.png", dest / f"{name}.png")
+    return len(GUI_ICONS)
+
+
 def main() -> None:
     for column, sub in (("iconID", "icons"), ("graphicID", "renders")):
         copied, missing = copy_set(published_ids(column), IMGS / sub, OUT / sub)
         print(f"{sub}: copied {copied}, no source image for {missing}")
+    print(f"gui: copied {copy_gui()}")
 
 
 if __name__ == "__main__":

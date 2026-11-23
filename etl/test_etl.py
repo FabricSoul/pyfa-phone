@@ -115,3 +115,9 @@ def test_clean_unreferenced_files(manifest):
         if fake_pyodide_dir.exists():
             shutil.rmtree(fake_pyodide_dir, ignore_errors=True)
 
+
+
+def test_gui_icons_for_home_and_boot_page_are_copied():
+    for name in ("turret_big", "shieldActive_big", "maxVelocity_big", "capacitorInfo_big", "cpu_big", "pg_big", "pyfa"):
+        icon = IMG / "gui" / f"{name}.png"
+        assert icon.is_file() and icon.stat().st_size > 0, f"{icon} missing; run `pnpm etl`"

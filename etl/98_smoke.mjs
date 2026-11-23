@@ -42,10 +42,11 @@ try {
   const screenshot = (name) => shotDir && page.screenshot({ path: join(shotDir, `${name}.png`) })
   const dps = page.locator('.hero > div').filter({ hasText: /^总 DPS/ }).locator('b')
   const fitRow = (name) => page.getByTestId('fit-row').filter({ hasText: name })
-  const readDps = async () => Number((await dps.innerText()).replaceAll(',', ''))
+  // The headline number rolls for 300 ms: read the value it is rolling to, not what is on screen mid-roll.
+  const readDps = async () => Number(await dps.locator('[data-testid="rolling"]').getAttribute('data-value'))
   const waitForChangedDps = (previous) => page.waitForFunction((before) =>
     Array.from(document.querySelectorAll('.hero > div')).some((metric) => {
-      const value = Number(metric.querySelector('b')?.textContent?.replaceAll(',', ''))
+      const value = Number(metric.querySelector('b [data-testid="rolling"]')?.getAttribute('data-value'))
       return metric.querySelector('small')?.textContent === '总 DPS' && value > 0 && value !== before
     }), previous)
   const pasteFit = async () => {
@@ -99,6 +100,20 @@ try {
     await p.getByRole('heading', { level: 1, name: '关于' }).waitFor()
     await p.goto(`${base}#/`)
     await p.getByTestId('fit-row').first().waitFor()
+    // Home: the three quick entries are there; rows hold their numbers' places with skeletons while the engine is not ready.
+    const quick = p.getByRole('navigation', { name: '快捷入口' })
+    assert.deepEqual(await quick.getByRole('link').allInnerTexts(), ['新建装配', '粘贴导入', '舰船浏览'])
+    assert.ok(await p.getByTestId('fit-row').first().locator('.sk').count() > 0, 'home rows show skeletons before the engine answers')
+    // A page that needs the engine shows the boot page (load.html ①) and says what already works.
+    await p.goto(`${base}#/import`)
+    await p.getByRole('heading', { level: 1, name: '正在准备装配引擎' }).waitFor()
+    await p.getByText('装配列表、设置和备份现在就能用').waitFor()
+    await p.getByRole('link', { name: '先去看装配列表' }).waitFor()
+    // The fit page draws a skeleton and a progress bar at the bottom instead of waiting on a blank page (load.html ②).
+    await p.goto(`${base}#/fit/rifter`)
+    await p.locator('.engine-bar').waitFor()
+    assert.match(await p.locator('.engine-bar').innerText(), /启动引擎/)
+    assert.ok(await p.locator('main .sk').count() > 5, 'fit page shows skeleton blocks before the engine is ready')
     await early.close()
   }
 
@@ -312,6 +327,18 @@ try {
   await fitRow(fitName).getByText('Thrasher', { exact: true }).waitFor()
   await page.getByRole('link', { name: '粘贴导入' }).waitFor()
 
+  step = 'home shows the continue card for the last opened fit and the three quick entries'
+  {
+    const card = page.getByTestId('resume-card')
+    await card.waitFor()
+    assert.match(await card.innerText(), /继续上次/)
+    assert.match(await card.innerText(), new RegExp(fitName))
+    await card.locator('.k > div').nth(3).waitFor()
+    assert.equal(await card.locator('.k > div').count(), 4)
+    assert.deepEqual(await page.getByRole('navigation', { name: '快捷入口' }).getByRole('link').allInnerTexts(), ['新建装配', '粘贴导入', '舰船浏览'])
+    await usability('home with continue card')
+  }
+
   step = 'verify reload and recalculation offline'
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
   await context.setOffline(true)
@@ -325,7 +352,7 @@ try {
   step = 'measure Rifter low-slot browser performance at 4× CPU throttling'
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 })
   await page.getByRole('button', { name: '返回', exact: true }).click()
-  await page.getByRole('button', { name: '新建', exact: true }).click()
+  await page.getByRole('link', { name: '新建装配', exact: true }).click()
   await page.getByRole('searchbox', { name: '搜索舰船' }).fill('Rifter')
   await page.getByRole('button', { name: 'Rifter', exact: true }).click()
   const add = page.locator('section').filter({ has: page.getByRole('heading', { name: '低槽', exact: true }) })
@@ -361,7 +388,7 @@ try {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 })
   await page.getByRole('link', { name: '返回', exact: true }).click()
   await page.getByRole('button', { name: '返回', exact: true }).click()
-  await page.getByRole('button', { name: '新建', exact: true }).click()
+  await page.getByRole('link', { name: '新建装配', exact: true }).click()
   await page.getByRole('button', { name: 'Cruiser', exact: true }).click()
   await page.getByRole('combobox', { name: '舰船阵营' }).selectOption({ label: '盖伦特' })
   await page.getByRole('searchbox', { name: '搜索舰船' }).fill('狂怒者')

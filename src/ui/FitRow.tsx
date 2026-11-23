@@ -22,7 +22,7 @@ export function FitRow({ name, shipName, shipSrc, dps, ehp, velocity, cpu, grid,
     <button type="button" className="fit" data-testid="fit-row" data-over={over} onClick={onClick}>
       <span className="rd"><ItemIcon className="rimg" size={56} src={shipSrc} /></span>
       <div className="mn">
-        <span>{name}{shipName && !name.includes(shipName) && <small className="ship-name"> · {shipName}</small>}</span>
+        <span>{name}{shipName && !name.includes(shipName) && <small className="ship-name">{shipName}</small>}</span>
         {pending
           ? <div className="stats" aria-hidden="true"><Skeleton width={44} height={12} /><Skeleton width={44} height={12} /><Skeleton width={44} height={12} /></div>
           : (dps != null || ehp != null || velocity != null || showPrice) && <div className="stats">

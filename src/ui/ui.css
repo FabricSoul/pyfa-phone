@@ -149,6 +149,7 @@
 .fit .rd .rimg { width: 56px; height: 56px; border-radius: 0; background: transparent; }
 .fit .mn { gap: calc(var(--space-1) * 1.5); }
 .fit .ship-name { display: inline; font: var(--type-caption); color: var(--color-text-secondary); }
+.fit .ship-name::before { content: ' · '; white-space: pre; }
 .fit .stats { display: flex; flex-wrap: wrap; gap: var(--space-3); text-align: left; font: var(--type-caption); }
 .fit .stats small { display: block; font: var(--type-caption); color: var(--color-text-secondary); }
 .stat { display: inline-flex; align-items: center; gap: var(--space-1); font: 500 0.75rem/1rem var(--font-num); font-variant-numeric: tabular-nums; color: var(--color-text); }
