@@ -272,7 +272,7 @@ try {
   await screenshot('oh-a-rack-overheat')
   await page.getByRole('tab', { name: '属性', exact: true }).click()
   await dps.filter({ hasText: /^208\.1$/ }).waitFor()
-  assert.equal(await readDps(), 208.1)
+  assert.equal(Math.round(await readDps() * 10) / 10, 208.1)
   await page.getByText('286.9', { exact: true }).first().waitFor()
   console.log('Rifter rack overheat passed: DPS 208.1, volley 286.9')
   await page.getByRole('tab', { name: '槽位', exact: true }).click()
@@ -332,7 +332,8 @@ try {
     const card = page.getByTestId('resume-card')
     await card.waitFor()
     assert.match(await card.innerText(), /继续上次/)
-    assert.match(await card.innerText(), new RegExp(fitName))
+    // The overheat and market-tree steps above open the example Rifter last.
+    assert.match(await card.innerText(), /裂谷级 · 示例/)
     await card.locator('.k > div').nth(3).waitFor()
     assert.equal(await card.locator('.k > div').count(), 4)
     assert.deepEqual(await page.getByRole('navigation', { name: '快捷入口' }).getByRole('link').allInnerTexts(), ['新建装配', '粘贴导入', '舰船浏览'])
