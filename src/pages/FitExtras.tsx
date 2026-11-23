@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import type { FitDoc } from '../engine/types'
 import { _t } from '../i18n/t'
 import { fmt, lname, useNameLanguage } from '../ui/format'
+import { removedMessage, useToast } from '../ui/Toast'
 import { useFitSession } from './fitSession'
 import { EmptyMessage, FitSection } from './shared'
 
@@ -10,6 +11,7 @@ type Collection = 'cargo' | 'drones' | 'implants' | 'boosters'
 export function FitExtras() {
   const language = useNameLanguage()
   const { fit, record, result, edit, removed } = useFitSession()
+  const toast = useToast()
   const { cargo, droneBay } = result?.resources ?? {}
   const headings = {
     cargo: _t('Cargo'), drones: _t('Drones'), implants: _t('Implants'), boosters: _t('Boosters'),
@@ -37,7 +39,14 @@ export function FitExtras() {
             <Link to={`/item/${typeId}?fit=${encodeURIComponent(record.id)}`}>{label}</Link>}
           {quantity !== undefined && <span className="fit-caption num">×{fmt(quantity)}</span>}
           {active !== undefined && <span className="fit-caption num">{_t('Active')} {fmt(active)}</span>}
-          <button type="button" className="fit-button" onClick={() => edit((fit) => remove(fit, collection, index))}>{_t('Remove')}</button>
+          <button type="button" className="fit-button" onClick={() => {
+            edit((fit) => remove(fit, collection, index))
+            toast.show({
+              message: removedMessage(label, 1),
+              actionLabel: _t('Undo'),
+              onAction: () => edit((fit) => restore(fit, collection, index, entry)),
+            })
+          }}>{_t('Remove')}</button>
         </li>
       })}
     </ul>
@@ -66,4 +75,11 @@ export function FitExtras() {
 
 function remove(fit: FitDoc, collection: Collection, index: number): FitDoc {
   return { ...fit, [collection]: fit[collection].filter((_, current) => current !== index) }
+}
+
+/** Puts a removed entry back at its old position (or the end if the list is shorter now). */
+function restore(fit: FitDoc, collection: Collection, index: number, entry: FitDoc[Collection][number]): FitDoc {
+  const list: unknown[] = [...fit[collection]]
+  list.splice(Math.min(index, list.length), 0, entry)
+  return { ...fit, [collection]: list }
 }

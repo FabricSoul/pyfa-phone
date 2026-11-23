@@ -5,6 +5,8 @@ import { _t } from '../i18n/t'
 import { useSettings } from '../settings/settings'
 import { fitTypeIds, resolveStoredItems, withTemporaryFits, type FitStore, type StoredFit } from '../store/fits'
 import { commit, createHistory, redo, undo, type History } from '../store/history'
+import { removedMessage, useToast } from '../ui/Toast'
+import { NotFound } from './shared'
 
 interface Services {
   engine: EngineClient
@@ -112,6 +114,9 @@ function Workspace({ id }: { id: string }) {
   const [saveError, setSaveError] = useState(false)
   const [calcError, setCalcError] = useState(false)
   const [missing, setMissing] = useState(false)
+  const toast = useToast()
+  // An undo offer belongs to this fit's session; it must not outlive it.
+  useEffect(() => toast.dismiss, [toast])
 
   useEffect(() => {
     let current = true
@@ -156,11 +161,12 @@ function Workspace({ id }: { id: string }) {
     return () => { current = false }
   }, [considerReload, engine, fit, id, removed, store])
 
-  if (missing) return <>
-    <p className="page-message">{_t('Fit not found')}</p>
-    {store.isTemporary(id) && <Link className="fit-inset" to="/">{_t('Back to fittings')}</Link>}
+  if (missing) return <NotFound title={_t('Fit not found')} />
+  if (loadError || calcError && !result) return <>
+    <p role="alert" className="page-message">{_t('Could not load fit')}</p>
+    <div className="fit-inset"><button type="button" className="fit-button" onClick={() => window.location.reload()}>{_t('Retry')}</button></div>
+    <NotFoundLink />
   </>
-  if (loadError || calcError && !result) return <p role="alert" className="page-message">{_t('Could not load fit')}</p>
   if (!record || !history) return <p role="status" className="page-message">{_t('Loading fit…')}</p>
 
   function apply(change: (value: History<FitDoc>) => History<FitDoc>, itemNames: Record<number, LName> = {}) {
@@ -191,4 +197,38 @@ function Workspace({ id }: { id: string }) {
     {calcError && <p role="alert" className="page-message warn">{_t('Could not recalculate fit')}</p>}
     <Outlet />
   </FitContext.Provider>
+}
+
+function NotFoundLink() {
+  return <div className="fit-inset"><Link className="fit-button primary" to="/">{_t('Back to fittings')}</Link></div>
+}
+
+/** Remove modules and offer "Removed X · Undo": undo puts each module (state, charge) back in its own slot position. */
+export function useRemoveModules() {
+  const { edit } = useFitSession()
+  const toast = useToast()
+  return (slot: SlotKind, positions: number[], name: string) => {
+    const saved = (current: FitDoc) => positions.flatMap((index) => {
+      const mod = current.modules[slot][index]
+      return mod ? [[index, mod] as const] : []
+    })
+    let removedModules: (readonly [number, FitModule])[] = []
+    edit((current) => {
+      removedModules = saved(current)
+      return withModules(current, slot, positions, () => null)
+    })
+    if (!removedModules.length) return
+    toast.show({
+      message: removedMessage(name, removedModules.length),
+      actionLabel: _t('Undo'),
+      onAction: () => edit((current) => {
+        const modules = [...current.modules[slot]]
+        for (const [index, mod] of removedModules) {
+          while (modules.length <= index) modules.push(null)
+          modules[index] ??= mod
+        }
+        return { ...current, modules: { ...current.modules, [slot]: modules } }
+      }),
+    })
+  }
 }

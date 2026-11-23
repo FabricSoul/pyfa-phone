@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { SlotKind, Warning } from '../engine/types'
 import { _t } from '../i18n/t'
 import { Icon } from '../ui/icons'
@@ -35,14 +35,26 @@ export function warningName(kind: Warning['kind']) {
 
 export const warningText = (warning: Warning) => `${warningName(warning.kind)} ${_t('Over')} ${fmt(warning.used - warning.total)}`
 
-export function PageHeading({ back, title, subtitle, image }: {
+/** Back to the previous in-app page; straight to `fallback` when the app was opened on this page (PWA launch, bookmark). */
+export function useGoBack(fallback = '/') {
+  const navigate = useNavigate()
+  const { key } = useLocation()
+  return () => key !== 'default' ? navigate(-1) : navigate(fallback, { replace: true })
+}
+
+export function PageHeading({ back, title, subtitle, image, historyBack }: {
   back: string
   title: string
   subtitle?: ReactNode
   image?: ReactNode
+  /** Use browser history when there is some, `back` otherwise. */
+  historyBack?: boolean
 }) {
+  const goBack = useGoBack(back)
   return <header className="fit-heading">
-    <Link className="ib" to={back} aria-label={_t('Back')}><Icon name="chevron-left" size={22} /></Link>
+    {historyBack
+      ? <button type="button" className="ib" aria-label={_t('Back')} onClick={goBack}><Icon name="chevron-left" size={22} /></button>
+      : <Link className="ib" to={back} aria-label={_t('Back')}><Icon name="chevron-left" size={22} /></Link>}
     {image}
     <div>
       <h1>{title}</h1>
@@ -60,4 +72,13 @@ export function FitSection({ title, info, children }: { title: string; info?: Re
 
 export function EmptyMessage({ children }: { children: ReactNode }) {
   return <p className="fit-caption fit-inset">{children}</p>
+}
+
+/** Dead-end replacement: says what is missing and always offers the way home. */
+export function NotFound({ title = _t('Page not found'), message = _t('Check the link or go back to the fittings list.') }: { title?: string; message?: string }) {
+  return <main>
+    <header className="fit-heading"><div><h1>{title}</h1></div></header>
+    <p className="page-message fit-caption">{message}</p>
+    <div className="fit-inset"><Link className="fit-button primary" to="/">{_t('Back to fittings')}</Link></div>
+  </main>
 }

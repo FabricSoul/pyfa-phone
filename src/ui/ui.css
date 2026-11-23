@@ -143,3 +143,12 @@
 .fit .stats { text-align: right; font: var(--type-label); font-family: var(--font-num); }
 .fit .stats small { display: block; font: var(--type-caption); color: var(--color-text-secondary); }
 .fit[data-over="true"] .mn > span { color: var(--color-warn); }
+
+/* Toast (undo) */
+.toast-host { position: fixed; left: 0; right: 0; bottom: max(var(--space-4), env(safe-area-inset-bottom, 0px)); z-index: 60; display: flex; justify-content: center; padding: 0 var(--space-4); pointer-events: none; }
+.toast { pointer-events: auto; display: flex; align-items: center; gap: var(--space-3); max-width: 448px; width: 100%; box-sizing: border-box; padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+  border-radius: var(--radius-m); background: var(--color-text); color: var(--color-surface); font: var(--type-name); box-shadow: 0 4px 16px color-mix(in srgb, var(--color-text) 30%, transparent); }
+.toast-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.toast-action { flex: none; min-width: 44px; min-height: 44px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-s); background: transparent; color: var(--color-surface); font: var(--type-label); font-weight: 700; text-decoration: underline; }
+.swipe-hint { padding-top: var(--space-1); }
+.about-body { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); color: var(--color-text); max-width: 640px; }

@@ -7,7 +7,7 @@ import { AmmoList } from '../ui/AmmoList'
 import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { ItemIcon } from '../ui/ItemIcon'
 import { Segmented } from '../ui/Segmented'
-import { positionKey, useFitServices, useFitSession, withModules } from './fitSession'
+import { positionKey, useFitServices, useFitSession, useRemoveModules, withModules } from './fitSession'
 
 function stateName(state: ModuleState) {
   switch (state) {
@@ -29,6 +29,7 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   const navigate = useNavigate()
   const { engine } = useFitServices()
   const { edit, fit, record } = useFitSession()
+  const removeModules = useRemoveModules()
   const [ammo, setAmmo] = useState<{ fit: FitDoc; index: number; groups: ChargeGroup[] }>()
   const [error, setError] = useState(false)
   const [individual, setIndividual] = useState<{ positions: number[]; index: number }>()
@@ -80,17 +81,17 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
             (mod) => mod && { ...mod, chargeTypeId: item.typeId }), { [item.typeId]: item.name })} />
       </div>
     </>}
-    {(row.count > 1 || individual) && <SheetAction onClick={() => setIndividual(individual ? undefined : { positions: row.positions, index: source })}>
+    {(row.count > 1 || individual) && <SheetAction icon="list" onClick={() => setIndividual(individual ? undefined : { positions: row.positions, index: source })}>
       {individual ? _t('Set together') : _t('Set {n} modules individually').replace('{n}', String(row.count))}
     </SheetAction>}
-    <SheetAction onClick={() => navigate(`${path}/variations/${positionKey({ slot, index: source })}${individual ? '?single=1' : ''}`)}>
+    <SheetAction icon="swap" onClick={() => navigate(`${path}/variations/${positionKey({ slot, index: source })}${individual ? '?single=1' : ''}`)}>
       {_t('Replace with a variation')}
     </SheetAction>
-    <SheetAction onClick={() => navigate(`/item/${row.typeId}?fit=${encodeURIComponent(record.id)}&pos=${positionKey({ slot, index: source })}`)}>
+    <SheetAction icon="info" onClick={() => navigate(`/item/${row.typeId}?fit=${encodeURIComponent(record.id)}&pos=${positionKey({ slot, index: source })}`)}>
       {_t('Item information')}
     </SheetAction>
-    <SheetAction warn onClick={() => {
-      edit((fit) => withModules(fit, slot, positions, () => null))
+    <SheetAction warn icon="trash" onClick={() => {
+      removeModules(slot, positions, lname(row.name, language))
       onClose()
     }}>
       {individual || positions.length === 1 ? _t('Remove module') : _t('Remove {n} modules').replace('{n}', String(positions.length))}

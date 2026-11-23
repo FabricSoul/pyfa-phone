@@ -1,20 +1,12 @@
 import { _t, useUiLanguage } from '../i18n/t'
+import { PageHeading } from './shared'
 
 export default function About() {
   useUiLanguage()
   return (
-    <main
-      style={{
-        padding: 'var(--space-4)',
-        maxWidth: 640,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--space-4)',
-        color: 'var(--color-text)',
-      }}
-    >
-      <h1 style={{ font: 'var(--type-page)' }}>{_t('About')}</h1>
+    <main>
+      <PageHeading back="/" historyBack title={_t('About')} />
+      <div className="about-body">
 
       <p style={{ font: 'var(--type-name)', color: 'var(--color-text-secondary)' }}>
         {_t('pyfa-phone is an unofficial EVE Online fitting tool.')}
@@ -68,6 +60,7 @@ export default function About() {
           </a>
         </div>
       </section>
+      </div>
     </main>
   )
 }

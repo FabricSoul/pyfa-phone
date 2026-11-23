@@ -93,7 +93,7 @@ export default function Import() {
 
   const resources = preview?.calc.resources
   return <main>
-    <PageHeading back="/" title={_t('Import')} subtitle={_t('Paste an EFT fit or a DNA fitting link.')} />
+    <PageHeading back="/" historyBack title={_t('Import')} subtitle={_t('Paste an EFT fit or a DNA fitting link.')} />
 
     <div className="import-form fit-inset">
       <textarea className="fit-input num" aria-label={_t('Paste fit text')}

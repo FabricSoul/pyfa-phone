@@ -33,7 +33,7 @@ it('recalculates with the selected target, incoming damage and reload option', a
   render(<MemoryRouter initialEntries={['/fit/rifter']}><FittingRoutes
     engine={{ ...mockEngine, calc }} store={createFitStore(new IDBFactory())}
   /></MemoryRouter>)
-  fireEvent.click(await screen.findByRole('radio', { name: 'Stats' }))
+  fireEvent.click(await screen.findByRole('tab', { name: 'Stats' }))
   fireEvent.click(await screen.findByRole('button', { name: /Target Resists/ }))
   const target = await screen.findByRole('dialog', { name: 'Target profile' })
   fireEvent.click(within(target).getByRole('button', { name: /Uniform \(25%\)/ }))

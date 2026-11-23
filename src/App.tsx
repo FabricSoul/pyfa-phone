@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
+import { MotionConfig } from 'motion/react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { createEngine, type EngineStage } from './engine/client'
 import type { EngineClient } from './engine/types'
@@ -11,7 +12,9 @@ import { Home } from './pages/Home'
 import Import from './pages/Import'
 import { ItemInfo } from './pages/ItemInfo'
 import Settings from './pages/Settings'
+import { NotFound } from './pages/shared'
 import { Variations } from './pages/Variations'
+import { ToastProvider } from './ui/Toast'
 import { defaultFitStore, type FitStore } from './store/fits'
 import './pages/pages.css'
 
@@ -23,6 +26,7 @@ const TokensPage = import.meta.env.DEV ? lazy(() => import('./dev/TokensPage')) 
 export function FittingRoutes({ engine, store }: { engine: EngineClient; store: FitStore }) {
   useUiLanguage()
   return <FitServices engine={engine} store={store}>
+    <ToastProvider>
     <div className="fit-app">
       <Routes>
         <Route path="/" element={<Home />} />
@@ -35,8 +39,10 @@ export function FittingRoutes({ engine, store }: { engine: EngineClient; store: 
           <Route path="variations/:pos" element={<Variations />} />
         </Route>
         <Route path="/item/:typeId" element={<ItemInfo />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
+    </ToastProvider>
   </FitServices>
 }
 
@@ -92,14 +98,16 @@ function EngineApp() {
 
 export default function App() {
   return (
-    <HashRouter>
-      <Suspense fallback={null}>
-        <Routes>
-          {TokensPage && <Route path="/dev/tokens" element={<TokensPage />} />}
-          {Gallery && <Route path="/dev/gallery" element={<Gallery />} />}
-          <Route path="*" element={<EngineApp />} />
-        </Routes>
-      </Suspense>
-    </HashRouter>
+    <MotionConfig reducedMotion="user">
+      <HashRouter>
+        <Suspense fallback={null}>
+          <Routes>
+            {TokensPage && <Route path="/dev/tokens" element={<TokensPage />} />}
+            {Gallery && <Route path="/dev/gallery" element={<Gallery />} />}
+            <Route path="*" element={<EngineApp />} />
+          </Routes>
+        </Suspense>
+      </HashRouter>
+    </MotionConfig>
   )
 }

@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { SLOT_KINDS, type CalcResult, type ModulePos, type ModuleSlotRow, type SlotKind } from '../engine/types'
 import { _t } from '../i18n/t'
 import { NavBar } from '../ui/NavBar'
 import { ResourceBar } from '../ui/ResourceGauge'
-import { Segmented } from '../ui/Segmented'
+import { Tabs } from '../ui/Tabs'
 import { ModuleRow } from '../ui/ModuleRow'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
 import { updateSettings, useSettings } from '../settings/settings'
@@ -15,19 +15,38 @@ import { getPatternData } from '../ui/pickers/patterns'
 import { StatsPage } from '../ui/StatsPage'
 import { fmt, lname, renderUrl, useNameLanguage } from '../ui/format'
 import { FitExtras } from './FitExtras'
-import { useFitServices, useFitSession, withModules } from './fitSession'
+import { useFitServices, useFitSession, useRemoveModules, withModules } from './fitSession'
 import { ModuleSheet } from './ModuleSheet'
 import { FitMenu } from './FitMenu'
 import { FitSection, slotName } from './shared'
 
 type View = 'slots' | 'stats' | 'extras'
+const VIEWS: readonly View[] = ['slots', 'stats', 'extras']
+const HINT_KEY = 'pyfa.hint.swipe'
+const scrollKey = (id: string) => `pyfa.scroll.${id}`
+
+function swipeHintSeen() {
+  try { return localStorage.getItem(HINT_KEY) === '1' } catch { return true }
+}
+function markSwipeHintSeen() {
+  try { localStorage.setItem(HINT_KEY, '1') } catch { /* the hint may show again; harmless */ }
+}
 
 export function Fit() {
   const language = useNameLanguage()
   const navigate = useNavigate()
   const { record, fit, result, removed, canUndo, undo, edit } = useFitSession()
   const { store } = useFitServices()
-  const [view, setView] = useState<View>('slots')
+  const [params, setParams] = useSearchParams()
+  const requested = params.get('view')
+  const view: View = VIEWS.find((candidate) => candidate === requested) ?? 'slots'
+  const setView = (next: View) => setParams((previous) => {
+    const updated = new URLSearchParams(previous)
+    if (next === 'slots') updated.delete('view'); else updated.set('view', next)
+    return updated
+  }, { replace: true })
+  const removeModules = useRemoveModules()
+  const [showHint] = useState(() => !swipeHintSeen())
   const [selected, setSelected] = useState<ModulePos>()
   const [menu, setMenu] = useState(false)
   const path = `/fit/${record.id}`
@@ -36,18 +55,45 @@ export function Fit() {
     candidate.kind === 'module' && candidate.positions.includes(selected.index))
   const retired = new Map(removed.map((item) => [item.typeId, item]))
 
+  // The swipe hint is shown once: it is remembered as soon as a fit with modules is on screen.
+  const hasModules = Boolean(result && SLOT_KINDS.some((slot) => result.slots[slot].some((entry) => entry.kind === 'module')))
+  useEffect(() => { if (showHint && hasModules) markSwipeHintSeen() }, [showHint, hasModules])
+
+  // Coming back from "add module" / "variations" / item info: put the page back where it was.
+  const scrollY = useRef(0)
+  const restored = useRef(false)
+  useEffect(() => {
+    const onScroll = () => { scrollY.current = window.scrollY }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    const id = record.id
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      try { sessionStorage.setItem(scrollKey(id), String(scrollY.current)) } catch { /* optional */ }
+    }
+  }, [record.id])
+  useEffect(() => {
+    if (!result || restored.current) return
+    restored.current = true
+    try {
+      const saved = Number(sessionStorage.getItem(scrollKey(record.id)))
+      sessionStorage.removeItem(scrollKey(record.id))
+      if (saved > 0) window.scrollTo(0, saved)
+    } catch { /* optional */ }
+  }, [record.id, result])
+
   function openAdd(slot: SlotKind, index: number) {
     navigate(`${path}/add/${slot}?index=${index}`)
   }
 
   return <main>
     <NavBar title={fit.name} subtitle={shipName && lname(shipName, language)} shipSrc={renderUrl(result?.ship.graphicId ?? null)}
-      canUndo={canUndo} onBack={() => navigate('/')} onUndo={undo} onMore={() => setMenu(true)} />
+      canUndo={canUndo} onBack={() => { try { sessionStorage.removeItem(scrollKey(record.id)) } catch { /* optional */ } scrollY.current = 0; navigate('/') }} onUndo={undo} onMore={() => setMenu(true)} />
     {store.isTemporary(record.id) && <p className="page-message">{_t('Unsaved preview')}</p>}
     {result && <ResourceBar {...result.resources} />}
-    <Segmented value={view} onChange={setView} options={[
+    <Tabs value={view} onChange={setView} label={_t('Fit view')} options={[
       { value: 'slots', label: _t('Slots') }, { value: 'stats', label: _t('Stats') }, { value: 'extras', label: _t('Extras') },
     ]} />
+    {view === 'slots' && showHint && hasModules && <p className="hint swipe-hint" role="note">{_t('Swipe a module row left for offline and remove.')}</p>}
     {removed.length > 0 && <ul className="fit-retired">
       {removed.map((item) => <li key={item.typeId}>
         {_t('Item removed')} · {item.name ? lname(item.name, language) : item.typeId}
@@ -77,13 +123,13 @@ export function Fit() {
                 availableStates={entry.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] : undefined)}
                 onTap={() => setSelected({ slot, index: activePositions[0]! })}
                 onStateChange={(state) => edit((fit) => withModules(fit, slot, activePositions, (mod) => mod && { ...mod, state }))}
-                onRemove={() => edit((fit) => withModules(fit, slot, activePositions, () => null))} />
+                onRemove={() => removeModules(slot, activePositions, lname(entry.name, language))} />
             }
             if (entry.kind === 'removed') {
               const positions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
               if (!positions.length) return null
               return <ModuleRow key={`removed-${positions[0]}`} row={{ ...entry, positions, count: positions.length }}
-                onRemove={() => edit((fit) => withModules(fit, slot, positions, () => null))} />
+                onRemove={() => removeModules(slot, positions, lname(entry.name, language))} />
             }
             const positions = entry.positions.filter((index) => !slotItems[index])
             if (!positions.length) return null
@@ -95,7 +141,7 @@ export function Fit() {
             if (!removed) return null
             return <div className="row warn" key={`retired-${index}`}>
               <span className="mn">{removed.name ? lname(removed.name, language) : removed.typeId}</span>
-              <button type="button" className="fit-button" onClick={() => edit((fit) => withModules(fit, slot, [index], () => null))}>{_t('Remove')}</button>
+              <button type="button" className="fit-button" onClick={() => removeModules(slot, [index], removed.name ? lname(removed.name, language) : String(removed.typeId))}>{_t('Remove')}</button>
             </div>
           })}
         </div>

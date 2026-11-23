@@ -94,8 +94,9 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
   if (selected) cls.push('sel')
   if (pressed) cls.push('pressed')
   if (dragging) cls.push('dragging')
-  const label = row.state === 'offline' ? _t('Offline') : row.state === 'online' ? _t('Online') : row.state === 'active' ? _t('Active') : _t('Overheated')
+  const stateLabel = row.state === 'offline' ? _t('Offline') : row.state === 'online' ? _t('Online') : row.state === 'active' ? _t('Active') : _t('Overheated')
 
+  const label = availableStates.includes('overheated') ? `${stateLabel} · ${_t('Long press to overheat')}` : stateLabel
   const open = dx !== 0
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowLeft') setDx(SWIPE_OPEN)

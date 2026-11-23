@@ -9,6 +9,7 @@ import { applyAppearance } from '../settings/appearance'
 import { listFits, replaceAllFits } from '../store/fits'
 import { ActionSheet } from '../ui/ActionSheet'
 import { Segmented } from '../ui/Segmented'
+import { PageHeading } from './shared'
 import { CharacterPicker } from '../ui/pickers/CharacterPicker'
 import { DamagePatternPicker } from '../ui/pickers/DamagePatternPicker'
 import { getPatternData, labelOf } from '../ui/pickers/patterns'
@@ -148,7 +149,7 @@ export default function Settings() {
 
   return (
     <main>
-      <div className="nav"><div className="tt"><b>{title}</b></div></div>
+      <PageHeading back="/" historyBack title={title} />
 
       <Section>{_t('Appearance & language')}</Section>
       <div className="list">

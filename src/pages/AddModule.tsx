@@ -9,7 +9,7 @@ import { Icon } from '../ui/icons'
 import { ItemIcon } from '../ui/ItemIcon'
 import { MetaGroupList, metaLabel } from '../ui/MetaGroupList'
 import { useFitServices, useFitSession, withModules } from './fitSession'
-import { EmptyMessage, PageHeading } from './shared'
+import { EmptyMessage, NotFound, PageHeading } from './shared'
 
 const RECENT_KEY = 'pyfa.recentModuleIds'
 interface RecentModule { typeId: number; marketGroupId?: number; slot: SlotKind }
@@ -47,7 +47,7 @@ function addTitle(slot: SlotKind) {
 export function AddModule() {
   const { slot } = useParams()
   const parsed = SlotKindSchema.safeParse(slot)
-  return parsed.success ? <ModulePicker key={parsed.data} slot={parsed.data} /> : <p className="page-message">{_t('Slot not found')}</p>
+  return parsed.success ? <ModulePicker key={parsed.data} slot={parsed.data} /> : <NotFound title={_t('Slot not found')} />
 }
 
 interface Listing {

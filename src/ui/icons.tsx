@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-export type IconName = 'power-off' | 'power' | 'zap' | 'flame' | 'chevron-down' | 'chevron-left' | 'undo' | 'more' | 'plus' | 'x'
+export type IconName = 'power-off' | 'power' | 'zap' | 'flame' | 'chevron-down' | 'chevron-left' | 'undo' | 'more' | 'plus' | 'x' | 'swap' | 'info' | 'trash' | 'list'
 
 const PATHS: Record<IconName, ReactNode> = {
   'power-off': <><path d="M12 3v8" /><path d="M7.5 6.5a7 7 0 1 0 9 0" /></>,
@@ -13,6 +13,10 @@ const PATHS: Record<IconName, ReactNode> = {
   more: <><circle cx="5" cy="12" r="1.5" fill="currentColor" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /><circle cx="19" cy="12" r="1.5" fill="currentColor" /></>,
   plus: <path d="M12 5v14M5 12h14" />,
   x: <path d="M6 6l12 12M18 6 6 18" />,
+  swap: <><path d="M7 4 3 8l4 4" /><path d="M3 8h14" /><path d="m17 20 4-4-4-4" /><path d="M21 16H7" /></>,
+  info: <><circle cx="12" cy="12" r="9" /><path d="M12 11v5" /><circle cx="12" cy="8" r="0.8" fill="currentColor" /></>,
+  trash: <><path d="M4 7h16" /><path d="M9 7V4h6v3" /><path d="M6 7l1 13h10l1-13" /></>,
+  list: <><path d="M8 6h12M8 12h12M8 18h12" /><circle cx="4" cy="6" r="1" fill="currentColor" /><circle cx="4" cy="12" r="1" fill="currentColor" /><circle cx="4" cy="18" r="1" fill="currentColor" /></>,
 }
 
 export function Icon({ name, size = 16 }: { name: IconName; size?: number }) {
