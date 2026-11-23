@@ -458,7 +458,7 @@ export const mockEngine: EngineClient = {
     if (!header || !sample) {
       return { fits: [], warnings: ['mockEngine only imports EFT text for the sample ships (Rifter, Merlin, Thrasher)'] }
     }
-    return { fits: [{ ...clone(sample), name: header[2]?.trim() || sample.name }],
+    return { format: 'EFT', fits: [{ ...clone(sample), name: header[2]?.trim() || sample.name }],
       warnings: ['Demo import loads the sample fitting for this ship'] }
   },
 

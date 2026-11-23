@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 23:44-0500\n"
+"POT-Creation-Date: 2026-11-23 00:04-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -41,7 +41,7 @@ msgstr "激活{item}"
 msgid "Active"
 msgstr "激活"
 
-#: src/pages/FitExtras.tsx:115
+#: src/pages/FitExtras.tsx:115 src/pages/Import.tsx:33
 msgid "Active drones"
 msgstr "已激活无人机"
 
@@ -81,6 +81,10 @@ msgstr "添加中槽装备"
 msgid "Add notes"
 msgstr "添加备注"
 
+#: src/pages/FitMenu.tsx:203
+msgid "Add recognized items"
+msgstr "添加已识别物品"
+
 #: src/pages/AddModule.tsx:46
 msgid "Add rig"
 msgstr "添加改装件"
@@ -92,6 +96,10 @@ msgstr "添加子系统"
 #: src/ui/InstallCard.tsx:62 src/ui/InstallCard.tsx:65
 msgid "Add to Home Screen"
 msgstr "添加到主屏幕"
+
+#: src/pages/FitMenu.tsx:203
+msgid "Add to fit"
+msgstr "添加到装配"
 
 #: src/ui/pickers/DamagePatternPicker.tsx:18
 msgid "Affects effective HP · built into pyfa"
@@ -133,6 +141,10 @@ msgstr "所有技能 5 级 · 安全等级 5.0"
 msgid "Amarr"
 msgstr "艾玛"
 
+#: src/pages/Import.tsx:25
+msgid "Ambiguous item name: {name}. Candidates: {candidates}"
+msgstr "物品名称有歧义：{name}。候选物品：{candidates}"
+
 #: src/pages/Settings.tsx:209
 msgid "Appearance & language"
 msgstr "外观与语言"
@@ -155,7 +167,7 @@ msgstr "属性"
 msgid "Available offline, instant loading, and runs like a native app."
 msgstr "离线可用，无需等待加载，体验更接近原生应用。"
 
-#: src/pages/FitMenu.tsx:97 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:11
+#: src/pages/FitMenu.tsx:186 src/pages/FitMenu.tsx:201 src/pages/FitMenu.tsx:213 src/pages/Import.tsx:182 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:11
 msgid "Back"
 msgstr "返回"
 
@@ -183,7 +195,7 @@ msgstr "基础值 → 装配值"
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
-#: src/pages/Fit.tsx:263 src/pages/FitExtras.tsx:33
+#: src/pages/Fit.tsx:263 src/pages/FitExtras.tsx:33 src/pages/FitMenu.tsx:179
 msgid "Boosters"
 msgstr "增效剂"
 
@@ -191,7 +203,7 @@ msgstr "增效剂"
 msgid "Browse by market category"
 msgstr "按市场分类"
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:122 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
 msgid "CPU"
 msgstr "CPU"
 
@@ -207,11 +219,11 @@ msgstr "计算"
 msgid "Caldari"
 msgstr "加达里"
 
-#: src/dev/Gallery.tsx:73 src/pages/Import.tsx:124 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:43
+#: src/dev/Gallery.tsx:73 src/pages/Import.tsx:169 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:43
 msgid "Calibration"
 msgstr "校准"
 
-#: src/pages/FitMenu.tsx:109 src/pages/FitMenu.tsx:116 src/pages/Settings.tsx:278
+#: src/pages/FitMenu.tsx:225 src/pages/FitMenu.tsx:232 src/pages/Settings.tsx:278
 msgid "Cancel"
 msgstr "取消"
 
@@ -223,7 +235,7 @@ msgstr "电容"
 msgid "Capacity"
 msgstr "容量"
 
-#: src/pages/Fit.tsx:261 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:261 src/pages/FitExtras.tsx:33 src/pages/FitMenu.tsx:178 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr "货舱"
 
@@ -255,23 +267,23 @@ msgstr "考虑重启计时"
 msgid "Consider reload"
 msgstr "考虑装填时间"
 
-#: src/pages/FitMenu.tsx:86
+#: src/pages/FitMenu.tsx:170
 msgid "Copy DNA"
 msgstr "复制 DNA"
 
-#: src/pages/FitMenu.tsx:85
+#: src/pages/FitMenu.tsx:154
 msgid "Copy EFT (Chinese)"
 msgstr "复制 EFT（中文）"
 
-#: src/pages/FitMenu.tsx:84
+#: src/pages/FitMenu.tsx:153
 msgid "Copy EFT (English)"
 msgstr "复制 EFT（英文）"
 
-#: src/pages/FitMenu.tsx:87
+#: src/pages/FitMenu.tsx:171
 msgid "Copy MultiBuy"
 msgstr "复制 MultiBuy 采购清单"
 
-#: src/pages/FitMenu.tsx:37
+#: src/pages/FitMenu.tsx:108
 msgid "Copy of {name}"
 msgstr "{name}的副本"
 
@@ -279,7 +291,7 @@ msgstr "{name}的副本"
 msgid "Could not check fitting resources"
 msgstr "无法检查装配资源"
 
-#: src/pages/FitMenu.tsx:78
+#: src/pages/FitMenu.tsx:158
 msgid "Could not complete action"
 msgstr "操作失败"
 
@@ -319,7 +331,7 @@ msgstr "无法加载或保存装配"
 msgid "Could not load ships"
 msgstr "无法加载舰船"
 
-#: src/pages/Import.tsx:106
+#: src/pages/Import.tsx:147
 msgid "Could not read this fit text"
 msgstr "无法读取这段装配文本"
 
@@ -327,7 +339,7 @@ msgstr "无法读取这段装配文本"
 msgid "Could not recalculate fit"
 msgstr "无法重新计算装配"
 
-#: src/pages/Import.tsx:107 src/pages/fitSession.tsx:196
+#: src/pages/Import.tsx:148 src/pages/fitSession.tsx:196
 msgid "Could not save fit"
 msgstr "无法保存装配"
 
@@ -351,7 +363,7 @@ msgstr "自定义模式将在后续版本提供。"
 msgid "Custom profiles are not in the first version."
 msgstr "自定义配置将在后续版本提供。"
 
-#: src/pages/Fit.tsx:112 src/pages/Import.tsx:117 src/pages/ModuleSheet.tsx:25 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
+#: src/pages/Fit.tsx:112 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:25 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
 msgid "DPS"
 msgstr "秒伤"
 
@@ -399,11 +411,11 @@ msgstr "默认预热"
 msgid "Defense"
 msgstr "防御"
 
-#: src/pages/FitMenu.tsx:89 src/pages/FitMenu.tsx:117
+#: src/pages/FitMenu.tsx:173 src/pages/FitMenu.tsx:233
 msgid "Delete fit"
 msgstr "删除装配"
 
-#: src/pages/FitMenu.tsx:114
+#: src/pages/FitMenu.tsx:230
 msgid "Delete {name}?"
 msgstr "删除「{name}」？"
 
@@ -459,7 +471,7 @@ msgstr "无人机"
 msgid "Drones are inactive. Tap to activate."
 msgstr "无人机未激活，点按激活。"
 
-#: src/pages/FitMenu.tsx:82
+#: src/pages/FitMenu.tsx:162
 msgid "Duplicate fit"
 msgstr "复制装配"
 
@@ -467,7 +479,11 @@ msgstr "复制装配"
 msgid "EDENCOM and Upwell"
 msgstr "伊甸联合防御阵线与昇威"
 
-#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:118 src/pages/ModuleSheet.tsx:28 src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:115
+#: src/pages/FitMenu.tsx:168 src/pages/FitMenu.tsx:176
+msgid "EFT export options"
+msgstr "EFT 导出选项"
+
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:28 src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:115
 msgid "EHP"
 msgstr "有效HP"
 
@@ -495,7 +511,7 @@ msgstr "爆炸"
 msgid "Export all fits backup"
 msgstr "导出全部装配备份"
 
-#: src/pages/FitMenu.tsx:92
+#: src/pages/FitMenu.tsx:208
 msgid "Exported fit"
 msgstr "导出的装配"
 
@@ -510,6 +526,14 @@ msgstr "势力"
 #: src/ui/StatsPage.tsx:94
 msgid "Factor in Reload Time"
 msgstr "考虑换弹时间"
+
+#: src/pages/Import.tsx:34
+msgid "Fighter bay"
+msgstr "铁骑舰载机仓库"
+
+#: src/pages/Import.tsx:35
+msgid "Fighter tubes"
+msgstr ""
 
 #: src/pages/Fit.tsx:260 src/pages/FitExtras.tsx:33
 msgid "Fighters"
@@ -527,11 +551,11 @@ msgstr "火力"
 msgid "Fit"
 msgstr "装配"
 
-#: src/pages/FitMenu.tsx:77
+#: src/pages/FitMenu.tsx:157
 msgid "Fit actions"
 msgstr "装配操作"
 
-#: src/pages/FitMenu.tsx:107
+#: src/pages/FitMenu.tsx:223
 msgid "Fit name"
 msgstr "装配名称"
 
@@ -543,9 +567,17 @@ msgstr "找不到此装配"
 msgid "Fit view"
 msgstr "装配视图"
 
+#: src/pages/Import.tsx:165
+msgid "Fits within limits"
+msgstr "装得下"
+
 #: src/dev/Gallery.tsx:66
 msgid "Fitting"
 msgstr "装配"
+
+#: src/pages/Import.tsx:159
+msgid "Fitting limits exceeded"
+msgstr "装配超限"
 
 #: src/App.tsx:67 src/pages/Home.tsx:70
 msgid "Fittings"
@@ -591,11 +623,11 @@ msgstr "结构"
 msgid "ISK"
 msgstr "ISK"
 
-#: src/pages/Fit.tsx:262 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:49
+#: src/pages/Fit.tsx:262 src/pages/FitExtras.tsx:33 src/pages/FitMenu.tsx:179 src/pages/Settings.tsx:49
 msgid "Implants"
 msgstr "植入体"
 
-#: src/pages/Import.tsx:96
+#: src/pages/Import.tsx:125 src/pages/Import.tsx:131
 msgid "Import"
 msgstr "导入"
 
@@ -667,7 +699,7 @@ msgstr "发射器"
 msgid "Light"
 msgstr "轻型"
 
-#: src/pages/Fit.tsx:258
+#: src/pages/Fit.tsx:258 src/pages/FitMenu.tsx:178
 msgid "Loaded charges"
 msgstr "已装填弹药"
 
@@ -815,6 +847,10 @@ msgstr "暂无装配"
 msgid "No free hardpoint"
 msgstr "没有空闲挂载点"
 
+#: src/pages/FitMenu.tsx:197
+msgid "No items recognized"
+msgstr "未识别出物品"
+
 #: src/pages/Home.tsx:106
 msgid "No matching fits"
 msgstr "找不到匹配的装配"
@@ -887,21 +923,33 @@ msgstr "找不到此页面"
 msgid "Passive shield"
 msgstr "被动护盾"
 
-#: src/pages/Import.tsx:96
-msgid "Paste an EFT fit or a DNA fitting link."
-msgstr "粘贴 EFT 装配文本或 DNA 装配链接。"
+#: src/pages/Import.tsx:135
+msgid "Paste an EFT, DNA, XML or ESI fit."
+msgstr "粘贴 EFT、DNA、XML 或 ESI 装配。"
 
-#: src/pages/Import.tsx:99
+#: src/pages/FitMenu.tsx:165 src/pages/FitMenu.tsx:190
+msgid "Paste cargo list"
+msgstr "粘贴货舱清单"
+
+#: src/pages/FitMenu.tsx:164 src/pages/FitMenu.tsx:190
+msgid "Paste drone list"
+msgstr "粘贴无人机清单"
+
+#: src/pages/Import.tsx:140
 msgid "Paste fit text"
 msgstr "粘贴装配文本"
 
-#: src/pages/Import.tsx:101
+#: src/pages/Import.tsx:142
 msgid "Paste fit text here"
 msgstr "在此粘贴装配文本"
 
-#: src/pages/Import.tsx:103
+#: src/pages/FitMenu.tsx:194 src/pages/Import.tsx:144
 msgid "Paste from clipboard"
 msgstr "从剪贴板粘贴"
+
+#: src/pages/FitMenu.tsx:191
+msgid "Paste item list"
+msgstr "粘贴物品清单"
 
 #: src/pages/Home.tsx:79
 msgid "Paste to import"
@@ -915,7 +963,7 @@ msgstr "海盗"
 msgid "PowerGrid"
 msgstr "PG"
 
-#: src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:123 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21
+#: src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21
 msgid "Powergrid"
 msgstr "能量栅格"
 
@@ -951,11 +999,15 @@ msgstr "回充速度"
 msgid "Recharge time"
 msgstr "回充时间"
 
-#: src/pages/Import.tsx:112
+#: src/pages/Import.tsx:130
+msgid "Recognized as {format} fit"
+msgstr "识别为 {format} 装配"
+
+#: src/pages/Import.tsx:131
 msgid "Recognized fit"
 msgstr "已识别装配"
 
-#: src/pages/FitMenu.tsx:80
+#: src/pages/FitMenu.tsx:160
 msgid "Redo"
 msgstr "重做"
 
@@ -983,7 +1035,7 @@ msgstr "移除 {n} 门"
 msgid "Removed"
 msgstr "已移除"
 
-#: src/pages/FitMenu.tsx:81
+#: src/pages/FitMenu.tsx:161
 msgid "Rename fit"
 msgstr "重命名装配"
 
@@ -1023,11 +1075,11 @@ msgstr "重试"
 msgid "Rigs"
 msgstr "改装件"
 
-#: src/pages/FitMenu.tsx:110
+#: src/pages/FitMenu.tsx:226
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/Import.tsx:128
+#: src/pages/Import.tsx:176
 msgid "Save and open"
 msgstr "保存并打开"
 
@@ -1139,7 +1191,7 @@ msgstr "槽位"
 msgid "Source"
 msgstr "来源"
 
-#: src/pages/Import.tsx:119
+#: src/pages/Import.tsx:155
 msgid "Speed m/s"
 msgstr "速度 m/s"
 
@@ -1291,7 +1343,7 @@ msgstr "消耗"
 msgid "Use character implants"
 msgstr "使用角色植入体"
 
-#: src/pages/Import.tsx:131
+#: src/pages/Import.tsx:179
 msgid "View only without saving"
 msgstr "仅查看，不保存"
 
@@ -1315,7 +1367,7 @@ msgstr "最高"
 msgid "fuzzwork · Jita"
 msgstr "fuzzwork · 吉他"
 
-#: src/pages/Import.tsx:114
+#: src/pages/Import.tsx:134
 msgid "items recognized"
 msgstr "个物品已识别"
 
@@ -1379,6 +1431,10 @@ msgstr "{n} 种"
 msgid "{n} remaining"
 msgstr "剩 {n}"
 
+#: src/pages/Import.tsx:161
+msgid "{resource} over by {amount}"
+msgstr "{resource} 超 {amount}"
+
 #: src/pages/FitExtras.tsx:41
 msgid "{ship} has no drone bay"
 msgstr "{ship}没有无人机舱"
@@ -1423,6 +1479,9 @@ msgstr "中文"
 
 #~ msgid "Module groups"
 #~ msgstr "装备分组"
+
+#~ msgid "Paste an EFT fit or a DNA fitting link."
+#~ msgstr "粘贴 EFT 装配文本或 DNA 装配链接。"
 
 #~ msgid "Paste fit text to preview"
 #~ msgstr "粘贴装配文本以预览"

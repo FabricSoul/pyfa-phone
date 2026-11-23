@@ -72,6 +72,7 @@ vendor_files = [
     'service/fit.py', 'service/market.py', 'service/server.py', 'service/settings.py',
     'service/port/__init__.py', 'service/port/dna.py', 'service/port/eft.py',
     'service/port/multibuy.py', 'service/port/muta.py', 'service/port/shared.py',
+    'service/port/xml.py', 'service/port/esi.py',
     'gui/__init__.py', 'gui/globalEvents.py',
     'gui/builtinViewColumns/__init__.py', 'gui/builtinViewColumns/misc.py',
     'gui/builtinViewColumns/maxRange.py', 'gui/fitCommands/__init__.py',

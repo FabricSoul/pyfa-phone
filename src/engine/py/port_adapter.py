@@ -3,6 +3,8 @@
 import re
 from collections import Counter
 from contextlib import contextmanager
+from xml.dom import minidom
+from xml.parsers.expat import ExpatError
 
 from engine import SLOT_KINDS, STATE_NAMES
 
@@ -16,6 +18,9 @@ _EFT_ROW = re.compile(
 _DNA = re.compile(r'(?<!\d)(\d+(?::[0-9]+(?:;[0-9]+)?)*::)(?!:)')
 _DNA_LINK = re.compile(r'<url=fitting:(?P<dna>[^>]+)>(?P<name>[^<>]+)</url>', re.IGNORECASE)
 _ALT_DNA = re.compile(r'\d+(?::[0-9]+(?:\*[0-9]+)?)*:?')
+# Match pyfa's XML declaration detection and accept a fittings element copied without it.
+_XML_START = re.compile(r'<(?:\?xml\s|fittings(?:\s|/?>))')
+_MAX_STACK = 2**31 - 1
 
 
 class PortAdapter:
@@ -73,7 +78,7 @@ class PortAdapter:
             'cargo': [{'typeId': c.item.ID, 'amount': c.amount} for c in fit.cargo],
             'implants': [i.item.ID for i in fit.implants],
             'boosters': [b.item.ID for b in fit.boosters],
-            'notes': '', 'character': 'all5', 'damagePatternId': -1, 'targetProfileId': None,
+            'notes': fit.notes or '', 'character': 'all5', 'damagePatternId': -1, 'targetProfileId': None,
         }
         doc['itemNames'] = self.engine.item_names(doc)
         return doc
@@ -118,12 +123,52 @@ class PortAdapter:
                 return block[:index] + block[index + 1:], mode
         return block, None
 
+    def _ambiguities(self, ambiguous):
+        return [{'name': name, 'candidates': [
+            {'typeId': type_id, 'name': self.engine.item(type_id).name} for type_id in ids
+        ]} for name, ids in ambiguous.items()]
+
+    def _import_xml(self, text):
+        from service.port import Port
+        from service.port.xml import importXml
+
+        # EVE/pyfa export a description, but minimal fitting XML can omit it.
+        # Reject document types before parsing since fittings do not use them.
+        if '<!DOCTYPE' in text:
+            return []
+        with minidom.parseString(text) as document:
+            if document.documentElement.tagName != 'fittings':
+                return []
+            for element in document.getElementsByTagName('fitting'):
+                if not element.getElementsByTagName('description'):
+                    element.appendChild(document.createElement('description'))
+            # The headless desktop Port stand-in has no preference for description tags.
+            if not hasattr(Port, 'is_tag_replace'):
+                Port.is_tag_replace = staticmethod(lambda: True)
+            return importXml(document.toxml(), None)
+
     def import_text(self, text):
         from service.port import dna, eft
 
-        lines = [line.strip() for line in text.removeprefix('\ufeff').strip().splitlines()]
+        text = text.removeprefix('\ufeff').strip()
+        lines = [line.strip() for line in text.splitlines()]
         if not lines:
             return {'fits': [], 'warnings': []}
+
+        if _XML_START.match(lines[0]) or lines[0].startswith('{'):
+            is_xml = bool(_XML_START.match(lines[0]))
+            try:
+                if is_xml:
+                    parsed = self._import_xml(text)
+                else:
+                    from service.port.esi import importESI
+
+                    parsed = [importESI(text)]
+                fits = [self._doc(fit) for fit in parsed if fit is not None and not fit.isStructure]
+            except (ExpatError, AttributeError, KeyError, TypeError, ValueError, OverflowError):
+                fits = []
+            if fits:
+                return {'format': 'XML' if is_xml else 'ESI', 'fits': fits, 'warnings': []}
 
         if _HEADER.fullmatch(lines[0]):
             fits, warnings = [], []
@@ -143,15 +188,13 @@ class PortAdapter:
                         fit.mode = fit.ship.validateModeItem(mode)
                     fits.append(self._doc(fit))
                     warnings += self._unparsed_eft(block[1:], fit, lookup)
-            for name, ids in ambiguous.items():
-                candidates = ', '.join(f'{self.engine.item(t).name} (typeID {t})' for t in ids)
-                warnings.append(f'Ambiguous item name: {name}. Candidates: {candidates}')
-            return {'fits': fits, 'warnings': warnings}
+            return {'format': 'EFT', 'fits': fits, 'warnings': warnings,
+                    'ambiguities': self._ambiguities(ambiguous)}
 
         if len(lines) == 1:
             fit = self._import_dna(lines[0], dna)
             if fit is not None and not fit.isStructure:
-                return {'fits': [self._doc(fit)], 'warnings': []}
+                return {'format': 'DNA', 'fits': [self._doc(fit)], 'warnings': []}
         return {'fits': [], 'warnings': [line for line in lines if line]}
 
     def _import_dna(self, raw, dna):
@@ -172,7 +215,7 @@ class PortAdapter:
             for part in value.rstrip(':').split(':')[1:]:
                 type_id, _, quantity = part.partition(separator)
                 count = int(quantity or '1')
-                if not 0 < count <= 2**31 - 1:
+                if not 0 < count <= _MAX_STACK:
                     return None
                 item = self.engine.item(int(type_id))
                 if item.category.name not in ('Charge', 'Drone', 'Fighter'):
@@ -183,7 +226,35 @@ class PortAdapter:
         except (ValueError, AttributeError, IndexError, OverflowError):
             return None
 
-    def export_text(self, fit, fmt, language):
+    def import_additions(self, text, destination):
+        from service.port.eft import NAME_CHARS, lineIter
+
+        if destination not in ('cargo', 'drones'):
+            raise ValueError('Unsupported additions destination')
+        row_pattern = re.compile(rf'^({NAME_CHARS}+?)(?: x([0-9]+))?$', re.IGNORECASE)
+        stacks, drones, warnings = Counter(), [], []
+        with self._indexed_names() as (lookup, ambiguous):
+            for line in lineIter(text.removeprefix('\ufeff')):
+                row = row_pattern.fullmatch(line)
+                name, amount = row.groups() if row else ('', None)
+                # Strip leading zeroes and cap the digits before calling int on pasted text.
+                quantity = (amount or '1').lstrip('0')
+                count = int(quantity) if 0 < len(quantity) <= 10 else 0
+                item = lookup(name) if name and count > 0 else None
+                if (item is None or (destination == 'drones' and not item.isDrone)
+                        or item.isAbyssal or stacks[item.ID] + count > _MAX_STACK):
+                    warnings.append(line)
+                    continue
+                if destination == 'drones':
+                    drones.append({'typeId': item.ID, 'amount': count})
+                else:
+                    stacks[item.ID] += count
+        items = drones if destination == 'drones' else [
+            {'typeId': type_id, 'amount': amount} for type_id, amount in stacks.items()
+        ]
+        return {'items': items, 'warnings': warnings, 'ambiguities': self._ambiguities(ambiguous)}
+
+    def export_text(self, fit, fmt, language, eft_options=None):
         from service.const import PortDnaOptions, PortEftOptions, PortMultiBuyOptions
         from service.port.dna import exportDna
         from service.port.eft import exportEft
@@ -192,7 +263,15 @@ class PortAdapter:
         if fmt == 'dna':
             return exportDna(fit, {PortDnaOptions.FORMATTING: False}, None)
         if fmt == 'eft':
-            text = exportEft(fit, {option: option != PortEftOptions.MUTATIONS for option in PortEftOptions}, None)
+            eft_options = eft_options or {}
+            options = {
+                PortEftOptions.LOADED_CHARGES: eft_options.get('charges', True),
+                PortEftOptions.CARGO: eft_options.get('cargo', True),
+                PortEftOptions.IMPLANTS: eft_options.get('implants', True),
+                PortEftOptions.BOOSTERS: eft_options.get('boosters', True),
+                PortEftOptions.MUTATIONS: False,
+            }
+            text = exportEft(fit, options, None)
         elif fmt == 'multibuy':
             options = {option: option != PortMultiBuyOptions.OPTIMIZE_PRICES for option in PortMultiBuyOptions}
             text = exportMultiBuy(fit, options, None)

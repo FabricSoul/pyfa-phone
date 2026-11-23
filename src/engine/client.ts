@@ -3,7 +3,6 @@ import { calcOptions, getSettings } from '../settings/settings'
 import {
   isCalcResult,
   type EngineClient,
-  type ExportFormat,
   type FitDoc,
   type MarketGroup,
   type SlotKind,
@@ -17,7 +16,7 @@ export interface WorkerEngineClient extends EngineClient {
   fillEmptySlots: NonNullable<EngineClient['fillEmptySlots']>
   itemInfo: NonNullable<EngineClient['itemInfo']>
   getDataVersion(): Promise<string>
-  exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh'): Promise<string>
+  importAdditions: NonNullable<EngineClient['importAdditions']>
 }
 
 export type EngineStage = 'runtime' | 'data' | 'initialize'
@@ -73,6 +72,7 @@ export async function createEngine(report?: ReportStage): Promise<WorkerEngineCl
         })),
       }
     },
+    importAdditions: (...args) => remote.importAdditions(...args),
     exportText: (...args) => remote.exportText(...args),
     missingSkills: (...args) => remote.missingSkills(...args),
   }

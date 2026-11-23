@@ -29,8 +29,9 @@ async function paste() {
   const store = createFitStore(new IDBFactory())
   const save = vi.spyOn(store, 'save')
   render(<MemoryRouter initialEntries={['/import']}><FittingRoutes engine={mockEngine} store={store} /></MemoryRouter>)
-  fireEvent.change(screen.getByRole('textbox'), { target: { value: eft } })
-  await screen.findByText(/Thrasher · 15 items recognized/)
+  fireEvent.change(screen.getByRole('textbox', { name: 'Paste fit text' }), { target: { value: eft } })
+  await screen.findByText('Recognized as EFT fit')
+  expect(screen.getByRole('dialog').textContent).toContain('Thrasher · Test thrasher · 15 items recognized')
   return { store, save }
 }
 
@@ -38,6 +39,39 @@ describe('Import page', () => {
   it('previews the ship name and item count after EFT text is pasted', async () => {
     await paste()
     expect(screen.getByText(/382/)).toBeTruthy()
+  })
+
+  it('shows the source format and CPU excess in a bottom sheet over the fittings list', async () => {
+    const store = createFitStore(new IDBFactory())
+    const engine = {
+      ...mockEngine,
+      async importText() {
+        return { ...await mockEngine.importText(eft), format: 'XML' as const }
+      },
+      async calc(...args: Parameters<typeof mockEngine.calc>) {
+        const result = await mockEngine.calc(...args)
+        return { ...result, warnings: [{ kind: 'cpu' as const, used: 218, total: 212.5 }] }
+      },
+    }
+    render(<MemoryRouter initialEntries={['/import']}><FittingRoutes engine={engine} store={store} /></MemoryRouter>)
+    fireEvent.change(screen.getByRole('textbox', { name: 'Paste fit text' }), { target: { value: '<fittings/>' } })
+    expect(await screen.findByText('Recognized as XML fit')).toBeTruthy()
+    expect(screen.getByRole('dialog').textContent).toContain('CPU over by 5.5')
+    expect(screen.getByRole('heading', { name: 'Fittings' })).toBeTruthy()
+  })
+
+  it('translates a structured Python ambiguity without changing the type IDs', async () => {
+    await setUiLanguage('zh_CN')
+    const store = createFitStore(new IDBFactory())
+    const engine = {
+      ...mockEngine,
+      async importText() {
+        return { fits: [], warnings: [], ambiguities: [{ name: '示例', candidates: [{ typeId: 15054, name: 'Candidate' }] }] }
+      },
+    }
+    render(<MemoryRouter initialEntries={['/import']}><FittingRoutes engine={engine} store={store} /></MemoryRouter>)
+    fireEvent.change(screen.getByRole('textbox', { name: '粘贴装配文本' }), { target: { value: '示例' } })
+    expect(await screen.findByText(/物品名称有歧义.*15054/)).toBeTruthy()
   })
 
   it('opens an editable temporary fit without writing it to the fit store', async () => {

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 23:44-0500\n"
+"POT-Creation-Date: 2026-11-23 00:04-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:115
+#: src/pages/FitExtras.tsx:115 src/pages/Import.tsx:33
 msgid "Active drones"
 msgstr ""
 
@@ -82,6 +82,10 @@ msgstr ""
 msgid "Add notes"
 msgstr ""
 
+#: src/pages/FitMenu.tsx:203
+msgid "Add recognized items"
+msgstr ""
+
 #: src/pages/AddModule.tsx:46
 msgid "Add rig"
 msgstr ""
@@ -92,6 +96,10 @@ msgstr ""
 
 #: src/ui/InstallCard.tsx:62 src/ui/InstallCard.tsx:65
 msgid "Add to Home Screen"
+msgstr ""
+
+#: src/pages/FitMenu.tsx:203
+msgid "Add to fit"
 msgstr ""
 
 #: src/ui/pickers/DamagePatternPicker.tsx:18
@@ -134,6 +142,10 @@ msgstr ""
 msgid "Amarr"
 msgstr ""
 
+#: src/pages/Import.tsx:25
+msgid "Ambiguous item name: {name}. Candidates: {candidates}"
+msgstr ""
+
 #: src/pages/Settings.tsx:209
 msgid "Appearance & language"
 msgstr ""
@@ -156,7 +168,7 @@ msgstr ""
 msgid "Available offline, instant loading, and runs like a native app."
 msgstr ""
 
-#: src/pages/FitMenu.tsx:97 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:11
+#: src/pages/FitMenu.tsx:186 src/pages/FitMenu.tsx:201 src/pages/FitMenu.tsx:213 src/pages/Import.tsx:182 src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:11
 msgid "Back"
 msgstr ""
 
@@ -184,7 +196,7 @@ msgstr ""
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
-#: src/pages/Fit.tsx:263 src/pages/FitExtras.tsx:33
+#: src/pages/Fit.tsx:263 src/pages/FitExtras.tsx:33 src/pages/FitMenu.tsx:179
 msgid "Boosters"
 msgstr ""
 
@@ -192,7 +204,7 @@ msgstr ""
 msgid "Browse by market category"
 msgstr ""
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:122 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
 msgid "CPU"
 msgstr ""
 
@@ -208,11 +220,11 @@ msgstr ""
 msgid "Caldari"
 msgstr ""
 
-#: src/dev/Gallery.tsx:73 src/pages/Import.tsx:124 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:43
+#: src/dev/Gallery.tsx:73 src/pages/Import.tsx:169 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:43
 msgid "Calibration"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:109 src/pages/FitMenu.tsx:116 src/pages/Settings.tsx:278
+#: src/pages/FitMenu.tsx:225 src/pages/FitMenu.tsx:232 src/pages/Settings.tsx:278
 msgid "Cancel"
 msgstr ""
 
@@ -224,7 +236,7 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/Fit.tsx:261 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:261 src/pages/FitExtras.tsx:33 src/pages/FitMenu.tsx:178 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
@@ -256,23 +268,23 @@ msgstr ""
 msgid "Consider reload"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:86
+#: src/pages/FitMenu.tsx:170
 msgid "Copy DNA"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:85
+#: src/pages/FitMenu.tsx:154
 msgid "Copy EFT (Chinese)"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:84
+#: src/pages/FitMenu.tsx:153
 msgid "Copy EFT (English)"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:87
+#: src/pages/FitMenu.tsx:171
 msgid "Copy MultiBuy"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:37
+#: src/pages/FitMenu.tsx:108
 msgid "Copy of {name}"
 msgstr ""
 
@@ -280,7 +292,7 @@ msgstr ""
 msgid "Could not check fitting resources"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:78
+#: src/pages/FitMenu.tsx:158
 msgid "Could not complete action"
 msgstr ""
 
@@ -320,7 +332,7 @@ msgstr ""
 msgid "Could not load ships"
 msgstr ""
 
-#: src/pages/Import.tsx:106
+#: src/pages/Import.tsx:147
 msgid "Could not read this fit text"
 msgstr ""
 
@@ -328,7 +340,7 @@ msgstr ""
 msgid "Could not recalculate fit"
 msgstr ""
 
-#: src/pages/Import.tsx:107 src/pages/fitSession.tsx:196
+#: src/pages/Import.tsx:148 src/pages/fitSession.tsx:196
 msgid "Could not save fit"
 msgstr ""
 
@@ -352,7 +364,7 @@ msgstr ""
 msgid "Custom profiles are not in the first version."
 msgstr ""
 
-#: src/pages/Fit.tsx:112 src/pages/Import.tsx:117 src/pages/ModuleSheet.tsx:25 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
+#: src/pages/Fit.tsx:112 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:25 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
 msgid "DPS"
 msgstr ""
 
@@ -400,11 +412,11 @@ msgstr ""
 msgid "Defense"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:89 src/pages/FitMenu.tsx:117
+#: src/pages/FitMenu.tsx:173 src/pages/FitMenu.tsx:233
 msgid "Delete fit"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:114
+#: src/pages/FitMenu.tsx:230
 msgid "Delete {name}?"
 msgstr ""
 
@@ -460,7 +472,7 @@ msgstr ""
 msgid "Drones are inactive. Tap to activate."
 msgstr ""
 
-#: src/pages/FitMenu.tsx:82
+#: src/pages/FitMenu.tsx:162
 msgid "Duplicate fit"
 msgstr ""
 
@@ -468,7 +480,11 @@ msgstr ""
 msgid "EDENCOM and Upwell"
 msgstr ""
 
-#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:118 src/pages/ModuleSheet.tsx:28 src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:115
+#: src/pages/FitMenu.tsx:168 src/pages/FitMenu.tsx:176
+msgid "EFT export options"
+msgstr ""
+
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:28 src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:115
 msgid "EHP"
 msgstr ""
 
@@ -496,7 +512,7 @@ msgstr ""
 msgid "Export all fits backup"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:92
+#: src/pages/FitMenu.tsx:208
 msgid "Exported fit"
 msgstr ""
 
@@ -510,6 +526,14 @@ msgstr ""
 
 #: src/ui/StatsPage.tsx:94
 msgid "Factor in Reload Time"
+msgstr ""
+
+#: src/pages/Import.tsx:34
+msgid "Fighter bay"
+msgstr ""
+
+#: src/pages/Import.tsx:35
+msgid "Fighter tubes"
 msgstr ""
 
 #: src/pages/Fit.tsx:260 src/pages/FitExtras.tsx:33
@@ -528,11 +552,11 @@ msgstr ""
 msgid "Fit"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:77
+#: src/pages/FitMenu.tsx:157
 msgid "Fit actions"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:107
+#: src/pages/FitMenu.tsx:223
 msgid "Fit name"
 msgstr ""
 
@@ -544,8 +568,16 @@ msgstr ""
 msgid "Fit view"
 msgstr ""
 
+#: src/pages/Import.tsx:165
+msgid "Fits within limits"
+msgstr ""
+
 #: src/dev/Gallery.tsx:66
 msgid "Fitting"
+msgstr ""
+
+#: src/pages/Import.tsx:159
+msgid "Fitting limits exceeded"
 msgstr ""
 
 #: src/App.tsx:67 src/pages/Home.tsx:70
@@ -592,11 +624,11 @@ msgstr ""
 msgid "ISK"
 msgstr ""
 
-#: src/pages/Fit.tsx:262 src/pages/FitExtras.tsx:33 src/pages/Settings.tsx:49
+#: src/pages/Fit.tsx:262 src/pages/FitExtras.tsx:33 src/pages/FitMenu.tsx:179 src/pages/Settings.tsx:49
 msgid "Implants"
 msgstr ""
 
-#: src/pages/Import.tsx:96
+#: src/pages/Import.tsx:125 src/pages/Import.tsx:131
 msgid "Import"
 msgstr ""
 
@@ -668,7 +700,7 @@ msgstr ""
 msgid "Light"
 msgstr ""
 
-#: src/pages/Fit.tsx:258
+#: src/pages/Fit.tsx:258 src/pages/FitMenu.tsx:178
 msgid "Loaded charges"
 msgstr ""
 
@@ -816,6 +848,10 @@ msgstr ""
 msgid "No free hardpoint"
 msgstr ""
 
+#: src/pages/FitMenu.tsx:197
+msgid "No items recognized"
+msgstr ""
+
 #: src/pages/Home.tsx:106
 msgid "No matching fits"
 msgstr ""
@@ -888,20 +924,32 @@ msgstr ""
 msgid "Passive shield"
 msgstr ""
 
-#: src/pages/Import.tsx:96
-msgid "Paste an EFT fit or a DNA fitting link."
+#: src/pages/Import.tsx:135
+msgid "Paste an EFT, DNA, XML or ESI fit."
 msgstr ""
 
-#: src/pages/Import.tsx:99
+#: src/pages/FitMenu.tsx:165 src/pages/FitMenu.tsx:190
+msgid "Paste cargo list"
+msgstr ""
+
+#: src/pages/FitMenu.tsx:164 src/pages/FitMenu.tsx:190
+msgid "Paste drone list"
+msgstr ""
+
+#: src/pages/Import.tsx:140
 msgid "Paste fit text"
 msgstr ""
 
-#: src/pages/Import.tsx:101
+#: src/pages/Import.tsx:142
 msgid "Paste fit text here"
 msgstr ""
 
-#: src/pages/Import.tsx:103
+#: src/pages/FitMenu.tsx:194 src/pages/Import.tsx:144
 msgid "Paste from clipboard"
+msgstr ""
+
+#: src/pages/FitMenu.tsx:191
+msgid "Paste item list"
 msgstr ""
 
 #: src/pages/Home.tsx:79
@@ -916,7 +964,7 @@ msgstr ""
 msgid "PowerGrid"
 msgstr ""
 
-#: src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:123 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21
+#: src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21
 msgid "Powergrid"
 msgstr ""
 
@@ -952,11 +1000,15 @@ msgstr ""
 msgid "Recharge time"
 msgstr ""
 
-#: src/pages/Import.tsx:112
+#: src/pages/Import.tsx:130
+msgid "Recognized as {format} fit"
+msgstr ""
+
+#: src/pages/Import.tsx:131
 msgid "Recognized fit"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:80
+#: src/pages/FitMenu.tsx:160
 msgid "Redo"
 msgstr ""
 
@@ -984,7 +1036,7 @@ msgstr ""
 msgid "Removed"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:81
+#: src/pages/FitMenu.tsx:161
 msgid "Rename fit"
 msgstr ""
 
@@ -1024,11 +1076,11 @@ msgstr ""
 msgid "Rigs"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:110
+#: src/pages/FitMenu.tsx:226
 msgid "Save"
 msgstr ""
 
-#: src/pages/Import.tsx:128
+#: src/pages/Import.tsx:176
 msgid "Save and open"
 msgstr ""
 
@@ -1140,7 +1192,7 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: src/pages/Import.tsx:119
+#: src/pages/Import.tsx:155
 msgid "Speed m/s"
 msgstr ""
 
@@ -1292,7 +1344,7 @@ msgstr ""
 msgid "Use character implants"
 msgstr ""
 
-#: src/pages/Import.tsx:131
+#: src/pages/Import.tsx:179
 msgid "View only without saving"
 msgstr ""
 
@@ -1316,7 +1368,7 @@ msgstr ""
 msgid "fuzzwork · Jita"
 msgstr ""
 
-#: src/pages/Import.tsx:114
+#: src/pages/Import.tsx:134
 msgid "items recognized"
 msgstr ""
 
@@ -1378,6 +1430,10 @@ msgstr ""
 
 #: src/pages/AddModule.tsx:294
 msgid "{n} remaining"
+msgstr ""
+
+#: src/pages/Import.tsx:161
+msgid "{resource} over by {amount}"
 msgstr ""
 
 #: src/pages/FitExtras.tsx:41

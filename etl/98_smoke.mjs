@@ -37,7 +37,7 @@ try {
     if (message.type() === 'error') browserErrors.push(message.text())
   })
   page.setDefaultTimeout(Number(process.env.SMOKE_TIMEOUT_MS ?? 90000))
-  const shotDir = process.env.UI2B_SCREENSHOT_DIR
+  const shotDir = process.env.G2_SCREENSHOT_DIR ?? process.env.UI2B_SCREENSHOT_DIR
   if (shotDir) mkdirSync(shotDir, { recursive: true })
   const screenshot = (name) => shotDir && page.screenshot({ path: join(shotDir, `${name}.png`) })
   const dps = page.locator('.hero > div').filter({ hasText: /^总 DPS/ }).locator('b')
@@ -65,7 +65,7 @@ try {
       }
       const small = []
       for (const el of document.querySelectorAll('button, a[href], input:not([type=hidden]), select, textarea, [role=tab], [role=switch]')) {
-        if (el.closest('[aria-hidden="true"]') || getComputedStyle(el).visibility === 'hidden') continue
+        if (el.closest('[inert], [aria-hidden="true"]') || getComputedStyle(el).visibility === 'hidden') continue
         if (!el.getBoundingClientRect().width) continue
         el.scrollIntoView({ block: 'center' })
         const rect = el.getBoundingClientRect()
@@ -116,6 +116,37 @@ try {
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
   assert.equal(documentLoads, 1, 'Initial Service Worker claim must preserve the booted page')
   console.log(`Engine ready in ${ready} ms`)
+
+  step = 'recognize the audit Rifter XML and ESI pastes in the import sheet'
+  const importText = page.getByRole('textbox', { name: '粘贴装配文本' })
+  const openImport = () => page.getByRole('link', { name: '粘贴导入' }).click()
+  for (const [format, text] of [
+    ['XML', '<?xml version="1.0"?><fittings><fitting name="Audit XML"><shipType value="Rifter"/></fitting></fittings>'],
+    ['ESI', '{"name":"Audit ESI","ship_type_id":587,"items":[],"description":""}'],
+  ]) {
+    await openImport()
+    await importText.fill(text)
+    await page.getByText(`识别为 ${format} 装配`, { exact: true }).waitFor()
+    await page.getByText('装得下', { exact: true }).waitFor()
+    await screenshot(`g2-import-${format.toLowerCase()}`)
+    await page.getByRole('button', { name: '返回', exact: true }).click()
+  }
+  console.log('M09 XML and ESI both recognized Rifter and showed fitting capacity')
+
+  step = 'report an overloaded EFT and a translated ambiguous item'
+  await openImport()
+  const overloaded = `[Rifter, Audit overfit]\n${Array(3).fill('Large Shield Extender II').join('\n')}`
+  await importText.fill(overloaded)
+  const overage = page.getByRole('dialog').getByRole('status').filter({ hasText: '装配超限' })
+  await overage.waitFor()
+  assert.match(await overage.innerText(), /栅格 超 [\d.]+/)
+  console.log(`D02 ${(await overage.innerText()).replaceAll('\n', ' · ')}`)
+  await screenshot('g2-import-overfit')
+  await importText.fill('[Rifter, Audit]\n莱塞勒氏改良型爆炸装甲增强器')
+  const ambiguity = page.getByText(/物品名称有歧义.*15054.*15070/)
+  await ambiguity.waitFor()
+  console.log('P17 Chinese ambiguity includes both candidate IDs 15054 and 15070')
+  await page.getByRole('button', { name: '返回', exact: true }).click()
 
   step = 'open and recalculate a temporary Chinese EFT fit'
   await pasteFit()

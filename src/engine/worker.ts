@@ -89,6 +89,7 @@ const pythonFunction: Record<Operation, string> = {
   chargesFor: 'charges_for',
   variationsOf: 'variations_of',
   importText: 'import_text',
+  importAdditions: 'import_additions',
   exportText: 'export_text',
   missingSkills: 'missing_skills',
 }
@@ -122,6 +123,7 @@ expose({
   chargesFor: (...args) => call('chargesFor', ...args),
   variationsOf: (...args) => call('variationsOf', ...args),
   importText: (...args) => call('importText', ...args),
+  importAdditions: (...args) => call('importAdditions', ...args),
   exportText: (...args) => call('exportText', ...args),
   missingSkills: (...args) => call('missingSkills', ...args),
 } satisfies EngineWorkerApi)

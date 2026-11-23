@@ -51,7 +51,10 @@ it('copies the four export formats and exposes selectable text when clipboard wr
   ]) {
     fireEvent.click(more)
     fireEvent.click(await screen.findByRole('button', { name: label }))
-    await waitFor(() => expect(exportText).toHaveBeenLastCalledWith(expect.objectContaining({ shipTypeId: 587 }), format, language))
+    const options = format === 'eft' ? [{ charges: true, cargo: true, implants: true, boosters: true }] : []
+    await waitFor(() => expect(exportText).toHaveBeenLastCalledWith(
+      expect.objectContaining({ shipTypeId: 587 }), format, language, ...options,
+    ))
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
   }
   expect(writeText).toHaveBeenCalledTimes(4)
@@ -102,3 +105,42 @@ it('fills same-slot gaps with a single undoable edit and keeps existing modules'
   fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
   await waitFor(async () => expect((await store.get('rifter'))?.fit.modules.low[3]).toBeNull())
 }, 20_000)
+
+it('pastes additions from the fit menu as one undoable edit', async () => {
+  const importAdditions = vi.fn().mockResolvedValue({ items: [{ typeId: 222, amount: 1000 }], warnings: [] })
+  const store = setup(undefined, { ...mockEngine, importAdditions })
+  fireEvent.click(await screen.findByRole('button', { name: 'More' }))
+  fireEvent.click(await screen.findByRole('button', { name: 'Paste cargo list' }))
+  fireEvent.change(screen.getByRole('textbox', { name: 'Paste item list' }), { target: { value: 'Antimatter Charge S x1000' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Add to fit' }))
+  await waitFor(async () => expect((await store.get('rifter'))?.fit.cargo).toContainEqual({ typeId: 222, amount: 1000 }))
+  expect(importAdditions).toHaveBeenCalledWith('Antimatter Charge S x1000', 'cargo')
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  await waitFor(async () => expect((await store.get('rifter'))?.fit.cargo).not.toContainEqual({ typeId: 222, amount: 1000 }))
+})
+
+it('remembers EFT checkboxes and applies them to both copy languages', async () => {
+  const writeText = vi.fn().mockResolvedValue(undefined)
+  vi.stubGlobal('navigator', Object.create(navigator, { clipboard: { value: { writeText } } }))
+  const exportText = vi.fn().mockResolvedValue('exported fit')
+  setup(undefined, { ...mockEngine, exportText })
+  const more = await screen.findByRole('button', { name: 'More' })
+  fireEvent.click(more)
+  fireEvent.click(await screen.findByRole('button', { name: 'EFT export options' }))
+  fireEvent.click(screen.getByRole('checkbox', { name: 'Cargo' }))
+  fireEvent.keyDown(document, { key: 'Escape' })
+  fireEvent.click(more)
+  fireEvent.click(await screen.findByRole('button', { name: 'EFT export options' }))
+  expect(screen.getByRole<HTMLInputElement>('checkbox', { name: 'Cargo' }).checked).toBe(false)
+  expect(JSON.parse(localStorage.getItem('pyfa.settings')!).eftExport.cargo).toBe(false)
+  for (const [label, language] of [['Copy EFT (English)', 'en'], ['Copy EFT (Chinese)', 'zh']]) {
+    fireEvent.click(screen.getByRole('button', { name: label }))
+    await waitFor(() => expect(exportText).toHaveBeenLastCalledWith(expect.anything(), 'eft', language,
+      { charges: true, cargo: false, implants: true, boosters: true }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+    if (language === 'en') {
+      fireEvent.click(more)
+      fireEvent.click(await screen.findByRole('button', { name: 'EFT export options' }))
+    }
+  }
+})

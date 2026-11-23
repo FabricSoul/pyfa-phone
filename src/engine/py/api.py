@@ -480,10 +480,14 @@ def import_text(text):
     return _port.import_text(text)
 
 
-def export_text(fit_json, fmt, language='en'):
+def import_additions(text, destination):
+    return _port.import_additions(text, destination)
+
+
+def export_text(fit_json, fmt, language='en', eft_options=None):
     with _temporary_fit():
         fit, _ = _engine.build(fit_json)
-        return _port.export_text(fit, fmt, language)
+        return _port.export_text(fit, fmt, language, eft_options)
 
 
 def missing_skills(fit_json):

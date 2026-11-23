@@ -196,12 +196,59 @@ def regression_results(fits, data_version, client_build):
             self.assertIn("Raysere's Modified Explosive Armor Hardener", text)
             self.assertEqual([], result['warnings'])
 
+        def test_audit_rifter_xml_and_esi_round_trip_to_eft(self):
+            cases = (
+                ('XML', 'Audit XML', '<?xml version="1.0"?><fittings><fitting name="Audit XML"><shipType value="Rifter"/></fitting></fittings>'),
+                ('ESI', 'Audit ESI', '{"name":"Audit ESI","ship_type_id":587,"items":[],"description":""}'),
+            )
+            for format_name, name, text in cases:
+                with self.subTest(format=format_name):
+                    parsed = call('import_text', text)
+                    self.assertEqual([name], [fit['name'] for fit in parsed['fits']])
+                    self.assertEqual(format_name, parsed['format'])
+                    self.assertEqual([], parsed['warnings'])
+                    doc = parsed['fits'][0]
+                    self.assertEqual(587, doc['shipTypeId'])
+                    eft = call('import_text', '[Rifter, ' + name + ']')['fits'][0]
+                    exported = call('export_text', doc, 'eft')
+                    round_tripped = call('import_text', exported)['fits'][0]
+                    actual = call('calc', round_tripped)
+                    self.assertEqual(call('calc', eft), actual)
+                    with api._temporary_fit():
+                        native = self.native_fit(587)
+                        native.clear()
+                        native.calculateModifiedAttributes()
+                        self.assertAlmostEqual(native.ship.getModifiedItemAttr("maxVelocity"), actual['stats']['navigation']['maxVelocity'], places=3)
+
+        def test_paste_additions_resolves_stacks_and_reports_skipped_rows(self):
+            drones = call('import_additions', 'Hammerhead II x2\nHammerhead II x3\nMissing drone x4', 'drones')
+            self.assertEqual([{'typeId': 2185, 'amount': 2}, {'typeId': 2185, 'amount': 3}], drones['items'])
+            self.assertEqual(['Missing drone x4'], drones['warnings'])
+            cargo = call('import_additions', 'Antimatter Charge S x1000\nAntimatter Charge S x0', 'cargo')
+            self.assertEqual([{'typeId': 222, 'amount': 1000}], cargo['items'])
+            self.assertEqual(['Antimatter Charge S x0'], cargo['warnings'])
+
+        def test_eft_export_options_exclude_each_native_section_independently(self):
+            fit = {**rifter, 'cargo': [{'typeId': 222, 'amount': 777}], 'implants': [10216], 'boosters': [9950]}
+            markers = {
+                'charges': ', Republic Fleet EMP S', 'cargo': 'Antimatter Charge S x777',
+                'implants': 'Ocular Filter', 'boosters': 'Blue Pill',
+            }
+            baseline = call('export_text', fit, 'eft')
+            for key, marker in markers.items():
+                with self.subTest(section=key):
+                    self.assertIn(marker, baseline)
+                    exported = call('export_text', fit, 'eft', 'en', {key: False})
+                    self.assertNotIn(marker, exported)
+                    for other in markers.keys() - {key}:
+                        self.assertIn(markers[other], exported)
+
         def test_ambiguous_eft_warns_with_every_candidate_without_fitting_one(self):
             result = call('import_text', '[Rifter, Audit]\n莱塞勒氏改良型爆炸装甲增强器')
             self.assertEqual([], result['fits'][0]['modules']['low'])
-            warning = '\n'.join(result['warnings'])
-            for candidate in (15054, 15070):
-                self.assertIn(str(candidate), warning)
+            [warning] = result['ambiguities']
+            self.assertEqual('莱塞勒氏改良型爆炸装甲增强器', warning['name'])
+            self.assertEqual([15054, 15070], [item['typeId'] for item in warning['candidates']])
 
         def test_removed_module_keeps_snapshot_and_position_without_affecting_stats(self):
             fit = copy.deepcopy(rifter)

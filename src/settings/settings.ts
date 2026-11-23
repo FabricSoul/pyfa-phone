@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react'
-import type { CalcOptions } from '../engine/types'
+import type { CalcOptions, EftExportOptions } from '../engine/types'
 import type { UiLanguage } from '../i18n/t'
 import { readJson, removeKey, writeJson } from './storage'
 
@@ -23,6 +23,7 @@ export interface Settings {
   strictSkills: boolean
   preheatPercent: number
   priceIncluded: PriceItem[]
+  eftExport: EftExportOptions
 }
 
 const defaultItemLang: ItemNameLanguage =
@@ -40,6 +41,7 @@ export const defaultSettings: Settings = {
   strictSkills: true,
   preheatPercent: 100,
   priceIncluded: ['drones', 'cargo', 'implants'],
+  eftExport: { charges: true, cargo: true, implants: true, boosters: true },
 }
 
 let state: Settings = { ...defaultSettings, ...readJson<Partial<Settings>>(SETTINGS_KEY, {}) }

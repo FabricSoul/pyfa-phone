@@ -387,8 +387,17 @@ export interface CalcOptions {
   defaultSpoolPercent?: number
 }
 
+export type ImportFormat = 'EFT' | 'DNA' | 'XML' | 'ESI'
+
+export interface ImportAmbiguity {
+  name: string
+  candidates: { typeId: number; name: string }[]
+}
+
 export interface ImportResult {
   fits: FitDoc[]
+  format?: ImportFormat
+  ambiguities?: ImportAmbiguity[]
   /** Lines pyfa could not parse, kept for the user to see. */
   warnings: string[]
 }
@@ -396,6 +405,15 @@ export interface ImportResult {
 export type MissingSkill = z.infer<typeof MissingSkillSchema>
 
 export type ExportFormat = 'eft' | 'dna' | 'multibuy'
+export type EftExportOptions = Record<'charges' | 'cargo' | 'implants' | 'boosters', boolean>
+
+export type ImportAddition = 'cargo' | 'drones'
+
+export interface ImportAdditionsResult {
+  items: { typeId: number; amount: number }[]
+  warnings: string[]
+  ambiguities?: ImportAmbiguity[]
+}
 
 export interface CatalogShip {
   typeId: number
@@ -427,7 +445,8 @@ export interface EngineClient {
   chargesFor(fit: FitDoc, pos: ModulePos, metaGroup?: MetaGroup, options?: CalcOptions): Promise<ChargeGroup[]>
   variationsOf(typeId: number): Promise<ItemGroup[]>
   importText(text: string): Promise<ImportResult>
-  exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh'): Promise<string>
+  importAdditions?(text: string, destination: ImportAddition): Promise<ImportAdditionsResult>
+  exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh', options?: Partial<EftExportOptions>): Promise<string>
   shipCatalog?(): Promise<ShipCatalog>
   itemsForExtra?(fit: FitDoc, collection: ExtraCollection, query: string): Promise<ItemGroup[]>
   fillEmptySlots?(fit: FitDoc, source: ModulePos): Promise<SlotFill[]>
