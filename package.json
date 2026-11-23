@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "i18n": "node etl/i18n_extract.mjs && node etl/i18n_merge.mjs && node etl/i18n_compile.mjs",
-    "i18n:check": "node etl/i18n_check_literals.mjs"
+    "i18n:check": "node etl/i18n_check_literals.mjs",
+    "etl": "uv run --python 3.13 --with sqlalchemy==2.0.51 --with logbook==1.9.2 --with pyyaml --with cryptography python etl/10_build_db.py && uv run --python 3.13 --with sqlalchemy==2.0.51 --with logbook==1.9.2 --with pyyaml --with cryptography python etl/20_assets.py && uv run --python 3.13 --with sqlalchemy==2.0.51 --with logbook==1.9.2 --with pyyaml --with cryptography python etl/30_name_index.py"
   },
   "dependencies": {
     "@tanstack/react-virtual": "^3.14.10",

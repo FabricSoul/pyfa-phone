@@ -7,6 +7,7 @@ dist/
 .DS_Store
 *.log
 public/data/
+public/img/
 build/
 __pycache__/
 .venv/
