@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 22:34-0500\n"
+"POT-Creation-Date: 2026-11-22 22:39-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -326,7 +326,7 @@ msgstr ""
 msgid "Could not save fit"
 msgstr ""
 
-#: src/App.tsx:58
+#: src/App.tsx:60
 msgid "Could not start the fitting engine"
 msgstr ""
 
@@ -410,11 +410,11 @@ msgstr ""
 msgid "Does not fit"
 msgstr ""
 
-#: src/App.tsx:101
+#: src/App.tsx:103
 msgid "Downloading Python runtime…"
 msgstr ""
 
-#: src/App.tsx:102
+#: src/App.tsx:104
 msgid "Downloading game data…"
 msgstr ""
 
@@ -526,7 +526,7 @@ msgstr ""
 msgid "Fitting"
 msgstr ""
 
-#: src/App.tsx:65 src/pages/Home.tsx:69
+#: src/App.tsx:67 src/pages/Home.tsx:69
 msgid "Fittings"
 msgstr ""
 
@@ -582,7 +582,7 @@ msgstr ""
 msgid "Incoming damage pattern"
 msgstr ""
 
-#: src/App.tsx:103
+#: src/App.tsx:105
 msgid "Initializing fitting engine…"
 msgstr ""
 
@@ -938,7 +938,7 @@ msgstr ""
 msgid "Restore from backup"
 msgstr ""
 
-#: src/App.tsx:59 src/pages/fitSession.tsx:167
+#: src/App.tsx:61 src/pages/fitSession.tsx:167
 msgid "Retry"
 msgstr ""
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 22:34-0500\n"
+"POT-Creation-Date: 2026-11-22 22:39-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -319,7 +319,7 @@ msgstr "无法重新计算装配"
 msgid "Could not save fit"
 msgstr "无法保存装配"
 
-#: src/App.tsx:58
+#: src/App.tsx:60
 msgid "Could not start the fitting engine"
 msgstr "无法启动装配引擎"
 
@@ -403,11 +403,11 @@ msgstr "横轴为距离（km），纵轴为 DPS。目标静止，不计跟踪。
 msgid "Does not fit"
 msgstr "装不下"
 
-#: src/App.tsx:101
+#: src/App.tsx:103
 msgid "Downloading Python runtime…"
 msgstr "正在下载 Python 运行时…"
 
-#: src/App.tsx:102
+#: src/App.tsx:104
 msgid "Downloading game data…"
 msgstr "正在下载游戏数据…"
 
@@ -519,7 +519,7 @@ msgstr "装配视图"
 msgid "Fitting"
 msgstr "装配"
 
-#: src/App.tsx:65 src/pages/Home.tsx:69
+#: src/App.tsx:67 src/pages/Home.tsx:69
 msgid "Fittings"
 msgstr "装配"
 
@@ -575,7 +575,7 @@ msgstr "导入"
 msgid "Incoming damage pattern"
 msgstr "伤害分布"
 
-#: src/App.tsx:103
+#: src/App.tsx:105
 msgid "Initializing fitting engine…"
 msgstr "正在初始化装配引擎…"
 
@@ -931,7 +931,7 @@ msgstr "恢复失败，现有装配未被改动。"
 msgid "Restore from backup"
 msgstr "从备份恢复"
 
-#: src/App.tsx:59 src/pages/fitSession.tsx:167
+#: src/App.tsx:61 src/pages/fitSession.tsx:167
 msgid "Retry"
 msgstr "重试"
 
