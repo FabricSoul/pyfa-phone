@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 19:52-0500\n"
+"POT-Creation-Date: 2026-11-22 19:57-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,6 +26,10 @@ msgstr[1] ""
 
 #: src/ui/StatsPage.tsx:141
 msgid "AU/s"
+msgstr ""
+
+#: src/pages/About.tsx:17
+msgid "About"
 msgstr ""
 
 #: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:115 src/pages/FitExtras.tsx:39 src/pages/ModuleSheet.tsx:16 src/ui/ModuleRow.tsx:79
@@ -92,6 +96,10 @@ msgstr ""
 
 #: src/pages/ItemInfo.tsx:59
 msgid "Base → fitted"
+msgstr ""
+
+#: src/pages/About.tsx:38
+msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
 #: src/pages/FitExtras.tsx:15
@@ -268,6 +276,10 @@ msgstr ""
 
 #: src/ui/StatsPage.tsx:36
 msgid "EM"
+msgstr ""
+
+#: src/pages/About.tsx:35
+msgid "EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf."
 msgstr ""
 
 #: src/ui/ModuleRow.tsx:43
@@ -702,6 +714,10 @@ msgstr ""
 msgid "Thermal"
 msgstr ""
 
+#: src/pages/About.tsx:32
+msgid "This application is not affiliated with, endorsed by, or associated with CCP hf."
+msgstr ""
+
 #: src/ui/StatsPage.tsx:69
 msgid "Total DPS"
 msgstr ""
@@ -764,6 +780,18 @@ msgstr ""
 
 #: src/pages/FitExtras.tsx:50
 msgid "m³"
+msgstr ""
+
+#: src/pages/About.tsx:67
+msgid "pyfa original source on GitHub"
+msgstr ""
+
+#: src/pages/About.tsx:20
+msgid "pyfa-phone is an unofficial EVE Online fitting tool."
+msgstr ""
+
+#: src/pages/About.tsx:57
+msgid "pyfa-phone source on GitHub"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:124 src/ui/StatsPage.tsx:131 src/ui/StatsPage.tsx:139

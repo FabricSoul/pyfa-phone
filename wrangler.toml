@@ -1,3 +1,6 @@
 name = "pyfa"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-11-01"
+
+[vars]
+ACCESS_MODE = "public"

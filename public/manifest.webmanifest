@@ -1,0 +1,36 @@
+{
+  "name": "pyfa",
+  "short_name": "pyfa",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#12171c",
+  "theme_color": "#12171c",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "description": "pyfa 手机网页版：在手机上用 pyfa 原版引擎模拟 EVE Online 舰船装配。非官方，基于 pyfa（GPLv3）。",
+  "lang": "zh-CN",
+  "categories": [
+    "games",
+    "utilities"
+  ]
+}

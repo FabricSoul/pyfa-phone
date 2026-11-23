@@ -11,6 +11,7 @@ import { ItemInfo } from './pages/ItemInfo'
 import { Variations } from './pages/Variations'
 import { createFitStore, type FitStore } from './store/fits'
 import './pages/pages.css'
+import About from './pages/About'
 
 export function FittingRoutes({ engine, store }: { engine: EngineClient; store: FitStore }) {
   return <FitServices engine={engine} store={store}>
@@ -35,6 +36,7 @@ export default function App() {
   return (
     <HashRouter>
       <Routes>
+        <Route path="/about" element={<About />} />
         <Route path="/dev/tokens" element={<TokensPage />} />
         <Route path="/dev/gallery" element={<Gallery />} />
         <Route path="*" element={<FittingRoutes engine={mockEngine} store={store} />} />
