@@ -31,7 +31,7 @@ export function defaultExpanded(groups: ItemGroup[], currentTypeId?: number): Se
 
 /** Items grouped by tech level, collapsible. Collapsed headers show the count and the best value. */
 export function MetaGroupList<T extends ItemRow>({
-  groups, currentTypeId, expanded: controlledExpanded, onToggleExpanded, onPick, onExpand, renderItem, renderGroup, valueUnit,
+  groups, currentTypeId, expanded: controlledExpanded, onToggleExpanded, onPick, onExpand, renderItem, renderGroup, valueUnit, startCollapsed,
 }: {
   groups: ItemGroup<T>[]
   currentTypeId?: number
@@ -45,12 +45,14 @@ export function MetaGroupList<T extends ItemRow>({
   renderGroup?: (group: ItemGroup<T>) => ReactNode
   /** Unit shown after the best value, e.g. "DPS". */
   valueUnit?: string
+  /** Start with every group closed (a list that arrives late must not push its container open). */
+  startCollapsed?: boolean
 }) {
   const lang = useNameLanguage()
   // The default rule re-applies when the list first gets data or the current item changes (or moves to
   // another group); manual expand/collapse survives re-renders and refetches of the same object.
   const seed = `${currentTypeId ?? ''}|${defaultExpanded(groups, currentTypeId).values().next().value ?? ''}`
-  const [state, setState] = useState(() => ({ seed, open: defaultExpanded(groups, currentTypeId) }))
+  const [state, setState] = useState(() => ({ seed, open: startCollapsed ? new Set<MetaGroup>() : defaultExpanded(groups, currentTypeId) }))
   if (state.seed !== seed) setState({ seed, open: defaultExpanded(groups, currentTypeId) })
   const open = controlledExpanded !== undefined ? new Set(controlledExpanded) : (state.seed === seed ? state.open : defaultExpanded(groups, currentTypeId))
   function toggle(meta: MetaGroup) {

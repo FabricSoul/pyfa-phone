@@ -22,6 +22,7 @@ import { fmt, lname, renderUrl, useNameLanguage } from '../ui/format'
 import { FitExtras } from './FitExtras'
 import { useFitServices, useFitSession, useRemoveModules, withModules } from './fitSession'
 import { ModuleSheet } from './ModuleSheet'
+import { loadCharges } from './chargesCache'
 import { FitMenu } from './FitMenu'
 import { FitSection, slotName } from './shared'
 
@@ -171,6 +172,7 @@ export function Fit() {
               return <ExpandItem leave="slide" key={`module-${entry.positions[0]}`}><ModuleRow row={entry} price={unitPrice(entry.typeId)}
                 selected={selected?.slot === slot && activePositions.includes(selected.index)}
                 availableStates={entry.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] : undefined)}
+                onPressStart={() => { loadCharges(engine, fit, { slot, index: activePositions[0]! }, includeReload).catch(() => {}) }}
                 onTap={() => setSelected({ slot, index: activePositions[0]! })}
                 onStateChange={(state) => edit((fit) => withModules(fit, slot, activePositions, (mod) => mod && { ...mod, state }))}
                 onRemove={() => removeModules(slot, activePositions, lname(entry.name, language))} /></ExpandItem>

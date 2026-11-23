@@ -8,6 +8,9 @@ import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { PriceValue } from '../ui/PriceValue'
 import { ItemIcon } from '../ui/ItemIcon'
 import { Segmented } from '../ui/Segmented'
+import { Skeleton } from '../ui/Skeleton'
+import { SmoothHeight } from '../ui/motion'
+import { knownCharges, loadCharges } from './chargesCache'
 import { Icon } from '../ui/icons'
 import { ChargeSummary, MODULE_STATE_ICONS, ModuleMetrics, OmegaMark } from '../ui/ModuleRow'
 import { positionKey, useFitServices, useFitSession, useRemoveModules, withModules } from './fitSession'
@@ -40,6 +43,9 @@ export function ModuleSheet({ selected, row, price, onClose }: { selected?: Modu
   </ActionSheet>
 }
 
+/** After this long the sheet has finished rising. */
+const SETTLED_MS = 450
+
 function ModuleControls({ selected, row, price, onClose }: { selected: ModulePos; row: ModuleSlotRow; price?: number | null; onClose: () => void }) {
   const language = useNameLanguage()
   const navigate = useNavigate()
@@ -50,6 +56,9 @@ function ModuleControls({ selected, row, price, onClose }: { selected: ModulePos
   const [fillMessage, setFillMessage] = useState<'error' | 'none'>()
   const removeModules = useRemoveModules()
   const [ammo, setAmmo] = useState<{ fit: FitDoc; index: number; groups: ChargeGroup[] }>()
+  const openedAt = useRef(performance.now())
+  // A list that arrives after the sheet has settled opens with its groups closed, so the sheet does not jump taller.
+  const [late, setLate] = useState<boolean>()
   const [error, setError] = useState(false)
   const [stateChange, setStateChange] = useState<{
     before: CalcResult; fit: FitDoc; source: number; typeId: number; state: ModuleState; keyLine: string
@@ -108,15 +117,25 @@ function ModuleControls({ selected, row, price, onClose }: { selected: ModulePos
     }
   }
 
+  // Charges: shown at once when this session already has them (pressing the row starts loading them, Fit.tsx); otherwise a
+  // skeleton of the same height holds their place until they arrive.
   useEffect(() => {
     let live = true
     if (typeId !== undefined) {
-      void engine.chargesFor(fit, { slot, index: source }, undefined, { includeReload }).then((groups) => {
-        if (live) { setAmmo({ fit, index: source, groups }); setError(false) }
+      void loadCharges(engine, fit, { slot, index: source }, includeReload).then((groups) => {
+        if (!live) return
+        setAmmo({ fit, index: source, groups })
+        setError(false)
+        setLate((late) => late ?? performance.now() - openedAt.current > SETTLED_MS)
       }, () => { if (live) setError(true) })
     }
     return () => { live = false }
   }, [engine, fit, includeReload, slot, source, typeId])
+  const known = ammo?.fit === fit && ammo.index === source ? { groups: ammo.groups, exact: true } : typeId === undefined ? undefined : knownCharges(fit, { slot, index: source }, includeReload)
+  const mayHaveCharges = row.charge != null || slot === 'high'
+  // The list fades in only when it replaces its skeleton; a list that is there from the start just is.
+  const skeletonShown = useRef(false)
+  if (!known && mayHaveCharges) skeletonShown.current = true
 
   return <>
     <header className="module-sheet-heading">
@@ -172,16 +191,23 @@ function ModuleControls({ selected, row, price, onClose }: { selected: ModulePos
         }} />
     </label>}
     {error && <p role="alert" className="page-message">{_t('Could not load charges')}</p>}
-    {ammo?.fit === fit && ammo.index === source && ammo.groups.length > 0 && <>
-      <div className="fit-section-title"><h3>{_t('Charges')}</h3><span className="fit-caption">
-        {_t('Applies to {n} module', 'Applies to {n} modules', positions.length).replace('{n}', String(positions.length))}
-      </span></div>
-      <div className="module-ammo-list">
-        <AmmoList key={`${source}-${chargeTypeId}`} groups={ammo.groups} currentTypeId={chargeTypeId ?? undefined}
-          onPick={(item) => edit((fit) => withModules(fit, slot, positions,
-            (mod) => mod && { ...mod, chargeTypeId: item.typeId }), { [item.typeId]: item.name })} />
-      </div>
-    </>}
+    <SmoothHeight>
+      {known ? known.groups.length > 0 && <section className="module-ammo" data-testid="module-ammo">
+        <div className="fit-section-title"><h3>{_t('Charges')}</h3><span className="fit-caption">
+          {_t('Applies to {n} module', 'Applies to {n} modules', positions.length).replace('{n}', String(positions.length))}
+        </span></div>
+        <div className={`module-ammo-list${skeletonShown.current ? ' reveal-in' : ''}`}>
+          <AmmoList key={`${source}-${chargeTypeId}`} groups={known.groups} currentTypeId={chargeTypeId ?? undefined} startCollapsed={late === true}
+            onPick={(item) => edit((fit) => withModules(fit, slot, positions,
+              (mod) => mod && { ...mod, chargeTypeId: item.typeId }), { [item.typeId]: item.name })} />
+        </div>
+      </section> : mayHaveCharges && !error && <section className="module-ammo" data-testid="module-ammo" aria-busy="true" aria-label={_t('Charges')}>
+        <div className="fit-section-title"><h3>{_t('Charges')}</h3></div>
+        <div className="module-ammo-list" aria-hidden="true">
+          {[0, 1, 2].map((index) => <div key={index} className="mh"><Skeleton width={56} height={18} radius={6} /><Skeleton width={120} height={12} /></div>)}
+        </div>
+      </section>}
+    </SmoothHeight>
     {(row.count > 1 || individual) && <SheetAction icon="list" onClick={() => setIndividual(individual ? undefined : { positions: row.positions, index: source })}>
       {individual ? _t('Set together') : _t('Set {n} modules individually').replace('{n}', String(row.count))}
     </SheetAction>}

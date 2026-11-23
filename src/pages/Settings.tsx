@@ -11,18 +11,21 @@ import { listFits, parseBackup, restoreFits, type BackupProblem } from '../store
 import type { FitDoc } from '../engine/types'
 import { useToast } from '../ui/Toast'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
+import { getInstallPrompt, installedFlag, isIOS, isStandalone, onInstallPrompt } from '../app/install'
+import { InstallSteps } from '../ui/InstallCard'
 import { Segmented } from '../ui/Segmented'
 import { PageHeading } from './shared'
 import { CharacterPicker } from '../ui/pickers/CharacterPicker'
 import { DamagePatternPicker } from '../ui/pickers/DamagePatternPicker'
 import { getPatternData, labelOf } from '../ui/pickers/patterns'
 
-type Sheet = 'restore' | 'exportText' | 'theme' | 'uiLanguage' | 'itemName' | 'character' | 'damage' | 'priceIncluded' | 'preheat' | null
+type Sheet = 'restore' | 'exportText' | 'theme' | 'uiLanguage' | 'itemName' | 'character' | 'damage' | 'priceIncluded' | 'preheat' | 'install' | null
 
 // 弹窗的可访问名称，和对应设置行的标签一致。
 function sheetTitle(sheet: Sheet): string {
   switch (sheet) {
     case 'theme': return _t('Theme')
+    case 'install': return _t('Add to Home Screen')
     case 'uiLanguage': return _t('Interface language')
     case 'itemName': return _t('Item names')
     case 'character': return _t('Character')
@@ -106,6 +109,8 @@ export default function Settings() {
   const uiLang = useUiLanguage()
   const settings = useSettings()
   const [sheet, setSheet] = useState<Sheet>(null)
+  const [installed, setInstalled] = useState(() => isStandalone() || installedFlag())
+  useEffect(() => onInstallPrompt(() => { if (installedFlag()) setInstalled(true) }), [])
   const [dataVersion, setDataVersion] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   const toast = useToast()
@@ -303,6 +308,12 @@ export default function Settings() {
 
       <Section>{_t('Data')}</Section>
       <div className="list">
+        {/* Offered until the app is installed (UX4 follow-up 6): the browser's own prompt where there is one, otherwise the steps. */}
+        {!installed && <Row label={_t('Add to Home Screen')} name={_t('Add to Home Screen')} onClick={() => {
+          const prompt = getInstallPrompt()
+          if (prompt) void prompt.prompt().catch(() => setSheet('install'))
+          else setSheet('install')
+        }} />}
         <Row label={_t('Export all fits backup')} name={_t('Export all fits backup')} onClick={backup} />
         <Row label={_t('Restore from backup')} name={_t('Restore from backup')} onClick={() => fileRef.current?.click()} />
         <Row label={_t('Download all icons for offline use')} name={_t('Download all icons for offline use')}
@@ -324,6 +335,9 @@ export default function Settings() {
       </div>
 
       <ActionSheet open={sheet !== null} title={sheetTitle(sheet)} onClose={() => setSheet(null)}>
+        {sheet === 'install' && <div className="settings-install">
+          {isIOS() ? <InstallSteps ios /> : <p className="hint">{_t('Open the browser menu and choose "Add to Home Screen" or "Install app".')}</p>}
+        </div>}
         {sheet === 'preheat' && (
           <div style={{ padding: '0 var(--space-4) var(--space-4)' }}>
             <div className="row" style={{ paddingTop: 0, paddingInline: 0 }}><div className="mn"><span>{_t('Default preheat')}</span></div></div>

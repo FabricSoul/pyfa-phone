@@ -19,8 +19,33 @@ if (typeof window !== 'undefined') {
   })
   window.addEventListener('appinstalled', () => {
     deferred = null
+    markInstalled()
     emit()
   })
+}
+
+/** Set once the browser reports the app installed: only installing hides the install prompts for good. */
+const INSTALLED = 'pyfa.installed'
+/** The card's X: hidden for this session only (sessionStorage). The old permanent flag lived in localStorage. */
+const DISMISSED = 'pyfa.installDismissed'
+
+function markInstalled() {
+  try { localStorage.setItem(INSTALLED, '1') } catch { /* storage blocked: the standalone check still applies */ }
+}
+
+/** True when this browser reported the app installed (appinstalled); combine with isStandalone(). */
+export function installedFlag(): boolean {
+  try { return localStorage.getItem(INSTALLED) === '1' } catch { return false }
+}
+
+/** Whether the install card was closed in this session. Also clears the old permanent dismissal. */
+export function installDismissedThisSession(): boolean {
+  try { localStorage.removeItem(DISMISSED) } catch { /* nothing to clear */ }
+  try { return sessionStorage.getItem(DISMISSED) === '1' } catch { return false }
+}
+
+export function dismissInstallForSession(): void {
+  try { sessionStorage.setItem(DISMISSED, '1') } catch { /* storage blocked: hidden until reload */ }
 }
 
 export const getInstallPrompt = () => deferred

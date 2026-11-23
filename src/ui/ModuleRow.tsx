@@ -61,7 +61,7 @@ export function ChargeSummary({ charge }: { charge: NonNullable<ModuleSlotRow['c
   </span>
 }
 
-export function ModuleRow({ row, availableStates: provided, selected, pressed, price, onStateChange, onTap, onRemove, onAdd }: {
+export function ModuleRow({ row, availableStates: provided, selected, pressed, price, onStateChange, onTap, onRemove, onAdd, onPressStart }: {
   row: SlotRow
   /** States the engine allows for this module (passive modules: offline and online only). */
   availableStates?: ModuleState[]
@@ -72,6 +72,8 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, p
   onTap?: () => void
   onRemove?: () => void
   onAdd?: () => void
+  /** A finger went down on the row: the sheet it may open can start loading (its charges). */
+  onPressStart?: () => void
 }) {
   const lang = useNameLanguage()
   // The engine reports which states a module supports; an explicit prop wins, ALL_STATES is the fallback.
@@ -140,7 +142,7 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, p
     }
   }
 
-  const onPointerDown = (e: React.PointerEvent) => { drag.current = { x: e.clientX, base: dx }; setDragging(false) }
+  const onPointerDown = (e: React.PointerEvent) => { drag.current = { x: e.clientX, base: dx }; setDragging(false); onPressStart?.() }
   const onPointerMove = (e: React.PointerEvent) => {
     if (!drag.current) return
     const d = e.clientX - drag.current.x

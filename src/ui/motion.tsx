@@ -336,3 +336,21 @@ export function sheetMotion() {
       exit: { y: '100%', transition: { duration: 0.28, ease: ios } },
     }
 }
+
+/** Keeps its height in step with its content smoothly: when the content grows or shrinks (a skeleton replaced by the
+ *  list it stood in for, a group opening), the box eases to the new height instead of jumping. Reduced motion jumps. */
+export function SmoothHeight({ children }: { children: ReactNode }) {
+  const inner = useRef<HTMLDivElement>(null)
+  const [height, setHeight] = useState<number | 'auto'>('auto')
+  useLayoutEffect(() => {
+    const node = inner.current
+    if (!node || typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(() => setHeight(node.offsetHeight))
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+  const { standard, ios, reduce } = motionSpec()
+  return <motion.div style={{ overflow: 'hidden' }} initial={false} animate={{ height }} transition={reduce ? { duration: 0 } : { duration: standard * 1.5, ease: ios }}>
+    <div ref={inner}>{children}</div>
+  </motion.div>
+}

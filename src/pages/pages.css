@@ -31,7 +31,9 @@
 .module-sheet-heading, .fit-controls { display: flex; align-items: center; gap: var(--space-2); }
 .home-heading { padding: var(--space-4); }
 .home-heading h1 { margin-right: auto; font: var(--type-page); }
-.fit-heading { padding: var(--space-2) var(--space-4) var(--space-2) var(--space-1); }
+.fit-heading { padding: var(--space-2) var(--space-4); }
+/* A heading that starts with a back button: the 22 px chevron centred in its 44 px target lands on the 16 px margin. */
+.fit-heading:has(> .ib:first-child) { padding-left: calc(var(--space-4) - 11px); }
 .fit-heading h1, .module-sheet-heading h2 { font: var(--type-title); overflow-wrap: anywhere; }
 .fit-heading .fit-caption { margin-top: var(--space-1); }
 .fit-section-title { justify-content: space-between; padding: var(--space-3) var(--space-4) var(--space-2); }
@@ -145,7 +147,6 @@
   gap: var(--space-2);
 }
 .import-form textarea {
-  resize: vertical;
   font-family: var(--font-num);
 }
 .import-form button { justify-self: end; }

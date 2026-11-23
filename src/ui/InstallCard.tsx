@@ -1,42 +1,28 @@
 import { useEffect, useState } from 'react'
-import { getInstallPrompt, onInstallPrompt, isStandalone, isIOS, isMobile, type BIP } from '../app/install'
+import { dismissInstallForSession, getInstallPrompt, installDismissedThisSession, installedFlag, onInstallPrompt, isStandalone, isIOS, isMobile, type BIP } from '../app/install'
 import { _t } from '../i18n/t'
 import { Icon } from './icons'
-
-const DISMISSED = 'pyfa.installDismissed'
-
-function isDismissed(): boolean {
-  try {
-    return Boolean(localStorage.getItem(DISMISSED))
-  } catch {
-    return false
-  }
-}
-
-function setDismissed(): void {
-  try {
-    localStorage.setItem(DISMISSED, '1')
-  } catch {
-    // 隐私模式或本地存储受限时安全降级
-  }
-}
 
 export function InstallCard() {
   const [bip, setBip] = useState<BIP | null>(getInstallPrompt)
   const [show, setShow] = useState(false)
 
+  // Hidden for good only once installed; the X hides it for this session.
   useEffect(() => {
-    if (isStandalone()) return
-    if (isDismissed()) return
+    if (isStandalone() || installedFlag()) return
+    if (installDismissedThisSession()) return
     if (!isMobile()) return
     setShow(true)
-    return onInstallPrompt(setBip)
+    return onInstallPrompt((prompt) => {
+      setBip(prompt)
+      if (installedFlag()) setShow(false)
+    })
   }, [])
 
   if (!show) return null
 
   const dismiss = () => {
-    setDismissed()
+    dismissInstallForSession()
     setShow(false)
   }
 
@@ -77,22 +63,27 @@ export function InstallCard() {
             </button>
           </div>
         ) : (
-          <ol className="install-card-steps">
-            <li>
-              <span className="install-card-step-num">1</span>
-              {ios ? <ShareIcon /> : <MenuIcon />}
-              <span>{ios ? _t('Tap the share button') : _t('Tap the browser menu')}</span>
-            </li>
-            <li>
-              <span className="install-card-step-num">2</span>
-              <PlusSquareIcon />
-              <span>{_t('Select "Add to Home Screen"')}</span>
-            </li>
-          </ol>
+          <InstallSteps ios={ios} />
         )}
       </div>
     </aside>
   )
+}
+
+/** The two manual steps: Share (iOS) or the browser menu, then "Add to Home Screen". */
+export function InstallSteps({ ios }: { ios: boolean }) {
+  return <ol className="install-card-steps">
+    <li>
+      <span className="install-card-step-num">1</span>
+      {ios ? <ShareIcon /> : <MenuIcon />}
+      <span>{ios ? _t('Tap the share button') : _t('Tap the browser menu')}</span>
+    </li>
+    <li>
+      <span className="install-card-step-num">2</span>
+      <PlusSquareIcon />
+      <span>{_t('Select "Add to Home Screen"')}</span>
+    </li>
+  </ol>
 }
 
 function ShareIcon() {

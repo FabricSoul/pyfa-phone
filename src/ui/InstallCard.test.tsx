@@ -10,6 +10,7 @@ describe('InstallCard', () => {
 
   beforeEach(() => {
     localStorage.clear()
+    sessionStorage.clear()
     vi.restoreAllMocks()
     // Default to mobile, non-standalone, non-iOS
     vi.spyOn(installModule, 'isMobile').mockReturnValue(true)
@@ -37,10 +38,34 @@ describe('InstallCard', () => {
     expect(container.firstChild).toBeNull()
   })
 
-  it('does not render if previously dismissed', () => {
+  it('ignores and clears the old permanent dismissal: only installing hides the card for good', () => {
     localStorage.setItem('pyfa.installDismissed', '1')
-    const { container } = render(<InstallCard />)
-    expect(container.firstChild).toBeNull()
+    render(<InstallCard />)
+    expect(screen.getByText('Add to Home Screen')).toBeTruthy()
+    expect(localStorage.getItem('pyfa.installDismissed')).toBeNull()
+  })
+
+  it('X hides the card for this session only; a new session shows it again', () => {
+    render(<InstallCard />)
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss' }))
+    expect(screen.queryByText('Add to Home Screen')).toBeNull()
+    cleanup()
+    render(<InstallCard />)
+    expect(screen.queryByText('Add to Home Screen')).toBeNull()
+    cleanup()
+    sessionStorage.clear() // a new session
+    render(<InstallCard />)
+    expect(screen.getByText('Add to Home Screen')).toBeTruthy()
+  })
+
+  it('never shows again once the app was installed (appinstalled)', () => {
+    render(<InstallCard />)
+    act(() => { window.dispatchEvent(new Event('appinstalled')) })
+    expect(screen.queryByText('Add to Home Screen')).toBeNull()
+    cleanup()
+    sessionStorage.clear()
+    render(<InstallCard />)
+    expect(screen.queryByText('Add to Home Screen')).toBeNull()
   })
 
   it('renders instructions for iOS Safari when no beforeinstallprompt exists', () => {
@@ -71,12 +96,10 @@ describe('InstallCard', () => {
     expect(promptMock).toHaveBeenCalled()
   })
 
-  it('dismisses card and saves state to localStorage', () => {
+  it('dismissing writes nothing permanent', () => {
     render(<InstallCard />)
-    const closeBtn = screen.getByRole('button', { name: 'Dismiss' })
-    fireEvent.click(closeBtn)
-
-    expect(localStorage.getItem('pyfa.installDismissed')).toBe('1')
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss' }))
+    expect(localStorage.getItem('pyfa.installDismissed')).toBeNull()
     expect(screen.queryByText('Add to Home Screen')).toBeNull()
   })
 

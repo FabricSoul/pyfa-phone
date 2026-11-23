@@ -23,14 +23,15 @@ export function DamageBar({ mix }: { mix: DamageTypes }) {
 }
 
 /** Charge picker: MetaGroupList whose rows show the damage mix and the DPS / range. */
-export function AmmoList({ groups, currentTypeId, onPick }: {
+export function AmmoList({ groups, currentTypeId, onPick, startCollapsed }: {
   groups: ChargeGroup[]
   currentTypeId?: number
   onPick?: (item: ChargeOption) => void
+  startCollapsed?: boolean
 }) {
   const lang = useNameLanguage()
   return (
-    <MetaGroupList groups={groups} currentTypeId={currentTypeId} valueUnit={_t('DPS')}
+    <MetaGroupList groups={groups} currentTypeId={currentTypeId} valueUnit={_t('DPS')} startCollapsed={startCollapsed}
       renderItem={(it, current) => {
         const range = it.optimalRange || it.falloff
           ? `${fmt(it.optimalRange / 1000)}${it.falloff ? ` + ${fmt(it.falloff / 1000)}` : ''} ${_t('km')}`

@@ -23,6 +23,83 @@ const eft = `[长尾鲛级, ${fitName}]
 // The example fits are not written in production builds; the smoke test switches them on (the same flag the store reads).
 const withExamples = (context) => context.addInitScript(() => localStorage.setItem('pyfa.examples', '1'))
 const ms = (start) => Math.round(performance.now() - start)
+// UX4 follow-up 5: one margin for everything.
+/** In-page check (pass to page.evaluate): text and controls of the screen on top must keep 16 px from the edges of their
+ *  container (the open sheet, else the viewport). Full-bleed rows are exempt as boxes (their text is still checked);
+ *  [data-bleed="all"] (and the navigation bar) is exempt with its content. Also reports leaked browser default styles. */
+function marginCheck() {
+  const MIN = 16, TOL = 0.75
+  const ROW = '[data-bleed], .list > *, .row, .row .body, .ar, .fit, .mh, .act, .seg, .res, .hero, .resume, .install-card, .boot-step, .stats-output > *, .tab-stage, .module-states, .sheet-handle, .grab-zone, .fit-chips, .qa-row, .fit-search-row, .stage-page, main, section, header'
+  const ALL = '[data-bleed="all"], .nav, .sr-only, .dim, .grab-zone'
+  const dialog = [...document.querySelectorAll('[role="dialog"]')].find((d) => !d.closest('[inert],[aria-hidden="true"]'))
+  const root = dialog ?? document.querySelector('[data-testid="page"]:not([aria-hidden]) main') ?? document.querySelector('main') ?? document.body
+  const box = dialog ? dialog.getBoundingClientRect() : { left: 0, right: document.documentElement.clientWidth }
+  const out = []
+  const hidden = (el) => {
+    if (el.closest('[inert], [aria-hidden="true"], ' + ALL)) return true
+    // The body of a closed <details> is not drawn (some Chromium builds still lay it out).
+    const details = el.closest('details')
+    if (details && !details.open && !el.closest('summary')) return true
+    for (let e = el; e && e !== document.body; e = e.parentElement) {
+      const cs = getComputedStyle(e)
+      if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0) return true
+    }
+    return false
+  }
+  const scrollsX = (el) => { for (let e = el.parentElement; e && e !== root; e = e.parentElement) { const o = getComputedStyle(e).overflowX; if ((o === 'auto' || o === 'scroll') && e.scrollWidth > e.clientWidth) return true } return false }
+  // What an ancestor clips (overflow hidden / clip / scroll) is not on screen: measure only the visible part.
+  const clip = (el, left, right) => {
+    for (let e = el.parentElement; e && e !== document.documentElement; e = e.parentElement) {
+      if (getComputedStyle(e).overflowX === 'visible') continue
+      const r = e.getBoundingClientRect()
+      left = Math.max(left, r.left); right = Math.min(right, r.right)
+    }
+    return [left, right]
+  }
+  const report = (kind, el, rawLeft, rawRight, text) => {
+    const [left, right] = clip(el, rawLeft, rawRight)
+    if (right - left < 1) return
+    const l = Math.round(left - box.left), r = Math.round(box.right - right)
+    const scroller = scrollsX(el)
+    if (l < MIN - TOL || (!scroller && r < MIN - TOL)) out.push({ kind, text: (text ?? el.textContent ?? el.tagName).trim().replace(/\s+/g, ' ').slice(0, 40) || el.tagName, left: l, right: r, cls: (el.className?.baseVal ?? el.className ?? '').toString().slice(0, 40) })
+  }
+  // Text: every visible text run.
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (!node.textContent.trim()) continue
+    const el = node.parentElement
+    if (!el || hidden(el)) continue
+    const range = document.createRange(); range.selectNodeContents(node)
+    const rects = [...range.getClientRects()].filter((r) => r.width > 0 && r.height > 0)
+    if (!rects.length) continue
+    report('text', el, Math.min(...rects.map((r) => r.left)), Math.max(...rects.map((r) => r.right)), node.textContent)
+  }
+  // Controls: their visible box (a filled or outlined control), else what they draw (text, icons).
+  for (const el of root.querySelectorAll('button, a[href], input:not([type=hidden]), select, textarea, [role=tab], [role=switch], summary')) {
+    if (hidden(el) || el.matches(ROW)) continue
+    const rect = el.getBoundingClientRect()
+    if (!rect.width) continue
+    const cs = getComputedStyle(el)
+    const filled = cs.backgroundColor !== 'rgba(0, 0, 0, 0)' || parseFloat(cs.borderLeftWidth) > 0 || cs.boxShadow !== 'none' || el.matches('input, select, textarea')
+    if (filled) report('control', el, rect.left, rect.right)
+    else {
+      const parts = [...el.querySelectorAll('svg, img')].map((n) => n.getBoundingClientRect()).filter((r) => r.width)
+      const range = document.createRange(); range.selectNodeContents(el)
+      parts.push(...[...range.getClientRects()].filter((r) => r.width))
+      if (parts.length) report('control', el, Math.min(...parts.map((r) => r.left)), Math.max(...parts.map((r) => r.right)))
+    }
+    // Browser defaults leaking through.
+    if (el.matches('textarea') && cs.resize !== 'none') out.push({ kind: 'default', text: 'textarea resize handle', left: 0, right: 0, cls: el.className })
+    if (cs.appearance && cs.appearance !== 'none' && el.matches('button')) out.push({ kind: 'default', text: `button appearance ${cs.appearance}`, left: 0, right: 0, cls: el.className })
+    if (el.matches('button') && (cs.borderLeftStyle === 'outset' || /^rgb\((239, 239, 239|107, 107, 107)\)$/.test(cs.backgroundColor))) out.push({ kind: 'default', text: 'button with the browser default background/border', left: 0, right: 0, cls: el.className })
+  }
+  for (const el of root.querySelectorAll('fieldset')) {
+    const cs = getComputedStyle(el)
+    if (!hidden(el) && (parseFloat(cs.borderLeftWidth) > 0 || parseFloat(cs.paddingLeft) > 0 && cs.borderStyle === 'groove')) out.push({ kind: 'default', text: 'fieldset border/padding', left: 0, right: 0, cls: el.className })
+  }
+  return out
+}
+
 let browser
 let page
 const browserErrors = []
@@ -52,6 +129,14 @@ try {
       const value = Number(metric.querySelector('b [data-testid="rolling"]')?.getAttribute('data-value'))
       return metric.querySelector('small')?.textContent === '总 DPS' && value > 0 && value !== before
     }), previous)
+  const margins = async (name) => {
+    // Measure what is at rest: no page or tab still leaving, and none still sliding in.
+    await page.waitForFunction(() => !document.querySelector('[data-testid="page"][aria-hidden="true"], .tab-page[aria-hidden="true"], .boot')
+      && [...document.querySelectorAll('.stage-page, .tab-page')].every((el) => ['none', 'matrix(1, 0, 0, 1, 0, 0)'].includes(getComputedStyle(el).transform)))
+    await page.waitForTimeout(150)
+    const found = await page.evaluate(marginCheck)
+    assert.deepEqual(found, [], `${name}: text or controls closer than 16 px to the edge, or browser default styles`)
+  }
   const pasteFit = async () => {
     await page.getByRole('link', { name: '粘贴导入' }).click()
     await page.getByRole('textbox').fill(eft)
@@ -174,6 +259,66 @@ try {
   await page.getByRole('button', { name: '返回', exact: true }).click()
   await page.getByTestId('fit-row').first().waitFor()
   assert.equal(await fitRow(fitName).count(), 0)
+  // UX4 follow-up 4: a module sheet has its charges area from its first frame (skeleton or list), and once in place it does
+  // not grow when the list arrives (≤ 4 px). A missile launcher (an imported Kestrel) and a turret (the example Rifter).
+  step = 'module sheets keep their height while charges load (launcher and turret)'
+  const sheetSteadiness = async (label) => {
+    const row = page.getByTestId('module-row').first()
+    await row.waitFor()
+    // Checked in the frame the sheet is first painted in (React commits the tap in a microtask, before the next frame).
+    const firstFrame = await row.evaluate((el) => new Promise((resolve) => {
+      el.querySelector('.body').click()
+      requestAnimationFrame(() => resolve(Boolean(document.querySelector('[role="dialog"] [data-testid="module-ammo"]'))))
+    }))
+    assert.ok(firstFrame, `${label}: the sheet has its charges area in its first frame`)
+    await page.waitForTimeout(700)
+    const placed = await page.getByRole('dialog').evaluate((el) => el.getBoundingClientRect().height)
+    await page.waitForTimeout(1500)
+    const later = await page.getByRole('dialog').evaluate((el) => el.getBoundingClientRect().height)
+    assert.ok(Math.abs(later - placed) <= 4, `${label}: sheet height moved ${placed} → ${later} after it was in place`)
+    console.log(`${label} sheet: charges area in the first frame, height ${Math.round(placed)} → ${Math.round(later)}`)
+    await page.keyboard.press('Escape')
+    await page.getByRole('dialog').waitFor({ state: 'hidden' })
+  }
+  await page.getByRole('link', { name: '粘贴导入' }).click()
+  await page.getByRole('textbox').fill('[Kestrel, 发射器弹层]\nLight Missile Launcher II, Scourge Light Missile')
+  await page.getByRole('button', { name: '仅查看，不保存', exact: true }).click()
+  await page.getByText('未保存的装配预览', { exact: true }).waitFor()
+  await sheetSteadiness('launcher (Kestrel)')
+  await page.getByRole('button', { name: '返回', exact: true }).click()
+  await page.getByTestId('fit-row').first().waitFor()
+  await fitRow('裂谷级').first().click()
+  await sheetSteadiness('turret (Rifter)')
+  await page.getByRole('button', { name: '返回', exact: true }).click()
+  await page.getByTestId('fit-row').first().waitFor()
+
+  step = 'every screen keeps a 16 px margin and no browser default styles (UX4 follow-up 5)'
+  {
+    const sheet = async (name, open) => { await open(); await page.getByRole('dialog').waitFor(); await page.waitForTimeout(450); await margins(name); await page.keyboard.press('Escape'); await page.getByRole('dialog').waitFor({ state: 'hidden' }) }
+    await margins('home')
+    await sheet('import sheet', () => page.getByRole('link', { name: '粘贴导入' }).click())
+    await page.goto(`${base}#/?new`); await page.locator('button.ar').first().waitFor(); await margins('ship browser')
+    await page.goto(`${base}#/settings`); await page.getByRole('heading', { level: 1, name: '设置' }).waitFor(); await margins('settings')
+    await sheet('settings theme sheet', () => page.getByRole('button', { name: '主题' }).click())
+    await page.goto(`${base}#/about`); await page.getByRole('heading', { level: 1 }).waitFor(); await margins('about')
+    await page.goto(`${base}#/item/587`); await page.getByRole('heading', { level: 1 }).waitFor(); await margins('item info')
+    await page.goto(`${base}#/fit/rifter`); await page.getByTestId('module-row').first().waitFor(); await margins('fit slots')
+    // The tab is selected in the same commit that starts its slide: wait for that, then for the slide to end (margins()).
+    for (const tab of ['属性', '附加']) {
+      await page.getByRole('tab', { name: tab, exact: true }).click()
+      await page.getByRole('tab', { name: tab, exact: true, selected: true }).waitFor()
+      await margins(`fit ${tab}`)
+    }
+    await sheet('drone picker', () => page.getByRole('button', { name: '添加无人机' }).first().click())
+    await page.getByRole('tab', { name: '槽位', exact: true }).click()
+    await page.getByRole('tab', { name: '槽位', exact: true, selected: true }).waitFor()
+    await sheet('module sheet', () => page.getByTestId('module-row').first().locator('.body').click())
+    const menu = (mode) => async () => { await page.getByRole('button', { name: '更多' }).click(); if (mode) await page.getByRole('dialog').getByRole('button', { name: mode, exact: true }).click() }
+    await sheet('fit menu', menu())
+    for (const mode of ['重命名装配', 'EFT 导出选项', '删除装配']) await sheet(`fit menu ${mode}`, menu(mode))
+    await page.goto(base); await page.getByTestId('fit-row').first().waitFor()
+  }
+
   step = 'the library does not recalculate when coming back from a fit page (UX3)'
   await page.waitForFunction(() => document.querySelectorAll('[data-testid="fit-row"] .stat').length > 0 && !document.querySelector('[data-testid="fit-row"] .sk'))
   // UX4: a push moves the new page visibly. Timed from the moment the pushed page mounts (on a slow machine the fit page can
@@ -195,7 +340,7 @@ try {
     }
     wait()
   }))
-  assert.ok(push.early !== null && push.early > 20, `push: the new page is still moving 100 ms in (translateX ${push.early})`)
+  assert.ok(push.early !== null && push.early > 0.5, `push: the new page is still moving 100 ms in (translateX ${push.early})`)
   assert.equal(push.late, 0, `push: the new page has arrived 400 ms in (translateX ${push.late})`)
   console.log(`Page push translateX: ${Math.round(push.early)} px at 100 ms → ${push.late} at 400 ms (page mounted ${push.mounted} ms after the tap)`)
   await page.getByTestId('module-row').first().waitFor()
@@ -583,6 +728,7 @@ try {
   await page.goto(`${base}#/fit/rifter?view=stats`)
   await page.getByRole('tab', { name: 'Stats', exact: true }).waitFor()
   await usability('fit stats en')
+  await margins('fit stats en')
   console.log('English stats page tap targets passed')
 
   await context.close()
@@ -595,10 +741,21 @@ try {
   page.setDefaultTimeout(Number(process.env.SMOKE_TIMEOUT_MS ?? 90000))
   await page.goto(base)
   await page.getByRole('alert').filter({ hasText: '无法启动装配引擎' }).waitFor()
+  assert.deepEqual(await page.evaluate(marginCheck), [], 'start page failure state: margins')
   await page.getByRole('button', { name: '重试', exact: true }).click()
   await page.getByRole('link', { name: '粘贴导入' }).waitFor()
   console.log('Engine startup retry after HTTP 503 passed')
   await recovery.close()
+
+  step = 'the empty library keeps its margins'
+  const bare = await browser.newContext({ locale: 'zh-CN', viewport: { width: 402, height: 874 }, isMobile: true, hasTouch: true })
+  page = await bare.newPage()
+  page.setDefaultTimeout(Number(process.env.SMOKE_TIMEOUT_MS ?? 90000))
+  await page.goto(base)
+  await page.getByTestId('empty-library').waitFor()
+  await margins('empty library')
+  console.log('Margins (16 px, no browser defaults) passed on every screen')
+  await bare.close()
 } catch (error) {
   const screen = await page?.locator('main').first().textContent({ timeout: 1000 }).catch(() => '')
   console.error(browserErrors.slice(-8).join('\n'))

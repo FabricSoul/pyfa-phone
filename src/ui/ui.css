@@ -559,3 +559,9 @@
   .boot-stars i, .cap[data-complete], .cap-cell[data-on="true"], .boot-step .boot-dot svg { animation: none; }
   .cap[data-complete]::after { animation: cap-flash 100ms linear both; }
 }
+/* Settings → Add to Home Screen sheet */
+.settings-install { padding: 0 var(--space-4) var(--space-4); }
+
+/* UX4 margin audit: no browser control styling leaks through (native button look, the textarea resize corner). */
+button, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]) { -webkit-appearance: none; appearance: none; }
+textarea { resize: none; }
