@@ -3,7 +3,9 @@
 import gzip
 import hashlib
 import json
+import shutil
 import sqlite3
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -76,3 +78,40 @@ def test_names_index_maps_both_languages(manifest):
 def test_images_exist():
     assert (IMG / "icons" / "387.png").is_file()
     assert (IMG / "renders" / "46.png").is_file()
+
+
+def test_clean_unreferenced_files(manifest):
+    fake_eve = DATA / "eve.20261122-34a39e9.db.gz"
+    fake_names = DATA / "names.20261122-34a39e9.json"
+    fake_py = DATA / "py.20261122-34a39e9.zip"
+    keep_file = DATA / "keep_unrelated.txt"
+    pyodide_dir = ROOT / "public" / "pyodide"
+    fake_pyodide_dir = pyodide_dir / "0.28.0"
+
+    fake_eve.write_bytes(b"fake eve")
+    fake_names.write_text('{"fake": true}', encoding="utf-8")
+    fake_py.write_bytes(b"fake py")
+    keep_file.write_text("keep me", encoding="utf-8")
+    fake_pyodide_dir.mkdir(parents=True, exist_ok=True)
+    (fake_pyodide_dir / "dummy.txt").write_text("old pyodide", encoding="utf-8")
+
+    try:
+        subprocess.run(["node", str(ROOT / "etl" / "40_bundle_py.mjs")], check=True, cwd=str(ROOT))
+
+        assert not fake_eve.exists(), "Unreferenced eve.* file should be deleted by cleanup"
+        assert not fake_names.exists(), "Unreferenced names.* file should be deleted by cleanup"
+        assert not fake_py.exists(), "Unreferenced py.* file should be deleted by cleanup"
+        assert not fake_pyodide_dir.exists(), "Unreferenced pyodide version directory should be deleted"
+        assert keep_file.is_file(), "Non-matching file in public/data should not be touched"
+
+        assert (DATA / manifest["db"]["file"]).is_file()
+        assert (DATA / manifest["names"]["file"]).is_file()
+        assert (DATA / manifest["py"]["file"]).is_file()
+        assert (pyodide_dir / manifest["pyodide"]["version"]).is_dir()
+    finally:
+        for p in (fake_eve, fake_names, fake_py, keep_file):
+            if p.exists():
+                p.unlink()
+        if fake_pyodide_dir.exists():
+            shutil.rmtree(fake_pyodide_dir, ignore_errors=True)
+
