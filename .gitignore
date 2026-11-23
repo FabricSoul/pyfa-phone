@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.wrangler/
+.ryugi/artifacts/.state/
+.ryugi/sdd/
+**/.artifact-id
+.DS_Store
+*.log
+public/data/
+build/
+__pycache__/
+.venv/
