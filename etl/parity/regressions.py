@@ -347,6 +347,115 @@ def regression_results(fits, data_version, client_build):
                 trials = [row for row in preview[0]['items'] if not row.get('fitRestriction')]
                 self.assertEqual(1 + len(trials), recalc.call_count)
 
+        def flat(self, groups):
+            return [row for group in groups for row in group['items']]
+
+        def test_g4_m03_wildcard_search_follows_pyfa_market_rules_in_both_languages(self):
+            import re
+            from service.market import SearchWorkerThread
+            universe = self.flat(call('items_for_slot', rifter, 'low', {'preview': False}))
+            self.assertGreater(len(universe), 500)
+
+            def pyfa_matches(term, language):
+                tokens = SearchWorkerThread._prepareRequestNormal(None, term)
+                return {row['typeId'] for row in universe
+                        if all(re.search(token, row['name'][language], re.IGNORECASE) for token in tokens)}
+
+            for term in ('Gyro*', 'gyro stab*', 'Gyro?', '*stabilizer II', 'Damage*II', 'Gyrostabilizer', 'Plate?'):
+                actual = {row['typeId'] for row in self.flat(call('items_for_slot', rifter, 'low', term, {'preview': False}))}
+                self.assertEqual(pyfa_matches(term, 'en'), actual & pyfa_matches(term, 'en'), term)
+                self.assertTrue(pyfa_matches(term, 'en') <= actual, term)
+            gyro = call('items_for_slot', rifter, 'low', 'Gyro*', {'preview': False})
+            self.assertIn('Gyrostabilizer II', [row['name']['en'] for row in self.flat(gyro)])
+            for term in ('回转*', '回转?稳定器', '*稳定器 II'):
+                tokens = SearchWorkerThread._prepareRequestNormal(None, term)
+                expected = {row['typeId'] for row in universe
+                            if all(re.search(token, row['name']['zh'], re.IGNORECASE) for token in tokens)}
+                actual = {row['typeId'] for row in self.flat(call('items_for_slot', rifter, 'low', term, {'preview': False}))}
+                self.assertTrue(expected and expected <= actual, term)
+            self.assertEqual([], call('items_for_slot', rifter, 'low', 'Gyro*zzzz', {'preview': False}))
+            vexor = self.empty_ship(626)
+            drones = self.flat(call('items_for_extra', vexor, 'drones', 'Hammer*'))
+            self.assertIn('Hammerhead II', [row['name']['en'] for row in drones])
+
+        def test_g4_p04_candidates_carry_key_values_before_any_preview(self):
+            plain = call('items_for_slot', rifter, 'low', 'Gyrostabilizer', {'preview': False})
+            self.assertTrue(plain)
+            for group in plain:
+                self.assertIsNotNone(group['best'], group['meta'])
+                self.assertTrue(all(row['keyValue'] is not None and row['keyLine'] for row in group['items']))
+            ii = next(row for row in self.flat(plain) if row['name']['en'] == 'Gyrostabilizer II')
+            self.assertEqual(ii['keyValue'], max(r['keyValue'] for r in self.flat(plain) if r['meta'] == 'tech2'))
+            # The same module in the neutral variations listing reports the identical key value.
+            neutral = {row['typeId']: row['keyValue'] for row in self.flat(call('variations_of', ii['typeId']))}
+            self.assertEqual(neutral[ii['typeId']], ii['keyValue'])
+
+        def test_g4_p04_extra_candidates_carry_key_values(self):
+            from eos.saveddata.drone import Drone
+            from eos.saveddata.fit import Fit
+            vexor = self.empty_ship(626)
+            drones = self.flat(call('items_for_extra', vexor, 'drones', 'Hammerhead II'))
+            hammer = next(row for row in drones if row['name']['en'] == 'Hammerhead II')
+            with api._temporary_fit():
+                native = Drone(api._engine.item(hammer['typeId']))
+                native.owner = Fit()
+                native.amount = native.amountActive = 1
+                self.assertAlmostEqual(native.getDps().total, hammer['keyValue'], places=3)
+            self.assertGreater(hammer['keyValue'], 0)
+            self.assertIn('DPS', hammer['keyLine'])
+
+        def test_g4_d01_variations_report_deltas_against_the_fitted_module(self):
+            from eos.saveddata.module import Module
+            pos = {'slot': 'high', 'index': 0}
+            current = rifter['modules']['high'][0]['typeId']
+            groups = call('variations_of', current, rifter, pos, 3)
+            rows = self.flat(groups)
+            self.assertNotIn(current, [row['typeId'] for row in rows])
+            self.assertGreater(len(rows), 3)
+            baseline = call('calc', rifter)['resources']['cpu']
+            left = baseline['total'] - baseline['used']
+            with api._temporary_fit():
+                fit, positions = api._engine.build(rifter)
+                mod = next(m for m in fit.modules if positions[id(m)] == ('high', 0))
+                current_cpu = mod.getModifiedItemAttr('cpu')
+                current_damage = mod.item.getAttribute('damageMultiplier')
+            for row in rows:
+                compare = row['compare']
+                variant = api._engine.item(row['typeId'])
+                with api._temporary_fit():
+                    fit, positions = api._engine.build(rifter)
+                    trial = Module(variant)
+                    trial.owner = fit
+                    fit.modules.appendIgnoreEmpty(trial)
+                    api._engine.recalc(fit)
+                    cpu = trial.getModifiedItemAttr('cpu')
+                self.assertAlmostEqual(cpu - current_cpu, compare['cpu'], places=3, msg=row['name']['en'])
+                self.assertAlmostEqual(left + 3 * (current_cpu - cpu), compare['cpuLeft'], places=3)
+                damage = variant.getAttribute('damageMultiplier')
+                self.assertAlmostEqual(damage / current_damage - 1, compare['damage'], places=4)
+            # Without a fit context the listing stays comparison-free.
+            self.assertTrue(all('compare' not in row for row in self.flat(call('variations_of', current))))
+
+        def test_g4_p14_ship_traits_and_skill_requirement_tree(self):
+            ship = call('item_info', 587)
+            self.assertTrue(ship['traits'])
+            first = ship['traits'][0]
+            self.assertIn('Minmatar Frigate', first['header']['en'])
+            self.assertIn('Small Projectile Turret rate of fire', ' '.join(b['en'] for b in first['bonuses']))
+            self.assertIn('小型射弹炮台射速', ' '.join(b['zh'] for b in first['bonuses']))
+            self.assertNotIn('<', ' '.join(b['en'] for b in first['bonuses']))
+            self.assertNotIn('traits', call('item_info', 2889))
+            tree = call('item_info', 2889)['skillTree']
+            gunnery = next(node for node in tree if node['name']['en'] == 'Small Projectile Turret')
+            self.assertEqual(['Gunnery'], [child['name']['en'] for child in gunnery['requires']])
+            self.assertEqual(1, gunnery['requires'][0]['requiredLevel'])
+            self.assertEqual(call('item_info', 2889)['skills'], [
+                {k: v for k, v in node.items() if k != 'requires'} for node in tree])
+            with api._temporary_fit():
+                from eos.saveddata.character import Character
+                level = int(Character.getAll5().getSkill(gunnery['requires'][0]['typeId']).level)
+            self.assertEqual(level, gunnery['requires'][0]['currentLevel'])
+
         def test_item_info_reports_fitted_cpu_only_for_the_matching_position(self):
             base = call('item_info', 2889)
             fitted = call('item_info', 2889, rifter, {'slot': 'high', 'index': 0})

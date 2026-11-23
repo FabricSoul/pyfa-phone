@@ -7,6 +7,7 @@
  * Demo text import selects a sample fit for its hull. Its exports cover a limited
  * subset of EFT, DNA and MultiBuy. The Worker exercises the real converters.
  */
+import { nameMatcher } from './nameMatch'
 import fitsJson from '../../etl/fixtures/fits.json'
 import catalogJson from './fixtures/catalog.json'
 import merlin from './fixtures/merlin.json'
@@ -186,10 +187,7 @@ export function groupItems<T extends ItemRow>(rows: T[]): ItemGroup<T>[] {
   return out
 }
 
-const matches = (row: ItemRow, query?: string) => {
-  const q = query?.trim().toLowerCase()
-  return !q || row.name.en.toLowerCase().includes(q) || row.name.zh.includes(q)
-}
+const matches = (row: ItemRow, query?: string) => nameMatcher(query)?.(row.name.en, row.name.zh) ?? true
 
 const SLOT_EFT: [SlotKind, string][] = [['low', 'Low'], ['mid', 'Med'], ['high', 'High'], ['rig', 'Rig'], ['subsystem', 'Subsystem']]
 
@@ -329,9 +327,8 @@ export const mockEngine: EngineClient = {
 
   async itemsForExtra(_fit, collection, query) {
     if (collection !== 'cargo' || !query.trim()) return []
-    const term = query.trim().toLowerCase()
-    return groupItems([...charges.values()].filter(({ name }) =>
-      [name.en, name.zh].some((title) => title.toLowerCase().includes(term))))
+    const matcher = nameMatcher(query)
+    return groupItems([...charges.values()].filter(({ name }) => matcher?.(name.en, name.zh) ?? true))
   },
 
   async getDataVersion() {
@@ -353,6 +350,18 @@ export const mockEngine: EngineClient = {
         { id: 30, name: { en: 'Powergrid usage', zh: '能量栅格占用' }, base: typeId === 2889 ? 4 : base.powergrid, current: installed ? base.powergrid : undefined },
       ] : [],
       skills: [],
+    }
+    if (typeId === 587) {
+      details.traits = [{
+        header: { en: 'Minmatar Frigate bonuses (per skill level):', zh: '米玛塔尔护卫舰操作每升一级：' },
+        bonuses: [{ en: '7.5% bonus to Small Projectile Turret rate of fire', zh: '7.5% 小型射弹炮台射速加成' }],
+      }]
+    }
+    if (typeId === 2889) {
+      const gunnery = { typeId: 3300, name: { en: 'Gunnery', zh: '炮术' }, requiredLevel: 1, currentLevel: 5, requires: [] }
+      details.skillTree = [{ typeId: 3303, name: { en: 'Small Projectile Turret', zh: '小型射弹炮台' }, requiredLevel: 1,
+        currentLevel: 5, requires: [gunnery] }]
+      details.skills = details.skillTree.map(({ requires: _requires, ...skill }) => skill)
     }
     if (typeId === 2889) {
       details.group = { en: 'Small Projectile Turret', zh: '小型射弹炮台' }
@@ -446,10 +455,20 @@ export const mockEngine: EngineClient = {
     return groupItems(options.filter((option) => !metaGroup || option.meta === metaGroup))
   },
 
-  async variationsOf(typeId) {
+  async variationsOf(typeId, fit, pos, count = 1) {
     const self = catalog.modules.find((m) => m.typeId === typeId)
     if (!self) return []
-    return groupItems(catalog.modules.filter((m) => m.family === self.family).map(browseRow))
+    const fitted = fit && pos && fit.modules[pos.slot][pos.index]?.typeId === typeId
+    const current = templateFor(typeId)
+    const result = fitted ? await mockEngine.calc(fit) : undefined
+    return groupItems(catalog.modules.filter((m) => m.family === self.family && !(fitted && m.typeId === typeId)).map((item) => {
+      const row = browseRow(item)
+      const cpu = row.fitting?.cpu
+      if (!result || !current || cpu === undefined) return row
+      const left = result.resources.cpu.total - result.resources.cpu.used
+      const round = (n: number) => Math.round(n * 100) / 100
+      return { ...row, compare: { damage: null, cpu: round(cpu - current.cpu), cpuLeft: round(left + count * (current.cpu - cpu)) } }
+    }))
   },
 
   async importText(text) {

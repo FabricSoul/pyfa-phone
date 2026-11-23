@@ -349,6 +349,15 @@ export const ItemRowSchema = z.object({
   resourceOverages: z.array(WarningSchema.extend({ overBy: num })).optional(),
   supportedStates: z.array(ModuleStateSchema).optional(),
   fitting: z.object({ cpu: num, powergrid: num }).optional(),
+  /** Variations only: how this module differs from the fitted one, with the fit's CPU after replacing them. */
+  compare: z.object({
+    /** Relative change of the base damage multiplier (-0.04 = 4% lower); null when it has none. */
+    damage: num.nullable(),
+    /** Fitted CPU difference in teraflops. */
+    cpu: num,
+    /** CPU left over once every replaced module is this one. */
+    cpuLeft: num,
+  }).optional(),
 })
 export type ItemRow = z.infer<typeof ItemRowSchema>
 
@@ -443,7 +452,8 @@ export interface EngineClient {
   marketGroupsForSlot?(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
   marketTreeForSlot?(slot: SlotKind): Promise<SlotMarketTree>
   chargesFor(fit: FitDoc, pos: ModulePos, metaGroup?: MetaGroup, options?: CalcOptions): Promise<ChargeGroup[]>
-  variationsOf(typeId: number): Promise<ItemGroup[]>
+  /** With the fitted module's position, rows carry `compare` and the fitted type itself is left out. */
+  variationsOf(typeId: number, fit?: FitDoc, pos?: ModulePos, count?: number): Promise<ItemGroup[]>
   importText(text: string): Promise<ImportResult>
   importAdditions?(text: string, destination: ImportAddition): Promise<ImportAdditionsResult>
   exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh', options?: Partial<EftExportOptions>): Promise<string>
@@ -466,4 +476,12 @@ export interface ItemDetails {
   description?: LName
   attributes: { id: number; name: LName; base: number; current?: number; unit?: string }[]
   skills: MissingSkill[]
+  /** Ships only: the bonuses each skill or role grants. */
+  traits?: { header: LName; bonuses: LName[] }[]
+  /** Requirements with the skills they need in turn. */
+  skillTree?: SkillNode[]
+}
+
+export interface SkillNode extends MissingSkill {
+  requires: SkillNode[]
 }

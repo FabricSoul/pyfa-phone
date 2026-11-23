@@ -82,6 +82,8 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   const [recentItems, setRecentItems] = useState<ItemRow[]>([])
   const path = `/fit/${record.id}`
   const search = query.trim()
+  const focusParam = Number(params.get('market'))
+  const focusId = Number.isSafeInteger(focusParam) && focusParam > 0 ? focusParam : undefined
 
   useEffect(() => {
     let live = true
@@ -105,6 +107,25 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     }, 0)
     return () => { live = false; clearTimeout(timer) }
   }, [engine, fit, recentIds, slot])
+
+  // Arriving from "View in market": open the module's branch once the tree is known and clear any search.
+  const [jumped, setJumped] = useState<number>()
+  useEffect(() => {
+    if (focusId === undefined || !tree || jumped === focusId) return
+    let live = true
+    void engine.itemsForSlot(fit, slot, undefined, { typeIds: [focusId], preview: false }).then((groups) => {
+      const item = groups.flatMap((group) => group.items)[0]
+      if (!live) return
+      setJumped(focusId)
+      if (!item?.marketGroup) return
+      const ids = [...item.marketGroup.ancestors ?? [], item.marketGroup].map(({ id }) => id)
+      const root = ids.indexOf(tree.rootId)
+      if (root < 0) return
+      setQuery('')
+      setSelection({ branch: ids.slice(root + 1, root + 3), meta: item.meta })
+    }, () => { if (live) setJumped(focusId) })
+    return () => { live = false }
+  }, [engine, fit, focusId, jumped, setQuery, setSelection, slot, tree])
 
   const selectedIndex = params.has('index') ? Number(params.get('index')) : undefined
   const total = result?.resources.slots[slot].total ?? 0
@@ -145,7 +166,7 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
       {expanded && <>
         {showChildren && node.children.map((child) => renderNode(child, branch))}
         {(!showChildren || node.directCount > 0) && <CandidateList slot={slot} groupId={node.id} exactGroup={showChildren}
-          disabled={index === undefined} expanded={defaultMeta ? [defaultMeta] : []} onPick={pick}
+          disabled={index === undefined} expanded={defaultMeta ? [defaultMeta] : []} onPick={pick} focusId={focusId}
           onToggle={(meta) => setSelection({ branch, meta: defaultMeta === meta ? undefined : meta })} />}
       </>}
     </div>
@@ -183,7 +204,7 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   </main>
 }
 
-function CandidateList({ slot, search = '', groupId, exactGroup = false, disabled, expanded, onToggle, onPick }: {
+function CandidateList({ slot, search = '', groupId, exactGroup = false, disabled, expanded, onToggle, onPick, focusId }: {
   slot: SlotKind
   search?: string
   groupId?: number
@@ -192,6 +213,7 @@ function CandidateList({ slot, search = '', groupId, exactGroup = false, disable
   expanded?: MetaGroup[]
   onToggle?: (meta: MetaGroup) => void
   onPick: (item: ItemRow) => void
+  focusId?: number
 }) {
   const { engine } = useFitServices()
   const { fit } = useFitSession()
@@ -222,11 +244,11 @@ function CandidateList({ slot, search = '', groupId, exactGroup = false, disable
   return <MetaGroupList groups={groups.map((group) => previews[group.meta] ?? group)}
     expanded={expanded} onToggleExpanded={onToggle}
     renderGroup={(group) => <CandidateRows group={group} slot={slot} search={search} filter={filter}
-      disabled={disabled} checked={Boolean(previews[group.meta])}
+      disabled={disabled} checked={Boolean(previews[group.meta])} focusId={focusId}
       onChecked={(preview) => setPreviews((before) => ({ ...before, [group.meta]: preview }))} onPick={onPick} />} />
 }
 
-function CandidateRows({ group, slot, search, filter, disabled, checked, onChecked, onPick }: {
+function CandidateRows({ group, slot, search, filter, disabled, checked, onChecked, onPick, focusId }: {
   group: ItemGroup
   slot: SlotKind
   search: string
@@ -235,6 +257,7 @@ function CandidateRows({ group, slot, search, filter, disabled, checked, onCheck
   checked: boolean
   onChecked: (preview: ItemGroup) => void
   onPick: (item: ItemRow) => void
+  focusId?: number
 }) {
   const lang = useNameLanguage()
   const { marketGroupId, exactMarketGroup } = filter
@@ -262,7 +285,9 @@ function CandidateRows({ group, slot, search, filter, disabled, checked, onCheck
     {group.items.map((item) => {
       const warnings = fittingWarnings(item)
       const restriction = item.fitRestriction
-      return <button key={item.typeId} type="button" className={restriction ? 'ar candidate-restricted' : 'ar candidate'}
+      const focused = item.typeId === focusId
+      return <button key={item.typeId} type="button" className={`${restriction ? 'ar candidate-restricted' : 'ar candidate'}${focused ? ' on' : ''}`}
+        aria-current={focused || undefined} ref={focused ? (node) => node?.scrollIntoView?.({ block: 'center' }) : undefined}
         disabled={disabled || restriction !== undefined} onClick={() => onPick(item)}>
         <ItemIcon src={iconUrl(item.iconId)} />
         <span className="mn">

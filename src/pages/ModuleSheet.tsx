@@ -179,6 +179,9 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
     <SheetAction icon="swap" onClick={() => navigate(`${path}/variations/${positionKey({ slot, index: source })}${individual ? '?single=1' : ''}`)}>
       {_t('Replace with a variation')}
     </SheetAction>
+    <SheetAction icon="list" onClick={() => navigate(`${path}/add/${slot}?market=${row.typeId}`)}>
+      {_t('View in market')}
+    </SheetAction>
     <SheetAction icon="info" onClick={() => navigate(`/item/${row.typeId}?fit=${encodeURIComponent(record.id)}&pos=${positionKey({ slot, index: source })}`)}>
       {_t('Item information')}
     </SheetAction>

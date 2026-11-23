@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 00:04-0500\n"
+"POT-Creation-Date: 2026-11-23 00:11-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -106,7 +106,7 @@ msgstr ""
 msgid "Affects effective HP · built into pyfa"
 msgstr ""
 
-#: src/pages/AddModule.tsx:303
+#: src/pages/AddModule.tsx:328
 msgid "After fitting: {resources}"
 msgstr ""
 
@@ -160,7 +160,7 @@ msgstr[1] ""
 msgid "Armor"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:54 src/pages/ItemInfo.tsx:58
+#: src/pages/ItemInfo.tsx:68 src/pages/ItemInfo.tsx:73
 msgid "Attributes"
 msgstr ""
 
@@ -188,7 +188,7 @@ msgstr ""
 msgid "Backup restored: {n} fits"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:59
+#: src/pages/ItemInfo.tsx:74
 msgid "Base → fitted"
 msgstr ""
 
@@ -200,12 +200,16 @@ msgstr ""
 msgid "Boosters"
 msgstr ""
 
-#: src/pages/AddModule.tsx:178 src/pages/AddModule.tsx:179
+#: src/pages/AddModule.tsx:199 src/pages/AddModule.tsx:200
 msgid "Browse by market category"
 msgstr ""
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:177 src/pages/AddModule.tsx:296 src/pages/AddModule.tsx:324 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:126 src/pages/Variations.tsx:17 src/pages/Variations.tsx:90 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
 msgid "CPU"
+msgstr ""
+
+#: src/pages/Variations.tsx:18 src/pages/Variations.tsx:80
+msgid "CPU left"
 msgstr ""
 
 #: src/pages/Fit.tsx:131
@@ -256,8 +260,12 @@ msgstr ""
 msgid "Check the link or go back to the fittings list."
 msgstr ""
 
-#: src/pages/AddModule.tsx:260
+#: src/pages/AddModule.tsx:283
 msgid "Checking fit…"
+msgstr ""
+
+#: src/pages/Variations.tsx:95
+msgid "Compared with the current base damage multiplier and CPU. Replacing changes {n} modules."
 msgstr ""
 
 #: src/pages/Settings.tsx:232
@@ -288,7 +296,7 @@ msgstr ""
 msgid "Copy of {name}"
 msgstr ""
 
-#: src/pages/AddModule.tsx:261
+#: src/pages/AddModule.tsx:284
 msgid "Could not check fitting resources"
 msgstr ""
 
@@ -296,7 +304,7 @@ msgstr ""
 msgid "Could not complete action"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:190
+#: src/pages/ModuleSheet.tsx:193
 msgid "Could not fill empty slots"
 msgstr ""
 
@@ -308,7 +316,7 @@ msgstr ""
 msgid "Could not load fit"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:49
+#: src/pages/ItemInfo.tsx:63
 msgid "Could not load item information"
 msgstr ""
 
@@ -316,11 +324,11 @@ msgstr ""
 msgid "Could not load items"
 msgstr ""
 
-#: src/pages/AddModule.tsx:163 src/pages/AddModule.tsx:219
+#: src/pages/AddModule.tsx:184 src/pages/AddModule.tsx:241
 msgid "Could not load modules"
 msgstr ""
 
-#: src/pages/Variations.tsx:64
+#: src/pages/Variations.tsx:83
 msgid "Could not load or replace variations"
 msgstr ""
 
@@ -348,8 +356,12 @@ msgstr ""
 msgid "Could not start the fitting engine"
 msgstr ""
 
-#: src/ui/DamageRangeChart.tsx:40
+#: src/pages/Variations.tsx:79 src/pages/Variations.tsx:89 src/ui/DamageRangeChart.tsx:40
 msgid "Current"
+msgstr ""
+
+#: src/pages/Variations.tsx:85
+msgid "Current module"
 msgstr ""
 
 #: src/ui/pickers/CharacterPicker.tsx:43
@@ -366,6 +378,10 @@ msgstr ""
 
 #: src/pages/Fit.tsx:112 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:25 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
 msgid "DPS"
+msgstr ""
+
+#: src/pages/Variations.tsx:16
+msgid "Damage"
 msgstr ""
 
 #: src/ui/DamageRangeChart.tsx:43 src/ui/DamageRangeChart.tsx:64 src/ui/StatsPage.tsx:103
@@ -424,7 +440,7 @@ msgstr ""
 msgid "Delta"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:55 src/pages/ItemInfo.tsx:71
+#: src/pages/ItemInfo.tsx:70 src/pages/ItemInfo.tsx:94
 msgid "Description"
 msgstr ""
 
@@ -540,7 +556,7 @@ msgstr ""
 msgid "Fighters"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:187
+#: src/pages/ModuleSheet.tsx:190
 msgid "Fill empty slots of this type"
 msgstr ""
 
@@ -640,7 +656,7 @@ msgstr ""
 msgid "Incoming damage pattern"
 msgstr ""
 
-#: src/pages/AddModule.tsx:284
+#: src/pages/AddModule.tsx:309
 msgid "Incompatible with this ship"
 msgstr ""
 
@@ -660,11 +676,11 @@ msgstr ""
 msgid "Interface language"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:46 src/pages/ModuleSheet.tsx:183
+#: src/pages/ItemInfo.tsx:60 src/pages/ModuleSheet.tsx:186
 msgid "Item information"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:51
+#: src/pages/ItemInfo.tsx:65
 msgid "Item information unavailable"
 msgstr ""
 
@@ -716,11 +732,11 @@ msgstr ""
 msgid "Loading items…"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:50
+#: src/pages/ItemInfo.tsx:64
 msgid "Loading item…"
 msgstr ""
 
-#: src/pages/AddModule.tsx:164 src/pages/AddModule.tsx:220
+#: src/pages/AddModule.tsx:185 src/pages/AddModule.tsx:242
 msgid "Loading modules…"
 msgstr ""
 
@@ -728,7 +744,7 @@ msgstr ""
 msgid "Loading ships…"
 msgstr ""
 
-#: src/pages/Variations.tsx:65
+#: src/pages/Variations.tsx:84
 msgid "Loading variations…"
 msgstr ""
 
@@ -756,11 +772,11 @@ msgstr ""
 msgid "Max velocity"
 msgstr ""
 
-#: src/pages/AddModule.tsx:283
+#: src/pages/AddModule.tsx:308
 msgid "Maximum for this module group fitted"
 msgstr ""
 
-#: src/pages/AddModule.tsx:282
+#: src/pages/AddModule.tsx:307
 msgid "Maximum of this module fitted"
 msgstr ""
 
@@ -784,7 +800,7 @@ msgstr ""
 msgid "Module actions"
 msgstr ""
 
-#: src/pages/Variations.tsx:63
+#: src/pages/Variations.tsx:82
 msgid "Module not found"
 msgstr ""
 
@@ -816,11 +832,11 @@ msgstr ""
 msgid "New fit defaults"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:69
+#: src/pages/ItemInfo.tsx:84
 msgid "No attributes available"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:190
+#: src/pages/ModuleSheet.tsx:193
 msgid "No compatible empty slots"
 msgstr ""
 
@@ -828,7 +844,7 @@ msgstr ""
 msgid "No compatible items found"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:73
+#: src/pages/ItemInfo.tsx:96
 msgid "No description available"
 msgstr ""
 
@@ -836,7 +852,7 @@ msgstr ""
 msgid "No drones can be activated with the current fit."
 msgstr ""
 
-#: src/pages/AddModule.tsx:165 src/pages/AddModule.tsx:288
+#: src/pages/AddModule.tsx:186 src/pages/AddModule.tsx:313
 msgid "No empty slot"
 msgstr ""
 
@@ -844,7 +860,7 @@ msgstr ""
 msgid "No fits yet"
 msgstr ""
 
-#: src/pages/AddModule.tsx:289
+#: src/pages/AddModule.tsx:314
 msgid "No free hardpoint"
 msgstr ""
 
@@ -856,7 +872,7 @@ msgstr ""
 msgid "No matching fits"
 msgstr ""
 
-#: src/pages/AddModule.tsx:181 src/pages/AddModule.tsx:221
+#: src/pages/AddModule.tsx:202 src/pages/AddModule.tsx:243
 msgid "No matching modules"
 msgstr ""
 
@@ -864,11 +880,11 @@ msgstr ""
 msgid "No ships available"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:83
+#: src/pages/ItemInfo.tsx:101
 msgid "No skill requirements"
 msgstr ""
 
-#: src/pages/Variations.tsx:66
+#: src/pages/Variations.tsx:98
 msgid "No variations"
 msgstr ""
 
@@ -904,7 +920,7 @@ msgstr ""
 msgid "Other ships"
 msgstr ""
 
-#: src/pages/AddModule.tsx:300 src/pages/shared.tsx:36 src/ui/ResourceGauge.tsx:24
+#: src/pages/AddModule.tsx:325 src/pages/shared.tsx:36 src/ui/ResourceGauge.tsx:24
 msgid "Over"
 msgstr ""
 
@@ -964,7 +980,7 @@ msgstr ""
 msgid "PowerGrid"
 msgstr ""
 
-#: src/pages/AddModule.tsx:156 src/pages/AddModule.tsx:271 src/pages/AddModule.tsx:299 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21
+#: src/pages/AddModule.tsx:177 src/pages/AddModule.tsx:296 src/pages/AddModule.tsx:324 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21
 msgid "Powergrid"
 msgstr ""
 
@@ -980,7 +996,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: src/pages/AddModule.tsx:166 src/pages/AddModule.tsx:167
+#: src/pages/AddModule.tsx:187 src/pages/AddModule.tsx:188
 msgid "Recent modules"
 msgstr ""
 
@@ -1024,11 +1040,11 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:197
+#: src/pages/ModuleSheet.tsx:200
 msgid "Remove module"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:197
+#: src/pages/ModuleSheet.tsx:200
 msgid "Remove {n} modules"
 msgstr ""
 
@@ -1040,7 +1056,7 @@ msgstr ""
 msgid "Rename fit"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:180 src/pages/Variations.tsx:61
+#: src/pages/ModuleSheet.tsx:180 src/pages/Variations.tsx:77
 msgid "Replace with a variation"
 msgstr ""
 
@@ -1048,11 +1064,11 @@ msgstr ""
 msgid "Replace {n} fits"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:56
+#: src/pages/ItemInfo.tsx:71
 msgid "Requirements"
 msgstr ""
 
-#: src/pages/AddModule.tsx:287
+#: src/pages/AddModule.tsx:312
 msgid "Requires a capital ship"
 msgstr ""
 
@@ -1120,7 +1136,7 @@ msgstr ""
 msgid "Search items"
 msgstr ""
 
-#: src/pages/AddModule.tsx:159 src/pages/AddModule.tsx:160
+#: src/pages/AddModule.tsx:180 src/pages/AddModule.tsx:181
 msgid "Search modules"
 msgstr ""
 
@@ -1160,6 +1176,10 @@ msgstr ""
 msgid "Ship faction"
 msgstr ""
 
+#: src/pages/ItemInfo.tsx:86
+msgid "Ship traits"
+msgstr ""
+
 #: src/ui/pickers/TargetProfilePicker.tsx:26
 msgid "Shows effective DPS when selected · built into pyfa"
 msgstr ""
@@ -1168,7 +1188,7 @@ msgstr ""
 msgid "Signature radius"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:75
+#: src/pages/ItemInfo.tsx:98
 msgid "Skill requirements"
 msgstr ""
 
@@ -1216,7 +1236,7 @@ msgstr ""
 msgid "Strict skill requirements"
 msgstr ""
 
-#: src/pages/AddModule.tsx:286
+#: src/pages/AddModule.tsx:311
 msgid "Subsystem slot already occupied"
 msgstr ""
 
@@ -1312,6 +1332,10 @@ msgstr ""
 msgid "Total price includes"
 msgstr ""
 
+#: src/pages/ItemInfo.tsx:69
+msgid "Traits"
+msgstr ""
+
 #: src/pages/ShipBrowser.tsx:22
 msgid "Triglavian"
 msgstr ""
@@ -1344,6 +1368,10 @@ msgstr ""
 msgid "Use character implants"
 msgstr ""
 
+#: src/pages/ModuleSheet.tsx:183
+msgid "View in market"
+msgstr ""
+
 #: src/pages/Import.tsx:179
 msgid "View only without saving"
 msgstr ""
@@ -1356,7 +1384,7 @@ msgstr ""
 msgid "Warp Speed"
 msgstr ""
 
-#: src/pages/AddModule.tsx:285
+#: src/pages/AddModule.tsx:310
 msgid "Wrong rig size"
 msgstr ""
 
@@ -1428,7 +1456,7 @@ msgstr ""
 msgid "{n} items"
 msgstr ""
 
-#: src/pages/AddModule.tsx:294
+#: src/pages/AddModule.tsx:319
 msgid "{n} remaining"
 msgstr ""
 

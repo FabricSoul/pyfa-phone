@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
-import type { ItemDetails } from '../engine/types'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
+import type { ItemDetails, SkillNode } from '../engine/types'
 import { _t } from '../i18n/t'
 import { iconUrl, lname, fmt, useNameLanguage } from '../ui/format'
 import { ItemIcon } from '../ui/ItemIcon'
@@ -9,7 +9,21 @@ import { Segmented } from '../ui/Segmented'
 import { parsePosition, useFitServices } from './fitSession'
 import { EmptyMessage, FitSection, PageHeading } from './shared'
 
-type View = 'attributes' | 'description' | 'skills'
+type View = 'attributes' | 'traits' | 'description' | 'skills'
+
+function SkillTree({ nodes, fitId, language }: { nodes: SkillNode[]; fitId: string; language: ReturnType<typeof useNameLanguage> }) {
+  return <ul className="list skill-tree">
+    {nodes.map((skill) => <li key={skill.typeId}>
+      <Link className="fit-data-row" to={`/item/${skill.typeId}${fitId ? `?fit=${encodeURIComponent(fitId)}` : ''}`}>
+        <span>{lname(skill.name, language)}</span>
+        <span className={`num ${skill.currentLevel < skill.requiredLevel ? 'warn' : ''}`}>
+          {fmt(skill.currentLevel)}/{fmt(skill.requiredLevel)}
+        </span>
+      </Link>
+      {skill.requires.length > 0 && <div className="skill-children" style={{ paddingLeft: 16 }}><SkillTree nodes={skill.requires} fitId={fitId} language={language} /></div>}
+    </li>)}
+  </ul>
+}
 
 export function ItemInfo() {
   const { typeId: param } = useParams()
@@ -52,6 +66,7 @@ function Details({ typeId, fitId, position }: { typeId: number; fitId: string; p
     {item && <>
       <Segmented value={view} onChange={setView} options={[
         { value: 'attributes', label: _t('Attributes') },
+        ...item.traits?.length ? [{ value: 'traits' as const, label: _t('Traits') }] : [],
         { value: 'description', label: _t('Description') },
         { value: 'skills', label: _t('Requirements') },
       ]} />
@@ -68,19 +83,22 @@ function Details({ typeId, fitId, position }: { typeId: number; fitId: string; p
           </div>)}
         </dl> : <EmptyMessage>{_t('No attributes available')}</EmptyMessage>}
       </FitSection>}
+      {view === 'traits' && item.traits && <FitSection title={_t('Ship traits')}>
+        {item.traits.map((trait, index) => <div key={index} role="group" aria-label={lname(trait.header, language)}>
+          <h3 className="fit-filter-label">{lname(trait.header, language)}</h3>
+          <ul className="list">
+            {trait.bonuses.map((bonus, line) => <li key={line} className="fit-inset item-description">{lname(bonus, language)}</li>)}
+          </ul>
+        </div>)}
+      </FitSection>}
       {view === 'description' && <FitSection title={_t('Description')}>
         {item.description ? <p className="fit-inset item-description">{lname(item.description, language)}</p>
           : <EmptyMessage>{_t('No description available')}</EmptyMessage>}
       </FitSection>}
       {view === 'skills' && <FitSection title={_t('Skill requirements')}>
-        {item.skills.length ? <ul className="list">
-          {item.skills.map((skill) => <li key={skill.typeId} className="fit-data-row">
-            <span>{lname(skill.name, language)}</span>
-            <span className={`num ${skill.currentLevel < skill.requiredLevel ? 'warn' : ''}`}>
-              {fmt(skill.currentLevel)}/{fmt(skill.requiredLevel)}
-            </span>
-          </li>)}
-        </ul> : <EmptyMessage>{_t('No skill requirements')}</EmptyMessage>}
+        {(item.skillTree ?? item.skills.map((skill) => ({ ...skill, requires: [] }))).length
+          ? <SkillTree nodes={item.skillTree ?? item.skills.map((skill) => ({ ...skill, requires: [] }))} fitId={fitId} language={language} />
+          : <EmptyMessage>{_t('No skill requirements')}</EmptyMessage>}
       </FitSection>}
     </>}
   </main>

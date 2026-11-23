@@ -1,5 +1,6 @@
 """JSON-compatible bridge to the original pyfa fitting engine and services."""
 
+import html
 import json
 import math
 import re
@@ -19,6 +20,17 @@ _SLOT_EFFECT = {
 }
 _NUMBER = re.compile(r'([+-]?(?:\d+(?:\.\d*)?|\.\d+))([kMG]?)')
 _MAGNITUDE = {'': 1, 'k': 1000, 'M': 10**6, 'G': 10**9}
+
+
+def _name_matcher(term):
+    """pyfa's market search: tokens split on spaces, `*` and `?` are wildcards, all tokens must match."""
+    from service.market import SearchWorkerThread
+
+    tokens = [re.compile(token, re.IGNORECASE)
+              for token in SearchWorkerThread._prepareRequestNormal(None, term or '')]
+    if not tokens:
+        return None
+    return lambda *names: any(all(token.search(name) for token in tokens) for name in names if name)
 
 
 def initialize(db_path, names_path, data_version, client_build):
@@ -209,8 +221,10 @@ def _initial_state(mod, fit):
 
 
 def items_for_slot(fit_json, slot, filters=None, options=None):
+    from eos.saveddata.fit import Fit
+
     filters = {**(options or {}), **({'query': filters} if isinstance(filters, str) else filters or {})}
-    term = (filters.get('query') or '').strip().casefold()
+    matches = _name_matcher(filters.get('query'))
     group = filters.get('group')
     market_id = filters.get('marketGroupId')
     meta = filters.get('metaGroup') or filters.get('meta')
@@ -230,7 +244,7 @@ def items_for_slot(fit_json, slot, filters=None, options=None):
         and (group is None or group == group_id)
         and (valid_market_ids is None or leaf in valid_market_ids)
         and (meta is None or item_meta == meta)
-        and (not term or term in en.casefold() or (zh and term in zh.casefold()))
+        and (matches is None or matches(en, zh))
     }
     if not selected:
         return []
@@ -238,6 +252,7 @@ def items_for_slot(fit_json, slot, filters=None, options=None):
     calc_options = filters.get('calcOptions')
     with _temporary_fit(), _calculation_settings(calc_options):
         fit = _engine.build(fit_json, calc_options)[0]
+        neutral = Fit()
         rows = []
         candidates = [(mod, _fit_restriction(mod, fit), _initial_state(mod, fit))
                       for mod in _slot_modules(selected, slot)]
@@ -252,10 +267,16 @@ def items_for_slot(fit_json, slot, filters=None, options=None):
             if leaf is not None:
                 fields['marketGroup'] = _engine.market_path(leaf)
 
-            if restriction or not preview:
-                if restriction:
-                    fields['fitRestriction'] = restriction
-                rows.append({**_engine.item_row(mod.item), **fields})
+            if restriction:
+                rows.append({**_engine.item_row(mod.item), **fields, 'fitRestriction': restriction})
+                continue
+            if not preview:
+                # Base key values, so each technology group can show its best before it is opened.
+                mod.owner = neutral
+                try:
+                    rows.append({**_module_row(mod), **fields})
+                finally:
+                    mod.owner = None
                 continue
 
             mod.owner = fit  # required by pyfa's module columns before the next flush
@@ -391,6 +412,33 @@ def _item_attributes(item, current):
     return rows
 
 
+_TAG = re.compile(r'<[^>]+>')
+_TRAIT_SECTION = re.compile(r'<b>(.*?)</b>(.*?)(?=<b>|\Z)', re.S)
+_LINE_BREAK = re.compile(r'<br\s*/?>', re.I)
+
+
+def _trait_sections(text):
+    sections = []
+    for header, body in _TRAIT_SECTION.findall(text or ''):
+        lines = [html.unescape(_TAG.sub('', line)).strip() for line in _LINE_BREAK.split(body)]
+        sections.append((html.unescape(_TAG.sub('', header)).strip(), [line for line in lines if line]))
+    return sections
+
+
+def _traits(item):
+    """Ship traits grouped by the skill (or role) that grants them, in both languages."""
+    traits = item.traits
+    if traits is None:
+        return []
+    en = _trait_sections(traits.traitText)
+    zh = _trait_sections(traits.traitText_zh)
+    if [len(lines) for _, lines in zh] != [len(lines) for _, lines in en]:
+        zh = en
+    return [{'header': {'en': head, 'zh': zh_head or head},
+             'bonuses': [{'en': line, 'zh': zh_line} for line, zh_line in zip(lines, zh_lines)]}
+            for (head, lines), (zh_head, zh_lines) in zip(en, zh)]
+
+
 def item_info(type_id, fit_json=None, pos=None, options=None):
     from eos.saveddata.character import Character
 
@@ -416,17 +464,27 @@ def item_info(type_id, fit_json=None, pos=None, options=None):
                         elif module.charge is not None and module.charge.ID == type_id:
                             current = module.getModifiedChargeAttr
 
+        def skill_nodes(owner, seen=()):
+            return [
+                {'typeId': skill.ID, 'name': _engine.lname(skill), 'requiredLevel': level,
+                 'currentLevel': int(character.getSkill(skill.ID).level),
+                 'requires': skill_nodes(skill, seen + (skill.ID,)) if skill.ID not in seen else []}
+                for skill, level in sorted(owner.requiredSkills.items(), key=lambda entry: entry[0].ID)
+            ]
+
+        tree = skill_nodes(item)
         result = {
             'typeId': item.ID, 'name': _engine.lname(item), 'iconId': item.iconID,
             'meta': meta_of(_engine.market.getMetaGroupIdByItem(item, fallback=1)),
             'group': _engine.group_name(item.group),
             'attributes': _item_attributes(item, current),
-            'skills': [
-                {'typeId': skill.ID, 'name': _engine.lname(skill), 'requiredLevel': level,
-                 'currentLevel': int(character.getSkill(skill.ID).level)}
-                for skill, level in sorted(item.requiredSkills.items(), key=lambda entry: entry[0].ID)
-            ],
+            'skills': [{key: value for key, value in node.items() if key != 'requires'}
+                       for node in tree],
+            'skillTree': tree,
         }
+        traits = _traits(item)
+        if traits:
+            result['traits'] = traits
         if item.description or item._description_zh:
             result['description'] = {'en': item.description or item._description_zh,
                                      'zh': item._description_zh or item.description}
@@ -447,32 +505,65 @@ def charges_for(fit_json, pos, meta_group=None, options=None):
         return _groups(_engine.charge_options(fit, module, meta_group))
 
 
-def variations_of(type_id):
+def variations_of(type_id, fit_json=None, pos=None, count=1):
+    """Same-family items. With a fit and position, each module also reports how it differs from the fitted one."""
     from eos.saveddata.fit import Fit
     from eos.saveddata.module import Module
 
     item = _engine.item(type_id)
     rows = []
     neutral = Fit()  # Base module attributes with pyfa's default reload policy.
-    for variant in _engine.market.getVariationsByItems([item]):
-        if not variant.published:
-            continue
-        if variant.category.name == 'Charge':
-            rows.append(_engine.charge_row(variant))
-            continue
-        if variant.category.name not in ('Module', 'Subsystem', 'Structure Module') or (
-            'burst projector' in variant.name.lower()
-        ):
-            # Burst projectors need the equipped ship radius for their range.
-            rows.append(_engine.item_row(variant))
-            continue
-        try:
-            mod = Module(variant)
-        except ValueError:
-            rows.append(_engine.item_row(variant))
-            continue
-        mod.owner = neutral
-        rows.append(_module_row(mod))
+    with _temporary_fit():
+        fit = current = None
+        if fit_json is not None and pos is not None:
+            fit, positions = _engine.build(fit_json)
+            current = next((mod for mod in fit.modules if positions[id(mod)] == (pos['slot'], pos['index'])), None)
+            if current is None or current.isEmpty or current.item.ID != type_id:
+                fit = current = None
+        if current is not None:
+            resource = _engine.resources(fit)['cpu']
+            cpu_left = resource['total'] - resource['used']
+            current_cpu = current.getModifiedItemAttr('cpu') or 0
+            current_damage = current.item.getAttribute('damageMultiplier')
+
+        for variant in _engine.market.getVariationsByItems([item]):
+            if not variant.published or (current is not None and variant.ID == type_id):
+                continue
+            if variant.category.name == 'Charge':
+                rows.append(_engine.charge_row(variant))
+                continue
+            if variant.category.name not in ('Module', 'Subsystem', 'Structure Module') or (
+                'burst projector' in variant.name.lower()
+            ):
+                # Burst projectors need the equipped ship radius for their range.
+                rows.append(_engine.item_row(variant))
+                continue
+            try:
+                mod = Module(variant)
+            except ValueError:
+                rows.append(_engine.item_row(variant))
+                continue
+            mod.owner = neutral
+            row = _module_row(mod)
+            if current is not None:
+                # Fitted CPU includes the pilot's skills and fitted bonuses, so measure it on the fit.
+                mod.owner = fit
+                fit.modules.appendIgnoreEmpty(mod)
+                try:
+                    _engine.recalc(fit)
+                    cpu = mod.getModifiedItemAttr('cpu') or 0
+                finally:
+                    fit.modules.remove(mod)
+                    mod.owner = None
+                damage = variant.getAttribute('damageMultiplier')
+                row['compare'] = {
+                    'damage': r(damage / current_damage - 1) if damage and current_damage else None,
+                    'cpu': r(cpu - current_cpu),
+                    'cpuLeft': r(cpu_left + count * (current_cpu - cpu)),
+                }
+            rows.append(row)
+        if current is not None:
+            _engine.recalc(fit)
     return _groups(rows)
 
 
@@ -539,9 +630,29 @@ def _extra_catalog(collection, query, remaining=None, attribute=None, occupied=(
               AND (:collection != 'boosters' OR invgroups.name = 'Booster')
               AND (:remaining IS NULL OR value.value <= :remaining)
         """), {'category': category, 'attribute': attribute, 'collection': collection, 'remaining': remaining}).all()
-    term = query.strip().casefold()
+    matches = _name_matcher(query)
     return [(type_id, en, zh, icon, meta, level) for type_id, en, zh, icon, meta, level, value in rows
-            if value not in occupied and (not term or term in en.casefold() or term in (zh or '').casefold())]
+            if value not in occupied and (matches is None or matches(en, zh))]
+
+
+def _extra_key(collection, type_id):
+    """Base damage per second of one drone or fighter, the figure pyfa sorts these by."""
+    from eos.saveddata.drone import Drone
+    from eos.saveddata.fighter import Fighter
+    from eos.saveddata.fit import Fit
+
+    none = {'keyValue': None, 'keyLine': ''}
+    if collection not in ('drones', 'fighters'):
+        return none
+    try:
+        unit = (Drone if collection == 'drones' else Fighter)(_engine.item(type_id))
+        unit.owner = Fit()
+        if collection == 'drones':
+            unit.amount = unit.amountActive = 1
+        dps = r(unit.getDps().total)
+    except (AttributeError, TypeError, ValueError):
+        return none
+    return {'keyValue': dps, 'keyLine': f'{r(dps, 1)} DPS'} if dps else none
 
 
 def items_for_extra(fit_json, collection, query=''):
@@ -568,7 +679,7 @@ def items_for_extra(fit_json, collection, query=''):
             rows = [row for row in rows if constructor(_engine.item(row[0])).fits(fit)]
         return _groups([
             {'typeId': type_id, 'name': {'en': en, 'zh': zh or en}, 'iconId': icon,
-             'meta': meta_of(meta), 'metaLevel': level, 'keyValue': None, 'keyLine': ''}
+             'meta': meta_of(meta), 'metaLevel': level, **_extra_key(collection, type_id)}
             for type_id, en, zh, icon, meta, level in rows
         ])
 
