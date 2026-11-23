@@ -1,0 +1,39 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 1
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: astral-sh/setup-uv@v6
+      - run: pnpm install --frozen-lockfile
+      - name: Game data ETL
+        run: pnpm etl
+      - name: ETL tests
+        run: uv run -q --python 3.13 --with sqlalchemy==2.0.51 --with logbook==1.9.2 --with pyyaml --with cryptography --with pytest python -m pytest -q etl/test_etl.py
+      - name: All gates
+        run: ./check-all.sh
+      - name: Report to OwlMem
+        if: always() && github.event_name == 'push'
+        env:
+          OWLMEM_CI_KEY: ${{ secrets.OWLMEM_CI_KEY }}
+        run: |
+          [ -n "$OWLMEM_CI_KEY" ] || exit 0
+          curl -s -X POST https://mcp.owlmem.com/v1/ci \
+            -H "Authorization: Bearer $OWLMEM_CI_KEY" \
+            -d "{\"repo\":\"$GITHUB_REPOSITORY\",\"sha\":\"$GITHUB_SHA\",\"ok\":${{ job.status == 'success' }},\"step\":\"main\",\"url\":\"$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\"}"
