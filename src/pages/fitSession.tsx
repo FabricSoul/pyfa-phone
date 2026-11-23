@@ -34,6 +34,8 @@ interface Session {
   fit: FitDoc
   result?: CalcResult
   removed: RemovedItem[]
+  includeReload: boolean
+  setIncludeReload: (include: boolean) => void
   canUndo: boolean
   canRedo: boolean
   edit(update: (fit: FitDoc) => FitDoc, itemNames?: Record<number, LName>): void
@@ -106,6 +108,8 @@ export function FitWorkspace() {
 function Workspace({ id }: { id: string }) {
   const { engine, store, histories } = useFitServices()
   const { considerReload } = useSettings()
+  const [reloadOverride, setIncludeReload] = useState<boolean>()
+  const includeReload = reloadOverride ?? considerReload
   const [record, setRecord] = useState<StoredFit>()
   const [history, setHistory] = useState<History<FitDoc>>()
   const historyRef = useRef<History<FitDoc> | undefined>(undefined)
@@ -153,14 +157,14 @@ function Workspace({ id }: { id: string }) {
   useEffect(() => {
     if (!fit || removed.some((item) => item.typeId === fit.shipTypeId)) return
     let current = true
-    void engine.calc(withoutRetiredItems(fit, removed), { includeReload: considerReload }).then((calc) => {
+    void engine.calc(withoutRetiredItems(fit, removed), { includeReload }).then((calc) => {
       if (!current) return
       setResult(calc)
       setCalcError(false)
       void store.rememberNames(id, resultNames(calc)).catch(() => { if (current) setSaveError(true) })
     }, (error: unknown) => { console.error('Could not calculate fit', error); if (current) setCalcError(true) })
     return () => { current = false }
-  }, [considerReload, engine, fit, id, removed, store])
+  }, [includeReload, engine, fit, id, removed, store])
 
   if (missing) return <NotFound title={_t('Fit not found')} />
   if (loadError || calcError && !result) return <>
@@ -188,6 +192,8 @@ function Workspace({ id }: { id: string }) {
     fit: history.present,
     result,
     removed: removed.filter((item) => presentIds.has(item.typeId)),
+    includeReload,
+    setIncludeReload,
     canUndo: history.past.length > 0,
     canRedo: history.future.length > 0,
     edit: (update, itemNames) => apply((value) => commit(value, update(value.present)), itemNames),

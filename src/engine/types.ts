@@ -98,6 +98,8 @@ export const ChargeInfoSchema = z.object({
   iconId: z.number().int().nullable(),
   /** Charges loaded per module. */
   count: z.number().int(),
+  cycles: z.number().int().nonnegative().optional(),
+  omega: z.boolean().optional(),
   removed: z.literal(true).optional(),
 })
 export type ChargeInfo = z.infer<typeof ChargeInfoSchema>
@@ -118,6 +120,17 @@ export const ModuleSlotRowSchema = z.object({
   keyLine: z.string(),
   /** The non-empty parts of keyLine, most important first (UI bolds the first). */
   keyParts: z.array(z.string()),
+  omega: z.boolean().optional(),
+  dps: num.optional(),
+  rangeText: z.string().optional(),
+  miscText: z.string().optional(),
+  miscTooltip: z.string().optional(),
+  capacitor: z.string().optional(),
+  velocityBonus: num.optional(),
+  repairPerSecond: num.optional(),
+  missileRange: z.object({ low: num, high: num, highChance: num }).optional(),
+  calibration: num.optional(),
+  hullResistanceBonus: num.optional(),
   /** Per module, not multiplied by count. */
   cpu: num,
   powergrid: num,
@@ -155,7 +168,7 @@ const LayerSchema = z.object({ hp: num, ehp: num, resists: DamageTypesSchema })
 const TankSchema = z.object({ passiveShield: num, shield: num, armor: num, hull: num })
 
 export const StatsSchema = z.object({
-  firepower: z.object({ dps: num, weaponDps: num, droneDps: num, volley: num, includesReload: z.boolean() }),
+  firepower: z.object({ dps: num, weaponDps: num, droneDps: num, volley: num, includesReload: z.boolean(), effective: z.boolean().optional() }),
   mining: z.object({ miner: num, drone: num, total: num, unit: z.literal('m³/s') }),
   defense: z.object({
     hp: num,
@@ -195,7 +208,15 @@ export const StatsSchema = z.object({
     maxTargetRange: num,
     maxTargets: num,
     scanResolution: num,
-    sensorType: z.enum(['radar', 'ladar', 'magnetometric', 'gravimetric']).nullable(),
+    sensorType: z.enum(['radar', 'ladar', 'magnetometric', 'gravimetric', 'multispectral']).nullable(),
+    jamChance: num.optional(),
+    agility: num.optional(),
+    maxWarpDistance: num.optional(),
+    warpCoreStrength: num.optional(),
+    lockTimes: z.array(z.object({
+      target: z.enum(['pod', 'interceptor', 'frigate', 'destroyer', 'cruiser', 'battlecruiser', 'battleship', 'carrier']),
+      seconds: num,
+    })).optional(),
     sensorStrength: num,
     /** metres */
     droneControlRange: num,
@@ -506,6 +527,7 @@ export interface ItemDetails {
   meta?: MetaGroup
   group?: LName
   description?: LName
+  omega?: boolean
   attributes: { id: number; name: LName; base: number; current?: number; unit?: string }[]
   skills: MissingSkill[]
   /** Ships only: the bonuses each skill or role grants. */

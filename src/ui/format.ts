@@ -1,5 +1,5 @@
 import type { LName } from '../engine/types'
-import { useUiLanguage, type UiLanguage } from '../i18n/t'
+import { _t, useUiLanguage, type UiLanguage } from '../i18n/t'
 import { useItemNameLanguage, type ItemNameLanguage } from '../settings/settings'
 
 /** One decimal at most, integers without ".0", thousands separated (DESIGN.md §3). */
@@ -72,4 +72,15 @@ export function capacitorText(cap: { stable: boolean; stablePercent: number | nu
 export function usedPercent({ used, total }: { used: number; total: number }): string {
   if (used > total) return '100%'
   return `${total > 0 ? Number((used / total * 100).toFixed(1)) : 0}%`
+}
+
+/** Compact localized duration for the capacitor status. */
+export function fmtDuration(value: number): string {
+  if (!Number.isFinite(value)) return fmt(value)
+  const seconds = Math.max(0, Math.round(value))
+  const minutes = Math.floor(seconds / 60)
+  const remainder = fmt(seconds % 60)
+  return minutes
+    ? _t('{minutes} min {seconds} s').replace('{minutes}', fmt(minutes)).replace('{seconds}', remainder)
+    : _t('{seconds} s').replace('{seconds}', remainder)
 }

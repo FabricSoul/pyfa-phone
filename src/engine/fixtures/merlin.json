@@ -160,13 +160,21 @@
             "zh": "虚空 S"
           },
           "iconId": 1314,
-          "count": 80
+          "count": 80,
+          "cycles": 80,
+          "omega": false
         },
+        "omega": false,
         "keyLine": "3.15km+4.38km · 356",
         "keyParts": [
           "3.15km+4.38km",
           "356"
         ],
+        "rangeText": "3.15km+4.38km",
+        "miscText": "356",
+        "miscTooltip": "Tracking speed",
+        "capacitor": "-0.547",
+        "dps": 54.3142,
         "cpu": 13.5,
         "powergrid": 8.93,
         "overSlots": false
@@ -194,8 +202,11 @@
           "overheated"
         ],
         "charge": null,
+        "omega": true,
         "keyLine": "",
         "keyParts": [],
+        "capacitor": "-0.733",
+        "velocityBonus": 168.75,
         "cpu": 15,
         "powergrid": 11,
         "overSlots": false
@@ -221,11 +232,16 @@
           "overheated"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "9km · -2",
         "keyParts": [
           "9km",
           "-2"
         ],
+        "rangeText": "9km",
+        "miscText": "-2",
+        "miscTooltip": "Warp core strength modification",
+        "capacitor": "-0.9",
         "cpu": 36,
         "powergrid": 1,
         "overSlots": false
@@ -249,6 +265,7 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
         "cpu": 35,
@@ -276,8 +293,10 @@
           "overheated"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
+        "capacitor": "-3.2",
         "cpu": 44,
         "powergrid": 1,
         "overSlots": false
@@ -303,10 +322,13 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "+22.9%",
         "keyParts": [
           "+22.9%"
         ],
+        "miscText": "+22.9%",
+        "miscTooltip": "Hybrid weapon DPS boost",
         "cpu": 30,
         "powergrid": 1,
         "overSlots": false
@@ -330,8 +352,10 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
+        "hullResistanceBonus": 40,
         "cpu": 30,
         "powergrid": 1,
         "overSlots": false
@@ -365,8 +389,10 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
+        "calibration": 200,
         "cpu": 0,
         "powergrid": 0,
         "overSlots": false
@@ -390,8 +416,10 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
+        "calibration": 100,
         "cpu": 0,
         "powergrid": 0,
         "overSlots": false
@@ -405,7 +433,8 @@
       "weaponDps": 162.9426,
       "droneDps": 0,
       "volley": 316.4141,
-      "includesReload": false
+      "includesReload": false,
+      "effective": false
     },
     "mining": {
       "unit": "m³/s",
@@ -505,6 +534,44 @@
       "maxTargets": 5,
       "scanResolution": 725,
       "sensorType": "gravimetric",
+      "jamChance": 0,
+      "agility": 2.43,
+      "maxWarpDistance": 260.9385,
+      "warpCoreStrength": 0,
+      "lockTimes": [
+        {
+          "target": "pod",
+          "seconds": 3.6044
+        },
+        {
+          "target": "interceptor",
+          "seconds": 3.1428
+        },
+        {
+          "target": "frigate",
+          "seconds": 2.9415
+        },
+        {
+          "target": "destroyer",
+          "seconds": 2.1112
+        },
+        {
+          "target": "cruiser",
+          "seconds": 1.7843
+        },
+        {
+          "target": "battlecruiser",
+          "seconds": 1.4021
+        },
+        {
+          "target": "battleship",
+          "seconds": 1.2169
+        },
+        {
+          "target": "carrier",
+          "seconds": 0.729
+        }
+      ],
       "sensorStrength": 13.2,
       "droneControlRange": 60000,
       "mass": 1497000

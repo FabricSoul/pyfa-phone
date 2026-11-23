@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 
-from engine import Engine, META_ORDER, SLOT_KINDS, STATE_NAMES, meta_of, r
+from engine import Engine, META_ORDER, SLOT_KINDS, STATE_NAMES, meta_of, r, requires_omega
 from headless import bootstrap
 
 _engine = None
@@ -477,6 +477,7 @@ def item_info(type_id, fit_json=None, pos=None, options=None):
             'typeId': item.ID, 'name': _engine.lname(item), 'iconId': item.iconID,
             'meta': meta_of(_engine.market.getMetaGroupIdByItem(item, fallback=1)),
             'group': _engine.group_name(item.group),
+            'omega': requires_omega(item),
             'attributes': _item_attributes(item, current),
             'skills': [{key: value for key, value in node.items() if key != 'requires'}
                        for node in tree],

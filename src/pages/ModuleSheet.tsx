@@ -5,10 +5,11 @@ import { _t } from '../i18n/t'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { AmmoList } from '../ui/AmmoList'
 import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
+import { PriceValue } from '../ui/PriceValue'
 import { ItemIcon } from '../ui/ItemIcon'
 import { Segmented } from '../ui/Segmented'
 import { Icon } from '../ui/icons'
-import { MODULE_STATE_ICONS } from '../ui/ModuleRow'
+import { ChargeSummary, MODULE_STATE_ICONS, ModuleMetrics, OmegaMark } from '../ui/ModuleRow'
 import { positionKey, useFitServices, useFitSession, useRemoveModules, withModules } from './fitSession'
 
 function stateName(state: ModuleState) {
@@ -33,17 +34,17 @@ function stateMetrics({ stats }: CalcResult) {
   ]
 }
 
-export function ModuleSheet({ selected, row, onClose }: { selected?: ModulePos; row?: ModuleSlotRow; onClose: () => void }) {
+export function ModuleSheet({ selected, row, price, onClose }: { selected?: ModulePos; row?: ModuleSlotRow; price?: number | null; onClose: () => void }) {
   return <ActionSheet open={Boolean(selected && row)} title={_t('Module actions')} onClose={onClose}>
-    {selected && row && <ModuleControls key={positionKey(selected)} selected={selected} row={row} onClose={onClose} />}
+    {selected && row && <ModuleControls key={positionKey(selected)} selected={selected} row={row} price={price} onClose={onClose} />}
   </ActionSheet>
 }
 
-function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: ModuleSlotRow; onClose: () => void }) {
+function ModuleControls({ selected, row, price, onClose }: { selected: ModulePos; row: ModuleSlotRow; price?: number | null; onClose: () => void }) {
   const language = useNameLanguage()
   const navigate = useNavigate()
   const { engine } = useFitServices()
-  const { edit, fit, record, result } = useFitSession()
+  const { edit, fit, record, result, includeReload } = useFitSession()
   const isMounted = useRef(false)
   const [filling, setFilling] = useState(false)
   const [fillMessage, setFillMessage] = useState<'error' | 'none'>()
@@ -110,21 +111,29 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   useEffect(() => {
     let live = true
     if (typeId !== undefined) {
-      void engine.chargesFor(fit, { slot, index: source }).then((groups) => {
+      void engine.chargesFor(fit, { slot, index: source }, undefined, { includeReload }).then((groups) => {
         if (live) { setAmmo({ fit, index: source, groups }); setError(false) }
       }, () => { if (live) setError(true) })
     }
     return () => { live = false }
-  }, [engine, fit, slot, source, typeId])
+  }, [engine, fit, includeReload, slot, source, typeId])
 
   return <>
     <header className="module-sheet-heading">
       <ItemIcon src={iconUrl(row.iconId)} />
       <div>
-        <h2>{lname(row.name, language)} {positions.length > 1 && <span className="num">×{positions.length}</span>}</h2>
+        <h2>{lname(row.name, language)} {row.omega && <OmegaMark />} {positions.length > 1 && <span className="num">×{positions.length}</span>}</h2>
+        <div className="fit-caption module-sheet-metrics"><ModuleMetrics row={row} /></div>
         <p className="fit-caption num">
-          {row.keyLine && `${row.keyLine} · `}{_t('CPU')} {fmt(row.cpu)} · {_t('Powergrid')} {fmt(row.powergrid)}
+          {_t('CPU')} {fmt(row.cpu)} · {_t('Powergrid')} {fmt(row.powergrid)}
+          {row.capacitor && <> · {row.capacitor} {_t('GJ/s')}</>}
         </p>
+        {row.missileRange && <p className="fit-caption num">
+          {_t('Missile flight range')} · {fmt(row.missileRange.low / 1000)} {_t('km')} ({fmt((1 - row.missileRange.highChance) * 100)}%)
+          {' · '}{fmt(row.missileRange.high / 1000)} {_t('km')} ({fmt(row.missileRange.highChance * 100)}%)
+        </p>}
+        {row.charge && <p className="fit-caption"><ChargeSummary charge={row.charge} /></p>}
+        <p className="fit-caption num">{_t('Price per module')} · <span><PriceValue value={price} /></span></p>
       </div>
     </header>
     {individual && <div className="fit-chips">

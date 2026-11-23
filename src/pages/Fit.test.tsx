@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { afterEach, expect, it, vi } from 'vitest'
 import { FittingRoutes } from '../App'
 import { mockEngine } from '../engine/mockClient'
-import { resetSettings } from '../settings/settings'
+import { getSettings, resetSettings } from '../settings/settings'
 import { createFitStore } from '../store/fits'
 
 afterEach(() => { cleanup(); resetSettings() })
@@ -95,3 +95,31 @@ it('shows calculated DPS and volley changes when selecting overheat in the modul
   expect(await within(sheet).findByText(/180\.9 → 208\.1/)).toBeTruthy()
   expect(await within(sheet).findByText(/249\.5 → 286\.9/)).toBeTruthy()
 }, 10_000)
+
+it('D05 highlights the open module, shows the current character, and opens ship info', async () => {
+  render(<MemoryRouter initialEntries={['/fit/rifter']}><FittingRoutes
+    engine={mockEngine} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+  expect(await screen.findByText(/^Rifter · All V$/)).toBeTruthy()
+  const row = (await screen.findAllByTestId('module-row'))[0]!
+  fireEvent.click(row)
+  await screen.findByRole('dialog')
+  expect(row.classList.contains('sel')).toBe(true)
+  fireEvent.click(screen.getByTestId('sheet-dim'))
+  expect(row.classList.contains('sel')).toBe(false)
+  fireEvent.click(screen.getByRole('button', { name: 'Ship information' }))
+  expect(await screen.findByRole('heading', { name: 'Rifter' })).toBeTruthy()
+})
+
+it('D06 keeps reload local across fit tabs, without changing the global default', async () => {
+  const calc = vi.fn(mockEngine.calc)
+  render(<MemoryRouter initialEntries={['/fit/rifter?view=stats']}><FittingRoutes
+    engine={{ ...mockEngine, calc }} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+  fireEvent.click(await screen.findByRole('button', { name: 'Factor in Reload Time' }))
+  await waitFor(() => expect(calc.mock.lastCall?.[1]?.includeReload).toBe(true))
+  expect(getSettings().considerReload).toBe(false)
+  fireEvent.click(screen.getByRole('tab', { name: 'Slots' }))
+  fireEvent.click(screen.getByRole('tab', { name: 'Stats' }))
+  expect(screen.getByRole('button', { name: 'Factor in Reload Time' }).getAttribute('aria-pressed')).toBe('true')
+})

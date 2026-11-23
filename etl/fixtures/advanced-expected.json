@@ -123,6 +123,14 @@
         }
       }
     },
+    "extras": {
+      "items": {
+        "2185": {
+          "iconId": 1084,
+          "graphicId": 1095
+        }
+      }
+    },
     "slots": {
       "high": [
         {
@@ -180,7 +188,8 @@
         "weaponDps": 0,
         "droneDps": 237.6,
         "volley": 950.4,
-        "includesReload": false
+        "includesReload": false,
+        "effective": false
       },
       "mining": {
         "unit": "m³/s",
@@ -280,6 +289,44 @@
         "maxTargets": 6,
         "scanResolution": 350,
         "sensorType": "magnetometric",
+        "jamChance": 0,
+        "agility": 0.378,
+        "maxWarpDistance": 401.6932,
+        "warpCoreStrength": 0,
+        "lockTimes": [
+          {
+            "target": "pod",
+            "seconds": 7.4662
+          },
+          {
+            "target": "interceptor",
+            "seconds": 6.5101
+          },
+          {
+            "target": "frigate",
+            "seconds": 6.093
+          },
+          {
+            "target": "destroyer",
+            "seconds": 4.3733
+          },
+          {
+            "target": "cruiser",
+            "seconds": 3.696
+          },
+          {
+            "target": "battlecruiser",
+            "seconds": 2.9044
+          },
+          {
+            "target": "battleship",
+            "seconds": 2.5207
+          },
+          {
+            "target": "carrier",
+            "seconds": 1.5101
+          }
+        ],
         "sensorStrength": 19.2,
         "droneControlRange": 60000,
         "mass": 11100000
@@ -309,15 +356,7 @@
       "distancesKm": [],
       "series": []
     },
-    "warnings": [],
-    "extras": {
-      "items": {
-        "2185": {
-          "iconId": 1084,
-          "graphicId": 1095
-        }
-      }
-    }
+    "warnings": []
   },
   "thanatos": {
     "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
@@ -446,6 +485,14 @@
         }
       }
     },
+    "extras": {
+      "items": {
+        "23057": {
+          "iconId": 1084,
+          "graphicId": 2975
+        }
+      }
+    },
     "slots": {
       "high": [
         {
@@ -506,7 +553,8 @@
         "weaponDps": 0,
         "droneDps": 501.1272,
         "volley": 4282.0312,
-        "includesReload": false
+        "includesReload": false,
+        "effective": false
       },
       "mining": {
         "unit": "m³/s",
@@ -606,6 +654,44 @@
         "maxTargets": 12,
         "scanResolution": 81.25,
         "sensorType": "magnetometric",
+        "jamChance": 0,
+        "agility": 0.0148,
+        "maxWarpDistance": 8167.023,
+        "warpCoreStrength": 0,
+        "lockTimes": [
+          {
+            "target": "pod",
+            "seconds": 32.1621
+          },
+          {
+            "target": "interceptor",
+            "seconds": 28.0435
+          },
+          {
+            "target": "frigate",
+            "seconds": 26.247
+          },
+          {
+            "target": "destroyer",
+            "seconds": 18.8387
+          },
+          {
+            "target": "cruiser",
+            "seconds": 15.9213
+          },
+          {
+            "target": "battlecruiser",
+            "seconds": 12.5113
+          },
+          {
+            "target": "battleship",
+            "seconds": 10.8584
+          },
+          {
+            "target": "carrier",
+            "seconds": 6.505
+          }
+        ],
         "sensorStrength": 91.2,
         "droneControlRange": 60000,
         "mass": 1220000000
@@ -635,15 +721,7 @@
       "distancesKm": [],
       "series": []
     },
-    "warnings": [],
-    "extras": {
-      "items": {
-        "23057": {
-          "iconId": 1084,
-          "graphicId": 2975
-        }
-      }
-    }
+    "warnings": []
   },
   "legion": {
     "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
@@ -825,10 +903,13 @@
             "online"
           ],
           "charge": null,
+          "omega": true,
           "keyLine": "+ 1M, 3L",
           "keyParts": [
             "+ 1M, 3L"
           ],
+          "miscText": "+ 1M, 3L",
+          "miscTooltip": "Slot Modifiers",
           "cpu": 0,
           "powergrid": 0,
           "overSlots": false
@@ -852,10 +933,13 @@
             "online"
           ],
           "charge": null,
+          "omega": true,
           "keyLine": "+ 1M, 3L",
           "keyParts": [
             "+ 1M, 3L"
           ],
+          "miscText": "+ 1M, 3L",
+          "miscTooltip": "Slot Modifiers",
           "cpu": 0,
           "powergrid": 0,
           "overSlots": false
@@ -879,10 +963,13 @@
             "online"
           ],
           "charge": null,
+          "omega": true,
           "keyLine": "+ 7H",
           "keyParts": [
             "+ 7H"
           ],
+          "miscText": "+ 7H",
+          "miscTooltip": "Slot Modifiers",
           "cpu": 0,
           "powergrid": 0,
           "overSlots": false
@@ -906,10 +993,13 @@
             "online"
           ],
           "charge": null,
+          "omega": true,
           "keyLine": "+ 1M, 1L",
           "keyParts": [
             "+ 1M, 1L"
           ],
+          "miscText": "+ 1M, 1L",
+          "miscTooltip": "Slot Modifiers",
           "cpu": 0,
           "powergrid": 0,
           "overSlots": false
@@ -922,7 +1012,8 @@
         "weaponDps": 0,
         "droneDps": 0,
         "volley": 0,
-        "includesReload": false
+        "includesReload": false,
+        "effective": false
       },
       "mining": {
         "unit": "m³/s",
@@ -1022,6 +1113,44 @@
         "maxTargets": 6,
         "scanResolution": 287.5,
         "sensorType": "radar",
+        "jamChance": 0,
+        "agility": 0.351,
+        "maxWarpDistance": 516.9233,
+        "warpCoreStrength": 0,
+        "lockTimes": [
+          {
+            "target": "pod",
+            "seconds": 9.0893
+          },
+          {
+            "target": "interceptor",
+            "seconds": 7.9253
+          },
+          {
+            "target": "frigate",
+            "seconds": 7.4176
+          },
+          {
+            "target": "destroyer",
+            "seconds": 5.324
+          },
+          {
+            "target": "cruiser",
+            "seconds": 4.4995
+          },
+          {
+            "target": "battlecruiser",
+            "seconds": 3.5358
+          },
+          {
+            "target": "battleship",
+            "seconds": 3.0687
+          },
+          {
+            "target": "carrier",
+            "seconds": 1.8384
+          }
+        ],
         "sensorStrength": 20.4,
         "droneControlRange": 60000,
         "mass": 14500000
@@ -1226,13 +1355,21 @@
               "zh": "多频晶体 S"
             },
             "iconId": 1131,
-            "count": 1
+            "count": 1,
+            "cycles": 0,
+            "omega": false
           },
+          "omega": false,
           "keyLine": "5.25km+1.25km · 385",
           "keyParts": [
             "5.25km+1.25km",
             "385"
           ],
+          "rangeText": "5.25km+1.25km",
+          "miscText": "385",
+          "miscTooltip": "Tracking speed",
+          "capacitor": "-0.451",
+          "dps": 55.0802,
           "cpu": 3,
           "powergrid": 5.4,
           "overSlots": false
@@ -1289,7 +1426,8 @@
         "weaponDps": 220.3208,
         "droneDps": 0,
         "volley": 333.1251,
-        "includesReload": false
+        "includesReload": false,
+        "effective": false
       },
       "mining": {
         "unit": "m³/s",
@@ -1389,6 +1527,44 @@
         "maxTargets": 7,
         "scanResolution": 650,
         "sensorType": "radar",
+        "jamChance": 0,
+        "agility": 2.025,
+        "maxWarpDistance": 1366.6803,
+        "warpCoreStrength": 0,
+        "lockTimes": [
+          {
+            "target": "pod",
+            "seconds": 4.0203
+          },
+          {
+            "target": "interceptor",
+            "seconds": 3.5054
+          },
+          {
+            "target": "frigate",
+            "seconds": 3.2809
+          },
+          {
+            "target": "destroyer",
+            "seconds": 2.3548
+          },
+          {
+            "target": "cruiser",
+            "seconds": 1.9902
+          },
+          {
+            "target": "battlecruiser",
+            "seconds": 1.5639
+          },
+          {
+            "target": "battleship",
+            "seconds": 1.3573
+          },
+          {
+            "target": "carrier",
+            "seconds": 0.8131
+          }
+        ],
         "sensorStrength": 31.2,
         "droneControlRange": 60000,
         "mass": 1800000
@@ -1712,8 +1888,11 @@
             "overheated"
           ],
           "charge": null,
+          "omega": true,
           "keyLine": "",
           "keyParts": [],
+          "capacitor": "-12",
+          "velocityBonus": 637.5,
           "cpu": 50,
           "powergrid": 165,
           "overSlots": false
@@ -1752,8 +1931,11 @@
             "overheated"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "",
           "keyParts": [],
+          "capacitor": "-17.8",
+          "repairPerSecond": 40.8889,
           "cpu": 28,
           "powergrid": 138,
           "overSlots": false
@@ -1786,7 +1968,8 @@
         "weaponDps": 0,
         "droneDps": 0,
         "volley": 0,
-        "includesReload": false
+        "includesReload": false,
+        "effective": false
       },
       "mining": {
         "unit": "m³/s",
@@ -1886,6 +2069,44 @@
         "maxTargets": 6,
         "scanResolution": 350,
         "sensorType": "magnetometric",
+        "jamChance": 0,
+        "agility": 0.378,
+        "maxWarpDistance": 221.555,
+        "warpCoreStrength": 0,
+        "lockTimes": [
+          {
+            "target": "pod",
+            "seconds": 7.4662
+          },
+          {
+            "target": "interceptor",
+            "seconds": 6.5101
+          },
+          {
+            "target": "frigate",
+            "seconds": 6.093
+          },
+          {
+            "target": "destroyer",
+            "seconds": 4.3733
+          },
+          {
+            "target": "cruiser",
+            "seconds": 3.696
+          },
+          {
+            "target": "battlecruiser",
+            "seconds": 2.9044
+          },
+          {
+            "target": "battleship",
+            "seconds": 2.5207
+          },
+          {
+            "target": "carrier",
+            "seconds": 1.5101
+          }
+        ],
         "sensorStrength": 19.2,
         "droneControlRange": 60000,
         "mass": 16100000
@@ -2086,13 +2307,21 @@
               "zh": "虚空 S"
             },
             "iconId": 1314,
-            "count": 80
+            "count": 80,
+            "cycles": 80,
+            "omega": false
           },
+          "omega": false,
           "keyLine": "3.15km+4.38km · 356",
           "keyParts": [
             "3.15km+4.38km",
             "356"
           ],
+          "rangeText": "3.15km+4.38km",
+          "miscText": "356",
+          "miscTooltip": "Tracking speed",
+          "capacitor": "-0.547",
+          "dps": 54.3142,
           "cpu": 13.5,
           "powergrid": 8.93,
           "overSlots": true
@@ -2120,8 +2349,11 @@
             "overheated"
           ],
           "charge": null,
+          "omega": true,
           "keyLine": "",
           "keyParts": [],
+          "capacitor": "-0.733",
+          "velocityBonus": 168.75,
           "cpu": 15,
           "powergrid": 11,
           "overSlots": false
@@ -2147,11 +2379,16 @@
             "overheated"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "9km · -2",
           "keyParts": [
             "9km",
             "-2"
           ],
+          "rangeText": "9km",
+          "miscText": "-2",
+          "miscTooltip": "Warp core strength modification",
+          "capacitor": "-0.9",
           "cpu": 36,
           "powergrid": 1,
           "overSlots": false
@@ -2175,6 +2412,7 @@
             "online"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "",
           "keyParts": [],
           "cpu": 35,
@@ -2202,8 +2440,10 @@
             "overheated"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "",
           "keyParts": [],
+          "capacitor": "-3.2",
           "cpu": 44,
           "powergrid": 1,
           "overSlots": false
@@ -2229,10 +2469,13 @@
             "online"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "+22.9%",
           "keyParts": [
             "+22.9%"
           ],
+          "miscText": "+22.9%",
+          "miscTooltip": "Hybrid weapon DPS boost",
           "cpu": 30,
           "powergrid": 1,
           "overSlots": false
@@ -2256,8 +2499,10 @@
             "online"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "",
           "keyParts": [],
+          "hullResistanceBonus": 40,
           "cpu": 30,
           "powergrid": 1,
           "overSlots": false
@@ -2291,8 +2536,10 @@
             "online"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "",
           "keyParts": [],
+          "calibration": 200,
           "cpu": 0,
           "powergrid": 0,
           "overSlots": false
@@ -2316,8 +2563,10 @@
             "online"
           ],
           "charge": null,
+          "omega": false,
           "keyLine": "",
           "keyParts": [],
+          "calibration": 100,
           "cpu": 0,
           "powergrid": 0,
           "overSlots": false
@@ -2331,7 +2580,8 @@
         "weaponDps": 325.8853,
         "droneDps": 0,
         "volley": 632.8281,
-        "includesReload": false
+        "includesReload": false,
+        "effective": false
       },
       "mining": {
         "unit": "m³/s",
@@ -2431,6 +2681,44 @@
         "maxTargets": 5,
         "scanResolution": 725,
         "sensorType": "gravimetric",
+        "jamChance": 0,
+        "agility": 2.43,
+        "maxWarpDistance": 260.9385,
+        "warpCoreStrength": 0,
+        "lockTimes": [
+          {
+            "target": "pod",
+            "seconds": 3.6044
+          },
+          {
+            "target": "interceptor",
+            "seconds": 3.1428
+          },
+          {
+            "target": "frigate",
+            "seconds": 2.9415
+          },
+          {
+            "target": "destroyer",
+            "seconds": 2.1112
+          },
+          {
+            "target": "cruiser",
+            "seconds": 1.7843
+          },
+          {
+            "target": "battlecruiser",
+            "seconds": 1.4021
+          },
+          {
+            "target": "battleship",
+            "seconds": 1.2169
+          },
+          {
+            "target": "carrier",
+            "seconds": 0.729
+          }
+        ],
         "sensorStrength": 13.2,
         "droneControlRange": 60000,
         "mass": 1497000

@@ -15,6 +15,19 @@ SPECIALIZED_BAYS = (
     'specialQuafeHoldCapacity', 'specialMobileDepotHoldCapacity', 'specialExpeditionHoldCapacity',
 )
 DAMAGE_TYPES = ('em', 'thermal', 'kinetic', 'explosive')
+# Signature radii shown by pyfa's targeting panel.
+LOCK_TARGETS = (('pod', 25), ('interceptor', 33), ('frigate', 38), ('destroyer', 83),
+                ('cruiser', 130), ('battlecruiser', 265), ('battleship', 420), ('carrier', 3000))
+LOCAL_REPAIR_ATTR = {
+    'Shield Booster': 'shieldBonus', 'Ancillary Shield Booster': 'shieldBonus',
+    'Armor Repair Unit': 'armorDamageAmount', 'Ancillary Armor Repairer': 'armorDamageAmount',
+    'Hull Repair Unit': 'structureDamageAmount',
+}
+
+
+def requires_omega(item):
+    # pyfa's Omega column reads the dogma restriction even for T1 modules.
+    return item.getAttribute('cloneGradeRestriction', 0) > 0
 
 
 def r(x, nd=4):
@@ -42,6 +55,7 @@ class Engine:
     def __init__(self, data_version):
         import eos.db
         from eos.const import FittingSlot, FittingHardpoint
+        from gui.builtinViewColumns.capacitorUse import CapacitorUse
         from gui.builtinViewColumns.misc import Miscellanea
         from gui.builtinViewColumns.maxRange import MaxRange
         from service.market import Market
@@ -58,6 +72,7 @@ class Engine:
             nameViewMap={'resistancesViewFull': SimpleNamespace(showEffective=True)},
         ))
         self.range = object.__new__(MaxRange)
+        self.capacitor_column = object.__new__(CapacitorUse)
         self.market = Market.getInstance()
         from sqlalchemy import text
         with eos.db.gamedata_engine.connect() as conn:
@@ -340,8 +355,53 @@ class Engine:
         finally:
             del self.misc.fittingView
 
-    def key_parts(self, mod):
-        return [part for part in self.key_columns(mod) if part]
+    def module_metrics(self, fit, mod):
+        view = SimpleNamespace(getActiveFit=lambda: fit.ID)
+        self.misc.fittingView = view
+        self.capacitor_column.fittingView = view
+        try:
+            range_text = self.range.getText(mod)
+            misc = self.misc.getText(mod)
+            cap = self.capacitor_column.getText(mod)
+            misc_tooltip = self.misc.getToolTip(mod) if misc else None
+        finally:
+            del self.misc.fittingView
+            del self.capacitor_column.fittingView
+
+        parts = [part for part in (range_text, misc) if part]
+        metrics = {'keyLine': ' · '.join(parts), 'keyParts': parts}
+        if range_text:
+            metrics['rangeText'] = range_text
+        if misc:
+            metrics['miscText'] = misc
+        if misc_tooltip:
+            metrics['miscTooltip'] = misc_tooltip
+        if cap:
+            metrics['capacitor'] = cap
+
+        dps = mod.getDps(spoolOptions=fit.spool_options, ignoreState=True).total
+        if dps:
+            metrics['dps'] = r(dps)
+        if range_text and (missile_range := mod.missileMaxRangeData) is not None:
+            low, high, high_chance = missile_range
+            if 0 < round(high_chance, 3) < 1:
+                metrics['missileRange'] = {'low': r(low), 'high': r(high), 'highChance': r(high_chance)}
+
+        group = mod.item.group.name
+        attr = mod.getModifiedItemAttr
+        if group == 'Propulsion Module' and attr('speedFactor'):
+            metrics['velocityBonus'] = r(attr('speedFactor'))
+        if (repair_attr := LOCAL_REPAIR_ATTR.get(group)) and mod.rawCycleTime:
+            amount = attr(repair_attr, 0)
+            if group == 'Ancillary Armor Repairer' and mod.charge:
+                amount *= attr('chargedArmorDamageMultiplier', 1)
+            if amount:
+                metrics['repairPerSecond'] = r(amount * 1000 / mod.rawCycleTime)
+        if group == 'Damage Control' and (resonance := attr('hullEmDamageResonance', 1)) != 1:
+            metrics['hullResistanceBonus'] = r((1 - resonance) * 100)
+        if calibration := attr('upgradeCost', 0):
+            metrics['calibration'] = r(calibration)
+        return metrics
 
     def slot_rows(self, fit, positions, doc):
         out = {k: [] for k in SLOT_KINDS}
@@ -393,11 +453,11 @@ class Engine:
                 charge = None
                 if mod.charge is not None:
                     charge = {'typeId': mod.charge.ID, 'name': self.lname(mod.charge),
-                              'iconId': mod.charge.iconID, 'count': int(mod.numCharges)}
+                              'iconId': mod.charge.iconID, 'count': int(mod.numCharges),
+                              'cycles': int(mod.numShots), 'omega': requires_omega(mod.charge)}
                 elif key[3] is not None:
                     charge = {'typeId': key[3], 'name': self.saved_name(doc, key[3]),
                               'iconId': None, 'count': 0, 'removed': True}
-                parts = self.key_parts(mod)
                 spool_max = self.max_spool_cycles(mod)
                 rows[kind].append({
                     'kind': 'module',
@@ -412,8 +472,8 @@ class Engine:
                     **({'adjustment': 'state'} if key[5] else {}),
                     **({'maxSpoolCycles': spool_max} if spool_max else {}),
                     'charge': charge,
-                    'keyLine': ' · '.join(parts),
-                    'keyParts': parts,
+                    'omega': requires_omega(mod.item),
+                    **self.module_metrics(fit, mod),
                     'cpu': r(mod.getModifiedItemAttr('cpu') or 0),
                     'powergrid': r(mod.getModifiedItemAttr('power') or 0),
                     'overSlots': any(i >= totals[kind] for i in idx),
@@ -484,6 +544,7 @@ class Engine:
                 'droneDps': r(fit.getDroneDps().total),
                 'volley': r(fit.getTotalVolley(spoolOptions=fit.spool_options).total),
                 'includesReload': fit.factorReload,
+                'effective': fit.targetProfile is not None,
             },
             'mining': {'unit': 'm³/s', 'miner': r(fit.minerYield),
                        'drone': r(fit.droneYield), 'total': r(fit.totalYield)},
@@ -514,7 +575,14 @@ class Engine:
                 'maxTargetRange': r(fit.maxTargetRange),
                 'maxTargets': r(fit.maxTargets),
                 'scanResolution': r(attr('scanResolution')),
-                'sensorType': sensor.lower() if sensor in ('Radar', 'Ladar', 'Magnetometric', 'Gravimetric') else None,
+                'sensorType': sensor.lower() if sensor in ('Radar', 'Ladar', 'Magnetometric', 'Gravimetric', 'Multispectral') else None,
+                'jamChance': r(fit.jamChance),
+                'agility': r(attr('agility') or 0),
+                'maxWarpDistance': r(fit.maxWarpDistance),
+                'warpCoreStrength': r(-(attr('warpScrambleStatus') or 0)),
+                'lockTimes': [{'target': target, 'seconds': r(fit.calculateLockTime(radius))}
+                              for target, radius in LOCK_TARGETS]
+                             if attr('scanResolution') or attr('scanSpeed') else [],
                 'sensorStrength': r(fit.scanStrength),
                 'droneControlRange': r(fit.extraAttributes['droneControlRange']),
                 'mass': r(attr('mass')),

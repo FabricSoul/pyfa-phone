@@ -14,11 +14,11 @@ const ALL: ModuleState[] = ['offline', 'online', 'active', 'overheated']
 const merged = calc.slots.high[0] as ModuleSlotRow // 3 × 200mm AutoCannon II with a charge
 
 describe('ModuleRow', () => {
-  it('shows ×3 for merged modules, charge on line one and key parts on line two', () => {
+  it('shows ×3 for merged modules, charge, and the primary metric in bold', () => {
     render(<ModuleRow row={merged} />)
     expect(screen.getByText('×3')).toBeTruthy()
     expect(screen.getByText('Republic Fleet EMP S', { exact: false })).toBeTruthy()
-    expect(screen.getByText(merged.keyParts[0]!).tagName).toBe('B')
+    expect(screen.getByText('60.3 DPS/module').tagName).toBe('B')
   })
 
   it('cycles the state offline → online → active → offline on tap', () => {
@@ -129,4 +129,14 @@ describe('ModuleRow state key motion', () => {
     await waitFor(() => expect(stateIcon().style.transform).toMatch(/scale/))
     expect(readFileSync(resolve(process.cwd(), 'src/ui/ui.css'), 'utf8')).toMatch(/\.sb \.sbi\s*\{[^}]*transition:\s*background-color/)
   })
+})
+
+it('P01/P02/M01/D05 puts per-module metrics beside the name and labels fitted ammo and Omega', () => {
+  const row = { ...merged, omega: true, dps: 60.3109, charge: { ...merged.charge!, cycles: 120 } }
+  render(<ModuleRow row={row} />)
+  const name = screen.getByText(row.name.en)
+  const metrics = screen.getByText('60.3 DPS/module')
+  expect(name.closest('.module-primary')).toBe(metrics.closest('.module-primary'))
+  expect(screen.getByTitle('Requires Omega').textContent).toBe('Ω')
+  expect(screen.getByText(/120 rounds · 120 cycles/)).toBeTruthy()
 })

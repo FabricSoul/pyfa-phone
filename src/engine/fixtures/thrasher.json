@@ -160,13 +160,20 @@
             "zh": "共和舰队电磁脉冲弹 S"
           },
           "iconId": 1286,
-          "count": 120
+          "count": 120,
+          "cycles": 120,
+          "omega": false
         },
+        "omega": false,
         "keyLine": "1.12km+6.45km · 679",
         "keyParts": [
           "1.12km+6.45km",
           "679"
         ],
+        "rangeText": "1.12km+6.45km",
+        "miscText": "679",
+        "miscTooltip": "Tracking speed",
+        "dps": 54.5717,
         "cpu": 6.75,
         "powergrid": 3.97,
         "overSlots": false
@@ -201,8 +208,11 @@
           "overheated"
         ],
         "charge": null,
+        "omega": true,
         "keyLine": "",
         "keyParts": [],
+        "capacitor": "-0.733",
+        "velocityBonus": 168.75,
         "cpu": 15,
         "powergrid": 11,
         "overSlots": false
@@ -228,11 +238,16 @@
           "overheated"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "9km · -2",
         "keyParts": [
           "9km",
           "-2"
         ],
+        "rangeText": "9km",
+        "miscText": "-2",
+        "miscTooltip": "Warp core strength modification",
+        "capacitor": "-0.9",
         "cpu": 36,
         "powergrid": 1,
         "overSlots": false
@@ -256,6 +271,7 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
         "cpu": 35,
@@ -284,10 +300,13 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "+22.9%",
         "keyParts": [
           "+22.9%"
         ],
+        "miscText": "+22.9%",
+        "miscTooltip": "Projectile weapon DPS boost",
         "cpu": 30,
         "powergrid": 1,
         "overSlots": false
@@ -313,8 +332,10 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
+        "calibration": 200,
         "cpu": 0,
         "powergrid": 0,
         "overSlots": false
@@ -338,8 +359,10 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
+        "calibration": 100,
         "cpu": 0,
         "powergrid": 0,
         "overSlots": false
@@ -363,8 +386,10 @@
           "online"
         ],
         "charge": null,
+        "omega": false,
         "keyLine": "",
         "keyParts": [],
+        "calibration": 100,
         "cpu": 0,
         "powergrid": 0,
         "overSlots": false
@@ -378,7 +403,8 @@
       "weaponDps": 382.0019,
       "droneDps": 0,
       "volley": 791.0027,
-      "includesReload": false
+      "includesReload": false,
+      "effective": false
     },
     "mining": {
       "unit": "m³/s",
@@ -478,6 +504,44 @@
       "maxTargets": 6,
       "scanResolution": 687.5,
       "sensorType": "ladar",
+      "jamChance": 0,
+      "agility": 1.89,
+      "maxWarpDistance": 805.3652,
+      "warpCoreStrength": 0,
+      "lockTimes": [
+        {
+          "target": "pod",
+          "seconds": 3.801
+        },
+        {
+          "target": "interceptor",
+          "seconds": 3.3142
+        },
+        {
+          "target": "frigate",
+          "seconds": 3.1019
+        },
+        {
+          "target": "destroyer",
+          "seconds": 2.2264
+        },
+        {
+          "target": "cruiser",
+          "seconds": 1.8816
+        },
+        {
+          "target": "battlecruiser",
+          "seconds": 1.4786
+        },
+        {
+          "target": "battleship",
+          "seconds": 1.2833
+        },
+        {
+          "target": "carrier",
+          "seconds": 0.7688
+        }
+      ],
       "sensorStrength": 10.8,
       "droneControlRange": 60000,
       "mass": 2100000

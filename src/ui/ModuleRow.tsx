@@ -1,10 +1,11 @@
 import './ui.css'
 import { useAnimate } from 'motion/react'
 import { useEffect, useRef, useState, type PointerEvent } from 'react'
-import type { ModuleState, SlotRow } from '../engine/types'
+import type { ModuleSlotRow, ModuleState, SlotRow } from '../engine/types'
 import { _t } from '../i18n/t'
 import { Icon, type IconName } from './icons'
-import { iconUrl, lname, useNameLanguage } from './format'
+import { fmt, iconUrl, lname, useNameLanguage } from './format'
+import { PriceValue } from './PriceValue'
 import { ItemIcon } from './ItemIcon'
 import { motionSpec } from './motion'
 
@@ -23,12 +24,50 @@ export function nextState(state: ModuleState, available: ModuleState[]): ModuleS
   return cycle[(cycle.indexOf(state) + 1) % cycle.length]!
 }
 
-export function ModuleRow({ row, availableStates: provided, selected, pressed, onStateChange, onTap, onRemove, onAdd }: {
+export function OmegaMark() {
+  return <span className="omega-mark" title={_t('Requires Omega')} aria-label={_t('Requires Omega')}>Ω</span>
+}
+
+export function ModuleMetrics({ row }: { row: ModuleSlotRow }) {
+  const metrics = [
+    row.dps === undefined ? '' : `${fmt(row.dps)} ${_t('DPS/module')}`,
+    row.velocityBonus === undefined ? '' : `${_t('Speed bonus')} ${fmt(row.velocityBonus)}%`,
+    row.repairPerSecond === undefined ? '' : `${_t('Repair')} ${fmt(row.repairPerSecond)} ${_t('HP/s')}`,
+    row.rangeText ? `${_t('Range')} ${row.rangeText}` : '',
+    row.miscText ? (row.miscTooltip === 'Tracking speed' ? `${_t('Tracking speed')} ${row.miscText}`
+      : row.miscTooltip === 'Energy neutralization per second' ? `${_t('Neutralization')} ${row.miscText}`
+      : row.miscText) : '',
+    row.hullResistanceBonus === undefined ? '' : `${_t('Hull resist bonus')} ${fmt(row.hullResistanceBonus)}%`,
+    row.calibration === undefined ? '' : `${_t('Calibration')} ${fmt(row.calibration)}`,
+  ].filter(Boolean)
+  const [first, ...rest] = metrics.length ? metrics : row.keyParts
+  if (!first) return null
+  return <span className="module-metrics num" title={[first, ...rest, row.miscTooltip].filter(Boolean).join(' · ')}>
+    <b>{first}</b>{rest.map((metric, index) => <span key={index}> · {metric}</span>)}
+  </span>
+}
+
+export function ChargeSummary({ charge }: { charge: NonNullable<ModuleSlotRow['charge']> }) {
+  const lang = useNameLanguage()
+  const rounds = charge.count > 0 ? _t('{n} round', '{n} rounds', charge.count).replace('{n}', fmt(charge.count)) : ''
+  const cycles = charge.cycles ? _t('{n} cycle', '{n} cycles', charge.cycles).replace('{n}', fmt(charge.cycles)) : ''
+  const load = charge.removed ? _t('Item removed') : [rounds, cycles].filter(Boolean).join(' · ')
+  const name = lname(charge.name, lang)
+  return <span className="module-charge" title={[name, load].filter(Boolean).join(' · ')}>
+    <ItemIcon className="mini-ic" size={16} src={iconUrl(charge.iconId)} />
+    <span className="module-charge-name">{name}</span>
+    {charge.omega && <OmegaMark />}
+    {load && <span className="num">{load}</span>}
+  </span>
+}
+
+export function ModuleRow({ row, availableStates: provided, selected, pressed, price, onStateChange, onTap, onRemove, onAdd }: {
   row: SlotRow
   /** States the engine allows for this module (passive modules: offline and online only). */
   availableStates?: ModuleState[]
   selected?: boolean
   pressed?: boolean
+  price?: number | null
   onStateChange?: (state: ModuleState) => void
   onTap?: () => void
   onRemove?: () => void
@@ -114,7 +153,6 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
     setTimeout(() => setDragging(false), 0)
   }
 
-  const [first, ...rest] = row.keyParts
   const cls = ['row']
   if (row.state === 'offline') cls.push('off')
   if (row.overSlots) cls.push('warn')
@@ -144,15 +182,15 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
         <button type="button" className="body" onKeyDown={onKeyDown}
           onClick={() => { if (dragging) return; if (open) setDx(0); else onTap?.() }}>
           <ItemIcon src={iconUrl(row.iconId)} />
-          <span className="mn">
-            <span>{lname(row.name, lang)}</span>
+          <span className="mn module-copy">
+            <span className="module-primary">
+              <span className="module-name" title={lname(row.name, lang)}>{lname(row.name, lang)}</span>
+              {row.omega && <OmegaMark />}
+              <ModuleMetrics row={row} />
+            </span>
             {row.adjustment && <small className="warn">{_t('Needs adjustment: state changed')}</small>}
-            {row.charge && (
-              <small><ItemIcon className="mini-ic" size={16} src={iconUrl(row.charge.iconId)} />{lname(row.charge.name, lang)} · {row.charge.removed ? _t('Item removed') : row.charge.count}</small>
-            )}
-            {row.keyParts.length > 0 && (
-              <small className="num">{first && <b>{first}</b>}{rest.map((p) => <span key={p}> · {p}</span>)}</small>
-            )}
+            {row.charge && <small><ChargeSummary charge={row.charge} /></small>}
+            {price != null && <small className="num"><PriceValue value={price} /> <span>{_t('each')}</span></small>}
           </span>
         </button>
         {row.count > 1 && <span className="cnt num">×{row.count}</span>}

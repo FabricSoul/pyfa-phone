@@ -270,11 +270,14 @@ function projectSlots(fit: FitDoc, result: CalcResult) {
       }
       const charge = mod.chargeTypeId === null ? undefined : charges.get(mod.chargeTypeId)
       rows.set(key, {
-        kind: 'module', typeId: mod.typeId, state: mod.state,
+        ...base, kind: 'module', typeId: mod.typeId, state: mod.state,
         name: item?.name ?? base?.name ?? { en: String(mod.typeId), zh: String(mod.typeId) },
         iconId: item?.iconId ?? null, meta: item?.meta ?? 'tech1',
         count: 1, positions: [index], overSlots,
-        charge: charge ? { ...charge, count: base?.charge?.count ?? 1 } : null,
+        charge: charge ? {
+          ...charge, count: base?.charge?.count ?? 1,
+          ...(base?.charge?.typeId === charge.typeId ? { cycles: base.charge.cycles, omega: base.charge.omega } : {}),
+        } : null,
         keyLine: base?.keyLine ?? '', keyParts: base?.keyParts ?? [],
         cpu: base?.cpu ?? 0, powergrid: base?.powergrid ?? 0,
         supportedStates: statesFor(base),
@@ -343,7 +346,7 @@ export const mockEngine: EngineClient = {
     const base = templateFor(typeId)
     const installed = fit && pos && fit.modules[pos.slot][pos.index]?.typeId === typeId
     const details: ItemDetails = {
-      typeId, name, iconId: item?.iconId ?? null, meta: item?.meta,
+      typeId, name, iconId: item?.iconId ?? null, meta: item?.meta, omega: base?.omega,
       group: ship ? shipGroups[ship.typeId] : undefined,
       attributes: base ? [
         { id: 50, name: { en: 'CPU usage', zh: 'CPU使用量' }, base: typeId === 2889 ? 9 : base.cpu, current: installed ? base.cpu : undefined },

@@ -447,3 +447,30 @@
 .sh-skel { padding: var(--space-4) var(--space-4) calc(var(--space-1) * 1.5); }
 .tt.skt { gap: calc(var(--space-1) * 1.5); }
 @media (prefers-reduced-motion: reduce) { .boot-ring, .spinner { animation: none; } .pbar i { transition: none; } }
+
+.fit-app .row .mn.module-copy > .module-primary { display: flex; align-items: baseline; gap: var(--space-1); white-space: nowrap; }
+.module-name { flex: 1 1 56%; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.module-primary .module-metrics { flex: 0 1 auto; max-width: 50%; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--type-caption); color: var(--color-text-secondary); }
+.module-primary .module-metrics b { color: var(--color-text); }
+.omega-mark { flex: none; color: var(--color-text-secondary); font: var(--type-label); }
+.module-charge { display: flex; align-items: center; gap: var(--space-1); min-width: 0; }
+.module-charge-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.module-charge .num { flex: none; white-space: nowrap; }
+.module-sheet-metrics:empty { display: none; }
+
+.stats-output { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stats-output > div:nth-child(n+3) { border-top: 1px solid var(--color-separator); }
+.stats-output > div:nth-child(odd) { box-shadow: none; }
+.stats-output.stats-mining { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.stats-output.stats-mining > div { padding-inline: var(--space-2); border-top: 0; }
+.stats-output.stats-mining > div + div { box-shadow: inset 1px 0 0 var(--color-separator); }
+.stats-unit, .stats-bay small { font: var(--type-caption); color: var(--color-text-secondary); }
+.stats-damage { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); padding: 0 var(--space-4) var(--space-2); font: var(--type-caption); }
+.stats-damage span { display: inline-flex; gap: var(--space-1); align-items: center; }
+.stats-damage i { width: var(--space-2); height: var(--space-2); border-radius: var(--radius-s); }
+.stats-repairs { width: 100%; border-collapse: collapse; background: var(--color-surface); font: var(--type-label); }
+.stats-repairs th, .stats-repairs td { padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--color-separator); text-align: start; }
+.stats-repairs th, .stats-repairs thead { color: var(--color-text-secondary); font-weight: 400; }
+.stats-repairs th[scope="col"], .stats-repairs td.num { text-align: end; }
+.stats-lock summary { display: list-item; align-content: center; min-height: var(--control); padding-inline: var(--space-4); cursor: pointer; font: var(--type-label); }
+.stats-bay > div { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); font: var(--type-label); }

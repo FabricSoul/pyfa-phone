@@ -596,6 +596,57 @@ def regression_results(fits, data_version, client_build):
             self.assertNotIn('current', cpu(wrong))
             self.assertIsNone(call('item_info', 987654321))
 
+        def test_g1_rifter_columns_ammo_omega_and_stats_match_native_pyfa(self):
+            from gui.builtinViewColumns.capacitorUse import CapacitorUse
+            baseline = call('calc', rifter)
+            with api._temporary_fit():
+                fit, _ = api._engine.build(rifter)
+                api._engine.recalc(fit)
+                columns = object.__new__(CapacitorUse)
+                columns.fittingView = type('View', (), {'getActiveFit': lambda _: fit.ID})()
+                for slot, index in (('high', 0), ('mid', 0), ('low', 0), ('low', 1), ('low', 2), ('rig', 0)):
+                    row = next(row for row in baseline['slots'][slot] if row['kind'] == 'module' and index in row['positions'])
+                    module = next(module for module in fit.modules if not module.isEmpty and module.item.ID == row['typeId'])
+                    self.assertEqual(module.item.getAttribute('cloneGradeRestriction', 0) > 0, row['omega'])
+                    if module.charge:
+                        self.assertEqual(module.numCharges, row['charge']['count'])
+                        self.assertEqual(module.numShots, row['charge']['cycles'])
+                    self.assertEqual(columns.getText(module), row.get('capacitor', ''))
+                    if slot == 'high':
+                        self.assertAlmostEqual(module.getDps(spoolOptions=fit.spool_options).total, row['dps'], places=4)
+                        self.assertEqual(api._engine.range.getText(module), row['rangeText'])
+                    elif slot == 'mid':
+                        self.assertAlmostEqual(module.getModifiedItemAttr('speedFactor'), row['velocityBonus'], places=4)
+                    elif slot == 'low' and module.item.group.name == 'Armor Repair Unit':
+                        self.assertAlmostEqual(fit.tank['armorRepair'], row['repairPerSecond'], places=4)
+                    elif slot == 'rig':
+                        self.assertEqual(module.getModifiedItemAttr('upgradeCost'), row['calibration'])
+                    elif module.item.group.name == 'Damage Control':
+                        self.assertAlmostEqual((1 - module.getModifiedItemAttr('hullEmDamageResonance')) * 100,
+                                               row['hullResistanceBonus'], places=4)
+                nav = baseline['stats']['navigation']
+                self.assertAlmostEqual(fit.calculateLockTime(38), next(t['seconds'] for t in nav['lockTimes'] if t['target'] == 'frigate'), places=4)
+                self.assertAlmostEqual(fit.maxWarpDistance, nav['maxWarpDistance'], places=4)
+                self.assertEqual(fit.scanType.lower(), nav['sensorType'])
+            self.assertTrue(call('item_info', 438)['omega'])
+            self.assertFalse(call('item_info', 587)['omega'])
+            target = call('calc', {**rifter, 'targetProfileId': -1})
+            self.assertAlmostEqual(baseline['stats']['firepower']['dps'] * 0.75, target['stats']['firepower']['dps'], places=3)
+            self.assertTrue(target['stats']['firepower']['effective'])
+            self.assertFalse(baseline['stats']['firepower']['effective'])
+            self.assertEqual(180.9, round(baseline['stats']['firepower']['dps'], 1))
+            self.assertEqual(249.5, round(baseline['stats']['firepower']['volley'], 1))
+            self.assertEqual(2955, round(baseline['stats']['defense']['ehp']))
+            self.assertEqual(1193, round(baseline['stats']['navigation']['maxVelocity']))
+            self.assertEqual(63, round(baseline['stats']['capacitor']['lastsSeconds']))
+            heated = copy.deepcopy(rifter)
+            for module in heated['modules']['high']:
+                if module:
+                    module['state'] = 'overheated'
+            firepower = call('calc', heated)['stats']['firepower']
+            self.assertEqual(208.1, round(firepower['dps'], 1))
+            self.assertEqual(286.9, round(firepower['volley'], 1))
+
         def test_stats_expose_eos_repairs_reload_mining_bays_and_price_inputs(self):
             current = call('calc', rifter)
             stats = current['stats']
@@ -614,6 +665,18 @@ def regression_results(fits, data_version, client_build):
             result = call('calc', venture)
             self.assertGreater(result['resources']['specializedBays']['generalMiningHoldCapacity'], 0)
             self.assertGreater(result['stats']['mining']['total'], 0)
+            with api._temporary_fit():
+                from eos.saveddata.module import Module
+                from eos.const import FittingModuleState
+                fit = self.native_fit(32880)
+                laser = Module(api._engine.item(483))
+                laser.state = FittingModuleState.ACTIVE
+                fit.modules.append(laser)
+                api._engine.db.flush()
+                fit.clear()
+                fit.calculateModifiedAttributes()
+                self.assertAlmostEqual(laser.getMiningYPS(), result['stats']['mining']['miner'], places=4)
+                self.assertAlmostEqual(fit.totalYield, result['stats']['mining']['total'], places=4)
             carrier = {**venture, 'shipTypeId': 23911, 'modules': {slot: [] for slot in rifter['modules']},
                        'fighters': [{'typeId': 23059, 'amount': 3, 'active': True}]}
             result = call('calc', carrier)

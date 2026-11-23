@@ -40,24 +40,24 @@ function markSwipeHintSeen() {
 export function Fit() {
   const language = useNameLanguage()
   const navigate = useNavigate()
-  const { record, fit, result: calculated, removed, canUndo, undo, edit } = useFitSession()
+  const { record, fit, result: calculated, removed, canUndo, undo, edit, includeReload } = useFitSession()
   const { engine, store } = useFitServices()
   const { preheatPercent } = useSettings()
   const [spoolPreview, setSpoolPreview] = useState<{
-    fit: FitDoc; percent: number; result: CalcResult; base?: CalcResult
+    fit: FitDoc; percent: number; includeReload: boolean; result: CalcResult; base?: CalcResult
   }>()
   const [spoolError, setSpoolError] = useState(false)
   const spoolRequest = useRef(0)
-  const result = spoolPreview?.fit === fit && spoolPreview.percent === preheatPercent && spoolPreview.base === calculated
+  const result = spoolPreview?.fit === fit && spoolPreview.percent === preheatPercent && spoolPreview.base === calculated && spoolPreview.includeReload === includeReload
     ? spoolPreview.result : calculated
 
   function changeSpoolDefault(percent: number) {
     if (percent === preheatPercent) return
     const request = ++spoolRequest.current
     updateSettings({ preheatPercent: percent })
-    void engine.calc(fit, calcOptions()).then((result) => {
+    void engine.calc(fit, { ...calcOptions(), includeReload }).then((result) => {
       if (spoolRequest.current === request) {
-        setSpoolPreview({ fit, percent, result, base: calculated })
+        setSpoolPreview({ fit, percent, includeReload, result, base: calculated })
         setSpoolError(false)
       }
     }, () => { if (spoolRequest.current === request) setSpoolError(true) })
@@ -75,6 +75,8 @@ export function Fit() {
   const [selected, setSelected] = useState<ModulePos>()
   const [menu, setMenu] = useState(false)
   const path = `/fit/${record.id}`
+  const quotes = usePriceQuotes(Object.values(result?.priceItems ?? {}).flat())
+  const unitPrice = (typeId: number) => quotes ? quotes[typeId] ?? null : undefined
   const shipName = result?.ship.name ?? record.itemNames[fit.shipTypeId]
   const row = selected && result?.slots[selected.slot].find((candidate): candidate is ModuleSlotRow =>
     candidate.kind === 'module' && candidate.positions.includes(selected.index))
@@ -113,12 +115,13 @@ export function Fit() {
   const hotSlots = SLOT_KINDS.filter((slot) =>
     result?.slots[slot].some((entry) => entry.kind === 'module' && entry.state === 'overheated'))
   const heatedDps = result && hotSlots.length > 0 ? `${_t('DPS')} ${fmt(result.stats.firepower.dps)}` : undefined
-  const subtitle = [shipName && lname(shipName, language), heatedDps,
+  const subtitle = [shipName && lname(shipName, language), characterName(fit.character), heatedDps,
     ...hotSlots.map((slot) => _t('{slot} overheated').replace('{slot}', slotName(slot))),
   ].filter(Boolean).join(' · ')
 
   return <main>
     <NavBar title={fit.name} subtitle={subtitle} shipSrc={renderUrl(result?.ship.graphicId ?? null)}
+      onShipClick={() => navigate(`/item/${fit.shipTypeId}?fit=${encodeURIComponent(record.id)}`)}
       canUndo={canUndo} onBack={() => { try { sessionStorage.removeItem(scrollKey(record.id)) } catch { /* optional */ } scrollY.current = 0; navigate('/') }} onUndo={undo} onMore={() => setMenu(true)} />
     {store.isTemporary(record.id) && <p className="page-message">{_t('Unsaved preview')}</p>}
     {result && <ResourceBar {...result.resources} />}
@@ -164,7 +167,8 @@ export function Fit() {
             if (entry.kind === 'module') {
               const activePositions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
               if (!activePositions.length) return null
-              return <ExpandItem key={`module-${entry.positions[0]}`}><ModuleRow row={entry}
+              return <ExpandItem key={`module-${entry.positions[0]}`}><ModuleRow row={entry} price={unitPrice(entry.typeId)}
+                selected={selected?.slot === slot && activePositions.includes(selected.index)}
                 availableStates={entry.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] : undefined)}
                 onTap={() => setSelected({ slot, index: activePositions[0]! })}
                 onStateChange={(state) => edit((fit) => withModules(fit, slot, activePositions, (mod) => mod && { ...mod, state }))}
@@ -194,12 +198,16 @@ export function Fit() {
       </FitSection>
     })}
     {view === 'stats' && spoolError && <p role="alert" className="page-message warn">{_t('Could not recalculate fit')}</p>}
-    {view === 'stats' && result && <FitStats result={result} onSpoolDefaultChange={changeSpoolDefault} />}
+    {view === 'stats' && result && <FitStats result={result} quotes={quotes} onSpoolDefaultChange={changeSpoolDefault} />}
     {view === 'extras' && <FitExtras />}
-    <ModuleSheet selected={selected} row={row} onClose={() => setSelected(undefined)} />
+    <ModuleSheet selected={selected} row={row} price={row && unitPrice(row.typeId)} onClose={() => setSelected(undefined)} />
     <FitMenu open={menu} onClose={() => setMenu(false)} />
     {!result && retired.has(fit.shipTypeId) && <Link className="fit-inset" to="/">{_t('Back to fittings')}</Link>}
   </main>
+}
+
+function characterName(character: FitDoc['character']) {
+  return character === 'all5' ? _t('All V') : _t('All 0')
 }
 
 function FitSetup({ result }: { result: CalcResult }) {
@@ -223,7 +231,7 @@ function FitSetup({ result }: { result: CalcResult }) {
         </select>
       </label>}
       <button type="button" className="fit-button" onClick={() => setCharacterOpen(true)}>
-        {_t('Character')} · {fit.character === 'all5' ? _t('All V') : _t('All 0')}
+        {_t('Character')} · {characterName(fit.character)}
       </button>
       {skills && (skills.length > 0 ? <details>
         <summary className="fit-skill-summary warn">{_t('Missing skills')} <span className="num">{skills.length}</span></summary>
@@ -243,19 +251,19 @@ function FitSetup({ result }: { result: CalcResult }) {
   </>
 }
 
-function FitStats({ result, onSpoolDefaultChange }: {
+function FitStats({ result, quotes, onSpoolDefaultChange }: {
   result: CalcResult
+  quotes: ReturnType<typeof usePriceQuotes>
   onSpoolDefaultChange: (percent: number) => void
 }) {
   const language = useNameLanguage()
-  const { fit, edit } = useFitSession()
-  const { considerReload, preheatPercent, priceIncluded } = useSettings()
+  const { fit, edit, includeReload, setIncludeReload } = useFitSession()
+  const { preheatPercent, priceIncluded } = useSettings()
   const [picker, setPicker] = useState<'damage' | 'target'>()
   const { damagePatterns, targetProfiles } = getPatternData()
   const damage = damagePatterns.find(({ id }) => id === fit.damagePatternId)
   const target = targetProfiles.find(({ id }) => id === fit.targetProfileId)
   const items = result.priceItems
-  const quotes = usePriceQuotes(Object.values(items).flat())
   const prices = quotes ? {
     ship: priceTotal(items.ship, quotes),
     fit: priceTotal(totalPriceItems(items, priceIncluded), quotes),
@@ -286,8 +294,9 @@ function FitStats({ result, onSpoolDefaultChange }: {
     <StatsPage result={result} prices={prices} settings={{
       damagePattern: damage && lname(damage.name, language),
       targetProfile: target && lname(target.name, language),
-      includeReload: considerReload,
-      onReloadChange: (includeReload) => updateSettings({ considerReload: includeReload }),
+      damageRatios: damage,
+      includeReload,
+      onReloadChange: setIncludeReload,
       onDamagePattern: () => setPicker('damage'),
       onTargetProfile: () => setPicker('target'),
     }} />

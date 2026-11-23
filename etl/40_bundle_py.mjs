@@ -75,7 +75,7 @@ vendor_files = [
     'service/port/xml.py', 'service/port/esi.py',
     'gui/__init__.py', 'gui/globalEvents.py',
     'gui/builtinViewColumns/__init__.py', 'gui/builtinViewColumns/misc.py',
-    'gui/builtinViewColumns/maxRange.py', 'gui/fitCommands/__init__.py',
+    'gui/builtinViewColumns/maxRange.py', 'gui/builtinViewColumns/capacitorUse.py', 'gui/fitCommands/__init__.py',
     'gui/fitCommands/helpers.py', 'gui/utils/__init__.py',
     'gui/utils/listFormatter.py', 'gui/utils/numberFormatter.py',
 ]

@@ -144,3 +144,18 @@ it('remembers EFT checkboxes and applies them to both copy languages', async () 
     }
   }
 })
+
+it('M01 displays Omega on item details and formats unitless and multiplier attributes', async () => {
+  const engine: EngineClient = { ...mockEngine, async itemInfo() {
+    return { typeId: 2889, name: { en: 'Test module', zh: '' }, iconId: null, skills: [], omega: true,
+      attributes: [
+        { id: 1, name: { en: 'Rate', zh: '' }, base: 6.125, current: 3.75 },
+        { id: 2, name: { en: 'Multiplier', zh: '' }, base: 1.236, unit: 'x' },
+      ] }
+  } }
+  setup('/item/2889', Object.assign({}, mockEngine, engine))
+  await screen.findByRole('heading', { name: 'Test module' })
+  expect(screen.getByTitle('Requires Omega').textContent).toBe('Ω')
+  expect(screen.getByText('Rate').parentElement?.textContent).toContain('6.1 → 3.8')
+  expect(screen.getByText('Multiplier').parentElement?.textContent).toContain('1.24 x')
+})

@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import type { ItemDetails, SkillNode } from '../engine/types'
 import { _t } from '../i18n/t'
-import { iconUrl, lname, fmt, useNameLanguage } from '../ui/format'
+import { iconUrl, lname, fmt, fmtAttribute, useNameLanguage } from '../ui/format'
 import { ItemIcon } from '../ui/ItemIcon'
+import { OmegaMark } from '../ui/ModuleRow'
 import { MetaTag } from '../ui/MetaGroupList'
 import { Segmented } from '../ui/Segmented'
 import { parsePosition, useFitServices } from './fitSession'
@@ -60,7 +61,7 @@ function Details({ typeId, fitId, position }: { typeId: number; fitId: string; p
   return <main>
     <PageHeading back={back} title={item ? lname(item.name, language) : _t('Item information')}
       image={item && <ItemIcon src={iconUrl(item.iconId)} />}
-      subtitle={item && <>{item.group && lname(item.group, language)} {item.meta && <MetaTag meta={item.meta} />}</>} />
+      subtitle={item && <>{item.group && lname(item.group, language)} {item.meta && <MetaTag meta={item.meta} />} {item.omega && <OmegaMark />}</>} />
     {error && <p className="page-message" role="alert">{_t('Could not load item information')}</p>}
     {item === undefined && !error && <SkeletonList rows={5} label={_t('Loading item…')} />}
     {item === null && <EmptyMessage>{_t('Item information unavailable')}</EmptyMessage>}
@@ -77,8 +78,8 @@ function Details({ typeId, fitId, position }: { typeId: number; fitId: string; p
           {item.attributes.map((attribute) => <div className="fit-data-row" key={attribute.id}>
             <dt>{lname(attribute.name, language)}</dt>
             <dd className="num">
-              {attribute.current === undefined ? fmt(attribute.base, 3) : <>
-                <span className="fit-caption">{fmt(attribute.base, 3)} → </span>{fmt(attribute.current, 3)}
+              {attribute.current === undefined ? fmtAttribute(attribute.base, attribute.unit) : <>
+                <span className="fit-caption">{fmtAttribute(attribute.base, attribute.unit)} → </span>{fmtAttribute(attribute.current, attribute.unit)}
               </>} {attribute.unit}
             </dd>
           </div>)}

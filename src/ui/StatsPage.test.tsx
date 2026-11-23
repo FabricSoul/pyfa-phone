@@ -103,3 +103,58 @@ describe('StatsPage motion', () => {
     await waitFor(() => expect(screen.queryByTestId('cap-status')).toBeNull(), { timeout: 2000 })
   })
 })
+
+it('P08 labels weapon, drone, and total DPS and marks a target profile as effective', () => {
+  const settings = { targetProfile: 'Uniform (25%)' }
+  const base = { ...unstable, stats: { ...unstable.stats, firepower: { ...unstable.stats.firepower, effective: false } } }
+  const page = render(<StatsPage result={base} settings={settings} />)
+  for (const label of ['Weapon DPS', 'Drone DPS', 'Total DPS', 'Volley']) expect(screen.getByText(label)).toBeTruthy()
+  const calculated = { ...base, stats: { ...base.stats, firepower: { ...base.stats.firepower, effective: true } } }
+  page.rerender(<StatsPage result={calculated} settings={settings} />)
+  expect(screen.getByText('Effective DPS')).toBeTruthy()
+})
+
+it('M08 opens firepower for a mining-only fit and lets the pilot switch views', () => {
+  const result = { ...unstable, stats: { ...unstable.stats,
+    firepower: { dps: 0, weaponDps: 0, droneDps: 0, volley: 0, includesReload: false },
+    mining: { miner: 2.5, drone: 0, total: 2.5, unit: 'm³/s' as const },
+  } }
+  render(<StatsPage result={result} />)
+  expect(screen.getByRole('button', { name: 'Firepower' }).getAttribute('aria-expanded')).toBe('true')
+  expect(screen.getByText('Total mining yield')).toBeTruthy()
+  expect(screen.getAllByText('m³/s')).toHaveLength(3)
+  fireEvent.click(screen.getByRole('button', { name: 'Mining yield' }))
+  expect(screen.getByText('Weapon DPS')).toBeTruthy()
+})
+
+it('P09 shows the selected incoming damage distribution without opening the picker', () => {
+  render(<StatsPage result={unstable} settings={{ damagePattern: 'EM', damageRatios: { em: 10, thermal: 0, kinetic: 0, explosive: 0 } }} />)
+  expect(screen.getByText('EM 100%')).toBeTruthy()
+})
+
+it('P10 shows reinforced and sustained repairs together', () => {
+  render(<StatsPage result={unstable} />)
+  expect(screen.getByText('Reinforced').tagName).not.toBe('BUTTON')
+  expect(screen.getByText('Sustained').tagName).not.toBe('BUTTON')
+})
+
+it('P11 formats capacitor duration and neutralizer resistance', () => {
+  const capacitor = { ...unstable.stats.capacitor, lastsSeconds: 63.1, neutralizerResistance: 0.24 }
+  render(<StatsPage result={{ ...unstable, stats: { ...unstable.stats, capacitor } }} />)
+  expect(screen.getByTestId('cap-status').textContent).toContain('1 min 3 s')
+  expect(screen.getByText('Neutralizer resistance').parentElement?.textContent).toContain('24%')
+})
+
+it('P12/P13 shows navigation details, specialized bays, and squadron resources', () => {
+  const navigation = { ...unstable.stats.navigation, alignTime: 4.25, sensorType: 'ladar' as const, jamChance: 15,
+    agility: 2, maxWarpDistance: 45, warpCoreStrength: 1, lockTimes: [{ target: 'frigate' as const, seconds: 4.67 }] }
+  const resources = { ...unstable.resources, specializedBays: { generalMiningHoldCapacity: 5000 },
+    activeDrones: { used: 2, total: 5 }, fighterBay: { used: 100, total: 300 }, fighterTubes: { used: 1, total: 3 } }
+  render(<StatsPage result={{ ...unstable, stats: { ...unstable.stats, navigation }, resources }} />)
+  expect(screen.getByText('Align time').parentElement?.textContent).toBe('Align time4.2 s')
+  for (const label of ['Ladar', 'Jam chance', 'Agility', 'Max warp distance', 'Warp core strength', 'Mining hold', 'Active drones', 'Fighter bay', 'Fighter tubes']) {
+    expect(screen.getByText(label)).toBeTruthy()
+  }
+  fireEvent.click(screen.getByText('Lock Times'))
+  expect(screen.getByText('Frigate').parentElement?.textContent).toContain('4.7')
+})

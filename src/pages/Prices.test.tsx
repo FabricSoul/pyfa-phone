@@ -1,5 +1,5 @@
 import { IDBFactory } from 'fake-indexeddb'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, expect, it, vi } from 'vitest'
 import { FittingRoutes } from '../App'
@@ -25,4 +25,17 @@ it.each(['/', '/fit/rifter'])('shows pending and failed prices independently of 
   fail(new Error('Prices offline'))
   await waitFor(() => expect(screen.queryByText('Updating prices…')).toBeNull())
   expect(screen.getAllByText('—').length).toBeGreaterThan(0)
+})
+
+it('M02 shows the same single-unit quote in a stacked row and its module sheet', async () => {
+  vi.mocked(getPrices).mockResolvedValue({ 2889: 1234567 })
+  render(<MemoryRouter initialEntries={['/fit/rifter']}><FittingRoutes
+    engine={mockEngine} store={createFitStore(new IDBFactory())}
+  /></MemoryRouter>)
+  const row = (await screen.findAllByTestId('module-row'))[0]!
+  expect(await within(row).findByText('1,234,567 ISK')).toBeTruthy()
+  fireEvent.click(row)
+  const sheet = await screen.findByRole('dialog')
+  expect(within(sheet).getByText('1,234,567 ISK')).toBeTruthy()
+  expect(getPrices).toHaveBeenCalledTimes(1)
 })

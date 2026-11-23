@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 01:31-0500\n"
+"POT-Creation-Date: 2026-11-23 01:49-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,11 @@ msgstr[1] ""
 msgid "A fit in the file is invalid:"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:171
+#: src/ui/StatsPage.tsx:240
+msgid "AU"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:232
 msgid "AU/s"
 msgstr ""
 
@@ -52,11 +56,11 @@ msgstr ""
 msgid "Activate {item}"
 msgstr ""
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:137 src/pages/FitExtras.tsx:148 src/pages/ModuleSheet.tsx:18 src/ui/DroneStackSheet.tsx:33 src/ui/ModuleRow.tsx:124
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:137 src/pages/FitExtras.tsx:148 src/pages/ModuleSheet.tsx:19 src/ui/DroneStackSheet.tsx:33 src/ui/ModuleRow.tsx:162
 msgid "Active"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:240 src/pages/Import.tsx:33
+#: src/pages/FitExtras.tsx:240 src/pages/Import.tsx:33 src/ui/StatsPage.tsx:260
 msgid "Active drones"
 msgstr ""
 
@@ -136,15 +140,19 @@ msgstr ""
 msgid "After fitting: {resources}"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:169
+#: src/ui/StatsPage.tsx:239
+msgid "Agility"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:230
 msgid "Align time"
 msgstr ""
 
-#: src/pages/Fit.tsx:226 src/pages/Settings.tsx:94 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Fit.tsx:210 src/pages/Settings.tsx:94 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr ""
 
-#: src/pages/Fit.tsx:226 src/pages/Settings.tsx:94 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Fit.tsx:210 src/pages/Settings.tsx:94 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr ""
 
@@ -176,11 +184,15 @@ msgstr ""
 msgid "Ambiguous item name: {name}. Candidates: {candidates}"
 msgstr ""
 
+#: src/ui/StatsPage.tsx:72
+msgid "Ammo hold"
+msgstr ""
+
 #: src/pages/Settings.tsx:265
 msgid "Appearance & language"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:168
+#: src/pages/ModuleSheet.tsx:177
 msgid "Applies to {n} module"
 msgid_plural "Applies to {n} modules"
 msgstr[0] ""
@@ -190,11 +202,11 @@ msgstr[1] ""
 msgid "Apply Implant Set"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:30 src/ui/StatsPage.tsx:83 src/ui/StatsPage.tsx:136 src/ui/StatsPage.tsx:145
+#: src/pages/ModuleSheet.tsx:31 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:119 src/ui/StatsPage.tsx:205
 msgid "Armor"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:69 src/pages/ItemInfo.tsx:74
+#: src/pages/ItemInfo.tsx:70 src/pages/ItemInfo.tsx:75
 msgid "Attributes"
 msgstr ""
 
@@ -206,7 +218,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/pages/Fit.tsx:201 src/pages/fitSession.tsx:204 src/pages/shared.tsx:82
+#: src/pages/Fit.tsx:205 src/pages/fitSession.tsx:210 src/pages/shared.tsx:82
 msgid "Back to fittings"
 msgstr ""
 
@@ -222,7 +234,7 @@ msgstr ""
 msgid "Backup restored: {n} fits"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:75
+#: src/pages/ItemInfo.tsx:76
 msgid "Base → fitted"
 msgstr ""
 
@@ -230,7 +242,15 @@ msgstr ""
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
-#: src/pages/Fit.tsx:269 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:179
+#: src/ui/StatsPage.tsx:67
+msgid "Battlecruiser"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:67
+msgid "Battleship"
+msgstr ""
+
+#: src/pages/Fit.tsx:277 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:179
 msgid "Boosters"
 msgstr ""
 
@@ -246,7 +266,7 @@ msgstr ""
 msgid "Browse ships"
 msgstr ""
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:182 src/pages/AddModule.tsx:305 src/pages/AddModule.tsx:346 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:126 src/pages/Variations.tsx:18 src/pages/Variations.tsx:91 src/pages/shared.tsx:20 src/ui/FitRow.tsx:38 src/ui/ResourceGauge.tsx:42
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:182 src/pages/AddModule.tsx:305 src/pages/AddModule.tsx:346 src/pages/Import.tsx:167 src/pages/ModuleSheet.tsx:128 src/pages/Variations.tsx:18 src/pages/Variations.tsx:91 src/pages/shared.tsx:20 src/ui/FitRow.tsx:38 src/ui/ResourceGauge.tsx:42
 msgid "CPU"
 msgstr ""
 
@@ -254,7 +274,7 @@ msgstr ""
 msgid "CPU left"
 msgstr ""
 
-#: src/pages/Fit.tsx:134
+#: src/pages/Fit.tsx:137
 msgid "Calculating fit…"
 msgstr ""
 
@@ -266,7 +286,7 @@ msgstr ""
 msgid "Caldari"
 msgstr ""
 
-#: src/dev/Gallery.tsx:73 src/pages/Import.tsx:169 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:44
+#: src/dev/Gallery.tsx:73 src/pages/Import.tsx:169 src/pages/shared.tsx:22 src/ui/ModuleRow.tsx:41 src/ui/ResourceGauge.tsx:44 src/ui/StatsPage.tsx:264
 msgid "Calibration"
 msgstr ""
 
@@ -278,23 +298,27 @@ msgstr ""
 msgid "Cap"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:32 src/ui/StatsPage.tsx:147 src/ui/StatsPage.tsx:151
+#: src/pages/ModuleSheet.tsx:33 src/ui/StatsPage.tsx:207 src/ui/StatsPage.tsx:211
 msgid "Capacitor"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:153
+#: src/ui/StatsPage.tsx:213
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/Fit.tsx:267 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:178 src/pages/Settings.tsx:50 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:275 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:178 src/pages/Settings.tsx:50 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:183
+#: src/ui/StatsPage.tsx:255
 msgid "Cargo bay"
 msgstr ""
 
-#: src/pages/Fit.tsx:226 src/pages/Fit.tsx:237 src/pages/Settings.tsx:28 src/pages/Settings.tsx:276 src/ui/pickers/CharacterPicker.tsx:19
+#: src/ui/StatsPage.tsx:67
+msgid "Carrier"
+msgstr ""
+
+#: src/pages/Fit.tsx:234 src/pages/Fit.tsx:245 src/pages/Settings.tsx:28 src/pages/Settings.tsx:276 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr ""
 
@@ -302,7 +326,7 @@ msgstr ""
 msgid "Character implants"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:167
+#: src/pages/ModuleSheet.tsx:176
 msgid "Charges"
 msgstr ""
 
@@ -316,6 +340,10 @@ msgstr ""
 
 #: src/ui/DroneStackSheet.tsx:31
 msgid "Choose the stack to merge into"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:79
+msgid "Command center hold"
 msgstr ""
 
 #: src/pages/Variations.tsx:96
@@ -366,15 +394,15 @@ msgstr ""
 msgid "Could not download all icons"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:193
+#: src/pages/ModuleSheet.tsx:202
 msgid "Could not fill empty slots"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:165
+#: src/pages/ModuleSheet.tsx:174
 msgid "Could not load charges"
 msgstr ""
 
-#: src/pages/fitSession.tsx:167
+#: src/pages/fitSession.tsx:171
 msgid "Could not load fit"
 msgstr ""
 
@@ -382,7 +410,7 @@ msgstr ""
 msgid "Could not load implant sets"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:64
+#: src/pages/ItemInfo.tsx:65
 msgid "Could not load item information"
 msgstr ""
 
@@ -410,16 +438,20 @@ msgstr ""
 msgid "Could not read this fit text"
 msgstr ""
 
-#: src/pages/Fit.tsx:196 src/pages/fitSession.tsx:198
+#: src/pages/Fit.tsx:200 src/pages/fitSession.tsx:204
 msgid "Could not recalculate fit"
 msgstr ""
 
-#: src/pages/Import.tsx:148 src/pages/fitSession.tsx:197
+#: src/pages/Import.tsx:148 src/pages/fitSession.tsx:203
 msgid "Could not save fit"
 msgstr ""
 
 #: src/App.tsx:69
 msgid "Could not start the fitting engine"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:67
+msgid "Cruiser"
 msgstr ""
 
 #: src/pages/Variations.tsx:80 src/pages/Variations.tsx:90 src/ui/DamageRangeChart.tsx:40
@@ -442,19 +474,23 @@ msgstr ""
 msgid "Custom profiles are not in the first version."
 msgstr ""
 
-#: src/pages/Fit.tsx:115 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:25 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:29 src/ui/ResumeCard.tsx:23
+#: src/pages/Fit.tsx:117 src/pages/Import.tsx:153 src/pages/ModuleSheet.tsx:26 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:29 src/ui/ResumeCard.tsx:23
 msgid "DPS"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:33
+msgid "DPS/module"
 msgstr ""
 
 #: src/pages/Variations.tsx:17
 msgid "Damage"
 msgstr ""
 
-#: src/ui/DamageRangeChart.tsx:43 src/ui/DamageRangeChart.tsx:64 src/ui/StatsPage.tsx:104
+#: src/ui/DamageRangeChart.tsx:43 src/ui/DamageRangeChart.tsx:64 src/ui/StatsPage.tsx:158
 msgid "Damage over distance"
 msgstr ""
 
-#: src/pages/Fit.tsx:294 src/pages/Settings.tsx:29 src/pages/Settings.tsx:278 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Fit.tsx:303 src/pages/Settings.tsx:29 src/pages/Settings.tsx:278 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr ""
 
@@ -490,11 +526,11 @@ msgstr ""
 msgid "Decrease {label} for {item}"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:156
+#: src/pages/ModuleSheet.tsx:165
 msgid "Default"
 msgstr ""
 
-#: src/pages/Fit.tsx:276 src/pages/Settings.tsx:31 src/pages/Settings.tsx:292 src/pages/Settings.tsx:329
+#: src/pages/Fit.tsx:284 src/pages/Settings.tsx:31 src/pages/Settings.tsx:292 src/pages/Settings.tsx:329
 msgid "Default preheat"
 msgstr ""
 
@@ -502,7 +538,7 @@ msgstr ""
 msgid "Default preheat percent"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:109
+#: src/ui/StatsPage.tsx:163
 msgid "Defense"
 msgstr ""
 
@@ -514,19 +550,23 @@ msgstr ""
 msgid "Delete {name}?"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:157
+#: src/ui/StatsPage.tsx:218
 msgid "Delta"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:71 src/pages/ItemInfo.tsx:95
+#: src/pages/ItemInfo.tsx:72 src/pages/ItemInfo.tsx:96
 msgid "Description"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:66
+msgid "Destroyer"
 msgstr ""
 
 #: src/ui/InstallCard.tsx:66
 msgid "Dismiss"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:106
+#: src/ui/StatsPage.tsx:160
 msgid "Distance in km, DPS on the vertical axis; stationary target, tracking ignored. Press and hold the chart for per-km values."
 msgstr ""
 
@@ -542,23 +582,23 @@ msgstr ""
 msgid "Downloaded (4.1 MB)"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:100
+#: src/ui/StatsPage.tsx:131
 msgid "Drone DPS"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:239 src/pages/shared.tsx:27 src/ui/StatsPage.tsx:185
+#: src/pages/FitExtras.tsx:239 src/pages/shared.tsx:27 src/ui/StatsPage.tsx:263
 msgid "Drone bandwidth"
 msgstr ""
 
-#: src/dev/Gallery.tsx:75 src/pages/shared.tsx:26 src/ui/StatsPage.tsx:184
+#: src/dev/Gallery.tsx:75 src/pages/shared.tsx:26 src/ui/StatsPage.tsx:256
 msgid "Drone bay"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:176
+#: src/ui/StatsPage.tsx:242
 msgid "Drone control range"
 msgstr ""
 
-#: src/pages/Fit.tsx:265 src/pages/FitExtras.tsx:51 src/pages/Settings.tsx:49
+#: src/pages/Fit.tsx:273 src/pages/FitExtras.tsx:51 src/pages/Settings.tsx:49
 msgid "Drones"
 msgstr ""
 
@@ -578,15 +618,15 @@ msgstr ""
 msgid "EFT export options"
 msgstr ""
 
-#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:28 src/ui/FitRow.tsx:30 src/ui/ResumeCard.tsx:24 src/ui/StatsPage.tsx:109 src/ui/StatsPage.tsx:112 src/ui/StatsPage.tsx:116
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:154 src/pages/ModuleSheet.tsx:29 src/ui/FitRow.tsx:30 src/ui/ResumeCard.tsx:24 src/ui/StatsPage.tsx:163 src/ui/StatsPage.tsx:166 src/ui/StatsPage.tsx:178
 msgid "EHP"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:88
+#: src/ui/StatsPage.tsx:115
 msgid "EHP/s"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:57 src/ui/pickers/patterns.ts:70
+#: src/ui/StatsPage.tsx:58 src/ui/pickers/patterns.ts:70
 msgid "EM"
 msgstr ""
 
@@ -594,11 +634,19 @@ msgstr ""
 msgid "EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf."
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:62
+#: src/ui/StatsPage.tsx:128
+msgid "Effective DPS"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:101
 msgid "Empty slot"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:57 src/ui/pickers/patterns.ts:70
+#: src/ui/StatsPage.tsx:81
+msgid "Expedition hold"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:58 src/ui/pickers/patterns.ts:70
 msgid "Explosive"
 msgstr ""
 
@@ -610,7 +658,7 @@ msgstr ""
 msgid "Exported fit"
 msgstr ""
 
-#: src/pages/Fit.tsx:126
+#: src/pages/Fit.tsx:129
 msgid "Extras"
 msgstr ""
 
@@ -618,19 +666,19 @@ msgstr ""
 msgid "Faction"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:95
+#: src/ui/StatsPage.tsx:146
 msgid "Factor in Reload Time"
 msgstr ""
 
-#: src/pages/Import.tsx:34
+#: src/pages/Import.tsx:34 src/ui/StatsPage.tsx:261
 msgid "Fighter bay"
 msgstr ""
 
-#: src/pages/Import.tsx:35
+#: src/pages/Import.tsx:35 src/ui/StatsPage.tsx:262
 msgid "Fighter tubes"
 msgstr ""
 
-#: src/pages/Fit.tsx:266 src/pages/FitExtras.tsx:51
+#: src/pages/Fit.tsx:274 src/pages/FitExtras.tsx:51
 msgid "Fighters"
 msgstr ""
 
@@ -638,15 +686,15 @@ msgstr ""
 msgid "Fill cargo"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:190
+#: src/pages/ModuleSheet.tsx:199
 msgid "Fill empty slots of this type"
 msgstr ""
 
-#: src/i18n/seed.ts:7 src/ui/StatsPage.tsx:92
+#: src/i18n/seed.ts:7 src/ui/StatsPage.tsx:141
 msgid "Firepower"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:192
+#: src/ui/StatsPage.tsx:271
 msgid "Fit"
 msgstr ""
 
@@ -662,11 +710,11 @@ msgstr ""
 msgid "Fit name"
 msgstr ""
 
-#: src/pages/fitSession.tsx:165
+#: src/pages/fitSession.tsx:169
 msgid "Fit not found"
 msgstr ""
 
-#: src/pages/Fit.tsx:125
+#: src/pages/Fit.tsx:128
 msgid "Fit view"
 msgstr ""
 
@@ -690,15 +738,27 @@ msgstr ""
 msgid "Fittings list, settings and backups work right now"
 msgstr ""
 
+#: src/ui/StatsPage.tsx:71
+msgid "Fleet hangar"
+msgstr ""
+
 #: src/pages/Settings.tsx:88 src/pages/Settings.tsx:90 src/pages/Settings.tsx:389
 msgid "Follow system"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:153
+#: src/ui/StatsPage.tsx:66
+msgid "Frigate"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:73
+msgid "Fuel bay"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:213
 msgid "GJ"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:155 src/ui/StatsPage.tsx:156 src/ui/StatsPage.tsx:157
+#: src/pages/ModuleSheet.tsx:129 src/ui/StatsPage.tsx:215 src/ui/StatsPage.tsx:216 src/ui/StatsPage.tsx:218
 msgid "GJ/s"
 msgstr ""
 
@@ -714,11 +774,19 @@ msgstr ""
 msgid "Game data version"
 msgstr ""
 
-#: src/dev/Gallery.tsx:82 src/pages/FitExtras.tsx:100 src/ui/StatsPage.tsx:109 src/ui/StatsPage.tsx:113 src/ui/StatsPage.tsx:116
+#: src/ui/StatsPage.tsx:77
+msgid "Gas hold"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:62
+msgid "Gravimetric"
+msgstr ""
+
+#: src/dev/Gallery.tsx:82 src/pages/FitExtras.tsx:100 src/ui/StatsPage.tsx:163 src/ui/StatsPage.tsx:167 src/ui/StatsPage.tsx:178
 msgid "HP"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:88
+#: src/ui/ModuleRow.tsx:35 src/ui/StatsPage.tsx:115
 msgid "HP/s"
 msgstr ""
 
@@ -730,19 +798,27 @@ msgstr ""
 msgid "High slots"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:31 src/ui/StatsPage.tsx:84 src/ui/StatsPage.tsx:137 src/ui/StatsPage.tsx:146
+#: src/pages/ModuleSheet.tsx:32 src/ui/StatsPage.tsx:112 src/ui/StatsPage.tsx:119 src/ui/StatsPage.tsx:206
 msgid "Hull"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:40
+msgid "Hull resist bonus"
 msgstr ""
 
 #: src/ui/PriceValue.tsx:7
 msgid "ISK"
 msgstr ""
 
+#: src/ui/StatsPage.tsx:76
+msgid "Ice hold"
+msgstr ""
+
 #: src/pages/FitExtras.tsx:256
 msgid "Implant source"
 msgstr ""
 
-#: src/pages/Fit.tsx:268 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:179 src/pages/Settings.tsx:51
+#: src/pages/Fit.tsx:276 src/pages/FitExtras.tsx:51 src/pages/FitMenu.tsx:179 src/pages/Settings.tsx:51
 msgid "Implants"
 msgstr ""
 
@@ -754,7 +830,7 @@ msgstr ""
 msgid "Inactive"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:111
+#: src/ui/StatsPage.tsx:165
 msgid "Incoming damage pattern"
 msgstr ""
 
@@ -774,6 +850,14 @@ msgstr ""
 msgid "Increase {label} for {item}"
 msgstr ""
 
+#: src/ui/StatsPage.tsx:75
+msgid "Industrial ship hold"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:72
+msgid "Infrastructure hold"
+msgstr ""
+
 #: src/ui/EngineBoot.tsx:63
 msgid "Initializing"
 msgstr ""
@@ -782,15 +866,19 @@ msgstr ""
 msgid "Install now"
 msgstr ""
 
+#: src/ui/StatsPage.tsx:66
+msgid "Interceptor"
+msgstr ""
+
 #: src/pages/Settings.tsx:26 src/pages/Settings.tsx:268 src/pages/Settings.tsx:399
 msgid "Interface language"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:61 src/pages/ModuleSheet.tsx:186
+#: src/pages/ItemInfo.tsx:62 src/pages/ModuleSheet.tsx:195
 msgid "Item information"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:66
+#: src/pages/ItemInfo.tsx:67
 msgid "Item information unavailable"
 msgstr ""
 
@@ -798,27 +886,39 @@ msgstr ""
 msgid "Item names"
 msgstr ""
 
-#: src/pages/Fit.tsx:131 src/pages/FitExtras.tsx:127 src/ui/ModuleRow.tsx:72 src/ui/ModuleRow.tsx:151
+#: src/pages/Fit.tsx:134 src/pages/FitExtras.tsx:127 src/ui/ModuleRow.tsx:54 src/ui/ModuleRow.tsx:111
 msgid "Item removed"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:238
+msgid "Jam chance"
 msgstr ""
 
 #: src/pages/ShipBrowser.tsx:20
 msgid "Jove"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:57 src/ui/pickers/patterns.ts:70
+#: src/ui/StatsPage.tsx:58 src/ui/pickers/patterns.ts:70
 msgid "Kinetic"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:161
+#: src/ui/StatsPage.tsx:61
+msgid "Ladar"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:75
+msgid "Large ship hold"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:222
 msgid "Lasts "
 msgstr ""
 
-#: src/pages/shared.tsx:24 src/ui/StatsPage.tsx:187
+#: src/pages/shared.tsx:24 src/ui/StatsPage.tsx:266
 msgid "Launcher hardpoints"
 msgstr ""
 
-#: src/pages/Fit.tsx:145
+#: src/pages/Fit.tsx:148
 msgid "Launchers"
 msgstr ""
 
@@ -830,7 +930,7 @@ msgstr ""
 msgid "Light fighters"
 msgstr ""
 
-#: src/pages/Fit.tsx:264 src/pages/FitMenu.tsx:178
+#: src/pages/Fit.tsx:272 src/pages/FitMenu.tsx:178
 msgid "Loaded charges"
 msgstr ""
 
@@ -846,7 +946,7 @@ msgstr ""
 msgid "Loading items…"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:65
+#: src/pages/ItemInfo.tsx:66
 msgid "Loading item…"
 msgstr ""
 
@@ -862,7 +962,11 @@ msgstr ""
 msgid "Loading variations…"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:126
+#: src/ui/StatsPage.tsx:246
+msgid "Lock Times"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:164
 msgid "Long press to overheat"
 msgstr ""
 
@@ -870,20 +974,32 @@ msgstr ""
 msgid "Low slots"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:177
+#: src/ui/StatsPage.tsx:61
+msgid "Magnetometric"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:243
 msgid "Mass"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:172
+#: src/ui/StatsPage.tsx:78
+msgid "Material bay"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:233
 msgid "Max target range"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:173
+#: src/ui/StatsPage.tsx:234
 msgid "Max targets"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:27 src/ui/StatsPage.tsx:168
+#: src/pages/ModuleSheet.tsx:28 src/ui/StatsPage.tsx:229
 msgid "Max velocity"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:240
+msgid "Max warp distance"
 msgstr ""
 
 #: src/pages/AddModule.tsx:330
@@ -892,6 +1008,10 @@ msgstr ""
 
 #: src/pages/AddModule.tsx:329
 msgid "Maximum of this module fitted"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:74
+msgid "Medium ship hold"
 msgstr ""
 
 #: src/pages/Settings.tsx:376
@@ -906,15 +1026,43 @@ msgstr ""
 msgid "Mid slots"
 msgstr ""
 
+#: src/ui/StatsPage.tsx:77
+msgid "Mineral hold"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:136
+msgid "Mining drones"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:76
+msgid "Mining hold"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:135
+msgid "Mining modules"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:143
+msgid "Mining yield"
+msgstr ""
+
 #: src/pages/ShipBrowser.tsx:17
 msgid "Minmatar"
 msgstr ""
 
-#: src/pages/Fit.tsx:229
+#: src/pages/ModuleSheet.tsx:132
+msgid "Missile flight range"
+msgstr ""
+
+#: src/pages/Fit.tsx:237
 msgid "Missing skills"
 msgstr ""
 
-#: src/dev/Gallery.tsx:109 src/dev/Gallery.tsx:110 src/pages/ModuleSheet.tsx:37
+#: src/ui/StatsPage.tsx:80
+msgid "Mobile depot hold"
+msgstr ""
+
+#: src/dev/Gallery.tsx:109 src/dev/Gallery.tsx:110 src/pages/ModuleSheet.tsx:38
 msgid "Module actions"
 msgstr ""
 
@@ -922,20 +1070,32 @@ msgstr ""
 msgid "Module not found"
 msgstr ""
 
-#: src/pages/Fit.tsx:263
+#: src/pages/Fit.tsx:271
 msgid "Modules"
 msgstr ""
 
-#: src/ui/NavBar.tsx:15
+#: src/ui/NavBar.tsx:17
 msgid "More"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:149
+#: src/ui/StatsPage.tsx:62
+msgid "Multispectral"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:191
 msgid "Needs adjustment: state changed"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:72
+#: src/ui/ModuleRow.tsx:111
 msgid "Needs adjustment: wrong slot"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:38
+msgid "Neutralization"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:217
+msgid "Neutralizer resistance"
 msgstr ""
 
 #: src/pages/Home.tsx:83 src/pages/ShipBrowser.tsx:90
@@ -946,11 +1106,11 @@ msgstr ""
 msgid "New fit defaults"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:85
+#: src/pages/ItemInfo.tsx:86
 msgid "No attributes available"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:193
+#: src/pages/ModuleSheet.tsx:202
 msgid "No compatible empty slots"
 msgstr ""
 
@@ -958,7 +1118,7 @@ msgstr ""
 msgid "No compatible items found"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:97
+#: src/pages/ItemInfo.tsx:98
 msgid "No description available"
 msgstr ""
 
@@ -994,7 +1154,7 @@ msgstr ""
 msgid "No ships available"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:102
+#: src/pages/ItemInfo.tsx:103
 msgid "No skill requirements"
 msgstr ""
 
@@ -1002,7 +1162,7 @@ msgstr ""
 msgid "No variations"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:222 src/ui/ImplantSetPicker.tsx:31 src/ui/ResourceGauge.tsx:15 src/ui/StatsPage.tsx:42 src/ui/StatsPage.tsx:94 src/ui/StatsPage.tsx:111
+#: src/pages/FitExtras.tsx:222 src/ui/ImplantSetPicker.tsx:31 src/ui/ResourceGauge.tsx:15 src/ui/StatsPage.tsx:43 src/ui/StatsPage.tsx:145 src/ui/StatsPage.tsx:165
 msgid "None"
 msgstr ""
 
@@ -1018,11 +1178,11 @@ msgstr ""
 msgid "Officer"
 msgstr ""
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:16 src/ui/ModuleRow.tsx:124 src/ui/ModuleRow.tsx:137
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:162 src/ui/ModuleRow.tsx:175
 msgid "Offline"
 msgstr ""
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:124
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:18 src/ui/ModuleRow.tsx:162
 msgid "Online"
 msgstr ""
 
@@ -1038,11 +1198,11 @@ msgstr ""
 msgid "Over"
 msgstr ""
 
-#: src/pages/Fit.tsx:157
+#: src/pages/Fit.tsx:160
 msgid "Overheat rack"
 msgstr ""
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:19 src/ui/ModuleRow.tsx:124
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:20 src/ui/ModuleRow.tsx:162
 msgid "Overheated"
 msgstr ""
 
@@ -1050,7 +1210,7 @@ msgstr ""
 msgid "Page not found"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:138
+#: src/ui/StatsPage.tsx:118
 msgid "Passive shield"
 msgstr ""
 
@@ -1090,15 +1250,23 @@ msgstr ""
 msgid "Pirate"
 msgstr ""
 
+#: src/ui/StatsPage.tsx:79
+msgid "Planetary goods hold"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:66
+msgid "Pod"
+msgstr ""
+
 #: src/ui/ResourceGauge.tsx:43
 msgid "PowerGrid"
 msgstr ""
 
-#: src/pages/AddModule.tsx:182 src/pages/AddModule.tsx:305 src/pages/AddModule.tsx:346 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:126 src/pages/shared.tsx:21 src/ui/FitRow.tsx:39
+#: src/pages/AddModule.tsx:182 src/pages/AddModule.tsx:305 src/pages/AddModule.tsx:346 src/pages/Import.tsx:168 src/pages/ModuleSheet.tsx:128 src/pages/shared.tsx:21 src/ui/FitRow.tsx:39
 msgid "Powergrid"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:154
+#: src/pages/ModuleSheet.tsx:163
 msgid "Preheat cycles"
 msgstr ""
 
@@ -1110,8 +1278,16 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
+#: src/pages/ModuleSheet.tsx:136
+msgid "Price per module"
+msgstr ""
+
 #: src/ui/EngineBoot.tsx:25 src/ui/EngineBoot.tsx:63
 msgid "Python runtime"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:80
+msgid "Quafe hold"
 msgstr ""
 
 #: src/pages/FitExtras.tsx:133
@@ -1126,7 +1302,11 @@ msgstr ""
 msgid "Quick actions"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:98
+#: src/ui/StatsPage.tsx:61
+msgid "Radar"
+msgstr ""
+
+#: src/pages/FitExtras.tsx:98 src/ui/ModuleRow.tsx:36
 msgid "Range"
 msgstr ""
 
@@ -1134,15 +1314,15 @@ msgstr ""
 msgid "Recent modules"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:155
+#: src/ui/StatsPage.tsx:215
 msgid "Recharge"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:129
+#: src/ui/StatsPage.tsx:191
 msgid "Recharge rates"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:154
+#: src/ui/StatsPage.tsx:214
 msgid "Recharge time"
 msgstr ""
 
@@ -1158,23 +1338,23 @@ msgstr ""
 msgid "Redo"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:131
+#: src/ui/StatsPage.tsx:193
 msgid "Reinforced"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:142
+#: src/ui/StatsPage.tsx:202
 msgid "Remote Repairs"
 msgstr ""
 
-#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:190 src/pages/FitExtras.tsx:195 src/ui/ModuleRow.tsx:74 src/ui/ModuleRow.tsx:138
+#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:194 src/pages/FitExtras.tsx:195 src/ui/ModuleRow.tsx:113 src/ui/ModuleRow.tsx:176
 msgid "Remove"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:200
+#: src/pages/ModuleSheet.tsx:209
 msgid "Remove module"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:200
+#: src/pages/ModuleSheet.tsx:209
 msgid "Remove {n} modules"
 msgstr ""
 
@@ -1186,7 +1366,11 @@ msgstr ""
 msgid "Rename fit"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:180 src/pages/Variations.tsx:78
+#: src/ui/ModuleRow.tsx:35
+msgid "Repair"
+msgstr ""
+
+#: src/pages/ModuleSheet.tsx:189 src/pages/Variations.tsx:78
 msgid "Replace with a variation"
 msgstr ""
 
@@ -1194,15 +1378,19 @@ msgstr ""
 msgid "Replace {n} fits"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:72
+#: src/pages/ItemInfo.tsx:73
 msgid "Requirements"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:28
+msgid "Requires Omega"
 msgstr ""
 
 #: src/pages/AddModule.tsx:334
 msgid "Requires a capital ship"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:181
+#: src/ui/StatsPage.tsx:253
 msgid "Resources and prices"
 msgstr ""
 
@@ -1214,12 +1402,16 @@ msgstr ""
 msgid "Restore from backup"
 msgstr ""
 
-#: src/App.tsx:70 src/pages/fitSession.tsx:168
+#: src/App.tsx:70 src/pages/fitSession.tsx:172
 msgid "Retry"
 msgstr ""
 
 #: src/pages/shared.tsx:13
 msgid "Rigs"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:78
+msgid "Salvage hold"
 msgstr ""
 
 #: src/pages/FitMenu.tsx:226
@@ -1230,7 +1422,7 @@ msgstr ""
 msgid "Save and open"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:174
+#: src/ui/StatsPage.tsx:235
 msgid "Scan resolution"
 msgstr ""
 
@@ -1278,15 +1470,19 @@ msgstr ""
 msgid "Select \"Add to Home Screen\""
 msgstr ""
 
-#: src/ui/StatsPage.tsx:175
+#: src/ui/StatsPage.tsx:236
 msgid "Sensor strength"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:177
+#: src/ui/StatsPage.tsx:237
+msgid "Sensor type"
+msgstr ""
+
+#: src/pages/ModuleSheet.tsx:186
 msgid "Set together"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:177
+#: src/pages/ModuleSheet.tsx:186
 msgid "Set {n} modules individually"
 msgstr ""
 
@@ -1294,11 +1490,11 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:29 src/ui/StatsPage.tsx:82 src/ui/StatsPage.tsx:135 src/ui/StatsPage.tsx:144
+#: src/pages/ModuleSheet.tsx:30 src/ui/StatsPage.tsx:110 src/ui/StatsPage.tsx:118 src/ui/StatsPage.tsx:204
 msgid "Shield"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:191
+#: src/ui/StatsPage.tsx:270
 msgid "Ship"
 msgstr ""
 
@@ -1306,7 +1502,19 @@ msgstr ""
 msgid "Ship faction"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:87
+#: src/ui/StatsPage.tsx:73
+msgid "Ship hold"
+msgstr ""
+
+#: src/ui/NavBar.tsx:12
+msgid "Ship information"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:71
+msgid "Ship maintenance bay"
+msgstr ""
+
+#: src/pages/ItemInfo.tsx:88
 msgid "Ship traits"
 msgstr ""
 
@@ -1318,15 +1526,15 @@ msgstr ""
 msgid "Side Effects"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:170
+#: src/ui/StatsPage.tsx:231
 msgid "Signature radius"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:99
+#: src/pages/ItemInfo.tsx:100
 msgid "Skill requirements"
 msgstr ""
 
-#: src/pages/Fit.tsx:235
+#: src/pages/Fit.tsx:243
 msgid "Skill requirements met"
 msgstr ""
 
@@ -1334,12 +1542,16 @@ msgstr ""
 msgid "Slot not found"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:102 src/pages/ModuleSheet.tsx:133
+#: src/pages/FitExtras.tsx:102 src/pages/ModuleSheet.tsx:142
 msgid "Slot {n}"
 msgstr ""
 
-#: src/pages/Fit.tsx:126
+#: src/pages/Fit.tsx:129
 msgid "Slots"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:74
+msgid "Small ship hold"
 msgstr ""
 
 #: src/pages/Settings.tsx:298
@@ -1350,6 +1562,10 @@ msgstr ""
 msgid "Speed"
 msgstr ""
 
+#: src/ui/ModuleRow.tsx:34
+msgid "Speed bonus"
+msgstr ""
+
 #: src/pages/Import.tsx:155
 msgid "Speed m/s"
 msgstr ""
@@ -1358,7 +1574,7 @@ msgstr ""
 msgid "Split stack"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:161
+#: src/ui/StatsPage.tsx:222
 msgid "Stable: "
 msgstr ""
 
@@ -1374,11 +1590,11 @@ msgstr ""
 msgid "Starting the pyfa engine"
 msgstr ""
 
-#: src/pages/Fit.tsx:126
+#: src/pages/Fit.tsx:129
 msgid "Stats"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:158
+#: src/ui/StatsPage.tsx:219
 msgid "Status"
 msgstr ""
 
@@ -1402,7 +1618,7 @@ msgstr ""
 msgid "Support fighters"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:132
+#: src/ui/StatsPage.tsx:193
 msgid "Sustained"
 msgstr ""
 
@@ -1410,11 +1626,11 @@ msgstr ""
 msgid "Swap for a similar module"
 msgstr ""
 
-#: src/pages/Fit.tsx:128
+#: src/pages/Fit.tsx:131
 msgid "Swipe a module row left for offline and remove."
 msgstr ""
 
-#: src/pages/Fit.tsx:215
+#: src/pages/Fit.tsx:223
 msgid "Tactical mode"
 msgstr ""
 
@@ -1426,20 +1642,20 @@ msgstr ""
 msgid "Tap the share button"
 msgstr ""
 
-#: src/ui/ModuleRow.tsx:63
+#: src/ui/ModuleRow.tsx:102
 msgid "Tap to add a module"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:94
+#: src/ui/StatsPage.tsx:145
 msgid "Target Resists"
 msgstr ""
 
-#: src/pages/Fit.tsx:294 src/ui/pickers/TargetProfilePicker.tsx:25
+#: src/pages/Fit.tsx:303 src/ui/pickers/TargetProfilePicker.tsx:25
 msgid "Target profile"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:166
-msgid "Targeting"
+#: src/ui/StatsPage.tsx:227
+msgid "Targeting and navigation"
 msgstr ""
 
 #: src/ui/MetaGroupList.tsx:13
@@ -1474,7 +1690,7 @@ msgstr ""
 msgid "Theme"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:57 src/ui/pickers/patterns.ts:70
+#: src/ui/StatsPage.tsx:58 src/ui/pickers/patterns.ts:70
 msgid "Thermal"
 msgstr ""
 
@@ -1490,15 +1706,23 @@ msgstr ""
 msgid "Today"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:98
+#: src/ui/StatsPage.tsx:128
 msgid "Total DPS"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:134
+msgid "Total mining yield"
 msgstr ""
 
 #: src/pages/Settings.tsx:30 src/pages/Settings.tsx:299 src/pages/Settings.tsx:425
 msgid "Total price includes"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:70
+#: src/ui/ModuleRow.tsx:37
+msgid "Tracking speed"
+msgstr ""
+
+#: src/pages/ItemInfo.tsx:71
 msgid "Traits"
 msgstr ""
 
@@ -1506,19 +1730,19 @@ msgstr ""
 msgid "Triglavian"
 msgstr ""
 
-#: src/pages/shared.tsx:23 src/ui/StatsPage.tsx:186
+#: src/pages/shared.tsx:23 src/ui/StatsPage.tsx:265
 msgid "Turret hardpoints"
 msgstr ""
 
-#: src/pages/Fit.tsx:144
+#: src/pages/Fit.tsx:147
 msgid "Turrets"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:188 src/pages/fitSession.tsx:224 src/ui/NavBar.tsx:14
+#: src/pages/FitExtras.tsx:188 src/pages/fitSession.tsx:230 src/ui/NavBar.tsx:16
 msgid "Undo"
 msgstr ""
 
-#: src/pages/Fit.tsx:123
+#: src/pages/Fit.tsx:126
 msgid "Unsaved preview"
 msgstr ""
 
@@ -1526,7 +1750,7 @@ msgstr ""
 msgid "Updating prices…"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:156
+#: src/ui/StatsPage.tsx:216
 msgid "Usage"
 msgstr ""
 
@@ -1542,7 +1766,7 @@ msgstr ""
 msgid "Use default (fit)"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:183
+#: src/pages/ModuleSheet.tsx:192
 msgid "View in market"
 msgstr ""
 
@@ -1550,12 +1774,20 @@ msgstr ""
 msgid "View only without saving"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:26 src/ui/StatsPage.tsx:99
+#: src/pages/ModuleSheet.tsx:27 src/ui/StatsPage.tsx:129
 msgid "Volley"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:171
+#: src/ui/StatsPage.tsx:232
 msgid "Warp Speed"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:241
+msgid "Warp core strength"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:130
+msgid "Weapon DPS"
 msgstr ""
 
 #: src/pages/AddModule.tsx:332
@@ -1566,6 +1798,10 @@ msgstr ""
 msgid "best"
 msgstr ""
 
+#: src/ui/ModuleRow.tsx:193
+msgid "each"
+msgstr ""
+
 #: src/pages/Settings.tsx:298
 msgid "fuzzwork · Jita"
 msgstr ""
@@ -1574,27 +1810,27 @@ msgstr ""
 msgid "items recognized"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:177
+#: src/ui/StatsPage.tsx:243
 msgid "kg"
 msgstr ""
 
-#: src/ui/AmmoList.tsx:36 src/ui/DamageRangeChart.tsx:65 src/ui/DamageRangeChart.tsx:71 src/ui/StatsPage.tsx:172 src/ui/StatsPage.tsx:176
+#: src/pages/ModuleSheet.tsx:132 src/pages/ModuleSheet.tsx:133 src/ui/AmmoList.tsx:36 src/ui/DamageRangeChart.tsx:65 src/ui/DamageRangeChart.tsx:71 src/ui/StatsPage.tsx:233 src/ui/StatsPage.tsx:242
 msgid "km"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:98 src/ui/StatsPage.tsx:170
+#: src/pages/FitExtras.tsx:98 src/ui/StatsPage.tsx:231
 msgid "m"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:100 src/ui/FitRow.tsx:31 src/ui/ResumeCard.tsx:25 src/ui/StatsPage.tsx:168
+#: src/pages/FitExtras.tsx:100 src/ui/FitRow.tsx:31 src/ui/ResumeCard.tsx:25 src/ui/StatsPage.tsx:229
 msgid "m/s"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:174
+#: src/ui/StatsPage.tsx:235
 msgid "mm"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:236
+#: src/pages/FitExtras.tsx:236 src/ui/StatsPage.tsx:258
 msgid "m³"
 msgstr ""
 
@@ -1614,7 +1850,7 @@ msgstr ""
 msgid "pyfa-phone source on GitHub"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:154 src/ui/StatsPage.tsx:161 src/ui/StatsPage.tsx:169
+#: src/ui/StatsPage.tsx:214 src/ui/StatsPage.tsx:230 src/ui/StatsPage.tsx:248
 msgid "s"
 msgstr ""
 
@@ -1626,9 +1862,19 @@ msgstr ""
 msgid "{label} for {item}"
 msgstr ""
 
+#: src/ui/format.ts:84
+msgid "{minutes} min {seconds} s"
+msgstr ""
+
 #: src/ui/DamageRangeChart.tsx:25
 msgid "{name} peaks at {dps} DPS at {km} km"
 msgstr ""
+
+#: src/ui/ModuleRow.tsx:53
+msgid "{n} cycle"
+msgid_plural "{n} cycles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/pages/Home.tsx:111
 msgid "{n} fits"
@@ -1644,6 +1890,12 @@ msgstr[1] ""
 msgid "{n} remaining"
 msgstr ""
 
+#: src/ui/ModuleRow.tsx:52
+msgid "{n} round"
+msgid_plural "{n} rounds"
+msgstr[0] ""
+msgstr[1] ""
+
 #: src/ui/ResumeCard.tsx:33
 msgid "{n} turrets"
 msgstr ""
@@ -1652,11 +1904,15 @@ msgstr ""
 msgid "{resource} over by {amount}"
 msgstr ""
 
+#: src/ui/format.ts:85
+msgid "{seconds} s"
+msgstr ""
+
 #: src/pages/FitExtras.tsx:221
 msgid "{ship} has no drone bay"
 msgstr ""
 
-#: src/pages/Fit.tsx:117
+#: src/pages/Fit.tsx:119
 msgid "{slot} overheated"
 msgstr ""
 
