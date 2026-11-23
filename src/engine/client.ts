@@ -22,14 +22,16 @@ export interface WorkerEngineClient extends EngineClient {
 }
 
 export type EngineStage = 'runtime' | 'data' | 'initialize'
-/** Called on every stage change and, while downloading, with the bytes loaded so far. */
-export type ReportStage = (stage: EngineStage, progress?: EngineProgress) => void
+/** Called once per stage change. */
+export type ReportStage = (stage: EngineStage) => void
+/** Called while downloading with the bytes loaded so far (throttled by the Worker). */
+export type ReportProgress = (progress: EngineProgress) => void
 
 export interface EngineWorkerApi extends WorkerEngineClient {
-  ready(report?: ReportStage): Promise<void>
+  ready(report?: ReportStage, progress?: ReportProgress): Promise<void>
 }
 
-export async function createEngine(report?: ReportStage): Promise<WorkerEngineClient> {
+export async function createEngine(report?: ReportStage, onProgress?: ReportProgress): Promise<WorkerEngineClient> {
   const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' })
   const remote = wrap<EngineWorkerApi>(worker)
   let onError: (event: ErrorEvent) => void = () => {}
@@ -38,7 +40,7 @@ export async function createEngine(report?: ReportStage): Promise<WorkerEngineCl
     worker.addEventListener('error', onError)
   })
   try {
-    await Promise.race([remote.ready(report && proxy(report)), startupFailure])
+    await Promise.race([remote.ready(report && proxy(report), onProgress && proxy(onProgress)), startupFailure])
   } catch (error) {
     worker.terminate()
     throw error

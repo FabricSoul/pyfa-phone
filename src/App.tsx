@@ -111,7 +111,7 @@ function EngineApp() {
     let current = true
     // StrictMode tears down the first effect before this timer can create a Worker.
     const timer = setTimeout(() => {
-      void createEngine((stage, progress) => { if (!current) return; setStage(stage); if (progress) setProgress(progress) }).then(
+      void createEngine((stage) => { if (current) setStage(stage) }, (progress) => { if (current) setProgress(progress) }).then(
         (client) => { resolvers.resolve(client); if (current) setEngine(client) },
         (error) => {
           if (!current) return

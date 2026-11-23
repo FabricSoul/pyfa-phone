@@ -35,12 +35,11 @@ async function loadRuntime(manifestUrl: URL, version: string, onBytes?: (bytes: 
   }
 }
 
-async function initialize(report: Parameters<EngineWorkerApi['ready']>[0]) {
+async function initialize(report: Parameters<EngineWorkerApi['ready']>[0], reportProgress: Parameters<EngineWorkerApi['ready']>[1]) {
   await report?.('runtime')
   const manifestUrl = new URL(`${import.meta.env.BASE_URL}data/manifest.json`, self.location.origin)
   const manifest: EngineManifest = await fetchAsset(manifestUrl).then((response) => response.json())
   // Real byte counts for the boot page, throttled so the Worker does not flood the main thread.
-  let stage: 'runtime' | 'data' = 'runtime'
   let last = 0
   const progress = createProgress({
     runtime: (manifest.pyodide.files ?? []).reduce((sum, file) => sum + file.bytes, 0),
@@ -49,11 +48,11 @@ async function initialize(report: Parameters<EngineWorkerApi['ready']>[0]) {
     const now = Date.now()
     if (now - last < 100) return
     last = now
-    void report?.(stage, snapshot)
+    void reportProgress?.(snapshot)
   })
   const runtime = await loadRuntime(manifestUrl, manifest.pyodide.version, (bytes) => progress.add('runtime', bytes))
-  stage = 'data'
-  await report?.('data', progress.snapshot())
+  void reportProgress?.(progress.snapshot())
+  await report?.('data')
   const count = (bytes: number) => progress.add('data', bytes)
   const [database, sources, names] = await Promise.all([
     fetchAsset(new URL(manifest.db.file, manifestUrl), count),
@@ -80,7 +79,8 @@ async function initialize(report: Parameters<EngineWorkerApi['ready']>[0]) {
     runtime.FS.close(stream)
     await reader.cancel().catch(() => {})
   }
-  await report?.('initialize', progress.snapshot())
+  void reportProgress?.(progress.snapshot())
+  await report?.('initialize')
   runtime.FS.writeFile('/pyfa.zip', new Uint8Array(sources))
   runtime.FS.writeFile('/names.json', new Uint8Array(names))
   runtime.globals.set('_asset_version', manifest.dataVersion)
@@ -96,7 +96,7 @@ del _asset_version, _client_build
 }
 
 let startup: ReturnType<typeof initialize> | undefined
-const runtime = (report?: Parameters<EngineWorkerApi['ready']>[0]) => (startup ??= initialize(report))
+const runtime = (report?: Parameters<EngineWorkerApi['ready']>[0], progress?: Parameters<EngineWorkerApi['ready']>[1]) => (startup ??= initialize(report, progress))
 
 type Operation = Exclude<keyof EngineWorkerApi, 'ready'>
 const pythonFunction: Record<Operation, string> = {
@@ -134,7 +134,7 @@ async function call<K extends Operation>(
 }
 
 expose({
-  async ready(report) { await runtime(report) },
+  async ready(report, progress) { await runtime(report, progress) },
   calc: (...args) => call('calc', ...args),
   shipCatalog: (...args) => call('shipCatalog', ...args),
   itemsForExtra: (...args) => call('itemsForExtra', ...args),
