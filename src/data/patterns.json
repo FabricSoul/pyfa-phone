@@ -1,0 +1,6543 @@
+{
+  "damagePatterns": [
+    {
+      "id": -1,
+      "category": null,
+      "subcategory": null,
+      "name": {
+        "en": "Uniform",
+        "zh": "均匀"
+      },
+      "em": 25,
+      "thermal": 25,
+      "kinetic": 25,
+      "explosive": 25
+    },
+    {
+      "id": -2,
+      "category": {
+        "en": "Generic",
+        "zh": "通用"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "EM",
+        "zh": "电磁"
+      },
+      "em": 1,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -3,
+      "category": {
+        "en": "Generic",
+        "zh": "通用"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Thermal",
+        "zh": "热能"
+      },
+      "em": 0,
+      "thermal": 1,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -4,
+      "category": {
+        "en": "Generic",
+        "zh": "通用"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Kinetic",
+        "zh": "动能"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 1,
+      "explosive": 0
+    },
+    {
+      "id": -5,
+      "category": {
+        "en": "Generic",
+        "zh": "通用"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Explosive",
+        "zh": "爆炸"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 1
+    },
+    {
+      "id": -6,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Aurora",
+        "zh": "Aurora"
+      },
+      "em": 5,
+      "thermal": 3,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -7,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Scorch",
+        "zh": "Scorch"
+      },
+      "em": 9,
+      "thermal": 2,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -8,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Radio",
+        "zh": "射频"
+      },
+      "em": 5,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -9,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Microwave",
+        "zh": "微波"
+      },
+      "em": 4,
+      "thermal": 2,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -10,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Infrared",
+        "zh": "红外"
+      },
+      "em": 5,
+      "thermal": 2,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -11,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Standard",
+        "zh": "标准"
+      },
+      "em": 5,
+      "thermal": 3,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -12,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Ultraviolet",
+        "zh": "紫外"
+      },
+      "em": 6,
+      "thermal": 3,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -13,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Xray",
+        "zh": "X射线"
+      },
+      "em": 6,
+      "thermal": 4,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -14,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Gamma",
+        "zh": "伽玛"
+      },
+      "em": 7,
+      "thermal": 4,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -15,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Multifrequency",
+        "zh": "多频"
+      },
+      "em": 7,
+      "thermal": 5,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -16,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Gleam",
+        "zh": "Gleam"
+      },
+      "em": 7,
+      "thermal": 7,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -17,
+      "category": {
+        "en": "Frequency Crystals",
+        "zh": "频率晶体"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Conflagration",
+        "zh": "Conflagration"
+      },
+      "em": 7.7,
+      "thermal": 7.7,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -18,
+      "category": {
+        "en": "Exotic Plasma",
+        "zh": "异种等离子"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Mystic",
+        "zh": "Mystic"
+      },
+      "em": 0,
+      "thermal": 66319,
+      "kinetic": 0,
+      "explosive": 33681
+    },
+    {
+      "id": -19,
+      "category": {
+        "en": "Exotic Plasma",
+        "zh": "异种等离子"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Meson",
+        "zh": "介子"
+      },
+      "em": 0,
+      "thermal": 60519,
+      "kinetic": 0,
+      "explosive": 39481
+    },
+    {
+      "id": -20,
+      "category": {
+        "en": "Exotic Plasma",
+        "zh": "异种等离子"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Baryon",
+        "zh": "重子"
+      },
+      "em": 0,
+      "thermal": 59737,
+      "kinetic": 0,
+      "explosive": 40263
+    },
+    {
+      "id": -21,
+      "category": {
+        "en": "Exotic Plasma",
+        "zh": "异种等离子"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Tetryon",
+        "zh": "四重子"
+      },
+      "em": 0,
+      "thermal": 69208,
+      "kinetic": 0,
+      "explosive": 30792
+    },
+    {
+      "id": -22,
+      "category": {
+        "en": "Exotic Plasma",
+        "zh": "异种等离子"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Occult",
+        "zh": "Occult"
+      },
+      "em": 0,
+      "thermal": 55863,
+      "kinetic": 0,
+      "explosive": 44137
+    },
+    {
+      "id": -23,
+      "category": {
+        "en": "Condenser Packs",
+        "zh": "Condenser Packs"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "StrikeSnipe",
+        "zh": "StrikeSnipe"
+      },
+      "em": 51817,
+      "thermal": 0,
+      "kinetic": 48183,
+      "explosive": 0
+    },
+    {
+      "id": -24,
+      "category": {
+        "en": "Condenser Packs",
+        "zh": "Condenser Packs"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "MesmerFlux",
+        "zh": "MesmerFlux"
+      },
+      "em": 76476,
+      "thermal": 0,
+      "kinetic": 23524,
+      "explosive": 0
+    },
+    {
+      "id": -25,
+      "category": {
+        "en": "Condenser Packs",
+        "zh": "Condenser Packs"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "SlamBolt",
+        "zh": "SlamBolt"
+      },
+      "em": 23376,
+      "thermal": 0,
+      "kinetic": 76624,
+      "explosive": 0
+    },
+    {
+      "id": -26,
+      "category": {
+        "en": "Condenser Packs",
+        "zh": "Condenser Packs"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "BlastShot",
+        "zh": "BlastShot"
+      },
+      "em": 19820,
+      "thermal": 0,
+      "kinetic": 80180,
+      "explosive": 0
+    },
+    {
+      "id": -27,
+      "category": {
+        "en": "Condenser Packs",
+        "zh": "Condenser Packs"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "GalvaSurge",
+        "zh": "GalvaSurge"
+      },
+      "em": 80206,
+      "thermal": 0,
+      "kinetic": 19794,
+      "explosive": 0
+    },
+    {
+      "id": -28,
+      "category": {
+        "en": "Condenser Packs",
+        "zh": "Condenser Packs"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "ElectroPunch",
+        "zh": "ElectroPunch"
+      },
+      "em": 50547,
+      "thermal": 0,
+      "kinetic": 49453,
+      "explosive": 0
+    },
+    {
+      "id": -29,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Spike",
+        "zh": "Spike"
+      },
+      "em": 0,
+      "thermal": 4,
+      "kinetic": 4,
+      "explosive": 0
+    },
+    {
+      "id": -30,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Null",
+        "zh": "Null"
+      },
+      "em": 0,
+      "thermal": 6,
+      "kinetic": 5,
+      "explosive": 0
+    },
+    {
+      "id": -31,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Iron",
+        "zh": "铁质"
+      },
+      "em": 0,
+      "thermal": 2,
+      "kinetic": 3,
+      "explosive": 0
+    },
+    {
+      "id": -32,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Tungsten",
+        "zh": "钨质"
+      },
+      "em": 0,
+      "thermal": 2,
+      "kinetic": 4,
+      "explosive": 0
+    },
+    {
+      "id": -33,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Iridium",
+        "zh": "铱质"
+      },
+      "em": 0,
+      "thermal": 3,
+      "kinetic": 4,
+      "explosive": 0
+    },
+    {
+      "id": -34,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Lead",
+        "zh": "铅质"
+      },
+      "em": 0,
+      "thermal": 3,
+      "kinetic": 5,
+      "explosive": 0
+    },
+    {
+      "id": -35,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Thorium",
+        "zh": "钍质"
+      },
+      "em": 0,
+      "thermal": 4,
+      "kinetic": 5,
+      "explosive": 0
+    },
+    {
+      "id": -36,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Uranium",
+        "zh": "钼质"
+      },
+      "em": 0,
+      "thermal": 4,
+      "kinetic": 6,
+      "explosive": 0
+    },
+    {
+      "id": -37,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Plutonium",
+        "zh": "锰质"
+      },
+      "em": 0,
+      "thermal": 5,
+      "kinetic": 6,
+      "explosive": 0
+    },
+    {
+      "id": -38,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Antimatter",
+        "zh": "反物质"
+      },
+      "em": 0,
+      "thermal": 5,
+      "kinetic": 7,
+      "explosive": 0
+    },
+    {
+      "id": -39,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Javelin",
+        "zh": "Javelin"
+      },
+      "em": 0,
+      "thermal": 8,
+      "kinetic": 6,
+      "explosive": 0
+    },
+    {
+      "id": -40,
+      "category": {
+        "en": "Hybrid Charges",
+        "zh": "混合弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Void",
+        "zh": "Void"
+      },
+      "em": 0,
+      "thermal": 7.7,
+      "kinetic": 7.7,
+      "explosive": 0
+    },
+    {
+      "id": -41,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Tremor",
+        "zh": "Tremor"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 3,
+      "explosive": 5
+    },
+    {
+      "id": -42,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Barrage",
+        "zh": "Barrage"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 5,
+      "explosive": 6
+    },
+    {
+      "id": -43,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Carbonized Lead",
+        "zh": "碳铅弹"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 4,
+      "explosive": 1
+    },
+    {
+      "id": -44,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Nuclear",
+        "zh": "核芯弹"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 1,
+      "explosive": 4
+    },
+    {
+      "id": -45,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Proton",
+        "zh": "质子弹"
+      },
+      "em": 3,
+      "thermal": 0,
+      "kinetic": 2,
+      "explosive": 0
+    },
+    {
+      "id": -46,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Depleted Uranium",
+        "zh": "硬钼弹"
+      },
+      "em": 0,
+      "thermal": 3,
+      "kinetic": 2,
+      "explosive": 3
+    },
+    {
+      "id": -47,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Titanium Sabot",
+        "zh": "钛合金萨博弹"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 6,
+      "explosive": 2
+    },
+    {
+      "id": -48,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "EMP",
+        "zh": "电磁脉冲弹"
+      },
+      "em": 9,
+      "thermal": 0,
+      "kinetic": 1,
+      "explosive": 2
+    },
+    {
+      "id": -49,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Phased Plasma",
+        "zh": "定相等离子弹"
+      },
+      "em": 0,
+      "thermal": 10,
+      "kinetic": 2,
+      "explosive": 0
+    },
+    {
+      "id": -50,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Fusion",
+        "zh": "聚变弹"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 2,
+      "explosive": 10
+    },
+    {
+      "id": -51,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Quake",
+        "zh": "Quake"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 5,
+      "explosive": 9
+    },
+    {
+      "id": -52,
+      "category": {
+        "en": "Projectile Ammo",
+        "zh": "射弹弹药"
+      },
+      "subcategory": {
+        "en": "T2",
+        "zh": "T2"
+      },
+      "name": {
+        "en": "Hail",
+        "zh": "Hail"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 3.3,
+      "explosive": 12.1
+    },
+    {
+      "id": -53,
+      "category": {
+        "en": "Missiles",
+        "zh": "导弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Mjolnir",
+        "zh": "雷神"
+      },
+      "em": 1,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -54,
+      "category": {
+        "en": "Missiles",
+        "zh": "导弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Inferno",
+        "zh": "炼狱"
+      },
+      "em": 0,
+      "thermal": 1,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -55,
+      "category": {
+        "en": "Missiles",
+        "zh": "导弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Scourge",
+        "zh": "鞭挞"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 1,
+      "explosive": 0
+    },
+    {
+      "id": -56,
+      "category": {
+        "en": "Missiles",
+        "zh": "导弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Nova",
+        "zh": "星爆"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 1
+    },
+    {
+      "id": -57,
+      "category": {
+        "en": "Bombs",
+        "zh": "炸弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Electron Bomb",
+        "zh": "电子炸弹"
+      },
+      "em": 6400,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -58,
+      "category": {
+        "en": "Bombs",
+        "zh": "炸弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Scorch Bomb",
+        "zh": "灼烧炸弹"
+      },
+      "em": 0,
+      "thermal": 6400,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -59,
+      "category": {
+        "en": "Bombs",
+        "zh": "炸弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Concussion Bomb",
+        "zh": "震荡炸弹"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 6400,
+      "explosive": 0
+    },
+    {
+      "id": -60,
+      "category": {
+        "en": "Bombs",
+        "zh": "炸弹"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Shrapnel Bomb",
+        "zh": "榴霰炸弹"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 6400
+    },
+    {
+      "id": -61,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 126,
+      "thermal": 427,
+      "kinetic": 218,
+      "explosive": 230
+    },
+    {
+      "id": -62,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 450,
+      "thermal": 72,
+      "kinetic": 80,
+      "explosive": 398
+    },
+    {
+      "id": -63,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 53,
+      "thermal": 559,
+      "kinetic": 94,
+      "explosive": 295
+    },
+    {
+      "id": -64,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 250,
+      "thermal": 250,
+      "kinetic": 250,
+      "explosive": 250
+    },
+    {
+      "id": -65,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 250,
+      "thermal": 250,
+      "kinetic": 250,
+      "explosive": 250
+    },
+    {
+      "id": -66,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0,
+      "thermal": 410,
+      "kinetic": 590,
+      "explosive": 0
+    },
+    {
+      "id": -67,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 569,
+      "thermal": 431,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -68,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 402,
+      "thermal": 402,
+      "kinetic": 98,
+      "explosive": 98
+    },
+    {
+      "id": -69,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 313,
+      "thermal": 313,
+      "kinetic": 187,
+      "explosive": 187
+    },
+    {
+      "id": -70,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal",
+        "zh": "深渊"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0,
+      "thermal": 615,
+      "kinetic": 0,
+      "explosive": 385
+    },
+    {
+      "id": -71,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Angel Cartel",
+        "zh": "天使联合企业"
+      },
+      "em": 1838,
+      "thermal": 562,
+      "kinetic": 2215,
+      "explosive": 3838
+    },
+    {
+      "id": -72,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Blood Raiders",
+        "zh": "血袭者"
+      },
+      "em": 5067,
+      "thermal": 4214,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -73,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Guristas",
+        "zh": "古斯塔斯"
+      },
+      "em": 0,
+      "thermal": 1828,
+      "kinetic": 7413,
+      "explosive": 0
+    },
+    {
+      "id": -74,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Rogue Drone",
+        "zh": "自由无人机"
+      },
+      "em": 394,
+      "thermal": 666,
+      "kinetic": 1090,
+      "explosive": 1687
+    },
+    {
+      "id": -75,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Sanshas Nation",
+        "zh": "萨沙国度"
+      },
+      "em": 5586,
+      "thermal": 4112,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -76,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Serpentis",
+        "zh": "天蛇"
+      },
+      "em": 0,
+      "thermal": 5373,
+      "kinetic": 4813,
+      "explosive": 0
+    },
+    {
+      "id": -77,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Enyo",
+        "zh": "恩尤"
+      },
+      "em": 0,
+      "thermal": 147,
+      "kinetic": 147,
+      "explosive": 0
+    },
+    {
+      "id": -78,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Hawk",
+        "zh": "战鹰级"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 247,
+      "explosive": 0
+    },
+    {
+      "id": -79,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Jaguar",
+        "zh": "美洲豹"
+      },
+      "em": 36,
+      "thermal": 0,
+      "kinetic": 50,
+      "explosive": 182
+    },
+    {
+      "id": -80,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Vengeance",
+        "zh": "复仇级"
+      },
+      "em": 232,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -81,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Cruor",
+        "zh": "Cruor"
+      },
+      "em": 90,
+      "thermal": 90,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -82,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Dramiel",
+        "zh": "Dramiel"
+      },
+      "em": 55,
+      "thermal": 0,
+      "kinetic": 20,
+      "explosive": 96
+    },
+    {
+      "id": -83,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Daredevil",
+        "zh": "Daredevil"
+      },
+      "em": 0,
+      "thermal": 110,
+      "kinetic": 154,
+      "explosive": 0
+    },
+    {
+      "id": -84,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Succubus",
+        "zh": "Succubus"
+      },
+      "em": 135,
+      "thermal": 30,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -85,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Worm",
+        "zh": "Worm"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 228,
+      "explosive": 0
+    },
+    {
+      "id": -86,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Ashimmu",
+        "zh": "Ashimmu"
+      },
+      "em": 260,
+      "thermal": 100,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -87,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Talos",
+        "zh": "塔洛斯级"
+      },
+      "em": 0,
+      "thermal": 413,
+      "kinetic": 413,
+      "explosive": 0
+    },
+    {
+      "id": -88,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Sentinel",
+        "zh": "哨兵级"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 75,
+      "explosive": 90
+    },
+    {
+      "id": -89,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Angel Cartel",
+        "zh": "天使联合企业"
+      },
+      "em": 369,
+      "thermal": 533,
+      "kinetic": 1395,
+      "explosive": 3302
+    },
+    {
+      "id": -90,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Blood Raiders",
+        "zh": "血袭者"
+      },
+      "em": 6040,
+      "thermal": 5052,
+      "kinetic": 10,
+      "explosive": 15
+    },
+    {
+      "id": -91,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Guristas",
+        "zh": "古斯塔斯"
+      },
+      "em": 0,
+      "thermal": 1531,
+      "kinetic": 9680,
+      "explosive": 0
+    },
+    {
+      "id": -92,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Rogue Drone",
+        "zh": "自由无人机"
+      },
+      "em": 276,
+      "thermal": 1071,
+      "kinetic": 1069,
+      "explosive": 871
+    },
+    {
+      "id": -93,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Sanshas Nation",
+        "zh": "萨沙国度"
+      },
+      "em": 3009,
+      "thermal": 2237,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -94,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Serpentis",
+        "zh": "天蛇"
+      },
+      "em": 0,
+      "thermal": 3110,
+      "kinetic": 1929,
+      "explosive": 0
+    },
+    {
+      "id": -95,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Triglavian Entities",
+        "zh": "入侵 / 三神裔实体"
+      },
+      "name": {
+        "en": "Dread",
+        "zh": "无畏"
+      },
+      "em": 0,
+      "thermal": 417,
+      "kinetic": 0,
+      "explosive": 583
+    },
+    {
+      "id": -96,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Triglavian Entities",
+        "zh": "入侵 / 三神裔实体"
+      },
+      "name": {
+        "en": "Normal Subcaps",
+        "zh": "常规非旗舰"
+      },
+      "em": 0,
+      "thermal": 610,
+      "kinetic": 0,
+      "explosive": 390
+    },
+    {
+      "id": -97,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Triglavian Entities",
+        "zh": "入侵 / 三神裔实体"
+      },
+      "name": {
+        "en": "Subcaps w/missiles 0% spool up",
+        "zh": "非旗舰0%预热"
+      },
+      "em": 367,
+      "thermal": 155,
+      "kinetic": 367,
+      "explosive": 112
+    },
+    {
+      "id": -98,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Triglavian Entities",
+        "zh": "入侵 / 三神裔实体"
+      },
+      "name": {
+        "en": "Subcaps w/missiles 50% spool up",
+        "zh": "非旗舰50%预热"
+      },
+      "em": 291,
+      "thermal": 243,
+      "kinetic": 291,
+      "explosive": 175
+    },
+    {
+      "id": -99,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Triglavian Entities",
+        "zh": "入侵 / 三神裔实体"
+      },
+      "name": {
+        "en": "Subcaps w/missiles 100% spool up",
+        "zh": "非旗舰100%预热"
+      },
+      "em": 241,
+      "thermal": 301,
+      "kinetic": 241,
+      "explosive": 217
+    },
+    {
+      "id": -100,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Amarr EDENCOM Entities",
+        "zh": "入侵 / 艾玛EDENCOM实体"
+      },
+      "name": {
+        "en": "Dread/Subcaps",
+        "zh": "无畏/常规"
+      },
+      "em": 583,
+      "thermal": 417,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -101,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Caldari EDENCOM Entities",
+        "zh": "入侵 / 加达里EDENCOM实体"
+      },
+      "name": {
+        "en": "Dread",
+        "zh": "无畏"
+      },
+      "em": 1000,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 0
+    },
+    {
+      "id": -102,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Caldari EDENCOM Entities",
+        "zh": "入侵 / 加达里EDENCOM实体"
+      },
+      "name": {
+        "en": "Subcaps",
+        "zh": "非旗舰"
+      },
+      "em": 511,
+      "thermal": 21,
+      "kinetic": 29,
+      "explosive": 440
+    },
+    {
+      "id": -103,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Gallente EDENCOM Entities",
+        "zh": "入侵 / 盖伦特EDENCOM实体"
+      },
+      "name": {
+        "en": "Dread/Subcaps",
+        "zh": "无畏/常规"
+      },
+      "em": 0,
+      "thermal": 417,
+      "kinetic": 583,
+      "explosive": 0
+    },
+    {
+      "id": -104,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Minmatar EDENCOM Entities",
+        "zh": "入侵 / 米玛塔尔EDENCOM实体"
+      },
+      "name": {
+        "en": "Dread",
+        "zh": "无畏"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 583,
+      "explosive": 417
+    },
+    {
+      "id": -105,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion / Minmatar EDENCOM Entities",
+        "zh": "入侵 / 米玛塔尔EDENCOM实体"
+      },
+      "name": {
+        "en": "Subcaps",
+        "zh": "非旗舰"
+      },
+      "em": 302,
+      "thermal": 136,
+      "kinetic": 328,
+      "explosive": 234
+    },
+    {
+      "id": -106,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Drifter Entities",
+        "zh": "流浪者实体"
+      },
+      "em": 250,
+      "thermal": 250,
+      "kinetic": 250,
+      "explosive": 250
+    },
+    {
+      "id": -107,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Sleeper Entities",
+        "zh": "冬眠者实体"
+      },
+      "em": 265,
+      "thermal": 265,
+      "kinetic": 235,
+      "explosive": 235
+    },
+    {
+      "id": -108,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Rogue Drone Entities",
+        "zh": "自由无人机实体"
+      },
+      "em": 250,
+      "thermal": 250,
+      "kinetic": 250,
+      "explosive": 250
+    },
+    {
+      "id": -109,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Amarr Empire",
+        "zh": "艾玛帝国"
+      },
+      "em": 4464,
+      "thermal": 3546,
+      "kinetic": 97,
+      "explosive": 0
+    },
+    {
+      "id": -110,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Caldari State",
+        "zh": "加达里合众国"
+      },
+      "em": 0,
+      "thermal": 2139,
+      "kinetic": 4867,
+      "explosive": 0
+    },
+    {
+      "id": -111,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "CONCORD",
+        "zh": "统合部"
+      },
+      "em": 336,
+      "thermal": 134,
+      "kinetic": 212,
+      "explosive": 412
+    },
+    {
+      "id": -112,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Gallente Federation",
+        "zh": "盖伦特联邦"
+      },
+      "em": 9,
+      "thermal": 3712,
+      "kinetic": 2758,
+      "explosive": 0
+    },
+    {
+      "id": -113,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Khanid",
+        "zh": "卡尼迪"
+      },
+      "em": 612,
+      "thermal": 483,
+      "kinetic": 43,
+      "explosive": 6
+    },
+    {
+      "id": -114,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Minmatar Republic",
+        "zh": "米玛塔尔共和国"
+      },
+      "em": 1024,
+      "thermal": 388,
+      "kinetic": 1655,
+      "explosive": 4285
+    },
+    {
+      "id": -115,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Mordus Legion",
+        "zh": "莫德团"
+      },
+      "em": 25,
+      "thermal": 262,
+      "kinetic": 625,
+      "explosive": 0
+    },
+    {
+      "id": -116,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Thukker",
+        "zh": "图克尔"
+      },
+      "em": 0,
+      "thermal": 52,
+      "kinetic": 10,
+      "explosive": 79
+    },
+    {
+      "id": -117,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Sansha Incursion",
+        "zh": "萨沙入侵"
+      },
+      "em": 1682,
+      "thermal": 1347,
+      "kinetic": 3678,
+      "explosive": 3678
+    },
+    {
+      "id": -118,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Sleepers",
+        "zh": "冬眠者"
+      },
+      "em": 1472,
+      "thermal": 1472,
+      "kinetic": 1384,
+      "explosive": 1384
+    }
+  ],
+  "targetProfiles": [
+    {
+      "id": 0,
+      "category": null,
+      "subcategory": null,
+      "name": {
+        "en": "Ideal Target",
+        "zh": "理想目标"
+      },
+      "em": 0,
+      "thermal": 0,
+      "kinetic": 0,
+      "explosive": 0,
+      "maxVelocity": 0,
+      "signatureRadius": null,
+      "radius": 0,
+      "hp": null
+    },
+    {
+      "id": -1,
+      "category": null,
+      "subcategory": null,
+      "name": {
+        "en": "Uniform (25%)",
+        "zh": "均匀(25%)"
+      },
+      "em": 0.25,
+      "thermal": 0.25,
+      "kinetic": 0.25,
+      "explosive": 0.25,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -2,
+      "category": null,
+      "subcategory": null,
+      "name": {
+        "en": "Uniform (50%)",
+        "zh": "均匀(50%)"
+      },
+      "em": 0.5,
+      "thermal": 0.5,
+      "kinetic": 0.5,
+      "explosive": 0.5,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -3,
+      "category": null,
+      "subcategory": null,
+      "name": {
+        "en": "Uniform (75%)",
+        "zh": "均匀(75%)"
+      },
+      "em": 0.75,
+      "thermal": 0.75,
+      "kinetic": 0.75,
+      "explosive": 0.75,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -4,
+      "category": null,
+      "subcategory": null,
+      "name": {
+        "en": "Uniform (90%)",
+        "zh": "均匀(90%)"
+      },
+      "em": 0.9,
+      "thermal": 0.9,
+      "kinetic": 0.9,
+      "explosive": 0.9,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -5,
+      "category": {
+        "en": "T1 Resist",
+        "zh": "T1抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Shield",
+        "zh": "护盾"
+      },
+      "em": 0.0,
+      "thermal": 0.2,
+      "kinetic": 0.4,
+      "explosive": 0.5,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -6,
+      "category": {
+        "en": "T1 Resist",
+        "zh": "T1抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Armor",
+        "zh": "装甲"
+      },
+      "em": 0.5,
+      "thermal": 0.45,
+      "kinetic": 0.25,
+      "explosive": 0.1,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -7,
+      "category": {
+        "en": "T1 Resist",
+        "zh": "T1抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Hull",
+        "zh": "结构"
+      },
+      "em": 0.33,
+      "thermal": 0.33,
+      "kinetic": 0.33,
+      "explosive": 0.33,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -8,
+      "category": {
+        "en": "T1 Resist",
+        "zh": "T1抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Shield (+T2 DCU)",
+        "zh": "护盾（+T2损控）"
+      },
+      "em": 0.125,
+      "thermal": 0.3,
+      "kinetic": 0.475,
+      "explosive": 0.562,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -9,
+      "category": {
+        "en": "T1 Resist",
+        "zh": "T1抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Armor (+T2 DCU)",
+        "zh": "护甲（+T2损控）"
+      },
+      "em": 0.575,
+      "thermal": 0.532,
+      "kinetic": 0.363,
+      "explosive": 0.235,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -10,
+      "category": {
+        "en": "T1 Resist",
+        "zh": "T1抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Hull (+T2 DCU)",
+        "zh": "结构（+T2 损控）"
+      },
+      "em": 0.598,
+      "thermal": 0.598,
+      "kinetic": 0.598,
+      "explosive": 0.598,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -11,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Amarr (Shield)",
+        "zh": "艾玛（护盾）"
+      },
+      "em": 0.0,
+      "thermal": 0.2,
+      "kinetic": 0.7,
+      "explosive": 0.875,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -12,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Amarr (Armor)",
+        "zh": "艾玛（护甲）"
+      },
+      "em": 0.5,
+      "thermal": 0.35,
+      "kinetic": 0.625,
+      "explosive": 0.8,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -13,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Caldari (Shield)",
+        "zh": "加达里（护盾）"
+      },
+      "em": 0.2,
+      "thermal": 0.84,
+      "kinetic": 0.76,
+      "explosive": 0.6,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -14,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Caldari (Armor)",
+        "zh": "加达里（护甲）"
+      },
+      "em": 0.5,
+      "thermal": 0.8625,
+      "kinetic": 0.625,
+      "explosive": 0.1,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -15,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Gallente (Shield)",
+        "zh": "盖伦特（护盾）"
+      },
+      "em": 0.0,
+      "thermal": 0.6,
+      "kinetic": 0.85,
+      "explosive": 0.5,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -16,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Gallente (Armor)",
+        "zh": "盖伦特（护甲）"
+      },
+      "em": 0.5,
+      "thermal": 0.675,
+      "kinetic": 0.8375,
+      "explosive": 0.1,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -17,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Minmatar (Shield)",
+        "zh": "米玛塔尔(护盾）"
+      },
+      "em": 0.75,
+      "thermal": 0.6,
+      "kinetic": 0.4,
+      "explosive": 0.5,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -18,
+      "category": {
+        "en": "T2 Resist",
+        "zh": "T2抗性"
+      },
+      "subcategory": null,
+      "name": {
+        "en": "Minmatar (Armor)",
+        "zh": "米玛塔尔(护甲）"
+      },
+      "em": 0.9,
+      "thermal": 0.675,
+      "kinetic": 0.25,
+      "explosive": 0.1,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -19,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Angel Cartel",
+        "zh": "天使联合企业"
+      },
+      "em": 0.54,
+      "thermal": 0.42,
+      "kinetic": 0.37,
+      "explosive": 0.32,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -20,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Blood Raiders",
+        "zh": "血袭者"
+      },
+      "em": 0.34,
+      "thermal": 0.39,
+      "kinetic": 0.45,
+      "explosive": 0.52,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -21,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Guristas",
+        "zh": "古斯塔斯"
+      },
+      "em": 0.55,
+      "thermal": 0.35,
+      "kinetic": 0.3,
+      "explosive": 0.48,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -22,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Rogue Drones",
+        "zh": "自由无人机"
+      },
+      "em": 0.35,
+      "thermal": 0.38,
+      "kinetic": 0.44,
+      "explosive": 0.49,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -23,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Sanshas Nation",
+        "zh": "萨沙国度"
+      },
+      "em": 0.35,
+      "thermal": 0.4,
+      "kinetic": 0.47,
+      "explosive": 0.53,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -24,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Asteroid",
+        "zh": "小行星"
+      },
+      "name": {
+        "en": "Serpentis",
+        "zh": "天蛇"
+      },
+      "em": 0.49,
+      "thermal": 0.38,
+      "kinetic": 0.29,
+      "explosive": 0.51,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -25,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Angel Cartel",
+        "zh": "天使联合企业"
+      },
+      "em": 0.59,
+      "thermal": 0.48,
+      "kinetic": 0.4,
+      "explosive": 0.32,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -26,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Blood Raiders",
+        "zh": "血袭者"
+      },
+      "em": 0.31,
+      "thermal": 0.39,
+      "kinetic": 0.47,
+      "explosive": 0.56,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -27,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Guristas",
+        "zh": "古斯塔斯"
+      },
+      "em": 0.57,
+      "thermal": 0.39,
+      "kinetic": 0.31,
+      "explosive": 0.5,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -28,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Rogue Drones",
+        "zh": "自由无人机"
+      },
+      "em": 0.42,
+      "thermal": 0.42,
+      "kinetic": 0.47,
+      "explosive": 0.49,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -29,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Sanshas Nation",
+        "zh": "萨沙国度"
+      },
+      "em": 0.31,
+      "thermal": 0.39,
+      "kinetic": 0.47,
+      "explosive": 0.56,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -30,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Deadspace",
+        "zh": "死亡空间"
+      },
+      "name": {
+        "en": "Serpentis",
+        "zh": "天蛇"
+      },
+      "em": 0.49,
+      "thermal": 0.38,
+      "kinetic": 0.29,
+      "explosive": 0.56,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -31,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Amarr Empire",
+        "zh": "艾玛帝国"
+      },
+      "em": 0.34,
+      "thermal": 0.38,
+      "kinetic": 0.42,
+      "explosive": 0.46,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -32,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Caldari State",
+        "zh": "加达里合众国"
+      },
+      "em": 0.51,
+      "thermal": 0.38,
+      "kinetic": 0.3,
+      "explosive": 0.51,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -33,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "CONCORD",
+        "zh": "统合部"
+      },
+      "em": 0.47,
+      "thermal": 0.46,
+      "kinetic": 0.47,
+      "explosive": 0.47,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -34,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Gallente Federation",
+        "zh": "盖伦特联邦"
+      },
+      "em": 0.51,
+      "thermal": 0.38,
+      "kinetic": 0.31,
+      "explosive": 0.52,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -35,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Khanid",
+        "zh": "卡尼迪"
+      },
+      "em": 0.51,
+      "thermal": 0.42,
+      "kinetic": 0.36,
+      "explosive": 0.4,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -36,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Minmatar Republic",
+        "zh": "米玛塔尔共和国"
+      },
+      "em": 0.51,
+      "thermal": 0.46,
+      "kinetic": 0.41,
+      "explosive": 0.35,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -37,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Mission",
+        "zh": "任务"
+      },
+      "name": {
+        "en": "Mordus Legion",
+        "zh": "莫德团"
+      },
+      "em": 0.32,
+      "thermal": 0.48,
+      "kinetic": 0.4,
+      "explosive": 0.62,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -38,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Other",
+        "zh": "其他"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.61,
+      "thermal": 0.61,
+      "kinetic": 0.61,
+      "explosive": 0.61,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -39,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Other",
+        "zh": "其他"
+      },
+      "name": {
+        "en": "Sansha Incursion",
+        "zh": "萨沙入侵"
+      },
+      "em": 0.65,
+      "thermal": 0.63,
+      "kinetic": 0.64,
+      "explosive": 0.65,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -40,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Enyo",
+        "zh": "恩尤"
+      },
+      "em": 0.575,
+      "thermal": 0.724,
+      "kinetic": 0.862,
+      "explosive": 0.235,
+      "maxVelocity": 1020,
+      "signatureRadius": 37,
+      "radius": 39,
+      "hp": null
+    },
+    {
+      "id": -41,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Navitas",
+        "zh": "Navitas"
+      },
+      "em": 0.681,
+      "thermal": 0.586,
+      "kinetic": 0.522,
+      "explosive": 0.49,
+      "maxVelocity": 870,
+      "signatureRadius": 30,
+      "radius": 35,
+      "hp": null
+    },
+    {
+      "id": -42,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Hawk",
+        "zh": "战鹰级"
+      },
+      "em": 0.3,
+      "thermal": 0.86,
+      "kinetic": 0.79,
+      "explosive": 0.65,
+      "maxVelocity": 1122,
+      "signatureRadius": 48,
+      "radius": 39,
+      "hp": null
+    },
+    {
+      "id": -43,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Bantam",
+        "zh": "Bantam"
+      },
+      "em": 0.344,
+      "thermal": 0.475,
+      "kinetic": 0.606,
+      "explosive": 0.672,
+      "maxVelocity": 1016,
+      "signatureRadius": 45,
+      "radius": 27,
+      "hp": null
+    },
+    {
+      "id": -44,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Jaguar",
+        "zh": "美洲豹"
+      },
+      "em": 0.781,
+      "thermal": 0.65,
+      "kinetic": 0.475,
+      "explosive": 0.563,
+      "maxVelocity": 1400,
+      "signatureRadius": 42,
+      "radius": 31,
+      "hp": null
+    },
+    {
+      "id": -45,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Burst",
+        "zh": "Burst"
+      },
+      "em": 0.344,
+      "thermal": 0.475,
+      "kinetic": 0.606,
+      "explosive": 0.672,
+      "maxVelocity": 1174,
+      "signatureRadius": 39,
+      "radius": 31,
+      "hp": null
+    },
+    {
+      "id": -46,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Vengeance",
+        "zh": "复仇级"
+      },
+      "em": 0.66,
+      "thermal": 0.558,
+      "kinetic": 0.745,
+      "explosive": 0.864,
+      "maxVelocity": 1050,
+      "signatureRadius": 37,
+      "radius": 40,
+      "hp": null
+    },
+    {
+      "id": -47,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner / Team",
+        "zh": "燃烧者 / Team"
+      },
+      "name": {
+        "en": "Inquisitor",
+        "zh": "Inquisitor"
+      },
+      "em": 0.681,
+      "thermal": 0.586,
+      "kinetic": 0.522,
+      "explosive": 0.49,
+      "maxVelocity": 920,
+      "signatureRadius": 29,
+      "radius": 20.5,
+      "hp": null
+    },
+    {
+      "id": -48,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Cruor",
+        "zh": "Cruor"
+      },
+      "em": 0.795,
+      "thermal": 0.734,
+      "kinetic": 0.693,
+      "explosive": 0.672,
+      "maxVelocity": 900,
+      "signatureRadius": 18,
+      "radius": 20.5,
+      "hp": null
+    },
+    {
+      "id": -49,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Dramiel",
+        "zh": "Dramiel"
+      },
+      "em": 0.351,
+      "thermal": 0.481,
+      "kinetic": 0.611,
+      "explosive": 0.676,
+      "maxVelocity": 2100,
+      "signatureRadius": 11,
+      "radius": 25,
+      "hp": null
+    },
+    {
+      "id": -50,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Daredevil",
+        "zh": "Daredevil"
+      },
+      "em": 0.685,
+      "thermal": 0.59,
+      "kinetic": 0.59,
+      "explosive": 0.433,
+      "maxVelocity": 1200,
+      "signatureRadius": 18,
+      "radius": 25,
+      "hp": null
+    },
+    {
+      "id": -51,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Succubus",
+        "zh": "Succubus"
+      },
+      "em": 0.351,
+      "thermal": 0.481,
+      "kinetic": 0.611,
+      "explosive": 0.676,
+      "maxVelocity": 4750,
+      "signatureRadius": 30,
+      "radius": 59,
+      "hp": null
+    },
+    {
+      "id": -52,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Worm",
+        "zh": "Worm"
+      },
+      "em": 0.475,
+      "thermal": 0.58,
+      "kinetic": 0.685,
+      "explosive": 0.738,
+      "maxVelocity": 360,
+      "signatureRadius": 70,
+      "radius": 39,
+      "hp": null
+    },
+    {
+      "id": -53,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Ashimmu",
+        "zh": "Ashimmu"
+      },
+      "em": 0.8,
+      "thermal": 0.76,
+      "kinetic": 0.68,
+      "explosive": 0.7,
+      "maxVelocity": 500,
+      "signatureRadius": 120,
+      "radius": 137,
+      "hp": null
+    },
+    {
+      "id": -54,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Sentinel",
+        "zh": "哨兵级"
+      },
+      "em": 0.575,
+      "thermal": 0.448,
+      "kinetic": 0.522,
+      "explosive": 0.66,
+      "maxVelocity": 500,
+      "signatureRadius": 50,
+      "radius": 39,
+      "hp": null
+    },
+    {
+      "id": -55,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Talos",
+        "zh": "塔洛斯级"
+      },
+      "em": 0.681,
+      "thermal": 0.586,
+      "kinetic": 0.586,
+      "explosive": 0.426,
+      "maxVelocity": 150,
+      "signatureRadius": 125,
+      "radius": 266,
+      "hp": null
+    },
+    {
+      "id": -56,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Dragonfly",
+        "zh": "Dragonfly"
+      },
+      "em": 0.35,
+      "thermal": 0.72,
+      "kinetic": 0.7,
+      "explosive": 0.55,
+      "maxVelocity": 1200,
+      "signatureRadius": 15,
+      "radius": 35,
+      "hp": null
+    },
+    {
+      "id": -57,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Burner",
+        "zh": "燃烧者"
+      },
+      "name": {
+        "en": "Mantis",
+        "zh": "Mantis"
+      },
+      "em": 0.6,
+      "thermal": 0.52,
+      "kinetic": 0.71,
+      "explosive": 0.71,
+      "maxVelocity": 900,
+      "signatureRadius": 25,
+      "radius": 35,
+      "hp": null
+    },
+    {
+      "id": -58,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Triglavian Entities",
+        "zh": "三神裔实体"
+      },
+      "em": 0.422,
+      "thermal": 0.367,
+      "kinetic": 0.453,
+      "explosive": 0.411,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -59,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Amarr EDENCOM Entities",
+        "zh": "艾玛EDENCOM实体"
+      },
+      "em": 0.36,
+      "thermal": 0.31,
+      "kinetic": 0.441,
+      "explosive": 0.602,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -60,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Caldari EDENCOM Entities",
+        "zh": "加达里EDENCOM实体"
+      },
+      "em": 0.303,
+      "thermal": 0.61,
+      "kinetic": 0.487,
+      "explosive": 0.401,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -61,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Gallente EDENCOM Entities",
+        "zh": "盖伦特EDENCOM实体"
+      },
+      "em": 0.383,
+      "thermal": 0.414,
+      "kinetic": 0.578,
+      "explosive": 0.513,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -62,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Minmatar EDENCOM Entities",
+        "zh": "米玛塔尔EDENCOM实体"
+      },
+      "em": 0.62,
+      "thermal": 0.422,
+      "kinetic": 0.355,
+      "explosive": 0.399,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -63,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.439,
+      "thermal": 0.522,
+      "kinetic": 0.529,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -64,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.643,
+      "thermal": 0.593,
+      "kinetic": 0.624,
+      "explosive": 0.639,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -65,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.082,
+      "thermal": 0.082,
+      "kinetic": 0.082,
+      "explosive": 0.082,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -66,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.494,
+      "thermal": 0.41,
+      "kinetic": 0.464,
+      "explosive": 0.376,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -67,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.415,
+      "thermal": 0.415,
+      "kinetic": 0.415,
+      "explosive": 0.415,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -68,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.435,
+      "thermal": 0.435,
+      "kinetic": 0.435,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -69,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.508,
+      "thermal": 0.474,
+      "kinetic": 0.495,
+      "explosive": 0.488,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -70,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.323,
+      "thermal": 0.522,
+      "kinetic": 0.529,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -71,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.542,
+      "thermal": 0.593,
+      "kinetic": 0.624,
+      "explosive": 0.639,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -72,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0,
+      "thermal": 0.082,
+      "kinetic": 0.082,
+      "explosive": 0.082,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -73,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.356,
+      "thermal": 0.41,
+      "kinetic": 0.464,
+      "explosive": 0.376,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -74,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.277,
+      "thermal": 0.415,
+      "kinetic": 0.415,
+      "explosive": 0.415,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -75,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.329,
+      "thermal": 0.435,
+      "kinetic": 0.435,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -76,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.381,
+      "thermal": 0.474,
+      "kinetic": 0.495,
+      "explosive": 0.488,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -77,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.255,
+      "thermal": 0.522,
+      "kinetic": 0.529,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -78,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.48,
+      "thermal": 0.593,
+      "kinetic": 0.624,
+      "explosive": 0.639,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -79,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0,
+      "thermal": 0.082,
+      "kinetic": 0.082,
+      "explosive": 0.0822,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -80,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.268,
+      "thermal": 0.41,
+      "kinetic": 0.464,
+      "explosive": 0.376,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -81,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.191,
+      "thermal": 0.415,
+      "kinetic": 0.415,
+      "explosive": 0.415,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -82,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.268,
+      "thermal": 0.435,
+      "kinetic": 0.435,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -83,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.308,
+      "thermal": 0.474,
+      "kinetic": 0.495,
+      "explosive": 0.488,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -84,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.193,
+      "thermal": 0.522,
+      "kinetic": 0.529,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -85,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.423,
+      "thermal": 0.593,
+      "kinetic": 0.624,
+      "explosive": 0.639,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -86,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0,
+      "thermal": 0.082,
+      "kinetic": 0.082,
+      "explosive": 0.082,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -87,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.206,
+      "thermal": 0.41,
+      "kinetic": 0.464,
+      "explosive": 0.376,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -88,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.111,
+      "thermal": 0.415,
+      "kinetic": 0.415,
+      "explosive": 0.415,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -89,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.215,
+      "thermal": 0.435,
+      "kinetic": 0.435,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -90,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.247,
+      "thermal": 0.474,
+      "kinetic": 0.495,
+      "explosive": 0.488,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -91,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.461,
+      "thermal": 0.425,
+      "kinetic": 0.541,
+      "explosive": 0.443,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -92,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.666,
+      "thermal": 0.489,
+      "kinetic": 0.634,
+      "explosive": 0.646,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -93,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.084,
+      "thermal": 0,
+      "kinetic": 0.084,
+      "explosive": 0.084,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -94,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.537,
+      "thermal": 0.269,
+      "kinetic": 0.489,
+      "explosive": 0.371,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -95,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.43,
+      "thermal": 0.289,
+      "kinetic": 0.43,
+      "explosive": 0.43,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -96,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.512,
+      "thermal": 0.402,
+      "kinetic": 0.512,
+      "explosive": 0.512,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -97,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.537,
+      "thermal": 0.352,
+      "kinetic": 0.512,
+      "explosive": 0.495,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -98,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.461,
+      "thermal": 0.36,
+      "kinetic": 0.541,
+      "explosive": 0.443,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -99,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.666,
+      "thermal": 0.413,
+      "kinetic": 0.634,
+      "explosive": 0.646,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -100,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.084,
+      "thermal": 0,
+      "kinetic": 0.084,
+      "explosive": 0.084,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -101,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.537,
+      "thermal": 0.166,
+      "kinetic": 0.489,
+      "explosive": 0.371,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -102,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.43,
+      "thermal": 0.201,
+      "kinetic": 0.43,
+      "explosive": 0.43,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -103,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.512,
+      "thermal": 0.337,
+      "kinetic": 0.512,
+      "explosive": 0.512,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -104,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.537,
+      "thermal": 0.269,
+      "kinetic": 0.512,
+      "explosive": 0.495,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -105,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.461,
+      "thermal": 0.305,
+      "kinetic": 0.541,
+      "explosive": 0.443,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -106,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.666,
+      "thermal": 0.345,
+      "kinetic": 0.634,
+      "explosive": 0.646,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -107,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.084,
+      "thermal": 0,
+      "kinetic": 0.084,
+      "explosive": 0.084,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -108,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.537,
+      "thermal": 0.085,
+      "kinetic": 0.489,
+      "explosive": 0.371,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -109,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.43,
+      "thermal": 0.117,
+      "kinetic": 0.43,
+      "explosive": 0.43,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -110,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.512,
+      "thermal": 0.276,
+      "kinetic": 0.512,
+      "explosive": 0.512,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -111,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.537,
+      "thermal": 0.201,
+      "kinetic": 0.512,
+      "explosive": 0.495,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -112,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.439,
+      "thermal": 0.522,
+      "kinetic": 0.417,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -113,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.643,
+      "thermal": 0.593,
+      "kinetic": 0.511,
+      "explosive": 0.639,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -114,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.082,
+      "thermal": 0.082,
+      "kinetic": 0,
+      "explosive": 0.082,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -115,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.494,
+      "thermal": 0.41,
+      "kinetic": 0.304,
+      "explosive": 0.376,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -116,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.415,
+      "thermal": 0.415,
+      "kinetic": 0.277,
+      "explosive": 0.415,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -117,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.435,
+      "thermal": 0.435,
+      "kinetic": 0.329,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -118,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.508,
+      "thermal": 0.474,
+      "kinetic": 0.359,
+      "explosive": 0.488,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -119,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.439,
+      "thermal": 0.522,
+      "kinetic": 0.351,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -120,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.643,
+      "thermal": 0.593,
+      "kinetic": 0.435,
+      "explosive": 0.639,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -121,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.082,
+      "thermal": 0.082,
+      "kinetic": 0,
+      "explosive": 0.082,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -122,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.494,
+      "thermal": 0.41,
+      "kinetic": 0.198,
+      "explosive": 0.376,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -123,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.415,
+      "thermal": 0.415,
+      "kinetic": 0.191,
+      "explosive": 0.415,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -124,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.435,
+      "thermal": 0.435,
+      "kinetic": 0.268,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -125,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.508,
+      "thermal": 0.474,
+      "kinetic": 0.276,
+      "explosive": 0.488,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -126,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.439,
+      "thermal": 0.522,
+      "kinetic": 0.293,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -127,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.643,
+      "thermal": 0.593,
+      "kinetic": 0.362,
+      "explosive": 0.639,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -128,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.082,
+      "thermal": 0.082,
+      "kinetic": 0,
+      "explosive": 0.082,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -129,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.494,
+      "thermal": 0.41,
+      "kinetic": 0.122,
+      "explosive": 0.376,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -130,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.415,
+      "thermal": 0.415,
+      "kinetic": 0.111,
+      "explosive": 0.415,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -131,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.435,
+      "thermal": 0.435,
+      "kinetic": 0.215,
+      "explosive": 0.435,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -132,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.508,
+      "thermal": 0.474,
+      "kinetic": 0.208,
+      "explosive": 0.488,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -133,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.449,
+      "thermal": 0.54,
+      "kinetic": 0.549,
+      "explosive": 0.336,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -134,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.619,
+      "thermal": 0.574,
+      "kinetic": 0.612,
+      "explosive": 0.522,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -135,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.085,
+      "thermal": 0.085,
+      "kinetic": 0.085,
+      "explosive": 0,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -136,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.477,
+      "thermal": 0.4,
+      "kinetic": 0.461,
+      "explosive": 0.202,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -137,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.437,
+      "thermal": 0.437,
+      "kinetic": 0.437,
+      "explosive": 0.295,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -138,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.435,
+      "thermal": 0.435,
+      "kinetic": 0.435,
+      "explosive": 0.329,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -139,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.493,
+      "thermal": 0.468,
+      "kinetic": 0.492,
+      "explosive": 0.35,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -140,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.449,
+      "thermal": 0.54,
+      "kinetic": 0.549,
+      "explosive": 0.264,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -141,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.619,
+      "thermal": 0.574,
+      "kinetic": 0.612,
+      "explosive": 0.449,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -142,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.085,
+      "thermal": 0.085,
+      "kinetic": 0.085,
+      "explosive": 0,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -143,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.477,
+      "thermal": 0.4,
+      "kinetic": 0.461,
+      "explosive": 0.081,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -144,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.437,
+      "thermal": 0.437,
+      "kinetic": 0.437,
+      "explosive": 0.206,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -145,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.435,
+      "thermal": 0.435,
+      "kinetic": 0.435,
+      "explosive": 0.268,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -146,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.493,
+      "thermal": 0.468,
+      "kinetic": 0.492,
+      "explosive": 0.264,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -147,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drones",
+        "zh": "无人机"
+      },
+      "em": 0.449,
+      "thermal": 0.54,
+      "kinetic": 0.549,
+      "explosive": 0.197,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -148,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Overmind",
+        "zh": "主宰"
+      },
+      "em": 0.619,
+      "thermal": 0.574,
+      "kinetic": 0.612,
+      "explosive": 0.379,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -149,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Seeker",
+        "zh": "探寻者"
+      },
+      "em": 0.085,
+      "thermal": 0.085,
+      "kinetic": 0.085,
+      "explosive": 0,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -150,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Triglavian",
+        "zh": "三神裔"
+      },
+      "em": 0.477,
+      "thermal": 0.4,
+      "kinetic": 0.461,
+      "explosive": 0.034,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -151,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Drifter",
+        "zh": "流浪者"
+      },
+      "em": 0.437,
+      "thermal": 0.437,
+      "kinetic": 0.437,
+      "explosive": 0.121,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -152,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sleeper",
+        "zh": "冬眠者"
+      },
+      "em": 0.435,
+      "thermal": 0.435,
+      "kinetic": 0.435,
+      "explosive": 0.215,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -153,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "All",
+        "zh": "全部"
+      },
+      "em": 0.493,
+      "thermal": 0.468,
+      "kinetic": 0.492,
+      "explosive": 0.196,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -154,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.318,
+      "kinetic": 0.369,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -155,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.137,
+      "thermal": 0.331,
+      "kinetic": 0.332,
+      "explosive": 0.322,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -156,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Dark Matter All Tiers",
+        "zh": "深渊 / 暗物质全部级别"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.582,
+      "thermal": 0.508,
+      "kinetic": 0.457,
+      "explosive": 0.416,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -157,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.121,
+      "thermal": 0.318,
+      "kinetic": 0.369,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -158,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.034,
+      "thermal": 0.331,
+      "kinetic": 0.332,
+      "explosive": 0.322,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -159,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T0/T1/T2",
+        "zh": "深渊 / 电子深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.456,
+      "thermal": 0.508,
+      "kinetic": 0.457,
+      "explosive": 0.416,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -160,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.025,
+      "thermal": 0.318,
+      "kinetic": 0.369,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -161,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.018,
+      "thermal": 0.331,
+      "kinetic": 0.332,
+      "explosive": 0.322,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -162,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T3 (Some T5 Rooms)",
+        "zh": "深渊 / 电子 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.373,
+      "thermal": 0.508,
+      "kinetic": 0.457,
+      "explosive": 0.416,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -163,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.008,
+      "thermal": 0.318,
+      "kinetic": 0.369,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -164,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.009,
+      "thermal": 0.331,
+      "kinetic": 0.332,
+      "explosive": 0.322,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -165,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Electrical T4/T5/T6",
+        "zh": "深渊 / 电子深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.3,
+      "thermal": 0.508,
+      "kinetic": 0.457,
+      "explosive": 0.416,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -166,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.107,
+      "kinetic": 0.369,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -167,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.148,
+      "thermal": 0.181,
+      "kinetic": 0.329,
+      "explosive": 0.328,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -168,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T0/T1/T2",
+        "zh": "深渊 / 火瀑深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.587,
+      "thermal": 0.342,
+      "kinetic": 0.439,
+      "explosive": 0.39,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -169,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.016,
+      "kinetic": 0.369,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -170,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.148,
+      "thermal": 0.14,
+      "kinetic": 0.329,
+      "explosive": 0.328,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -171,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T3 (Some T5 Rooms)",
+        "zh": "深渊 / 火瀑 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.587,
+      "thermal": 0.241,
+      "kinetic": 0.439,
+      "explosive": 0.39,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -172,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.004,
+      "kinetic": 0.369,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -173,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.148,
+      "thermal": 0.106,
+      "kinetic": 0.329,
+      "explosive": 0.328,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -174,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Firestorm T4/T5/T6",
+        "zh": "深渊 / 火瀑深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.587,
+      "thermal": 0.172,
+      "kinetic": 0.439,
+      "explosive": 0.39,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -175,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.318,
+      "kinetic": 0.18,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -176,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.137,
+      "thermal": 0.331,
+      "kinetic": 0.166,
+      "explosive": 0.322,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -177,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T0/T1/T2",
+        "zh": "深渊 / 异种深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.582,
+      "thermal": 0.508,
+      "kinetic": 0.295,
+      "explosive": 0.416,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -178,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.318,
+      "kinetic": 0.089,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -179,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.137,
+      "thermal": 0.331,
+      "kinetic": 0.108,
+      "explosive": 0.322,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -180,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T3 (Some T5 Rooms)",
+        "zh": "深渊 / 异种 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.582,
+      "thermal": 0.508,
+      "kinetic": 0.203,
+      "explosive": 0.416,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -181,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.318,
+      "kinetic": 0.068,
+      "explosive": 0.372,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -182,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.137,
+      "thermal": 0.331,
+      "kinetic": 0.073,
+      "explosive": 0.322,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -183,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Exotic T4/T5/T6",
+        "zh": "深渊 / 异种深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.582,
+      "thermal": 0.508,
+      "kinetic": 0.14,
+      "explosive": 0.416,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -184,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.318,
+      "kinetic": 0.369,
+      "explosive": 0.203,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -185,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.137,
+      "thermal": 0.355,
+      "kinetic": 0.352,
+      "explosive": 0.16,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -186,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T0/T1/T2",
+        "zh": "深渊 / 伽玛深渊 T0/T1/T2"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.59,
+      "thermal": 0.528,
+      "kinetic": 0.477,
+      "explosive": 0.286,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -187,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.318,
+      "kinetic": 0.369,
+      "explosive": 0.112,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -188,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.137,
+      "thermal": 0.355,
+      "kinetic": 0.352,
+      "explosive": 0.05,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -189,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T3 (Some T5 Rooms)",
+        "zh": "深渊 / 伽玛 T3 （含部分T5关卡）"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.59,
+      "thermal": 0.528,
+      "kinetic": 0.477,
+      "explosive": 0.197,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -190,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Concord",
+        "zh": "统合部"
+      },
+      "em": 0.324,
+      "thermal": 0.318,
+      "kinetic": 0.369,
+      "explosive": 0.086,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -191,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Sansha",
+        "zh": "萨沙"
+      },
+      "em": 0.137,
+      "thermal": 0.355,
+      "kinetic": 0.352,
+      "explosive": 0,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -192,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Abyssal / Gamma T4/T5/T6",
+        "zh": "深渊 / 伽玛深渊 T4/T5/T6"
+      },
+      "name": {
+        "en": "Angel",
+        "zh": "天使"
+      },
+      "em": 0.59,
+      "thermal": 0.528,
+      "kinetic": 0.477,
+      "explosive": 0.126,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -193,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Drifter Entities",
+        "zh": "流浪者实体"
+      },
+      "em": 0.128,
+      "thermal": 0.375,
+      "kinetic": 0.383,
+      "explosive": 0.383,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -194,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Rogue Drone Entities",
+        "zh": "自由无人机实体"
+      },
+      "em": 0.104,
+      "thermal": 0.147,
+      "kinetic": 0.147,
+      "explosive": 0.102,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    },
+    {
+      "id": -195,
+      "category": {
+        "en": "NPC",
+        "zh": "NPC"
+      },
+      "subcategory": {
+        "en": "Invasion",
+        "zh": "入侵"
+      },
+      "name": {
+        "en": "Sleeper Entities",
+        "zh": "冬眠者实体"
+      },
+      "em": 0.563,
+      "thermal": 0.563,
+      "kinetic": 0.563,
+      "explosive": 0.563,
+      "maxVelocity": null,
+      "signatureRadius": null,
+      "radius": null,
+      "hp": null
+    }
+  ]
+}
