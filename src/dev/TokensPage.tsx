@@ -16,19 +16,19 @@ export const TOKEN_GROUPS: Group[] = [
   { name: 'Damage type', tokens: [
     { name: '--dmg-em', use: '电磁' }, { name: '--dmg-th', use: '热能' }, { name: '--dmg-ki', use: '动能' }, { name: '--dmg-ex', use: '爆炸' } ] },
   { name: 'Meta level', tokens: [
-    { name: '--meta-t2', use: '二级' }, { name: '--meta-t1', use: '一级' }, { name: '--meta-faction', use: '势力' },
-    { name: '--meta-storyline', use: '故事线' }, { name: '--meta-deadspace', use: '死亡空间' }, { name: '--meta-officer', use: '官员' } ] },
+    { name: '--meta-t2', use: '二级（标签文字对比度 ≥4.5:1）' }, { name: '--meta-t1', use: '一级' }, { name: '--meta-faction', use: '势力' },
+    { name: '--meta-storyline', use: '故事线' }, { name: '--meta-deadspace', use: '死亡空间（标签文字对比度 ≥4.5:1）' }, { name: '--meta-officer', use: '官员' } ] },
   { name: 'Chart', tokens: [ { name: '--chart-1', use: '当前弹药' }, { name: '--chart-2', use: '对比 1' }, { name: '--chart-3', use: '对比 2' } ] },
   { name: 'Type', tokens: [
     { name: '--font-body', use: '正文字体' }, { name: '--font-num', use: '数字字体（tabular-nums）' },
-    { name: '--type-page', use: '首页大标题' }, { name: '--type-title', use: '导航标题' }, { name: '--type-name', use: '模块名' },
-    { name: '--type-label', use: '分组标题' }, { name: '--type-caption', use: '参数行' }, { name: '--type-stat', use: '属性大数字' } ] },
+    { name: '--type-page', use: '首页大标题 28/34（rem）' }, { name: '--type-title', use: '导航标题 17/22（rem）' }, { name: '--type-name', use: '模块名 15/20（rem）' },
+    { name: '--type-label', use: '分组标题 13/18（rem）' }, { name: '--type-caption', use: '参数行 12/16（rem）' }, { name: '--type-stat', use: '属性大数字 22/28（rem）' } ] },
   { name: 'Space', tokens: [1, 2, 3, 4, 5, 6].map(i => ({ name: `--space-${i}`, use: ['图标与文字', '胶囊间距', '行内元素', '页面边距', '分区', '大分区'][i - 1]! })) },
   { name: 'Radius', tokens: [ { name: '--radius-s', use: '按钮、标签' }, { name: '--radius-m', use: '卡片、搜索框' } ] },
   { name: 'Size', tokens: [
-    { name: '--control', use: '控件高度' }, { name: '--row', use: '模块行最小高度' }, { name: '--icon', use: '物品图标' },
+    { name: '--control', use: '控件最小高度 44（触控）' }, { name: '--row', use: '模块行最小高度' }, { name: '--icon', use: '物品图标' },
     { name: '--list-inset', use: '通栏列表内缩' } ] },
-  { name: 'Motion', tokens: [ { name: '--dur-fast', use: '逐格、折叠' }, { name: '--dur', use: '面板进出' }, { name: '--ease', use: '缓动曲线' } ] },
+  { name: 'Motion', tokens: [ { name: '--dur-fast', use: '逐格、折叠（减弱动态时 0ms）' }, { name: '--dur', use: '面板进出（减弱动态时 80ms 淡入淡出）' }, { name: '--ease', use: '缓动曲线' } ] },
 ]
 
 export default function TokensPage() {

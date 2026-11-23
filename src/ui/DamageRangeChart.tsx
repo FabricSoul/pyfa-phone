@@ -1,5 +1,5 @@
 import './ui.css'
-import { useRef, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import type { RangeCurve } from '../engine/types'
 import { _t } from '../i18n/t'
 import { fmt, lname, useNameLanguage } from './format'
@@ -11,6 +11,7 @@ const COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)']
 export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
   const lang = useNameLanguage()
   const ref = useRef<SVGSVGElement>(null)
+  const summaryId = useId()
   const [at, setAt] = useState<number | null>(null)
   const series = curve.series.slice(0, 3)
   const xs = curve.distancesKm
@@ -18,6 +19,11 @@ export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
   if (n < 2 || series.length === 0) return null
   const maxY = Math.max(1, ...series.flatMap((s) => s.dps))
   const x = (i: number) => PAD.l + (i / (n - 1)) * (W - PAD.l - PAD.r)
+  const current = series[0]!
+  const peak = Math.max(...current.dps)
+  const peakKm = xs[current.dps.indexOf(peak)] ?? 0
+  const summary = _t('{name} peaks at {dps} DPS at {km} km')
+    .replace('{name}', lname(current.name, lang)).replace('{dps}', fmt(peak)).replace('{km}', fmt(peakKm))
   const y = (v: number) => PAD.t + (1 - v / maxY) * (H - PAD.t - PAD.b)
 
   const locate = (e: React.PointerEvent) => {
@@ -34,7 +40,7 @@ export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
           <span key={i}><i style={{ background: COLORS[i] }} />{lname(s.name, lang)}{i === 0 && ` (${_t('Current')})`}</span>
         ))}
       </div>
-      <svg ref={ref} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={_t('Damage over distance')}
+      <svg ref={ref} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={_t('Damage over distance')} aria-describedby={summaryId}
         onPointerDown={(e) => { e.currentTarget.setPointerCapture?.(e.pointerId); locate(e) }}
         onPointerMove={(e) => { if (at !== null) locate(e) }}
         onPointerUp={() => setAt(null)} onPointerCancel={() => setAt(null)}>
@@ -51,6 +57,15 @@ export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
         ))}
         {at !== null && <line data-testid="crosshair" className="axis" x1={x(at)} x2={x(at)} y1={PAD.t} y2={H - PAD.b} strokeDasharray="3 3" />}
       </svg>
+      <p id={summaryId} className="sr-only">{summary}</p>
+      <details className="chart-data">
+        <summary>{_t('Data table')}</summary>
+        <table className="num">
+          <caption className="sr-only">{_t('Damage over distance')}</caption>
+          <thead><tr><th scope="col">{_t('km')}</th>{series.map((s, i) => <th scope="col" key={i}>{lname(s.name, lang)}</th>)}</tr></thead>
+          <tbody>{xs.map((d, j) => <tr key={d}><th scope="row">{fmt(d)}</th>{series.map((s, i) => <td key={i}>{fmt(s.dps[j] ?? 0)}</td>)}</tr>)}</tbody>
+        </table>
+      </details>
       {at !== null && (
         <div className="tip num" data-testid="chart-tip">
           {fmt(xs[at] ?? 0)} {_t('km')}

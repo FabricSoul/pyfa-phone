@@ -148,3 +148,20 @@ describe('I4 / I5 swipe hint and state button label', () => {
       expect(within(sheet).getByRole('button', { name }).querySelector('svg')).toBeTruthy()
   })
 })
+
+describe('M9 scroll position comes back', () => {
+  it('saves the scroll position on leaving the fit and restores it on return', async () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('scrollTo', scrollTo)
+    sessionStorage.setItem('pyfa.scroll.rifter', '480')
+    const first = app(['/fit/rifter'])
+    await screen.findByText('162.2/162.5', {}, { timeout: 4000 })
+    await waitFor(() => expect(scrollTo).toHaveBeenCalledWith(0, 480))
+    expect(sessionStorage.getItem('pyfa.scroll.rifter')).toBeNull()
+    Object.defineProperty(window, 'scrollY', { value: 300, configurable: true })
+    fireEvent.scroll(window)
+    first.unmount()
+    expect(sessionStorage.getItem('pyfa.scroll.rifter')).toBe('300')
+    vi.unstubAllGlobals()
+  })
+})

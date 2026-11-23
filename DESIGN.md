@@ -13,7 +13,12 @@
 唯一来源：`src/styles/tokens.css`（浅色 `:root`，深色 `[data-appearance="dark"]`）。每个 token 的用途见 `/dev/tokens` 页面（`src/dev/TokensPage.tsx`），守卫测试保证两边一致。组件里不写裸颜色值。
 
 ## 3. 字号、间距、圆角
-- 字号只用 `--type-*`；数字一律 `.num`（`--font-num` + tabular-nums），小数保留一位、整数不补 .0。
+- 字号只用 `--type-*`，单位是 rem（根字号 16px 时等于 28/17/15/13/12/22px），不写内联 px 字号；输入框、下拉框、文本域字号不小于 16px（避免 iOS 聚焦时自动放大）。
+- 触控：所有可点控件点击区不小于 44×44，相邻点击区间隔不小于 8px；视觉尺寸可以更小，用 padding 或伪元素扩大点击区（`--control` 为 44）。
+- 对比度：标签文字（`--meta-*`）在 16% 底色（叠在页面底色或列表底色上）不低于 4.5:1。浅色 `--meta-t2` 取 #8A3C08（原 #A2480F 为 4.21:1），`--meta-deadspace` 取 #1B5AB0（原 #1F5FB8 在页面底色上 4.33:1）。
+- 动效：`prefers-reduced-motion: reduce` 时去掉位移、旋转类动画，只保留不超过 100ms 的淡入淡出（`--dur` 80ms、`--dur-fast` 0ms）。
+- 焦点环全站统一：2px `--color-accent` 外框。
+- 数字一律 `.num`（`--font-num` + tabular-nums），小数保留一位、整数不补 .0。
 - 间距只用 `--space-1…6`（4px 网格），页面左右边距 16。
 - 圆角：按钮、标签 `--radius-s`（6）；卡片、搜索框、分段 `--radius-m`（10）。
 - 列表通栏铺满屏宽，行间只用 1px 分隔线，不套卡片。

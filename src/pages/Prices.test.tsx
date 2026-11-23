@@ -17,7 +17,7 @@ it.each(['/', '/fit/rifter'])('shows pending and failed prices independently of 
     engine={mockEngine} store={createFitStore(new IDBFactory())}
   /></MemoryRouter>)
   if (path !== '/') {
-    fireEvent.click(await screen.findByRole('radio', { name: 'Stats' }))
+    fireEvent.click(await screen.findByRole('tab', { name: 'Stats' }))
     await screen.findByText('Total DPS')
   }
   expect((await screen.findAllByText('Updating prices…')).length).toBeGreaterThan(0)

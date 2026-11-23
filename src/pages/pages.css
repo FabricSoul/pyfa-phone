@@ -5,11 +5,6 @@
   padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
 }
 
-.fit-app :is(button, a):focus-visible, .fit-input:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: -2px;
-}
-
 .fit-app .sheet { max-width: 480px; margin-inline: auto; }
 .fit-app .act:disabled { opacity: .5; cursor: default; }
 .fit-app :is(button:not(:disabled), a) { cursor: pointer; }
@@ -70,10 +65,11 @@
   background: var(--color-surface);
   color: var(--color-text);
   font: var(--type-name);
+  font-size: max(16px, 1rem); /* iOS zooms the page when a field under 16px gets focus */
 }
 .fit-input::placeholder { color: var(--color-text-secondary); }
 .fit-filter-bar { justify-content: space-between; padding: var(--space-2) var(--space-4); }
-.fit-filter-bar select { width: auto; max-width: 52%; font: var(--type-caption); }
+.fit-filter-bar select { width: auto; max-width: 52%; }
 .fit-filter-label { margin: var(--space-2) var(--space-4) var(--space-1); color: var(--color-text-secondary); }
 .fit-chips, .recent-fits {
   display: flex;
@@ -82,7 +78,7 @@
   padding: var(--space-1) var(--space-4) var(--space-2);
   scrollbar-width: thin;
 }
-.fit-chip { min-height: var(--space-6); color: var(--color-text-secondary); font: var(--type-caption); }
+.fit-chip { min-height: var(--control); color: var(--color-text-secondary); font: var(--type-caption); }
 .recent-fit {
   display: flex;
   align-items: center;
@@ -101,7 +97,9 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  min-height: var(--control);
   padding: var(--space-3) var(--space-4);
+  box-sizing: border-box;
   color: var(--color-accent);
   font: var(--type-label);
 }
@@ -146,7 +144,6 @@
 }
 .import-form textarea {
   resize: vertical;
-  font: var(--type-caption);
   font-family: var(--font-num);
 }
 .import-form button { justify-self: end; }

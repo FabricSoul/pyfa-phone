@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 20:53-0500\n"
+"POT-Creation-Date: 2026-11-22 21:20-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,11 +28,11 @@ msgstr[1] ""
 msgid "AU/s"
 msgstr ""
 
-#: src/pages/About.tsx:17
+#: src/pages/About.tsx:8
 msgid "About"
 msgstr ""
 
-#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:39 src/pages/ModuleSheet.tsx:16 src/ui/ModuleRow.tsx:97
+#: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/FitExtras.tsx:41 src/pages/ModuleSheet.tsx:16 src/ui/ModuleRow.tsx:97
 msgid "Active"
 msgstr ""
 
@@ -48,7 +48,7 @@ msgstr ""
 msgid "Add mid slot module"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:57
+#: src/pages/FitExtras.tsx:66
 msgid "Add notes"
 msgstr ""
 
@@ -72,11 +72,11 @@ msgstr ""
 msgid "Align time"
 msgstr ""
 
-#: src/pages/Settings.tsx:86 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:87 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr ""
 
-#: src/pages/Settings.tsx:86 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:87 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr ""
 
@@ -92,11 +92,11 @@ msgstr ""
 msgid "All technology levels"
 msgstr ""
 
-#: src/pages/Settings.tsx:153
+#: src/pages/Settings.tsx:154
 msgid "Appearance & language"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:75
+#: src/pages/ModuleSheet.tsx:76
 msgid "Applies to {n} module"
 msgid_plural "Applies to {n} modules"
 msgstr[0] ""
@@ -110,11 +110,11 @@ msgstr ""
 msgid "Attributes"
 msgstr ""
 
-#: src/pages/shared.tsx:45 src/ui/NavBar.tsx:11
+#: src/pages/shared.tsx:56 src/pages/shared.tsx:57 src/ui/NavBar.tsx:11
 msgid "Back"
 msgstr ""
 
-#: src/pages/Fit.tsx:108 src/pages/fitSession.tsx:161
+#: src/pages/Fit.tsx:154 src/pages/fitSession.tsx:203 src/pages/shared.tsx:82
 msgid "Back to fittings"
 msgstr ""
 
@@ -122,15 +122,15 @@ msgstr ""
 msgid "Base → fitted"
 msgstr ""
 
-#: src/pages/Settings.tsx:201
+#: src/pages/Settings.tsx:202
 msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
 msgstr ""
 
-#: src/pages/About.tsx:38
+#: src/pages/About.tsx:30
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
-#: src/pages/Fit.tsx:132 src/pages/FitExtras.tsx:15
+#: src/pages/Fit.tsx:178 src/pages/FitExtras.tsx:17
 msgid "Boosters"
 msgstr ""
 
@@ -138,15 +138,15 @@ msgstr ""
 msgid "Browse all market groups"
 msgstr ""
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:157 src/pages/AddModule.tsx:252 src/pages/AddModule.tsx:266 src/pages/Import.tsx:122 src/pages/ModuleSheet.tsx:60 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:157 src/pages/AddModule.tsx:252 src/pages/AddModule.tsx:266 src/pages/Import.tsx:122 src/pages/ModuleSheet.tsx:61 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
 msgid "CPU"
 msgstr ""
 
-#: src/pages/Fit.tsx:56
+#: src/pages/Fit.tsx:102
 msgid "Calculating fit…"
 msgstr ""
 
-#: src/pages/Settings.tsx:172
+#: src/pages/Settings.tsx:173
 msgid "Calculation"
 msgstr ""
 
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/Fit.tsx:130 src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:42 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:176 src/pages/FitExtras.tsx:17 src/pages/Settings.tsx:43 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
@@ -174,12 +174,16 @@ msgstr ""
 msgid "Cargo bay"
 msgstr ""
 
-#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:164 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:165 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:74
+#: src/pages/ModuleSheet.tsx:75
 msgid "Charges"
+msgstr ""
+
+#: src/pages/shared.tsx:78
+msgid "Check the link or go back to the fittings list."
 msgstr ""
 
 #: src/pages/AddModule.tsx:243
@@ -190,11 +194,11 @@ msgstr ""
 msgid "Compatible modules"
 msgstr ""
 
-#: src/pages/Settings.tsx:176
+#: src/pages/Settings.tsx:177
 msgid "Consider reboot"
 msgstr ""
 
-#: src/pages/Settings.tsx:174
+#: src/pages/Settings.tsx:175
 msgid "Consider reload"
 msgstr ""
 
@@ -214,11 +218,11 @@ msgstr ""
 msgid "Could not complete action"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:72
+#: src/pages/ModuleSheet.tsx:73
 msgid "Could not load charges"
 msgstr ""
 
-#: src/pages/fitSession.tsx:163
+#: src/pages/fitSession.tsx:166
 msgid "Could not load fit"
 msgstr ""
 
@@ -242,19 +246,19 @@ msgstr ""
 msgid "Could not read this fit text"
 msgstr ""
 
-#: src/pages/fitSession.tsx:191
+#: src/pages/fitSession.tsx:197
 msgid "Could not recalculate fit"
 msgstr ""
 
-#: src/pages/Import.tsx:107 src/pages/fitSession.tsx:190
+#: src/pages/Import.tsx:107 src/pages/fitSession.tsx:196
 msgid "Could not save fit"
 msgstr ""
 
-#: src/App.tsx:80
+#: src/App.tsx:86
 msgid "Could not start the fitting engine"
 msgstr ""
 
-#: src/ui/DamageRangeChart.tsx:34
+#: src/ui/DamageRangeChart.tsx:40
 msgid "Current"
 msgstr ""
 
@@ -274,20 +278,24 @@ msgstr ""
 msgid "DPS"
 msgstr ""
 
-#: src/ui/DamageRangeChart.tsx:37 src/ui/StatsPage.tsx:103
+#: src/ui/DamageRangeChart.tsx:43 src/ui/DamageRangeChart.tsx:64 src/ui/StatsPage.tsx:103
 msgid "Damage over distance"
 msgstr ""
 
-#: src/pages/Fit.tsx:145 src/pages/Settings.tsx:25 src/pages/Settings.tsx:166 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Fit.tsx:191 src/pages/Settings.tsx:26 src/pages/Settings.tsx:167 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr ""
 
-#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:213
+#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:214
 msgid "Dark"
 msgstr ""
 
-#: src/pages/Settings.tsx:191
+#: src/pages/Settings.tsx:192
 msgid "Data"
+msgstr ""
+
+#: src/ui/DamageRangeChart.tsx:62
+msgid "Data table"
 msgstr ""
 
 #: src/ui/MetaGroupList.tsx:15
@@ -298,7 +306,7 @@ msgstr ""
 msgid "Decides skill levels · two built-in characters in the first version"
 msgstr ""
 
-#: src/pages/Settings.tsx:180
+#: src/pages/Settings.tsx:181
 msgid "Default preheat"
 msgstr ""
 
@@ -330,11 +338,11 @@ msgstr ""
 msgid "Does not fit"
 msgstr ""
 
-#: src/App.tsx:47
+#: src/App.tsx:53
 msgid "Downloading Python runtime…"
 msgstr ""
 
-#: src/App.tsx:48
+#: src/App.tsx:54
 msgid "Downloading game data…"
 msgstr ""
 
@@ -354,7 +362,7 @@ msgstr ""
 msgid "Drone control range"
 msgstr ""
 
-#: src/pages/Fit.tsx:128 src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:41
+#: src/pages/Fit.tsx:174 src/pages/FitExtras.tsx:17 src/pages/Settings.tsx:42
 msgid "Drones"
 msgstr ""
 
@@ -374,7 +382,7 @@ msgstr ""
 msgid "EM"
 msgstr ""
 
-#: src/pages/About.tsx:35
+#: src/pages/About.tsx:27
 msgid "EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf."
 msgstr ""
 
@@ -386,11 +394,11 @@ msgstr ""
 msgid "Explosive"
 msgstr ""
 
-#: src/pages/Settings.tsx:193
+#: src/pages/Settings.tsx:194
 msgid "Export all fits backup"
 msgstr ""
 
-#: src/pages/Fit.tsx:49
+#: src/pages/Fit.tsx:94
 msgid "Extras"
 msgstr ""
 
@@ -402,7 +410,7 @@ msgstr ""
 msgid "Factor in Reload Time"
 msgstr ""
 
-#: src/pages/Fit.tsx:129
+#: src/pages/Fit.tsx:175
 msgid "Fighters"
 msgstr ""
 
@@ -422,19 +430,23 @@ msgstr ""
 msgid "Fit name"
 msgstr ""
 
-#: src/pages/fitSession.tsx:160
+#: src/pages/fitSession.tsx:164
 msgid "Fit not found"
+msgstr ""
+
+#: src/pages/Fit.tsx:93
+msgid "Fit view"
 msgstr ""
 
 #: src/dev/Gallery.tsx:66
 msgid "Fitting"
 msgstr ""
 
-#: src/App.tsx:78 src/pages/Home.tsx:85
+#: src/App.tsx:84 src/pages/Home.tsx:85
 msgid "Fittings"
 msgstr ""
 
-#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:82 src/pages/Settings.tsx:211
+#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:83 src/pages/Settings.tsx:212
 msgid "Follow system"
 msgstr ""
 
@@ -446,7 +458,7 @@ msgstr ""
 msgid "GJ/s"
 msgstr ""
 
-#: src/pages/Settings.tsx:195
+#: src/pages/Settings.tsx:196
 msgid "Game data version"
 msgstr ""
 
@@ -470,7 +482,7 @@ msgstr ""
 msgid "ISK"
 msgstr ""
 
-#: src/pages/Fit.tsx:131 src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:43
+#: src/pages/Fit.tsx:177 src/pages/FitExtras.tsx:17 src/pages/Settings.tsx:44
 msgid "Implants"
 msgstr ""
 
@@ -482,15 +494,15 @@ msgstr ""
 msgid "Incoming damage pattern"
 msgstr ""
 
-#: src/App.tsx:49
+#: src/App.tsx:55
 msgid "Initializing fitting engine…"
 msgstr ""
 
-#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:156 src/pages/Settings.tsx:221
+#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:157 src/pages/Settings.tsx:222
 msgid "Interface language"
 msgstr ""
 
-#: src/pages/ItemInfo.tsx:46 src/pages/ModuleSheet.tsx:90
+#: src/pages/ItemInfo.tsx:46 src/pages/ModuleSheet.tsx:91
 msgid "Item information"
 msgstr ""
 
@@ -498,11 +510,11 @@ msgstr ""
 msgid "Item information unavailable"
 msgstr ""
 
-#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:158 src/pages/Settings.tsx:230
+#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:159 src/pages/Settings.tsx:231
 msgid "Item names"
 msgstr ""
 
-#: src/pages/Fit.tsx:53 src/pages/FitExtras.tsx:36 src/ui/ModuleRow.tsx:61 src/ui/ModuleRow.tsx:122
+#: src/pages/Fit.tsx:99 src/pages/FitExtras.tsx:38 src/ui/ModuleRow.tsx:61 src/ui/ModuleRow.tsx:123
 msgid "Item removed"
 msgstr ""
 
@@ -518,15 +530,15 @@ msgstr ""
 msgid "Launcher hardpoints"
 msgstr ""
 
-#: src/pages/Fit.tsx:63
+#: src/pages/Fit.tsx:109
 msgid "Launchers"
 msgstr ""
 
-#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:212
+#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:213
 msgid "Light"
 msgstr ""
 
-#: src/pages/Fit.tsx:127
+#: src/pages/Fit.tsx:173
 msgid "Loaded charges"
 msgstr ""
 
@@ -534,7 +546,7 @@ msgstr ""
 msgid "Loading fits…"
 msgstr ""
 
-#: src/pages/fitSession.tsx:164
+#: src/pages/fitSession.tsx:170
 msgid "Loading fit…"
 msgstr ""
 
@@ -552,6 +564,10 @@ msgstr ""
 
 #: src/pages/Variations.tsx:65
 msgid "Loading variations…"
+msgstr ""
+
+#: src/ui/ModuleRow.tsx:99
+msgid "Long press to overheat"
 msgstr ""
 
 #: src/pages/shared.tsx:12
@@ -590,7 +606,7 @@ msgstr ""
 msgid "Module not found"
 msgstr ""
 
-#: src/pages/Fit.tsx:126
+#: src/pages/Fit.tsx:172
 msgid "Modules"
 msgstr ""
 
@@ -606,7 +622,7 @@ msgstr ""
 msgid "New fit"
 msgstr ""
 
-#: src/pages/Settings.tsx:162
+#: src/pages/Settings.tsx:163
 msgid "New fit defaults"
 msgstr ""
 
@@ -646,11 +662,11 @@ msgstr ""
 msgid "No variations"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:24 src/ui/ResourceGauge.tsx:14 src/ui/StatsPage.tsx:41 src/ui/StatsPage.tsx:93 src/ui/StatsPage.tsx:110
+#: src/pages/FitExtras.tsx:26 src/ui/ResourceGauge.tsx:14 src/ui/StatsPage.tsx:41 src/ui/StatsPage.tsx:93 src/ui/StatsPage.tsx:110
 msgid "None"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:54 src/pages/FitExtras.tsx:56
+#: src/pages/FitExtras.tsx:63 src/pages/FitExtras.tsx:65
 msgid "Notes"
 msgstr ""
 
@@ -658,7 +674,7 @@ msgstr ""
 msgid "Officer"
 msgstr ""
 
-#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:14 src/ui/ModuleRow.tsx:97 src/ui/ModuleRow.tsx:109
+#: src/dev/Gallery.tsx:80 src/dev/Gallery.tsx:113 src/pages/ModuleSheet.tsx:14 src/ui/ModuleRow.tsx:97 src/ui/ModuleRow.tsx:110
 msgid "Offline"
 msgstr ""
 
@@ -676,6 +692,10 @@ msgstr ""
 
 #: src/dev/Gallery.tsx:81 src/dev/Gallery.tsx:114 src/pages/ModuleSheet.tsx:17 src/ui/ModuleRow.tsx:97
 msgid "Overheated"
+msgstr ""
+
+#: src/pages/shared.tsx:78
+msgid "Page not found"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:137
@@ -706,11 +726,11 @@ msgstr ""
 msgid "PowerGrid"
 msgstr ""
 
-#: src/pages/AddModule.tsx:157 src/pages/AddModule.tsx:252 src/pages/AddModule.tsx:266 src/pages/Import.tsx:123 src/pages/ModuleSheet.tsx:60 src/pages/shared.tsx:21
+#: src/pages/AddModule.tsx:157 src/pages/AddModule.tsx:252 src/pages/AddModule.tsx:266 src/pages/Import.tsx:123 src/pages/ModuleSheet.tsx:61 src/pages/shared.tsx:21
 msgid "Powergrid"
 msgstr ""
 
-#: src/pages/Settings.tsx:183
+#: src/pages/Settings.tsx:184
 msgid "Price"
 msgstr ""
 
@@ -750,23 +770,27 @@ msgstr ""
 msgid "Remote Repairs"
 msgstr ""
 
-#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:98 src/pages/FitExtras.tsx:40 src/ui/ModuleRow.tsx:63 src/ui/ModuleRow.tsx:110
+#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:144 src/pages/FitExtras.tsx:49 src/ui/ModuleRow.tsx:63 src/ui/ModuleRow.tsx:111
 msgid "Remove"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:96
+#: src/pages/ModuleSheet.tsx:97
 msgid "Remove module"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:96
+#: src/pages/ModuleSheet.tsx:97
 msgid "Remove {n} modules"
+msgstr ""
+
+#: src/ui/Toast.tsx:38
+msgid "Removed"
 msgstr ""
 
 #: src/pages/FitMenu.tsx:44
 msgid "Rename fit"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:87 src/pages/Variations.tsx:61
+#: src/pages/ModuleSheet.tsx:88 src/pages/Variations.tsx:61
 msgid "Replace with a variation"
 msgstr ""
 
@@ -778,11 +802,11 @@ msgstr ""
 msgid "Resources and prices"
 msgstr ""
 
-#: src/pages/Settings.tsx:194
+#: src/pages/Settings.tsx:195
 msgid "Restore from backup"
 msgstr ""
 
-#: src/App.tsx:85
+#: src/App.tsx:91 src/pages/fitSession.tsx:167
 msgid "Retry"
 msgstr ""
 
@@ -818,15 +842,15 @@ msgstr ""
 msgid "Sensor strength"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:84
+#: src/pages/ModuleSheet.tsx:85
 msgid "Set together"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:84
+#: src/pages/ModuleSheet.tsx:85
 msgid "Set {n} modules individually"
 msgstr ""
 
-#: src/pages/Home.tsx:86 src/pages/Settings.tsx:27 src/pages/Settings.tsx:147
+#: src/pages/Home.tsx:86 src/pages/Settings.tsx:28 src/pages/Settings.tsx:148
 msgid "Settings"
 msgstr ""
 
@@ -854,15 +878,15 @@ msgstr ""
 msgid "Slot not found"
 msgstr ""
 
-#: src/pages/ModuleSheet.tsx:67
+#: src/pages/ModuleSheet.tsx:68
 msgid "Slot {n}"
 msgstr ""
 
-#: src/pages/Fit.tsx:49
+#: src/pages/Fit.tsx:94
 msgid "Slots"
 msgstr ""
 
-#: src/pages/Settings.tsx:185
+#: src/pages/Settings.tsx:186
 msgid "Source"
 msgstr ""
 
@@ -874,7 +898,7 @@ msgstr ""
 msgid "Stable: "
 msgstr ""
 
-#: src/pages/Fit.tsx:49
+#: src/pages/Fit.tsx:94
 msgid "Stats"
 msgstr ""
 
@@ -886,7 +910,7 @@ msgstr ""
 msgid "Storyline"
 msgstr ""
 
-#: src/pages/Settings.tsx:178
+#: src/pages/Settings.tsx:179
 msgid "Strict skill requirements"
 msgstr ""
 
@@ -902,6 +926,10 @@ msgstr ""
 msgid "Swap for a similar module"
 msgstr ""
 
+#: src/pages/Fit.tsx:96
+msgid "Swipe a module row left for offline and remove."
+msgstr ""
+
 #: src/ui/ModuleRow.tsx:52
 msgid "Tap to add a module"
 msgstr ""
@@ -910,7 +938,7 @@ msgstr ""
 msgid "Target Resists"
 msgstr ""
 
-#: src/pages/Fit.tsx:145 src/ui/pickers/TargetProfilePicker.tsx:25
+#: src/pages/Fit.tsx:191 src/ui/pickers/TargetProfilePicker.tsx:25
 msgid "Target profile"
 msgstr ""
 
@@ -930,7 +958,7 @@ msgstr ""
 msgid "Technology level"
 msgstr ""
 
-#: src/pages/Settings.tsx:21 src/pages/Settings.tsx:155 src/pages/Settings.tsx:208
+#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:156 src/pages/Settings.tsx:209
 msgid "Theme"
 msgstr ""
 
@@ -938,7 +966,7 @@ msgstr ""
 msgid "Thermal"
 msgstr ""
 
-#: src/pages/About.tsx:32
+#: src/pages/About.tsx:24
 msgid "This application is not affiliated with, endorsed by, or associated with CCP hf."
 msgstr ""
 
@@ -946,7 +974,7 @@ msgstr ""
 msgid "Total DPS"
 msgstr ""
 
-#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:186 src/pages/Settings.tsx:247
+#: src/pages/Settings.tsx:27 src/pages/Settings.tsx:187 src/pages/Settings.tsx:248
 msgid "Total price includes"
 msgstr ""
 
@@ -954,15 +982,15 @@ msgstr ""
 msgid "Turret hardpoints"
 msgstr ""
 
-#: src/pages/Fit.tsx:62
+#: src/pages/Fit.tsx:108
 msgid "Turrets"
 msgstr ""
 
-#: src/ui/NavBar.tsx:14
+#: src/pages/FitExtras.tsx:46 src/pages/fitSession.tsx:223 src/ui/NavBar.tsx:14
 msgid "Undo"
 msgstr ""
 
-#: src/pages/Fit.tsx:46
+#: src/pages/Fit.tsx:91
 msgid "Unsaved preview"
 msgstr ""
 
@@ -978,7 +1006,7 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
-#: src/pages/Settings.tsx:168
+#: src/pages/Settings.tsx:169
 msgid "Use character implants"
 msgstr ""
 
@@ -998,7 +1026,7 @@ msgstr ""
 msgid "best"
 msgstr ""
 
-#: src/pages/Settings.tsx:185
+#: src/pages/Settings.tsx:186
 msgid "fuzzwork · Jita"
 msgstr ""
 
@@ -1010,7 +1038,7 @@ msgstr ""
 msgid "kg"
 msgstr ""
 
-#: src/ui/AmmoList.tsx:36 src/ui/DamageRangeChart.tsx:56 src/ui/StatsPage.tsx:171 src/ui/StatsPage.tsx:175
+#: src/ui/AmmoList.tsx:36 src/ui/DamageRangeChart.tsx:65 src/ui/DamageRangeChart.tsx:71 src/ui/StatsPage.tsx:171 src/ui/StatsPage.tsx:175
 msgid "km"
 msgstr ""
 
@@ -1026,28 +1054,32 @@ msgstr ""
 msgid "mm"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:50
+#: src/pages/FitExtras.tsx:59
 msgid "m³"
 msgstr ""
 
-#: src/pages/About.tsx:67
+#: src/pages/About.tsx:59
 msgid "pyfa original source on GitHub"
 msgstr ""
 
-#: src/pages/Settings.tsx:202
+#: src/pages/Settings.tsx:203
 msgid "pyfa-phone"
 msgstr ""
 
-#: src/pages/About.tsx:20
+#: src/pages/About.tsx:12
 msgid "pyfa-phone is an unofficial EVE Online fitting tool."
 msgstr ""
 
-#: src/pages/About.tsx:57
+#: src/pages/About.tsx:49
 msgid "pyfa-phone source on GitHub"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:153 src/ui/StatsPage.tsx:160 src/ui/StatsPage.tsx:168
 msgid "s"
+msgstr ""
+
+#: src/ui/DamageRangeChart.tsx:25
+msgid "{name} peaks at {dps} DPS at {km} km"
 msgstr ""
 
 #: src/pages/Home.tsx:133
@@ -1062,10 +1094,10 @@ msgstr ""
 msgid "{n} remaining"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:23
+#: src/pages/FitExtras.tsx:25
 msgid "{ship} has no drone bay"
 msgstr ""
 
-#: src/pages/Settings.tsx:84 src/pages/Settings.tsx:232
+#: src/pages/Settings.tsx:85 src/pages/Settings.tsx:233
 msgid "中文"
 msgstr ""
