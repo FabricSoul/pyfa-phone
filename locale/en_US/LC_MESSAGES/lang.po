@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 22:10-0500\n"
+"POT-Creation-Date: 2026-11-22 22:34-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -18,11 +18,15 @@ msgid_plural "%d attributes."
 msgstr[0] ""
 msgstr[1] ""
 
+#: src/pages/Settings.tsx:170
+msgid "A fit in the file is invalid:"
+msgstr ""
+
 #: src/ui/StatsPage.tsx:170
 msgid "AU/s"
 msgstr ""
 
-#: src/pages/About.tsx:8
+#: src/pages/About.tsx:8 src/pages/Home.tsx:105 src/pages/Settings.tsx:263
 msgid "About"
 msgstr ""
 
@@ -86,11 +90,11 @@ msgstr ""
 msgid "Align time"
 msgstr ""
 
-#: src/pages/Settings.tsx:87 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr ""
 
-#: src/pages/Settings.tsx:87 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr ""
 
@@ -118,7 +122,7 @@ msgstr ""
 msgid "Amarr"
 msgstr ""
 
-#: src/pages/Settings.tsx:154
+#: src/pages/Settings.tsx:209
 msgid "Appearance & language"
 msgstr ""
 
@@ -144,15 +148,23 @@ msgstr ""
 msgid "Back to fittings"
 msgstr ""
 
+#: src/pages/Settings.tsx:282
+msgid "Backup JSON, copy it and save it"
+msgstr ""
+
+#: src/pages/Settings.tsx:178 src/pages/Settings.tsx:183
+msgid "Backup rejected"
+msgstr ""
+
+#: src/pages/Settings.tsx:197
+msgid "Backup restored: {n} fits"
+msgstr ""
+
 #: src/pages/ItemInfo.tsx:59
 msgid "Base → fitted"
 msgstr ""
 
-#: src/pages/Settings.tsx:202
-msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
-msgstr ""
-
-#: src/pages/About.tsx:30
+#: src/pages/About.tsx:30 src/pages/Settings.tsx:260
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
@@ -172,7 +184,7 @@ msgstr ""
 msgid "Calculating fit…"
 msgstr ""
 
-#: src/pages/Settings.tsx:173
+#: src/pages/Settings.tsx:228
 msgid "Calculation"
 msgstr ""
 
@@ -184,7 +196,7 @@ msgstr ""
 msgid "Calibration"
 msgstr ""
 
-#: src/pages/FitMenu.tsx:109 src/pages/FitMenu.tsx:116
+#: src/pages/FitMenu.tsx:109 src/pages/FitMenu.tsx:116 src/pages/Settings.tsx:278
 msgid "Cancel"
 msgstr ""
 
@@ -196,7 +208,7 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/Fit.tsx:176 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:43 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:176 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
@@ -204,7 +216,7 @@ msgstr ""
 msgid "Cargo bay"
 msgstr ""
 
-#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:165 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Settings.tsx:28 src/pages/Settings.tsx:220 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr ""
 
@@ -224,11 +236,11 @@ msgstr ""
 msgid "Compatible modules"
 msgstr ""
 
-#: src/pages/Settings.tsx:177
+#: src/pages/Settings.tsx:232
 msgid "Consider reboot"
 msgstr ""
 
-#: src/pages/Settings.tsx:175
+#: src/pages/Settings.tsx:230
 msgid "Consider reload"
 msgstr ""
 
@@ -288,7 +300,7 @@ msgstr ""
 msgid "Could not load or replace variations"
 msgstr ""
 
-#: src/pages/Home.tsx:78 src/pages/ShipBrowser.tsx:93
+#: src/pages/Home.tsx:80 src/pages/ShipBrowser.tsx:93
 msgid "Could not load or save fits"
 msgstr ""
 
@@ -308,7 +320,7 @@ msgstr ""
 msgid "Could not save fit"
 msgstr ""
 
-#: src/App.tsx:86
+#: src/App.tsx:58
 msgid "Could not start the fitting engine"
 msgstr ""
 
@@ -336,15 +348,15 @@ msgstr ""
 msgid "Damage over distance"
 msgstr ""
 
-#: src/pages/Fit.tsx:191 src/pages/Settings.tsx:26 src/pages/Settings.tsx:167 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Fit.tsx:191 src/pages/Settings.tsx:29 src/pages/Settings.tsx:222 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr ""
 
-#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:214
+#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:292
 msgid "Dark"
 msgstr ""
 
-#: src/pages/Settings.tsx:192
+#: src/pages/Settings.tsx:247
 msgid "Data"
 msgstr ""
 
@@ -360,7 +372,7 @@ msgstr ""
 msgid "Decides skill levels · two built-in characters in the first version"
 msgstr ""
 
-#: src/pages/Settings.tsx:181
+#: src/pages/Settings.tsx:236
 msgid "Default preheat"
 msgstr ""
 
@@ -392,11 +404,11 @@ msgstr ""
 msgid "Does not fit"
 msgstr ""
 
-#: src/App.tsx:53
+#: src/App.tsx:101
 msgid "Downloading Python runtime…"
 msgstr ""
 
-#: src/App.tsx:54
+#: src/App.tsx:102
 msgid "Downloading game data…"
 msgstr ""
 
@@ -416,7 +428,7 @@ msgstr ""
 msgid "Drone control range"
 msgstr ""
 
-#: src/pages/Fit.tsx:174 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:42
+#: src/pages/Fit.tsx:174 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:47
 msgid "Drones"
 msgstr ""
 
@@ -440,7 +452,7 @@ msgstr ""
 msgid "EM"
 msgstr ""
 
-#: src/pages/About.tsx:27
+#: src/pages/About.tsx:27 src/pages/Settings.tsx:259
 msgid "EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf."
 msgstr ""
 
@@ -452,7 +464,7 @@ msgstr ""
 msgid "Explosive"
 msgstr ""
 
-#: src/pages/Settings.tsx:194
+#: src/pages/Settings.tsx:32 src/pages/Settings.tsx:249
 msgid "Export all fits backup"
 msgstr ""
 
@@ -508,11 +520,11 @@ msgstr ""
 msgid "Fitting"
 msgstr ""
 
-#: src/App.tsx:84 src/pages/Home.tsx:67
+#: src/App.tsx:65 src/pages/Home.tsx:69
 msgid "Fittings"
 msgstr ""
 
-#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:83 src/pages/Settings.tsx:212
+#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:88 src/pages/Settings.tsx:290
 msgid "Follow system"
 msgstr ""
 
@@ -528,7 +540,7 @@ msgstr ""
 msgid "Gallente"
 msgstr ""
 
-#: src/pages/Settings.tsx:196
+#: src/pages/Settings.tsx:251
 msgid "Game data version"
 msgstr ""
 
@@ -552,7 +564,7 @@ msgstr ""
 msgid "ISK"
 msgstr ""
 
-#: src/pages/Fit.tsx:177 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:44
+#: src/pages/Fit.tsx:177 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:49
 msgid "Implants"
 msgstr ""
 
@@ -564,11 +576,11 @@ msgstr ""
 msgid "Incoming damage pattern"
 msgstr ""
 
-#: src/App.tsx:55
+#: src/App.tsx:103
 msgid "Initializing fitting engine…"
 msgstr ""
 
-#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:157 src/pages/Settings.tsx:222
+#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:212 src/pages/Settings.tsx:300
 msgid "Interface language"
 msgstr ""
 
@@ -580,7 +592,7 @@ msgstr ""
 msgid "Item information unavailable"
 msgstr ""
 
-#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:159 src/pages/Settings.tsx:231
+#: src/pages/Settings.tsx:27 src/pages/Settings.tsx:214 src/pages/Settings.tsx:309
 msgid "Item names"
 msgstr ""
 
@@ -608,7 +620,7 @@ msgstr ""
 msgid "Launchers"
 msgstr ""
 
-#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:213
+#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:291
 msgid "Light"
 msgstr ""
 
@@ -616,7 +628,7 @@ msgstr ""
 msgid "Loaded charges"
 msgstr ""
 
-#: src/pages/Home.tsx:79
+#: src/pages/Home.tsx:81
 msgid "Loading fits…"
 msgstr ""
 
@@ -668,6 +680,10 @@ msgstr ""
 msgid "Max velocity"
 msgstr ""
 
+#: src/pages/Settings.tsx:277
+msgid "Merge (keep existing)"
+msgstr ""
+
 #: src/pages/shared.tsx:11
 msgid "Mid slots"
 msgstr ""
@@ -696,7 +712,7 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: src/pages/Home.tsx:70
+#: src/pages/Home.tsx:72
 msgid "New"
 msgstr ""
 
@@ -704,7 +720,7 @@ msgstr ""
 msgid "New fit"
 msgstr ""
 
-#: src/pages/Settings.tsx:163
+#: src/pages/Settings.tsx:218
 msgid "New fit defaults"
 msgstr ""
 
@@ -728,11 +744,11 @@ msgstr ""
 msgid "No empty slot"
 msgstr ""
 
-#: src/pages/Home.tsx:102
+#: src/pages/Home.tsx:104
 msgid "No fits yet"
 msgstr ""
 
-#: src/pages/Home.tsx:102
+#: src/pages/Home.tsx:104
 msgid "No matching fits"
 msgstr ""
 
@@ -780,7 +796,7 @@ msgstr ""
 msgid "Other factions"
 msgstr ""
 
-#: src/pages/Home.tsx:59
+#: src/pages/Home.tsx:61
 msgid "Other ships"
 msgstr ""
 
@@ -816,7 +832,7 @@ msgstr ""
 msgid "Paste from clipboard"
 msgstr ""
 
-#: src/pages/Home.tsx:76
+#: src/pages/Home.tsx:78
 msgid "Paste to import"
 msgstr ""
 
@@ -832,7 +848,7 @@ msgstr ""
 msgid "Powergrid"
 msgstr ""
 
-#: src/pages/Settings.tsx:184
+#: src/pages/Settings.tsx:239
 msgid "Price"
 msgstr ""
 
@@ -840,7 +856,7 @@ msgstr ""
 msgid "Recent modules"
 msgstr ""
 
-#: src/pages/Home.tsx:80
+#: src/pages/Home.tsx:82
 msgid "Recently opened"
 msgstr ""
 
@@ -896,6 +912,10 @@ msgstr ""
 msgid "Replace with a variation"
 msgstr ""
 
+#: src/pages/Settings.tsx:275
+msgid "Replace {n} fits"
+msgstr ""
+
 #: src/pages/ItemInfo.tsx:56
 msgid "Requirements"
 msgstr ""
@@ -904,11 +924,15 @@ msgstr ""
 msgid "Resources and prices"
 msgstr ""
 
-#: src/pages/Settings.tsx:195
+#: src/pages/Settings.tsx:199
+msgid "Restore failed. Your existing fits were not changed."
+msgstr ""
+
+#: src/pages/Settings.tsx:31 src/pages/Settings.tsx:250
 msgid "Restore from backup"
 msgstr ""
 
-#: src/App.tsx:91 src/pages/fitSession.tsx:167
+#: src/App.tsx:59 src/pages/fitSession.tsx:167
 msgid "Retry"
 msgstr ""
 
@@ -932,7 +956,7 @@ msgstr ""
 msgid "Scan resolution"
 msgstr ""
 
-#: src/pages/Home.tsx:74
+#: src/pages/Home.tsx:76
 msgid "Search fits or ships"
 msgstr ""
 
@@ -964,7 +988,7 @@ msgstr ""
 msgid "Set {n} modules individually"
 msgstr ""
 
-#: src/pages/Home.tsx:68 src/pages/Settings.tsx:28 src/pages/Settings.tsx:148
+#: src/pages/Home.tsx:70 src/pages/Settings.tsx:33 src/pages/Settings.tsx:203
 msgid "Settings"
 msgstr ""
 
@@ -1004,7 +1028,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: src/pages/Settings.tsx:186
+#: src/pages/Settings.tsx:241
 msgid "Source"
 msgstr ""
 
@@ -1028,7 +1052,7 @@ msgstr ""
 msgid "Storyline"
 msgstr ""
 
-#: src/pages/Settings.tsx:179
+#: src/pages/Settings.tsx:234
 msgid "Strict skill requirements"
 msgstr ""
 
@@ -1076,7 +1100,23 @@ msgstr ""
 msgid "Technology level"
 msgstr ""
 
-#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:156 src/pages/Settings.tsx:209
+#: src/pages/Settings.tsx:169
+msgid "The file contains no fits."
+msgstr ""
+
+#: src/pages/Settings.tsx:178
+msgid "The file could not be read."
+msgstr ""
+
+#: src/pages/Settings.tsx:168
+msgid "The file is not a list of fits."
+msgstr ""
+
+#: src/pages/Settings.tsx:167
+msgid "The file is not valid JSON."
+msgstr ""
+
+#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:211 src/pages/Settings.tsx:287
 msgid "Theme"
 msgstr ""
 
@@ -1084,15 +1124,19 @@ msgstr ""
 msgid "Thermal"
 msgstr ""
 
-#: src/pages/About.tsx:24
+#: src/pages/About.tsx:24 src/pages/Settings.tsx:258
 msgid "This application is not affiliated with, endorsed by, or associated with CCP hf."
+msgstr ""
+
+#: src/pages/Settings.tsx:271
+msgid "This will replace {n} fits with the {m} fits in the file."
 msgstr ""
 
 #: src/ui/StatsPage.tsx:97
 msgid "Total DPS"
 msgstr ""
 
-#: src/pages/Settings.tsx:27 src/pages/Settings.tsx:187 src/pages/Settings.tsx:248
+#: src/pages/Settings.tsx:30 src/pages/Settings.tsx:242 src/pages/Settings.tsx:326
 msgid "Total price includes"
 msgstr ""
 
@@ -1128,7 +1172,7 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
-#: src/pages/Settings.tsx:169
+#: src/pages/Settings.tsx:224
 msgid "Use character implants"
 msgstr ""
 
@@ -1148,7 +1192,7 @@ msgstr ""
 msgid "best"
 msgstr ""
 
-#: src/pages/Settings.tsx:186
+#: src/pages/Settings.tsx:241
 msgid "fuzzwork · Jita"
 msgstr ""
 
@@ -1184,11 +1228,11 @@ msgstr ""
 msgid "pyfa original source on GitHub"
 msgstr ""
 
-#: src/pages/Settings.tsx:203
+#: src/pages/Settings.tsx:262
 msgid "pyfa-phone"
 msgstr ""
 
-#: src/pages/About.tsx:12
+#: src/pages/About.tsx:12 src/pages/Settings.tsx:257
 msgid "pyfa-phone is an unofficial EVE Online fitting tool."
 msgstr ""
 
@@ -1204,7 +1248,7 @@ msgstr ""
 msgid "{name} peaks at {dps} DPS at {km} km"
 msgstr ""
 
-#: src/pages/Home.tsx:106
+#: src/pages/Home.tsx:109
 msgid "{n} fits"
 msgstr ""
 
@@ -1220,6 +1264,6 @@ msgstr ""
 msgid "{ship} has no drone bay"
 msgstr ""
 
-#: src/pages/Settings.tsx:85 src/pages/Settings.tsx:233
+#: src/pages/Settings.tsx:90 src/pages/Settings.tsx:311
 msgid "中文"
 msgstr ""

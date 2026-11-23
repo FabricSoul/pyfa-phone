@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { createContext, lazy, Suspense, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { MotionConfig } from 'motion/react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { createEngine, type EngineStage } from './engine/client'
@@ -23,27 +23,75 @@ import './pages/pages.css'
 const Gallery = import.meta.env.DEV ? lazy(() => import('./dev/Gallery')) : null
 const TokensPage = import.meta.env.DEV ? lazy(() => import('./dev/TokensPage')) : null
 
-export function FittingRoutes({ engine, store }: { engine: EngineClient; store: FitStore }) {
+export interface Startup { ready: boolean; stage: EngineStage; failed: boolean; retry(): void }
+const StartupContext = createContext<Startup | null>(null)
+
+/** An EngineClient whose calls wait for the engine, so pages that do not calculate never block on it. */
+export function deferredEngine(ready: Promise<EngineClient>): EngineClient {
+  void ready.catch(() => {})
+  return {
+    calc: (...a) => ready.then((e) => e.calc(...a)),
+    itemsForSlot: (...a) => ready.then((e) => e.itemsForSlot(...a)),
+    marketGroupsForSlot: (...a) => ready.then((e) => e.marketGroupsForSlot?.(...a) ?? []),
+    chargesFor: (...a) => ready.then((e) => e.chargesFor(...a)),
+    variationsOf: (...a) => ready.then((e) => e.variationsOf(...a)),
+    importText: (...a) => ready.then((e) => e.importText(...a)),
+    exportText: (...a) => ready.then((e) => e.exportText(...a)),
+    missingSkills: (...a) => ready.then((e) => e.missingSkills(...a)),
+    getDataVersion: () => ready.then((e) => e.getDataVersion?.() ?? ''),
+    itemInfo: (...a) => ready.then((e) => e.itemInfo?.(...a) ?? null),
+  }
+}
+
+/** Pages that calculate show startup progress until the engine is ready. */
+function NeedsEngine({ children }: { children: ReactNode }) {
+  const startup = useContext(StartupContext)
+  if (!startup || startup.ready) return <>{children}</>
+  return <EngineProgress startup={startup} />
+}
+
+/** Shown on every page: the pages that need the engine cannot work, the rest still can. */
+function EngineFailure() {
+  const startup = useContext(StartupContext)
+  if (!startup?.failed) return null
+  return <div className="engine-failure" role="alert">
+    <p>{_t('Could not start the fitting engine')}</p>
+    <button type="button" className="fit-button primary" onClick={startup.retry}>{_t('Retry')}</button>
+  </div>
+}
+
+function EngineProgress({ startup }: { startup: Startup }) {
+  return <main className="fit-app engine-startup">
+    <h1>{_t('Fittings')}</h1>
+    {!startup.failed && <>
+      <p role="status" id="engine-stage">{stageLabel(startup.stage)}</p>
+      <progress aria-labelledby="engine-stage" max={stages.length} value={stages.indexOf(startup.stage)} />
+    </>}
+  </main>
+}
+
+export function FittingRoutes({ engine, store, startup }: { engine: EngineClient; store: FitStore; startup?: Startup }) {
   useUiLanguage()
-  return <FitServices engine={engine} store={store}>
+  return <StartupContext.Provider value={startup ?? null}><FitServices engine={engine} store={store}>
     <ToastProvider>
     <div className="fit-app">
+      <EngineFailure />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/import" element={<Import />} />
+        <Route path="/import" element={<NeedsEngine><Import /></NeedsEngine>} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/fit/:id" element={<FitWorkspace />}>
+        <Route path="/fit/:id" element={<NeedsEngine><FitWorkspace /></NeedsEngine>}>
           <Route index element={<Fit />} />
           <Route path="add/:slot" element={<AddModule />} />
           <Route path="variations/:pos" element={<Variations />} />
         </Route>
-        <Route path="/item/:typeId" element={<ItemInfo />} />
+        <Route path="/item/:typeId" element={<NeedsEngine><ItemInfo /></NeedsEngine>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
     </ToastProvider>
-  </FitServices>
+  </FitServices></StartupContext.Provider>
 }
 
 const stages = ['runtime', 'data', 'initialize'] as const
@@ -61,13 +109,18 @@ function EngineApp() {
   const [stage, setStage] = useState<EngineStage>('runtime')
   const [error, setError] = useState(false)
   const [attempt, setAttempt] = useState(0)
+  const resolvers = useMemo(() => {
+    const r = {} as { resolve(e: EngineClient): void }
+    const promise = new Promise<EngineClient>((resolve) => { r.resolve = resolve })
+    return { promise, resolve: r.resolve, proxy: deferredEngine(promise) }
+  }, [])
 
   useEffect(() => {
     let current = true
     // StrictMode tears down the first effect before this timer can create a Worker.
     const timer = setTimeout(() => {
       void createEngine((stage) => { if (current) setStage(stage) }).then(
-        (client) => { if (current) setEngine(client) },
+        (client) => { resolvers.resolve(client); if (current) setEngine(client) },
         (error) => {
           if (!current) return
           console.error('Could not start fitting engine', error)
@@ -76,24 +129,13 @@ function EngineApp() {
       )
     }, 0)
     return () => { current = false; clearTimeout(timer) }
-  }, [attempt])
+  }, [attempt, resolvers])
 
-  if (engine) return <FittingRoutes engine={engine} store={defaultFitStore()} />
-
-  return <main className="fit-app engine-startup">
-    <h1>{_t('Fittings')}</h1>
-    {error ? <>
-      <p role="alert">{_t('Could not start the fitting engine')}</p>
-      <button type="button" className="fit-button primary" onClick={() => {
-        setStage('runtime')
-        setError(false)
-        setAttempt((attempt) => attempt + 1)
-      }}>{_t('Retry')}</button>
-    </> : <>
-      <p role="status" id="engine-stage">{stageLabel(stage)}</p>
-      <progress aria-labelledby="engine-stage" max={stages.length} value={stages.indexOf(stage)} />
-    </>}
-  </main>
+  const startup: Startup = {
+    ready: Boolean(engine), stage, failed: error,
+    retry() { setStage('runtime'); setError(false); setAttempt((n) => n + 1) },
+  }
+  return <FittingRoutes engine={resolvers.proxy} store={defaultFitStore()} startup={startup} />
 }
 
 export default function App() {

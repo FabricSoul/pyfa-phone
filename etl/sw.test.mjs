@@ -57,3 +57,59 @@ test('price API domains are not in precache list', () => {
   assert.ok(!precacheBlock.includes('fuzzwork.co.uk'), 'fuzzwork.co.uk must not be in precache list')
   assert.ok(!precacheBlock.includes('esi.evetech.net'), 'esi.evetech.net must not be in precache list')
 })
+
+// ── #11 install / activate safety ───────────────────────────────────────────
+import vm from 'node:vm'
+
+function runSw(source, { failing = [], existing = ['pyfa-old-1'] } = {}) {
+  const store = new Map(existing.map((n) => [n, new Map()]))
+  const listeners = {}
+  let skipped = false
+  const caches = {
+    async open(name) {
+      if (!store.has(name)) store.set(name, new Map())
+      const entries = store.get(name)
+      return {
+        async addAll(urls) {
+          for (const u of urls) entries.set(u, 'partial')
+          if (urls.some((u) => failing.includes(u))) throw new TypeError('network error')
+        },
+        async match() {}, async put() {},
+      }
+    },
+    async keys() { return [...store.keys()] },
+    async delete(name) { return store.delete(name) },
+  }
+  const self = {
+    addEventListener: (type, fn) => { listeners[type] = fn },
+    skipWaiting: async () => { skipped = true },
+    clients: { claim: async () => {} },
+  }
+  vm.runInNewContext(source, { self, caches, console: { warn() {} }, URL, location: { origin: 'http://x' }, fetch() {}, Response })
+  const dispatch = async (type) => {
+    let pending
+    listeners[type]({ waitUntil: (p) => { pending = p } })
+    await pending
+  }
+  return { store, dispatch, skipped: () => skipped }
+}
+
+test('a failed precache keeps the old cache and fails the install so the old worker stays', async () => {
+  const source = fs.readFileSync(path.resolve('public', 'sw.js'), 'utf8')
+  const sw = runSw(source, { failing: ['/manifest.webmanifest'] })
+  await assert.rejects(sw.dispatch('install'))
+  assert.ok(sw.store.has('pyfa-old-1'), 'old cache must survive')
+  assert.ok(![...sw.store.keys()].some((k) => k !== 'pyfa-old-1'), 'half-filled new cache is discarded')
+  assert.equal(sw.skipped(), false, 'must not skip waiting after a failed install')
+})
+
+test('old caches are deleted only after a fully successful install, at activate', async () => {
+  const source = fs.readFileSync(path.resolve('public', 'sw.js'), 'utf8')
+  const sw = runSw(source)
+  await sw.dispatch('install')
+  assert.ok(sw.store.has('pyfa-old-1'), 'install alone must not delete the old cache')
+  assert.equal(sw.skipped(), true)
+  await sw.dispatch('activate')
+  assert.ok(!sw.store.has('pyfa-old-1'))
+  assert.ok(sw.store.has('pyfa-dev-dev'))
+})

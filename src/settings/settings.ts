@@ -33,7 +33,8 @@ export const defaultSettings: Settings = {
   defaultCharacter: 'all5',
   defaultDamagePatternId: -1,
   useCharacterImplants: false,
-  considerReload: true,
+  // pyfa: vendor/pyfa/service/fit.py serviceFittingOptions["useGlobalForceReload"] defaults to False.
+  considerReload: false,
   considerReboot: false,
   strictSkills: true,
   preheatPercent: 100,

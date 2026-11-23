@@ -16,6 +16,8 @@ export interface FitStore {
   remove(id: string): Promise<void>
   touch(id: string, openedAt: number): Promise<void>
   rememberNames(id: string, names: Record<number, LName>): Promise<void>
+  /** Delete (replace mode) and write in ONE readwrite transaction: any failure keeps every old fit. */
+  restore(fits: FitDoc[], mode: 'replace' | 'merge'): Promise<void>
 }
 
 function withItemNames(record: StoredFit, names: Record<number, LName> = {}): StoredFit {
@@ -144,7 +146,43 @@ export function createFitStore(factory: IDBFactory, databaseName = 'pyfa-phone')
     async remove(id) { await transact('readwrite', (store) => store.delete(id)) },
     touch: (id, openedAt) => update(id, (record) => ({ ...record, openedAt })),
     rememberNames: (id, names) => update(id, (record) => withItemNames(record, names)),
+    async restore(fits, mode) {
+      const database = await open()
+      await new Promise<void>((resolve, reject) => {
+        const transaction = database.transaction(STORE, 'readwrite')
+        transaction.oncomplete = () => resolve()
+        transaction.onabort = () => reject(transaction.error ?? new Error('Restore aborted'))
+        try {
+          const store = transaction.objectStore(STORE)
+          if (mode === 'replace') store.clear()
+          for (const fit of fits) {
+            store.put(withItemNames({ id: newFitId(), fit, openedAt: null, itemNames: {} }))
+          }
+        } catch (error) {
+          try { transaction.abort() } catch { /* already finished */ }
+          reject(error)
+        }
+      })
+    },
   }
+}
+
+export type BackupProblem = 'json' | 'notArray' | 'empty' | 'invalid'
+export type ParsedBackup = { ok: true; fits: FitDoc[] } | { ok: false; problem: BackupProblem; index?: number }
+
+/** Validate a whole backup file; one bad entry rejects everything. */
+export function parseBackup(text: string): ParsedBackup {
+  let parsed: unknown
+  try { parsed = JSON.parse(text) } catch { return { ok: false, problem: 'json' } }
+  if (!Array.isArray(parsed)) return { ok: false, problem: 'notArray' }
+  if (parsed.length === 0) return { ok: false, problem: 'empty' }
+  const fits: FitDoc[] = []
+  for (const [index, entry] of parsed.entries()) {
+    const checked = FitDocSchema.safeParse(entry)
+    if (!checked.success) return { ok: false, problem: 'invalid', index }
+    fits.push(checked.data)
+  }
+  return { ok: true, fits }
 }
 
 export function fitTypeIds(fit: FitDoc): number[] {
@@ -204,8 +242,8 @@ export async function listFits(): Promise<FitDoc[]> {
   return (await defaultFitStore().list()).map(record => record.fit)
 }
 
-export async function replaceAllFits(fits: FitDoc[]): Promise<void> {
-  const store = defaultFitStore()
-  for (const record of await store.list()) await store.remove(record.id)
-  for (const fit of fits) await store.save({ id: newFitId(), fit, openedAt: null, itemNames: {} })
+export async function restoreFits(fits: FitDoc[], mode: 'replace' | 'merge'): Promise<void> {
+  await defaultFitStore().restore(fits, mode)
 }
+
+export const replaceAllFits = (fits: FitDoc[]) => restoreFits(fits, 'replace')

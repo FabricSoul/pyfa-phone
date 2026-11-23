@@ -9,13 +9,20 @@ const PRECACHE_URLS = [
   '/manifest.webmanifest',
 ]
 
+// 安装：先把新版本全部缓存好。任何一项失败就丢掉半成品并让安装失败，
+// 浏览器会继续用旧版本（旧缓存原样保留），下次访问再试。旧缓存只在 activate 里清理，
+// 而 activate 只会在安装成功之后发生。
 self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME)
-      await cache.addAll(PRECACHE_URLS).catch((err) => {
-        console.warn('[sw] Precache failed:', err)
-      })
+      try {
+        await cache.addAll(PRECACHE_URLS)
+      } catch (err) {
+        console.warn('[sw] Precache failed, keeping the previous version:', err)
+        await caches.delete(CACHE_NAME)
+        throw err
+      }
       await self.skipWaiting()
     })()
   )

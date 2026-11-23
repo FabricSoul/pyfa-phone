@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 22:10-0500\n"
+"POT-Creation-Date: 2026-11-22 22:34-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -17,11 +17,15 @@ msgid "%d attribute."
 msgid_plural "%d attributes."
 msgstr[0] "共%d个属性。"
 
+#: src/pages/Settings.tsx:170
+msgid "A fit in the file is invalid:"
+msgstr "文件中有无效的装配："
+
 #: src/ui/StatsPage.tsx:170
 msgid "AU/s"
 msgstr "AU/s"
 
-#: src/pages/About.tsx:8
+#: src/pages/About.tsx:8 src/pages/Home.tsx:105 src/pages/Settings.tsx:263
 msgid "About"
 msgstr "关于"
 
@@ -85,11 +89,11 @@ msgstr "装上后：{resources}"
 msgid "Align time"
 msgstr "起跳时间"
 
-#: src/pages/Settings.tsx:87 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All 0"
 msgstr "全 0"
 
-#: src/pages/Settings.tsx:87 src/ui/pickers/CharacterPicker.tsx:8
+#: src/pages/Settings.tsx:92 src/ui/pickers/CharacterPicker.tsx:8
 msgid "All V"
 msgstr "全 V"
 
@@ -117,7 +121,7 @@ msgstr "全部科技等级"
 msgid "Amarr"
 msgstr "艾玛"
 
-#: src/pages/Settings.tsx:154
+#: src/pages/Settings.tsx:209
 msgid "Appearance & language"
 msgstr "外观与语言"
 
@@ -143,15 +147,23 @@ msgstr "返回"
 msgid "Back to fittings"
 msgstr "返回装配列表"
 
+#: src/pages/Settings.tsx:282
+msgid "Backup JSON, copy it and save it"
+msgstr "备份 JSON，请复制并保存"
+
+#: src/pages/Settings.tsx:178 src/pages/Settings.tsx:183
+msgid "Backup rejected"
+msgstr "备份已拒绝"
+
+#: src/pages/Settings.tsx:197
+msgid "Backup restored: {n} fits"
+msgstr "备份已恢复：{n} 套装配"
+
 #: src/pages/ItemInfo.tsx:59
 msgid "Base → fitted"
 msgstr "基础值 → 装配值"
 
-#: src/pages/Settings.tsx:202
-msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
-msgstr "基于 pyfa（GPLv3）。EVE Online 相关名称和图像归 CCP hf. 所有。"
-
-#: src/pages/About.tsx:30
+#: src/pages/About.tsx:30 src/pages/Settings.tsx:260
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
@@ -171,7 +183,7 @@ msgstr "CPU"
 msgid "Calculating fit…"
 msgstr "正在计算装配…"
 
-#: src/pages/Settings.tsx:173
+#: src/pages/Settings.tsx:228
 msgid "Calculation"
 msgstr "计算"
 
@@ -183,7 +195,7 @@ msgstr "加达里"
 msgid "Calibration"
 msgstr "校准"
 
-#: src/pages/FitMenu.tsx:109 src/pages/FitMenu.tsx:116
+#: src/pages/FitMenu.tsx:109 src/pages/FitMenu.tsx:116 src/pages/Settings.tsx:278
 msgid "Cancel"
 msgstr "取消"
 
@@ -195,7 +207,7 @@ msgstr "电容"
 msgid "Capacity"
 msgstr "容量"
 
-#: src/pages/Fit.tsx:176 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:43 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:176 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:48 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr "货舱"
 
@@ -203,7 +215,7 @@ msgstr "货舱"
 msgid "Cargo bay"
 msgstr "货舱"
 
-#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:165 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Settings.tsx:28 src/pages/Settings.tsx:220 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr "角色"
 
@@ -223,11 +235,11 @@ msgstr "正在试装…"
 msgid "Compatible modules"
 msgstr "兼容装备"
 
-#: src/pages/Settings.tsx:177
+#: src/pages/Settings.tsx:232
 msgid "Consider reboot"
 msgstr "考虑重启计时"
 
-#: src/pages/Settings.tsx:175
+#: src/pages/Settings.tsx:230
 msgid "Consider reload"
 msgstr "考虑装填时间"
 
@@ -287,7 +299,7 @@ msgstr "无法加载装备"
 msgid "Could not load or replace variations"
 msgstr "无法加载或替换同系列型号"
 
-#: src/pages/Home.tsx:78 src/pages/ShipBrowser.tsx:93
+#: src/pages/Home.tsx:80 src/pages/ShipBrowser.tsx:93
 msgid "Could not load or save fits"
 msgstr "无法加载或保存装配"
 
@@ -307,7 +319,7 @@ msgstr "无法重新计算装配"
 msgid "Could not save fit"
 msgstr "无法保存装配"
 
-#: src/App.tsx:86
+#: src/App.tsx:58
 msgid "Could not start the fitting engine"
 msgstr "无法启动装配引擎"
 
@@ -335,15 +347,15 @@ msgstr "秒伤"
 msgid "Damage over distance"
 msgstr "伤害随距离"
 
-#: src/pages/Fit.tsx:191 src/pages/Settings.tsx:26 src/pages/Settings.tsx:167 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Fit.tsx:191 src/pages/Settings.tsx:29 src/pages/Settings.tsx:222 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr "伤害模式"
 
-#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:214
+#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:292
 msgid "Dark"
 msgstr "深色"
 
-#: src/pages/Settings.tsx:192
+#: src/pages/Settings.tsx:247
 msgid "Data"
 msgstr "数据"
 
@@ -359,7 +371,7 @@ msgstr "死亡空间"
 msgid "Decides skill levels · two built-in characters in the first version"
 msgstr "决定技能等级 · 首个版本提供两个内置角色"
 
-#: src/pages/Settings.tsx:181
+#: src/pages/Settings.tsx:236
 msgid "Default preheat"
 msgstr "默认预热"
 
@@ -391,11 +403,11 @@ msgstr "横轴为距离（km），纵轴为 DPS。目标静止，不计跟踪。
 msgid "Does not fit"
 msgstr "装不下"
 
-#: src/App.tsx:53
+#: src/App.tsx:101
 msgid "Downloading Python runtime…"
 msgstr "正在下载 Python 运行时…"
 
-#: src/App.tsx:54
+#: src/App.tsx:102
 msgid "Downloading game data…"
 msgstr "正在下载游戏数据…"
 
@@ -415,7 +427,7 @@ msgstr "无人机仓库"
 msgid "Drone control range"
 msgstr "无人机控制范围"
 
-#: src/pages/Fit.tsx:174 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:42
+#: src/pages/Fit.tsx:174 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:47
 msgid "Drones"
 msgstr "无人机"
 
@@ -439,7 +451,7 @@ msgstr ""
 msgid "EM"
 msgstr "电磁"
 
-#: src/pages/About.tsx:27
+#: src/pages/About.tsx:27 src/pages/Settings.tsx:259
 msgid "EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf."
 msgstr ""
 
@@ -451,7 +463,7 @@ msgstr "空槽"
 msgid "Explosive"
 msgstr "爆炸"
 
-#: src/pages/Settings.tsx:194
+#: src/pages/Settings.tsx:32 src/pages/Settings.tsx:249
 msgid "Export all fits backup"
 msgstr "导出全部装配备份"
 
@@ -507,11 +519,11 @@ msgstr "装配视图"
 msgid "Fitting"
 msgstr "装配"
 
-#: src/App.tsx:84 src/pages/Home.tsx:67
+#: src/App.tsx:65 src/pages/Home.tsx:69
 msgid "Fittings"
 msgstr "装配"
 
-#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:83 src/pages/Settings.tsx:212
+#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:88 src/pages/Settings.tsx:290
 msgid "Follow system"
 msgstr "跟随系统"
 
@@ -527,7 +539,7 @@ msgstr "GJ/s"
 msgid "Gallente"
 msgstr "盖伦特"
 
-#: src/pages/Settings.tsx:196
+#: src/pages/Settings.tsx:251
 msgid "Game data version"
 msgstr "游戏数据版本"
 
@@ -551,7 +563,7 @@ msgstr "结构"
 msgid "ISK"
 msgstr "ISK"
 
-#: src/pages/Fit.tsx:177 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:44
+#: src/pages/Fit.tsx:177 src/pages/FitExtras.tsx:21 src/pages/Settings.tsx:49
 msgid "Implants"
 msgstr "植入体"
 
@@ -563,11 +575,11 @@ msgstr "导入"
 msgid "Incoming damage pattern"
 msgstr "伤害分布"
 
-#: src/App.tsx:55
+#: src/App.tsx:103
 msgid "Initializing fitting engine…"
 msgstr "正在初始化装配引擎…"
 
-#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:157 src/pages/Settings.tsx:222
+#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:212 src/pages/Settings.tsx:300
 msgid "Interface language"
 msgstr "界面语言"
 
@@ -579,7 +591,7 @@ msgstr "物品信息"
 msgid "Item information unavailable"
 msgstr "物品信息不可用"
 
-#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:159 src/pages/Settings.tsx:231
+#: src/pages/Settings.tsx:27 src/pages/Settings.tsx:214 src/pages/Settings.tsx:309
 msgid "Item names"
 msgstr "物品名称"
 
@@ -607,7 +619,7 @@ msgstr "发射器"
 msgid "Launchers"
 msgstr "发射器"
 
-#: src/pages/Settings.tsx:81 src/pages/Settings.tsx:213
+#: src/pages/Settings.tsx:86 src/pages/Settings.tsx:291
 msgid "Light"
 msgstr "轻型"
 
@@ -615,7 +627,7 @@ msgstr "轻型"
 msgid "Loaded charges"
 msgstr "已装填弹药"
 
-#: src/pages/Home.tsx:79
+#: src/pages/Home.tsx:81
 msgid "Loading fits…"
 msgstr "正在加载装配列表…"
 
@@ -667,6 +679,10 @@ msgstr "最大锁定目标数"
 msgid "Max velocity"
 msgstr "最大速度"
 
+#: src/pages/Settings.tsx:277
+msgid "Merge (keep existing)"
+msgstr "合并（保留现有）"
+
 #: src/pages/shared.tsx:11
 msgid "Mid slots"
 msgstr "中槽"
@@ -695,7 +711,7 @@ msgstr "装备"
 msgid "More"
 msgstr "更多"
 
-#: src/pages/Home.tsx:70
+#: src/pages/Home.tsx:72
 msgid "New"
 msgstr "新建"
 
@@ -703,7 +719,7 @@ msgstr "新建"
 msgid "New fit"
 msgstr "新建装配"
 
-#: src/pages/Settings.tsx:163
+#: src/pages/Settings.tsx:218
 msgid "New fit defaults"
 msgstr "新装配默认"
 
@@ -727,11 +743,11 @@ msgstr "没有描述"
 msgid "No empty slot"
 msgstr "没有空槽"
 
-#: src/pages/Home.tsx:102
+#: src/pages/Home.tsx:104
 msgid "No fits yet"
 msgstr "暂无装配"
 
-#: src/pages/Home.tsx:102
+#: src/pages/Home.tsx:104
 msgid "No matching fits"
 msgstr "找不到匹配的装配"
 
@@ -779,7 +795,7 @@ msgstr "在线"
 msgid "Other factions"
 msgstr "其他阵营"
 
-#: src/pages/Home.tsx:59
+#: src/pages/Home.tsx:61
 msgid "Other ships"
 msgstr "其他舰船"
 
@@ -815,7 +831,7 @@ msgstr "在此粘贴装配文本"
 msgid "Paste from clipboard"
 msgstr "从剪贴板粘贴"
 
-#: src/pages/Home.tsx:76
+#: src/pages/Home.tsx:78
 msgid "Paste to import"
 msgstr "粘贴导入"
 
@@ -831,7 +847,7 @@ msgstr "PG"
 msgid "Powergrid"
 msgstr "能量栅格"
 
-#: src/pages/Settings.tsx:184
+#: src/pages/Settings.tsx:239
 msgid "Price"
 msgstr "价格"
 
@@ -839,7 +855,7 @@ msgstr "价格"
 msgid "Recent modules"
 msgstr "最近使用"
 
-#: src/pages/Home.tsx:80
+#: src/pages/Home.tsx:82
 msgid "Recently opened"
 msgstr "最近打开"
 
@@ -895,6 +911,10 @@ msgstr "重命名装配"
 msgid "Replace with a variation"
 msgstr "换成同系列其他型号"
 
+#: src/pages/Settings.tsx:275
+msgid "Replace {n} fits"
+msgstr "替换 {n} 套装配"
+
 #: src/pages/ItemInfo.tsx:56
 msgid "Requirements"
 msgstr "技能需求"
@@ -903,11 +923,15 @@ msgstr "技能需求"
 msgid "Resources and prices"
 msgstr "资源与价格"
 
-#: src/pages/Settings.tsx:195
+#: src/pages/Settings.tsx:199
+msgid "Restore failed. Your existing fits were not changed."
+msgstr "恢复失败，现有装配未被改动。"
+
+#: src/pages/Settings.tsx:31 src/pages/Settings.tsx:250
 msgid "Restore from backup"
 msgstr "从备份恢复"
 
-#: src/App.tsx:91 src/pages/fitSession.tsx:167
+#: src/App.tsx:59 src/pages/fitSession.tsx:167
 msgid "Retry"
 msgstr "重试"
 
@@ -931,7 +955,7 @@ msgstr "保存并打开"
 msgid "Scan resolution"
 msgstr "扫描分辨率"
 
-#: src/pages/Home.tsx:74
+#: src/pages/Home.tsx:76
 msgid "Search fits or ships"
 msgstr "搜索装配或船名"
 
@@ -963,7 +987,7 @@ msgstr "统一设置"
 msgid "Set {n} modules individually"
 msgstr "分别设置 {n} 门"
 
-#: src/pages/Home.tsx:68 src/pages/Settings.tsx:28 src/pages/Settings.tsx:148
+#: src/pages/Home.tsx:70 src/pages/Settings.tsx:33 src/pages/Settings.tsx:203
 msgid "Settings"
 msgstr "设置"
 
@@ -1003,7 +1027,7 @@ msgstr "槽位 {n}"
 msgid "Slots"
 msgstr "槽位"
 
-#: src/pages/Settings.tsx:186
+#: src/pages/Settings.tsx:241
 msgid "Source"
 msgstr "来源"
 
@@ -1027,7 +1051,7 @@ msgstr "状态"
 msgid "Storyline"
 msgstr "故事线"
 
-#: src/pages/Settings.tsx:179
+#: src/pages/Settings.tsx:234
 msgid "Strict skill requirements"
 msgstr "严格技能要求"
 
@@ -1075,7 +1099,23 @@ msgstr "二级"
 msgid "Technology level"
 msgstr "科技等级"
 
-#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:156 src/pages/Settings.tsx:209
+#: src/pages/Settings.tsx:169
+msgid "The file contains no fits."
+msgstr "文件里没有装配。"
+
+#: src/pages/Settings.tsx:178
+msgid "The file could not be read."
+msgstr "无法读取该文件。"
+
+#: src/pages/Settings.tsx:168
+msgid "The file is not a list of fits."
+msgstr "文件不是装配列表。"
+
+#: src/pages/Settings.tsx:167
+msgid "The file is not valid JSON."
+msgstr "文件不是有效的 JSON。"
+
+#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:211 src/pages/Settings.tsx:287
 msgid "Theme"
 msgstr "主题"
 
@@ -1083,15 +1123,19 @@ msgstr "主题"
 msgid "Thermal"
 msgstr "热能"
 
-#: src/pages/About.tsx:24
+#: src/pages/About.tsx:24 src/pages/Settings.tsx:258
 msgid "This application is not affiliated with, endorsed by, or associated with CCP hf."
 msgstr ""
+
+#: src/pages/Settings.tsx:271
+msgid "This will replace {n} fits with the {m} fits in the file."
+msgstr "将替换 {n} 套装配（文件中有 {m} 套）。"
 
 #: src/ui/StatsPage.tsx:97
 msgid "Total DPS"
 msgstr "总 DPS"
 
-#: src/pages/Settings.tsx:27 src/pages/Settings.tsx:187 src/pages/Settings.tsx:248
+#: src/pages/Settings.tsx:30 src/pages/Settings.tsx:242 src/pages/Settings.tsx:326
 msgid "Total price includes"
 msgstr "总价包含"
 
@@ -1127,7 +1171,7 @@ msgstr "正在更新价格…"
 msgid "Usage"
 msgstr "消耗"
 
-#: src/pages/Settings.tsx:169
+#: src/pages/Settings.tsx:224
 msgid "Use character implants"
 msgstr "使用角色植入体"
 
@@ -1147,7 +1191,7 @@ msgstr "曲速航速"
 msgid "best"
 msgstr "最高"
 
-#: src/pages/Settings.tsx:186
+#: src/pages/Settings.tsx:241
 msgid "fuzzwork · Jita"
 msgstr "fuzzwork · 吉他"
 
@@ -1183,11 +1227,11 @@ msgstr "m³"
 msgid "pyfa original source on GitHub"
 msgstr ""
 
-#: src/pages/Settings.tsx:203
+#: src/pages/Settings.tsx:262
 msgid "pyfa-phone"
 msgstr "pyfa-phone"
 
-#: src/pages/About.tsx:12
+#: src/pages/About.tsx:12 src/pages/Settings.tsx:257
 msgid "pyfa-phone is an unofficial EVE Online fitting tool."
 msgstr ""
 
@@ -1203,7 +1247,7 @@ msgstr "秒"
 msgid "{name} peaks at {dps} DPS at {km} km"
 msgstr "{name} 在 {km} km 处达到峰值 {dps} DPS"
 
-#: src/pages/Home.tsx:106
+#: src/pages/Home.tsx:109
 msgid "{n} fits"
 msgstr "{n} 套"
 
@@ -1219,12 +1263,15 @@ msgstr "剩 {n}"
 msgid "{ship} has no drone bay"
 msgstr "{ship}没有无人机舱"
 
-#: src/pages/Settings.tsx:85 src/pages/Settings.tsx:233
+#: src/pages/Settings.tsx:90 src/pages/Settings.tsx:311
 msgid "中文"
 msgstr "中文"
 
 #~ msgid "All groups"
 #~ msgstr "全部分组"
+
+#~ msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
+#~ msgstr "基于 pyfa（GPLv3）。EVE Online 相关名称和图像归 CCP hf. 所有。"
 
 #~ msgid "Cargo hold"
 #~ msgstr "货柜"

@@ -81,6 +81,23 @@ try {
     assert.equal(found.overflow, false, `${name}: horizontal overflow`)
   }
 
+  step = 'open settings and about, and see the fit list, before the engine is ready (#13)'
+  {
+    const early = await browser.newContext({ locale: 'zh-CN', serviceWorkers: 'block' })
+    // Hold the engine's first download so it cannot be ready.
+    await early.route('**/data/manifest.json', () => {})
+    const p = await early.newPage()
+    p.setDefaultTimeout(15000)
+    await p.goto(`${base}#/settings`)
+    await p.getByRole('heading', { level: 1, name: '设置' }).waitFor()
+    await p.getByRole('button', { name: '导出全部装配备份' }).waitFor()
+    await p.goto(`${base}#/about`)
+    await p.getByRole('heading', { level: 1, name: '关于' }).waitFor()
+    await p.goto(`${base}#/`)
+    await p.getByTestId('fit-row').first().waitFor()
+    await early.close()
+  }
+
   step = 'wait for the engine and Chinese UI'
   let documentLoads = 0
   page.on('request', (request) => {
@@ -103,11 +120,11 @@ try {
   await page.getByRole('button', { name: '仅查看，不保存', exact: true }).click()
   await page.getByText('未保存的装配预览', { exact: true }).waitFor()
   await page.getByRole('tab', { name: '属性', exact: true }).click()
-  const reloading = await readDps()
-  await page.getByRole('button', { name: '考虑换弹时间', exact: true }).click()
-  await waitForChangedDps(reloading)
   const withoutReload = await readDps()
-  assert.ok(withoutReload > reloading, 'Projectile DPS should increase when reload time is excluded')
+  await page.getByRole('button', { name: '考虑换弹时间', exact: true }).click()
+  await waitForChangedDps(withoutReload)
+  const reloading = await readDps()
+  assert.ok(withoutReload > reloading, 'Projectile DPS should drop when reload time is considered (pyfa default: off)')
   await page.getByRole('button', { name: '返回', exact: true }).click()
   await page.getByTestId('fit-row').first().waitFor()
   assert.equal(await fitRow(fitName).count(), 0)

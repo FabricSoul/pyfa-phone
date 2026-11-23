@@ -6,15 +6,18 @@ import {
   type Appearance, type CharacterId, type ItemNameLanguage, type PriceItem,
 } from '../settings/settings'
 import { applyAppearance } from '../settings/appearance'
-import { listFits, replaceAllFits } from '../store/fits'
-import { ActionSheet } from '../ui/ActionSheet'
+import { Link } from 'react-router-dom'
+import { listFits, parseBackup, restoreFits, type BackupProblem } from '../store/fits'
+import type { FitDoc } from '../engine/types'
+import { useToast } from '../ui/Toast'
+import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { Segmented } from '../ui/Segmented'
 import { PageHeading } from './shared'
 import { CharacterPicker } from '../ui/pickers/CharacterPicker'
 import { DamagePatternPicker } from '../ui/pickers/DamagePatternPicker'
 import { getPatternData, labelOf } from '../ui/pickers/patterns'
 
-type Sheet = 'theme' | 'uiLanguage' | 'itemName' | 'character' | 'damage' | 'priceIncluded' | null
+type Sheet = 'restore' | 'exportText' | 'theme' | 'uiLanguage' | 'itemName' | 'character' | 'damage' | 'priceIncluded' | null
 
 // 弹窗的可访问名称，和对应设置行的标签一致。
 function sheetTitle(sheet: Sheet): string {
@@ -25,6 +28,8 @@ function sheetTitle(sheet: Sheet): string {
     case 'character': return _t('Character')
     case 'damage': return _t('Damage pattern')
     case 'priceIncluded': return _t('Total price includes')
+    case 'restore': return _t('Restore from backup')
+    case 'exportText': return _t('Export all fits backup')
     default: return _t('Settings')
   }
 }
@@ -101,6 +106,9 @@ export default function Settings() {
   const [sheet, setSheet] = useState<Sheet>(null)
   const [dataVersion, setDataVersion] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
+  const toast = useToast()
+  const [pending, setPending] = useState<{ fits: FitDoc[]; existing: number }>()
+  const [exportJson, setExportJson] = useState('')
 
   useEffect(() => {
     let alive = true
@@ -126,22 +134,69 @@ export default function Settings() {
   }
 
   async function backup() {
-    const blob = new Blob([JSON.stringify(await listFits(), null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'pyfa-fits.json'
-    link.click()
-    URL.revokeObjectURL(url)
+    const json = JSON.stringify(await listFits(), null, 2)
+    const file = new File([json], 'pyfa-fits.json', { type: 'application/json' })
+    // 1. Web Share API with a file (the only reliable route on iOS Safari).
+    if (typeof navigator.share === 'function' && navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'pyfa-fits.json' })
+        return
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return // user cancelled
+      }
+    }
+    // 2. A download link.
+    if ('download' in HTMLAnchorElement.prototype) {
+      try {
+        const url = URL.createObjectURL(file)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = 'pyfa-fits.json'
+        link.click()
+        setTimeout(() => URL.revokeObjectURL(url), 1000)
+        return
+      } catch { /* fall through */ }
+    }
+    // 3. Copyable text.
+    setExportJson(json)
+    setSheet('exportText')
+  }
+
+  function problemText(problem: BackupProblem, index?: number): string {
+    switch (problem) {
+      case 'json': return _t('The file is not valid JSON.')
+      case 'notArray': return _t('The file is not a list of fits.')
+      case 'empty': return _t('The file contains no fits.')
+      default: return `${_t('A fit in the file is invalid:')} #${(index ?? 0) + 1}`
+    }
   }
 
   async function restore(file: File | undefined) {
     if (!file) return
+    let text: string
+    try { text = await file.text() } catch {
+      toast.show({ message: `${_t('Backup rejected')}: ${_t('The file could not be read.')}` })
+      return
+    }
+    const parsed = parseBackup(text)
+    if (!parsed.ok) {
+      toast.show({ message: `${_t('Backup rejected')}: ${problemText(parsed.problem, parsed.index)}` })
+      return
+    }
+    setPending({ fits: parsed.fits, existing: (await listFits()).length })
+    setSheet('restore')
+  }
+
+  async function confirmRestore(mode: 'replace' | 'merge') {
+    const fits = pending?.fits
+    setSheet(null)
+    setPending(undefined)
+    if (!fits) return
     try {
-      const parsed: unknown = JSON.parse(await file.text())
-      if (Array.isArray(parsed)) await replaceAllFits(parsed)
+      await restoreFits(fits, mode)
+      toast.show({ message: _t('Backup restored: {n} fits').replace('{n}', String(fits.length)) })
     } catch {
-      // A bad backup leaves the current fits untouched.
+      toast.show({ message: _t('Restore failed. Your existing fits were not changed.') })
     }
   }
 
@@ -196,14 +251,37 @@ export default function Settings() {
         <Row label={_t('Game data version')} name={_t('Game data version')} value={dataVersion || undefined} />
       </div>
       <input ref={fileRef} type="file" accept="application/json" hidden
-        onChange={(event) => void restore(event.target.files?.[0])} />
+        onChange={(event) => { void restore(event.target.files?.[0]); event.target.value = '' }} />
 
-      <p className="hint" style={{ paddingTop: 12 }}>
-        {_t('Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf.')}{' '}
-        <a href="https://github.com/FabricSoul/pyfa-phone">{_t('pyfa-phone')}</a>
-      </p>
+      <div className="hint" style={{ paddingTop: 12 }}>
+        <p>{_t('pyfa-phone is an unofficial EVE Online fitting tool.')}</p>
+        <p>{_t('This application is not affiliated with, endorsed by, or associated with CCP hf.')}</p>
+        <p>{_t('EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf.')}</p>
+        <p>{_t('Based on pyfa under the GPLv3 license. Non-commercial fan project.')}</p>
+        <p>
+          <a href="https://github.com/FabricSoul/pyfa-phone">{_t('pyfa-phone')}</a>{' · '}
+          <Link to="/about">{_t('About')}</Link>
+        </p>
+      </div>
 
       <ActionSheet open={sheet !== null} title={sheetTitle(sheet)} onClose={() => setSheet(null)}>
+        {sheet === 'restore' && pending && (
+          <>
+            <div className="row" style={{ paddingTop: 0 }}><div className="mn">
+              <span>{_t('This will replace {n} fits with the {m} fits in the file.')
+                .replace('{n}', String(pending.existing)).replace('{m}', String(pending.fits.length))}</span>
+            </div></div>
+            <SheetAction onClick={() => void confirmRestore('replace')}>
+              {_t('Replace {n} fits').replace('{n}', String(pending.existing))}
+            </SheetAction>
+            <SheetAction onClick={() => void confirmRestore('merge')}>{_t('Merge (keep existing)')}</SheetAction>
+            <SheetAction onClick={() => { setSheet(null); setPending(undefined) }}>{_t('Cancel')}</SheetAction>
+          </>
+        )}
+        {sheet === 'exportText' && (
+          <textarea className="fit-input" readOnly rows={10} value={exportJson} aria-label={_t('Backup JSON, copy it and save it')}
+            onFocus={(event) => event.currentTarget.select()} style={{ width: '100%', fontSize: 16 }} />
+        )}
         {sheet === 'theme' && (
           <>
             <div className="row" style={{ paddingTop: 0 }}><div className="mn"><span>{_t('Theme')}</span></div></div>

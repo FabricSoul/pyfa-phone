@@ -45,8 +45,8 @@ it('recalculates with the selected target, incoming damage and reload option', a
   await waitFor(() => expect(calc.mock.lastCall?.[0].damagePatternId).toBe(-2))
 
   const reload = screen.getByRole('button', { name: 'Factor in Reload Time' })
-  expect(reload.getAttribute('aria-pressed')).toBe('true')
-  fireEvent.click(reload)
-  await waitFor(() => expect(calc.mock.lastCall?.[1]).toEqual({ includeReload: false }))
   expect(reload.getAttribute('aria-pressed')).toBe('false')
+  fireEvent.click(reload)
+  await waitFor(() => expect(calc.mock.lastCall?.[1]).toEqual({ includeReload: true }))
+  expect(reload.getAttribute('aria-pressed')).toBe('true')
 })

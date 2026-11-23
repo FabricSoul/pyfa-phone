@@ -35,6 +35,8 @@ function FitLibrary() {
   useEffect(() => {
     let current = true
     void store.list().then(async (records) => {
+      // The list does not need the engine: show it now, fill in the numbers as the engine answers.
+      if (current) setEntries(records.map((record) => ({ record })))
       const rows = await Promise.all(records.map(async (record): Promise<Entry> => {
         try {
           return { record, result: await engine.calc(record.fit, { includeReload: considerReload }) }
@@ -100,6 +102,7 @@ function FitLibrary() {
       </div>
     </FitSection>)}
     {entries && !groups.size && <p className="page-message">{needle ? _t('No matching fits') : _t('No fits yet')}</p>}
+    <footer className="hint"><Link to="/about">{_t('About')}</Link></footer>
   </main>
 }
 

@@ -1,7 +1,7 @@
 import { IDBFactory } from 'fake-indexeddb'
 import { describe, expect, it } from 'vitest'
 import { sampleFits } from '../engine/mockClient'
-import { createFitStore, resolveStoredItems } from './fits'
+import { createFitStore, parseBackup, resolveStoredItems } from './fits'
 
 describe('stored fits', () => {
   it('seeds once and preserves saved content across connections', async () => {
@@ -38,5 +38,44 @@ describe('stored fits', () => {
     expect(resolved.removed).toEqual([{ typeId: 987, name: { en: 'Retired charge', zh: '旧弹药' } }])
     expect(record.fit.cargo).toEqual([{ typeId: 987, amount: 4 }])
     expect(record.fit.dataVersion).toBe(fit.dataVersion)
+  })
+})
+
+describe('backup restore', () => {
+  const valid = () => structuredClone(sampleFits.rifter)
+
+  it('rejects empty arrays, null entries, empty objects and non-arrays as a whole', () => {
+    for (const text of ['[]', '[null]', '[{}]', JSON.stringify([valid(), null]), JSON.stringify([valid(), {}]), '{"a":1}', 'not json']) {
+      expect(parseBackup(text).ok, text).toBe(false)
+    }
+  })
+
+  it('accepts a valid file', () => {
+    const parsed = parseBackup(JSON.stringify([valid(), valid()]))
+    expect(parsed.ok && parsed.fits).toHaveLength(2)
+  })
+
+  it('replaces every stored fit in one transaction', async () => {
+    const store = createFitStore(new IDBFactory())
+    expect((await store.list()).length).toBeGreaterThan(0)
+    await store.restore([{ ...valid(), name: 'Restored' }], 'replace')
+    expect((await store.list()).map((r) => r.fit.name)).toEqual(['Restored'])
+  })
+
+  it('merge keeps the existing fits and adds the new ones', async () => {
+    const store = createFitStore(new IDBFactory())
+    const before = (await store.list()).length
+    await store.restore([{ ...valid(), name: 'Added' }], 'merge')
+    const names = (await store.list()).map((r) => r.fit.name)
+    expect(names).toHaveLength(before + 1)
+    expect(names).toContain('Added')
+  })
+
+  it('leaves the old fits intact when a write fails halfway', async () => {
+    const store = createFitStore(new IDBFactory())
+    const before = (await store.list()).map((r) => r.id).sort()
+    const bad = { ...valid(), name: (() => 1) as unknown as string }
+    await expect(store.restore([valid(), bad], 'replace')).rejects.toBeTruthy()
+    expect((await store.list()).map((r) => r.id).sort()).toEqual(before)
   })
 })
