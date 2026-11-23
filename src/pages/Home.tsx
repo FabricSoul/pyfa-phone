@@ -6,7 +6,7 @@ import { useSettings } from '../settings/settings'
 import { _t } from '../i18n/t'
 import type { StoredFit } from '../store/fits'
 import { FitRow } from '../ui/FitRow'
-import { Appear } from '../ui/motion'
+import { Appear, Page } from '../ui/motion'
 import { ResumeCard } from '../ui/ResumeCard'
 import { SkeletonList } from '../ui/Skeleton'
 import { InstallCard } from '../ui/InstallCard'
@@ -25,7 +25,7 @@ interface Entry {
 
 export function Home() {
   const [params] = useSearchParams()
-  return params.has('new') ? <ShipBrowser /> : <FitLibrary />
+  return params.has('new') ? <Page key="new"><ShipBrowser /></Page> : <Page key="library"><FitLibrary /></Page>
 }
 
 function FitLibrary() {

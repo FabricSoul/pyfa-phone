@@ -1,6 +1,7 @@
 import './ui.css'
 import { _t, useUiLanguage } from '../i18n/t'
 import { fmt } from './format'
+import { RollingNumber } from './motion'
 
 const CELLS = 20
 
@@ -22,7 +23,7 @@ export function ResourceGauge({ label, used, total, tall }: { label: string; use
     <div className={`gauge${tall ? ' tall' : ''}`} data-testid="gauge" data-over={over}>
       <div className="gl">
         <span>{label}{over && <b className="warn">{_t('Over')} {fmt(used - total)}</b>}</span>
-        <span className={`num${over ? ' warn' : ratio >= 0.95 ? ' strong' : ''}`}>{fmt(used)}/{fmt(total)}</span>
+        <RollingNumber className={`num${over ? ' warn' : ratio >= 0.95 ? ' strong' : ''}`} value={used} format={(n) => `${fmt(n)}/${fmt(total)}`} />
       </div>
       <div className="cells" aria-hidden="true">
         {Array.from({ length: CELLS }, (_, i) => <i key={i} className={i < filled ? (over ? 'over' : 'on') : ''} />)}

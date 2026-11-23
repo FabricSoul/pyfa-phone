@@ -1,3 +1,4 @@
+import { Expand } from './motion'
 import './ui.css'
 import { useState, type ReactNode } from 'react'
 import type { ItemGroup, ItemRow, MetaGroup } from '../engine/types'
@@ -78,7 +79,7 @@ export function MetaGroupList<T extends ItemRow>({
                 {!expanded && g.best != null && <> · {_t('best')} {fmt(g.best)}{valueUnit ? ` ${valueUnit}` : ''}</>}
               </em>
             </button>
-            {expanded && (
+            <Expand open={expanded}>
               <div className="list">
                 {renderGroup ? renderGroup(g) : g.items.map((it) => {
                   const current = it.typeId === currentTypeId
@@ -91,7 +92,7 @@ export function MetaGroupList<T extends ItemRow>({
                   )
                 })}
               </div>
-            )}
+            </Expand>
           </div>
         )
       })}

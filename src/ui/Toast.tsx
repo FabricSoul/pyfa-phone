@@ -1,6 +1,8 @@
 import './ui.css'
+import { AnimatePresence, motion } from 'motion/react'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { _t } from '../i18n/t'
+import { motionSpec } from './motion'
 
 export const TOAST_MS = 5000
 interface ToastSpec { message: string; actionLabel?: string; onAction?: () => void }
@@ -24,14 +26,24 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return <ToastContext.Provider value={api}>
     {children}
     <div className="toast-host" role="status" aria-live="polite" aria-atomic="true">
-      {toast && <div className="toast" key={toast.id}>
-        <span className="toast-text">{toast.message}</span>
-        {toast.actionLabel && <button type="button" className="toast-action" onClick={() => { toast.onAction?.(); dismiss() }}>
-          {toast.actionLabel}
-        </button>}
-      </div>}
+      <AnimatePresence>
+        {toast && <ToastBubble key={toast.id} toast={toast} dismiss={dismiss} />}
+      </AnimatePresence>
     </div>
   </ToastContext.Provider>
+}
+
+/** Slides up 12 px while fading in (180 ms) and fades out in 120 ms; reduced motion only fades. */
+function ToastBubble({ toast, dismiss }: { toast: ToastSpec; dismiss(): void }) {
+  const { standard, fast, ease, reduce } = motionSpec()
+  const offset = reduce ? 0 : 12
+  return <motion.div className="toast" initial={{ opacity: 0, y: offset }} animate={{ opacity: 1, y: 0, transition: { duration: standard, ease } }}
+    exit={{ opacity: 0, transition: { duration: fast, ease } }}>
+    <span className="toast-text">{toast.message}</span>
+    {toast.actionLabel && <button type="button" className="toast-action" onClick={() => { toast.onAction?.(); dismiss() }}>
+      {toast.actionLabel}
+    </button>}
+  </motion.div>
 }
 
 /** Standard "Removed X · Undo" toast text. */

@@ -8,6 +8,7 @@ import { Pill } from './Pill'
 import { PriceValue } from './PriceValue'
 import { ResourceGauge } from './ResourceGauge'
 import { fmt } from './format'
+import { Expand, RollingNumber } from './motion'
 
 export interface PriceLine { label: string; value: number | null }
 export interface Prices { ship?: number | null; fit?: number | null; pending?: boolean; /** Per-item breakdown, shown under the totals. */ lines?: PriceLine[] }
@@ -40,7 +41,7 @@ function Panel({ title, note, empty, open, onToggle, children }: {
       <button type="button" className="ph" aria-expanded={open} onClick={onToggle}>
         <span className="cv"><Icon name="chevron-down" size={14} /></span>{title}{(empty || note) && <em className="num">{empty ? _t('None') : note}</em>}
       </button>
-      {open && <div className="pb">{children}</div>}
+      <Expand open={open}><div className="pb">{children}</div></Expand>
     </section>
   )
 }
@@ -94,9 +95,9 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
           <Pill on={reload} onClick={settings?.onReloadChange && (() => settings.onReloadChange?.(!reload))}>{_t('Factor in Reload Time')}</Pill>
         </div>
         <div className="hero">
-          <div><small>{_t('Total DPS')}</small><b className="num">{fmt(stats.firepower.dps)}</b></div>
-          <div><small>{_t('Volley')}</small><b className="num">{fmt(stats.firepower.volley)}</b></div>
-          <div><small>{_t('Drone DPS')}</small><b className="num">{fmt(stats.firepower.droneDps)}</b></div>
+          <div><small>{_t('Total DPS')}</small><b className="num"><RollingNumber value={stats.firepower.dps} format={(n) => fmt(n)} /></b></div>
+          <div><small>{_t('Volley')}</small><b className="num"><RollingNumber value={stats.firepower.volley} format={(n) => fmt(n)} /></b></div>
+          <div><small>{_t('Drone DPS')}</small><b className="num"><RollingNumber value={stats.firepower.droneDps} format={(n) => fmt(n)} /></b></div>
         </div>
       </Panel>
 
@@ -120,7 +121,7 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
                   <i style={{ width: `${l.resists[k] * 100}%`, background: `var(${v})` }} /><span>{fmt(l.resists[k] * 100, 0)}%</span>
                 </span>
               ))}
-              <b>{fmt(effective ? l.ehp : l.hp, 0)}</b></div>
+              <b><RollingNumber value={effective ? l.ehp : l.hp} format={(n) => fmt(n, 0)} /></b></div>
           ))}
         </div>
       </Panel>

@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { readFileSync } from 'node:fs'
@@ -117,5 +117,16 @@ describe('ModuleRow', () => {
     expect(rule('.sb')).toMatch(/min-width:\s*44px/)
     expect(rule('.sb')).toMatch(/min-height:\s*44px/)
     expect(rule('.sb .sbi')).toMatch(/width:\s*32px/)
+  })
+})
+
+describe('ModuleRow state key motion', () => {
+  const stateIcon = () => screen.getByTestId('state-button').querySelector('.sbi') as HTMLElement
+  it('does not bounce on first render, bounces once when the state changes, and recolours by CSS', async () => {
+    const { rerender } = render(<ModuleRow row={{ ...merged, state: 'active' }} availableStates={ALL} />)
+    expect(stateIcon().style.transform).not.toMatch(/scale/)
+    rerender(<ModuleRow row={{ ...merged, state: 'overheated' }} availableStates={ALL} />)
+    await waitFor(() => expect(stateIcon().style.transform).toMatch(/scale/))
+    expect(readFileSync(resolve(process.cwd(), 'src/ui/ui.css'), 'utf8')).toMatch(/\.sb \.sbi\s*\{[^}]*transition:\s*background-color/)
   })
 })

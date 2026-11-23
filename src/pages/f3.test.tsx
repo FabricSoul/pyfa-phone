@@ -106,7 +106,7 @@ describe('C4 removing is undoable', () => {
     await waitFor(() => expect(screen.getAllByTestId('module-row').length).toBeLessThan(before))
     fireEvent.click(within(toast).getByRole('button', { name: 'Undo' }))
     await waitFor(() => expect(screen.getAllByTestId('module-row').length).toBe(before))
-    expect(screen.queryByText(/Removed /)).toBeNull()
+    await waitFor(() => expect(screen.queryByText(/Removed /)).toBeNull())
   })
   it('keeps the warning colour on the sheet action and removes the toast after 5 s', async () => {
     const sheet = await openSheet()
@@ -117,7 +117,7 @@ describe('C4 removing is undoable', () => {
     await act(async () => { await vi.advanceTimersByTimeAsync(4900) })
     expect(screen.queryByText(/Removed /)).toBeTruthy()
     await act(async () => { await vi.advanceTimersByTimeAsync(300) })
-    expect(screen.queryByText(/Removed /)).toBeNull()
+    await waitFor(() => expect(screen.queryByText(/Removed /)).toBeNull())
   })
 })
 

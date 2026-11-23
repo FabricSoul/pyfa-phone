@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { ItemGroup, ItemRow } from '../engine/types'
 import { MetaGroupList } from './MetaGroupList'
@@ -46,7 +46,7 @@ describe('MetaGroupList', () => {
     expect(screen.queryByText('EMP S')).toBeNull()
   })
 
-  it('re-initialises when the current item changes, keeps manual toggles otherwise', () => {
+  it('re-initialises when the current item changes, keeps manual toggles otherwise', async () => {
     const { rerender } = render(<MetaGroupList groups={groups} currentTypeId={1} />)
     fireEvent.click(screen.getByRole('button', { name: /Tech I\b(?!I)/ })) // user opens Tech I
     rerender(<MetaGroupList groups={[...groups]} currentTypeId={1} />) // same object, new array identity
@@ -54,8 +54,9 @@ describe('MetaGroupList', () => {
     expect(screen.getByText('Hail S')).toBeTruthy()
     rerender(<MetaGroupList groups={groups} currentTypeId={4} />) // current moved to Faction
     expect(screen.getByText('Republic EMP S')).toBeTruthy()
-    expect(screen.queryByText('Hail S')).toBeNull()
-    expect(screen.queryByText('EMP S')).toBeNull()
+    // The groups that close leave after their 120 ms height animation.
+    await waitFor(() => expect(screen.queryByText('Hail S')).toBeNull())
+    await waitFor(() => expect(screen.queryByText('EMP S')).toBeNull())
   })
 
   it('supports controlled expanded and onToggleExpanded', () => {

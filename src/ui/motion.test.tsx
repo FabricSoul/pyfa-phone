@@ -1,6 +1,8 @@
-import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Appear, RollingNumber, delayFor, motionSpec } from './motion'
+import { AnimatePresence } from 'motion/react'
+import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
+import { Appear, Expand, ExpandItem, Page, RollingNumber, delayFor, motionSpec, sheetMotion } from './motion'
 
 afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 
@@ -71,5 +73,90 @@ describe('Appear', () => {
     const { container } = render(<>{[0, 8].map((i) => <Appear key={i} index={i}><b>row {i}</b></Appear>)}</>)
     expect((container.children[0] as HTMLElement).style.opacity).toBe('0')
     expect((container.children[1] as HTMLElement).style.opacity).not.toBe('0')
+  })
+})
+
+describe('Expand (rows and panels open and close by height)', () => {
+  it('shows nothing while closed and does not animate a body that is open on first render', () => {
+    reduced(false)
+    const closed = render(<Expand open={false}><p>body</p></Expand>)
+    expect(screen.queryByText('body')).toBeNull()
+    closed.unmount()
+    render(<Expand open><p>body</p></Expand>)
+    expect((screen.getByText('body').parentElement as HTMLElement).style.height).not.toBe('0px')
+  })
+  it('opens from zero height and keeps the body until the 120 ms close has finished', async () => {
+    reduced(false)
+    const { rerender } = render(<Expand open={false}><p>body</p></Expand>)
+    rerender(<Expand open><p>body</p></Expand>)
+    const wrapper = screen.getByText('body').parentElement as HTMLElement
+    expect(wrapper.style.height).toBe('0px')
+    expect(wrapper.style.overflow).toBe('hidden')
+    rerender(<Expand open={false}><p>body</p></Expand>)
+    expect(screen.queryByText('body')).toBeTruthy()
+    await waitFor(() => expect(screen.queryByText('body')).toBeNull(), { timeout: 2000 })
+  })
+  it('only fades, without changing height, under reduced motion', () => {
+    reduced(true)
+    const { rerender } = render(<Expand open={false}><p>body</p></Expand>)
+    rerender(<Expand open><p>body</p></Expand>)
+    const wrapper = screen.getByText('body').parentElement as HTMLElement
+    expect(wrapper.style.height).not.toBe('0px')
+    expect(wrapper.style.opacity).toBe('0')
+  })
+  it('a row added to a list grows in, and a row taken out collapses before it leaves', async () => {
+    reduced(false)
+    const list = (rows: string[]) => <AnimatePresence initial={false}>{rows.map((row) => <ExpandItem key={row}><span>{row}</span></ExpandItem>)}</AnimatePresence>
+    const { rerender } = render(list(['a']))
+    expect((screen.getByText('a').parentElement as HTMLElement).style.height).not.toBe('0px')
+    rerender(list(['a', 'b']))
+    expect((screen.getByText('b').parentElement as HTMLElement).style.height).toBe('0px')
+    rerender(list(['a']))
+    expect(screen.queryByText('b')).toBeTruthy()
+    await waitFor(() => expect(screen.queryByText('b')).toBeNull(), { timeout: 2000 })
+  })
+})
+
+describe('Page (route enter and return)', () => {
+  function Pages() {
+    const navigate = useNavigate()
+    return <Routes>
+      <Route path="/" element={<Page><button onClick={() => navigate('/next')}>go</button></Page>} />
+      <Route path="/next" element={<Page><button onClick={() => navigate(-1)}>back</button></Page>} />
+    </Routes>
+  }
+  it('does not animate the first page, slides the next one in from the right over 180 ms, and returns the other way', async () => {
+    reduced(false)
+    render(<MemoryRouter><Pages /></MemoryRouter>)
+    expect(screen.getByTestId('page').getAttribute('data-motion')).toBe('none')
+    fireEvent.click(screen.getByText('go'))
+    const next = screen.getByTestId('page')
+    expect(next.getAttribute('data-motion')).toBe('push')
+    expect(next.style.opacity).toBe('0')
+    expect(next.style.transform).toBe('translateX(24px)')
+    await waitFor(() => expect(next.style.opacity).toBe('1'), { timeout: 2000 })
+    fireEvent.click(screen.getByText('back'))
+    const back = screen.getByTestId('page')
+    expect(back.getAttribute('data-motion')).toBe('back')
+    expect(back.style.transform).toBe('translateX(-24px)')
+  })
+  it('only fades under reduced motion', () => {
+    reduced(true)
+    render(<MemoryRouter><Pages /></MemoryRouter>)
+    fireEvent.click(screen.getByText('go'))
+    const next = screen.getByTestId('page')
+    expect(next.style.opacity).toBe('0')
+    expect(next.style.transform).not.toMatch(/translate/)
+  })
+})
+
+describe('sheet motion', () => {
+  it('slides up with a slight overshoot over 270 ms and leaves in 180 ms; reduced motion only fades', () => {
+    reduced(false)
+    const motion = sheetMotion()
+    expect(motion.enter).toEqual({ y: ['110%', '-2%', '0%'], transition: expect.objectContaining({ duration: expect.closeTo(0.27, 5) }) })
+    expect(motion.exit).toEqual({ y: '110%', transition: expect.objectContaining({ duration: expect.closeTo(0.18, 5) }) })
+    reduced(true)
+    expect(sheetMotion().enter).toEqual({ opacity: 1, transition: expect.any(Object) })
   })
 })

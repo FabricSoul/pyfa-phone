@@ -1,17 +1,15 @@
 import './ui.css'
-import { AnimatePresence, motion, useDragControls, useReducedMotion } from 'motion/react'
+import { AnimatePresence, motion, useDragControls } from 'motion/react'
 import { useEffect, useId, useRef, type ReactNode } from 'react'
-import { motionTokens } from './format'
+import { motionSpec, sheetMotion } from './motion'
 import { Icon } from './icons'
 
 /** Bottom sheet: slides up with --dur/--ease, drag the handle down to dismiss, at most 90% of the screen.
  *  `title` is the dialog's accessible name; Escape closes; focus moves in on open and back to the trigger on close. */
 export function ActionSheet({ open, title, onClose, children }: { open: boolean; title: string; onClose: () => void; children: ReactNode }) {
-  const { duration, ease } = motionTokens()
-  // Reduced motion: no slide, only a short fade.
-  const reduce = useReducedMotion()
-  const from = reduce ? { opacity: 0 } : { y: '100%' }
-  const to = reduce ? { opacity: 1 } : { y: 0 }
+  const { standard, ease } = motionSpec()
+  // Up with a slight overshoot, down in 1.5 × fast; reduced motion: no slide, only a short fade (motion.html).
+  const sheet = sheetMotion()
   const titleId = useId()
   const controls = useDragControls()
   const panel = useRef<HTMLDivElement>(null)
@@ -37,10 +35,10 @@ export function ActionSheet({ open, title, onClose, children }: { open: boolean;
       {open && (
         <>
           <motion.div key="dim" className="dim" data-testid="sheet-dim" onClick={onClose}
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration, ease }} />
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: standard, ease }} />
           <motion.div key="sheet" ref={panel} className="sheet" role="dialog" aria-modal="true" aria-labelledby={titleId} tabIndex={-1}
             data-testid="sheet"
-            initial={from} animate={to} exit={from} transition={{ duration, ease }}
+            initial={sheet.from} animate={sheet.enter} exit={sheet.exit}
             drag="y" dragControls={controls} dragListener={false}
             dragConstraints={{ top: 0, bottom: 0 }} dragElastic={{ top: 0, bottom: 0.6 }}
             onDragEnd={(_, info) => { if (info.offset.y > 100 || info.velocity.y > 500) onClose() }}>

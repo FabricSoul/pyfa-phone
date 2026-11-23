@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import merlin from '../engine/fixtures/merlin.json'
 import rifter from '../engine/fixtures/rifter.json'
@@ -87,4 +87,19 @@ it('switches the defense summary and the repair units between EHP and HP', () =>
   fireEvent.click(screen.getByRole('button', { name: 'HP' }))
   expect(defense.textContent).toContain(`HP ${fmt(unstable.stats.defense.hp, 0)}`)
   expect(screen.getAllByText('HP/s').length).toBeGreaterThan(0)
+})
+
+describe('StatsPage motion', () => {
+  it('rolls the headline numbers (DPS, EHP) instead of jumping', () => {
+    render(<StatsPage result={unstable} />)
+    const rolling = screen.getAllByTestId('rolling').map((el) => Number(el.getAttribute('data-value')))
+    expect(rolling).toContain(unstable.stats.firepower.dps)
+    expect(rolling).toContain(unstable.stats.defense.layers.shield.ehp)
+  })
+  it('lets a collapsed panel close by height: its body leaves after the animation, not at the click', async () => {
+    render(<StatsPage result={unstable} />)
+    expect(screen.getByTestId('cap-status')).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: /Capacitor/ }))
+    await waitFor(() => expect(screen.queryByTestId('cap-status')).toBeNull(), { timeout: 2000 })
+  })
 })

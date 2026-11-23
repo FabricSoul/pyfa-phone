@@ -17,6 +17,7 @@ import { NotFound } from './pages/shared'
 import { Variations } from './pages/Variations'
 import { EngineBar, EngineBoot } from './ui/EngineBoot'
 import { FitPageSkeleton } from './ui/PageSkeletons'
+import { Page } from './ui/motion'
 import { ToastProvider } from './ui/Toast'
 import { defaultFitStore, type FitStore } from './store/fits'
 import './pages/pages.css'
@@ -78,16 +79,16 @@ export function FittingRoutes({ engine, store, startup }: { engine: EngineClient
       <EngineFailure />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/import" element={<NeedsEngine><Import /></NeedsEngine>} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/about" element={<Page><About /></Page>} />
+        <Route path="/import" element={<Page><NeedsEngine><Import /></NeedsEngine></Page>} />
+        <Route path="/settings" element={<Page><Settings /></Page>} />
         <Route path="/fit/:id" element={<NeedsEngine skeleton><FitWorkspace /></NeedsEngine>}>
-          <Route index element={<Fit />} />
-          <Route path="add/:slot" element={<AddModule />} />
-          <Route path="variations/:pos" element={<Variations />} />
+          <Route index element={<Page><Fit /></Page>} />
+          <Route path="add/:slot" element={<Page><AddModule /></Page>} />
+          <Route path="variations/:pos" element={<Page><Variations /></Page>} />
         </Route>
-        <Route path="/item/:typeId" element={<NeedsEngine><ItemInfo /></NeedsEngine>} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/item/:typeId" element={<Page><NeedsEngine><ItemInfo /></NeedsEngine></Page>} />
+        <Route path="*" element={<Page><NotFound /></Page>} />
       </Routes>
     </div>
     </ToastProvider>

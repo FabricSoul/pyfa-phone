@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { SLOT_KINDS, type CalcResult, type FitDoc, type ModulePos, type ModuleSlotRow, type SlotKind } from '../engine/types'
@@ -7,6 +8,7 @@ import { ResourceBar } from '../ui/ResourceGauge'
 import { Tabs } from '../ui/Tabs'
 import { ModuleRow } from '../ui/ModuleRow'
 import { Icon } from '../ui/icons'
+import { ExpandItem } from '../ui/motion'
 import { FitBodySkeleton } from '../ui/PageSkeletons'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
 import { calcOptions, updateSettings, useSettings } from '../settings/settings'
@@ -156,27 +158,30 @@ export function Fit() {
         </button>
       </span>}>
         <div className="list">
+          {/* A module put in opens its row from zero height; one taken out closes it before it leaves. */}
+          <AnimatePresence initial={false}>
           {result.slots[slot].map((entry) => {
             if (entry.kind === 'module') {
               const activePositions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
               if (!activePositions.length) return null
-              return <ModuleRow key={`module-${entry.positions[0]}`} row={entry}
+              return <ExpandItem key={`module-${entry.positions[0]}`}><ModuleRow row={entry}
                 availableStates={entry.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] : undefined)}
                 onTap={() => setSelected({ slot, index: activePositions[0]! })}
                 onStateChange={(state) => edit((fit) => withModules(fit, slot, activePositions, (mod) => mod && { ...mod, state }))}
-                onRemove={() => removeModules(slot, activePositions, lname(entry.name, language))} />
+                onRemove={() => removeModules(slot, activePositions, lname(entry.name, language))} /></ExpandItem>
             }
             if (entry.kind === 'removed') {
               const positions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
               if (!positions.length) return null
-              return <ModuleRow key={`removed-${positions[0]}`} row={{ ...entry, positions, count: positions.length }}
-                onRemove={() => removeModules(slot, positions, lname(entry.name, language))} />
+              return <ExpandItem key={`removed-${positions[0]}`}><ModuleRow row={{ ...entry, positions, count: positions.length }}
+                onRemove={() => removeModules(slot, positions, lname(entry.name, language))} /></ExpandItem>
             }
             const positions = entry.positions.filter((index) => !slotItems[index])
             if (!positions.length) return null
-            return <ModuleRow key="empty" row={{ ...entry, positions, count: positions.length }}
-              onAdd={() => openAdd(slot, positions[0]!)} />
+            return <ExpandItem key="empty"><ModuleRow row={{ ...entry, positions, count: positions.length }}
+              onAdd={() => openAdd(slot, positions[0]!)} /></ExpandItem>
           })}
+          </AnimatePresence>
           {slotItems.map((item, index) => {
             const removed = item && retired.get(item.typeId)
             if (!removed) return null

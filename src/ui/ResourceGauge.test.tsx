@@ -1,4 +1,6 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, render, screen, waitFor } from '@testing-library/react'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { ResourceGauge } from './ResourceGauge'
 
@@ -25,5 +27,19 @@ describe('ResourceGauge', () => {
     const { container } = render(<ResourceGauge label="Powergrid" used={32.91} total={56.38} />)
     expect(container.querySelectorAll('.cells i')).toHaveLength(20)
     expect(container.querySelectorAll('.cells i.on')).toHaveLength(12)
+  })
+})
+
+describe('ResourceGauge motion', () => {
+  it('rolls the used number to the new value and ends on it exactly', async () => {
+    const { rerender } = render(<ResourceGauge label="CPU" used={132.3} total={162.5} />)
+    rerender(<ResourceGauge label="CPU" used={162.3} total={162.5} />)
+    const number = screen.getByTestId('rolling')
+    expect(number.getAttribute('data-value')).toBe('162.3')
+    expect(number.textContent).not.toBe('162.3/162.5')
+    await waitFor(() => expect(number.textContent).toBe('162.3/162.5'), { timeout: 2000 })
+  })
+  it('lets the cells change colour smoothly', () => {
+    expect(readFileSync(resolve(process.cwd(), 'src/ui/ui.css'), 'utf8')).toMatch(/\.cells i\s*\{[^}]*transition:\s*background-color/)
   })
 })

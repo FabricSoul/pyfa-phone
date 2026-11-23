@@ -1,10 +1,12 @@
 import './ui.css'
+import { useAnimate } from 'motion/react'
 import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import type { ModuleState, SlotRow } from '../engine/types'
 import { _t } from '../i18n/t'
 import { Icon, type IconName } from './icons'
 import { iconUrl, lname, useNameLanguage } from './format'
 import { ItemIcon } from './ItemIcon'
+import { motionSpec } from './motion'
 
 export const MODULE_STATE_ICONS: Record<ModuleState, IconName> = { offline: 'power-off', online: 'power', active: 'zap', overheated: 'flame' }
 const LONG_PRESS_MS = 500
@@ -42,6 +44,16 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
   const drag = useRef<{ x: number; base: number } | null>(null)
   const [dx, setDx] = useState(0)
   const [dragging, setDragging] = useState(false)
+  // The state key bounces once when its state changes (not when the row first appears) and recolours by CSS.
+  const [bounce, animateBounce] = useAnimate<HTMLSpanElement>()
+  const state = row.kind === 'module' ? row.state : undefined
+  const previous = useRef(state)
+  useEffect(() => {
+    if (previous.current === state) return
+    previous.current = state
+    const { standard, ease, reduce } = motionSpec()
+    if (!reduce && bounce.current) void animateBounce(bounce.current, { scale: [0.85, 1.08, 1] }, { duration: standard, ease })
+  }, [state, bounce, animateBounce])
 
   if (row.kind === 'empty') {
     return (
@@ -154,7 +166,7 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
             if (suppressClick.current) { suppressClick.current = false; return }
             onStateChange?.(nextState(row.state, availableStates))
           }}>
-          <span className="sbi"><Icon name={MODULE_STATE_ICONS[row.state]} /></span>
+          <span className="sbi" ref={bounce}><Icon name={MODULE_STATE_ICONS[row.state]} /></span>
         </button>
       </div>
     </div>
