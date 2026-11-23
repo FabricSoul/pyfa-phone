@@ -1,15 +1,19 @@
+import '../ui/extras.css'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
   SlotKindSchema, type ItemGroup, type ItemRow, type MarketTreeNode, type MetaGroup, type SlotItemsOptions, type SlotKind, type SlotMarketTree,
 } from '../engine/types'
 import { _t } from '../i18n/t'
+import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { ItemIcon } from '../ui/ItemIcon'
 import { MetaGroupList } from '../ui/MetaGroupList'
+import { useToast } from '../ui/Toast'
 import { useFitServices, useFitSession, withModules } from './fitSession'
 import { useSticky } from '../app/sticky'
+import { addExtra } from './ExtraItemPicker'
 import { EmptyMessage, NotFound, PageHeading } from './shared'
 
 const RECENT_KEY = 'pyfa.recentModuleIds'
@@ -262,10 +266,13 @@ function CandidateRows({ group, slot, search, filter, disabled, checked, onCheck
   const lang = useNameLanguage()
   const { marketGroupId, exactMarketGroup } = filter
   const { engine } = useFitServices()
-  const { fit } = useFitSession()
+  const { fit, edit } = useFitSession()
+  const toast = useToast()
   const onCheckedRef = useRef(onChecked)
   onCheckedRef.current = onChecked
   const [error, setError] = useState(false)
+  const [actionItem, setActionItem] = useState<ItemRow>()
+  const actionName = actionItem && lname(actionItem.name, lang)
 
   useEffect(() => {
     if (disabled || checked) return
@@ -286,19 +293,33 @@ function CandidateRows({ group, slot, search, filter, disabled, checked, onCheck
       const warnings = fittingWarnings(item)
       const restriction = item.fitRestriction
       const focused = item.typeId === focusId
-      return <button key={item.typeId} type="button" className={`${restriction ? 'ar candidate-restricted' : 'ar candidate'}${focused ? ' on' : ''}`}
-        aria-current={focused || undefined} ref={focused ? (node) => node?.scrollIntoView?.({ block: 'center' }) : undefined}
-        disabled={disabled || restriction !== undefined} onClick={() => onPick(item)}>
-        <ItemIcon src={iconUrl(item.iconId)} />
-        <span className="mn">
-          <span>{lname(item.name, lang)}</span>
-          {item.keyLine && <small className="num">{item.keyLine}</small>}
-          {item.fitting && <small className="num">{_t('CPU')} {fmt(item.fitting.cpu)} · {_t('Powergrid')} {fmt(item.fitting.powergrid)}</small>}
-          {restriction && <small>{restrictionLabel(restriction)}</small>}
-          {warnings && <small className="warn">{warnings}</small>}
-        </span>
-      </button>
+      return <div key={item.typeId} className="market-candidate-actions">
+        <button type="button" className={`${restriction ? 'ar candidate-restricted' : 'ar candidate'}${focused ? ' on' : ''}`}
+          aria-current={focused || undefined} ref={focused ? (node) => node?.scrollIntoView?.({ block: 'center' }) : undefined}
+          disabled={disabled || restriction !== undefined} onClick={() => onPick(item)}>
+          <ItemIcon src={iconUrl(item.iconId)} />
+          <span className="mn">
+            <span>{lname(item.name, lang)}</span>
+            {item.keyLine && <small className="num">{item.keyLine}</small>}
+            {item.fitting && <small className="num">{_t('CPU')} {fmt(item.fitting.cpu)} · {_t('Powergrid')} {fmt(item.fitting.powergrid)}</small>}
+            {restriction && <small>{restrictionLabel(restriction)}</small>}
+            {warnings && <small className="warn">{warnings}</small>}
+          </span>
+        </button>
+        <button type="button" className="fit-button" aria-haspopup="dialog"
+          aria-label={_t('Actions for {item}').replace('{item}', lname(item.name, lang))} onClick={() => setActionItem(item)}>
+          <Icon name="more" size={20} />
+        </button>
+      </div>
     })}
+    {actionItem && actionName && <ActionSheet open title={actionName} onClose={() => setActionItem(undefined)}>
+      <div className="fit-section-title" aria-hidden="true"><h3>{actionName}</h3></div>
+      <SheetAction icon="plus" onClick={() => {
+        edit((current) => addExtra(current, 'cargo', actionItem.typeId), { [actionItem.typeId]: actionItem.name })
+        toast.show({ message: _t('{item} added to cargo').replace('{item}', actionName) })
+        setActionItem(undefined)
+      }}>{_t('Add to cargo')}</SheetAction>
+    </ActionSheet>}
   </>
 }
 

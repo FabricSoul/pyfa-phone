@@ -23,13 +23,13 @@ describe('M03 wildcard market search', () => {
     'the add page finds %s', async (term, name) => {
       app(['/fit/rifter/add/low'])
       fireEvent.change(await screen.findByRole('searchbox', { name: 'Search modules' }), { target: { value: term } })
-      expect(await screen.findByRole('button', { name: new RegExp(name) }, { timeout: 4000 })).toBeTruthy()
+      expect(await screen.findByRole('button', { name: new RegExp(`^${name}`) }, { timeout: 4000 })).toBeTruthy()
     }, 12_000)
   it('finds Chinese names with a wildcard', async () => {
     updateSettings({ itemNameLanguage: 'zh' })
     app(['/fit/rifter/add/low'])
     fireEvent.change(await screen.findByRole('searchbox'), { target: { value: '回转*' } })
-    expect(await screen.findByRole('button', { name: /回转稳定器 II/ }, { timeout: 4000 })).toBeTruthy()
+    expect(await screen.findByRole('button', { name: /^回转稳定器 II/ }, { timeout: 4000 })).toBeTruthy()
   }, 12_000)
 })
 
@@ -41,7 +41,7 @@ describe('M04 view the module in the market', () => {
     const sheet = await screen.findByRole('dialog', { name: 'Module actions' })
     fireEvent.click(within(sheet).getByRole('button', { name: 'View in market' }))
     await waitFor(() => expect(screen.getByTestId('where').textContent).toBe('/fit/rifter/add/high?market=2889'))
-    const row = await screen.findByRole('button', { name: /200mm AutoCannon II/ }, { timeout: 4000 })
+    const row = await screen.findByRole('button', { name: /^200mm AutoCannon II/ }, { timeout: 4000 })
     expect(row.getAttribute('aria-current')).toBe('true')
     expect(screen.getByRole('button', { name: /Turrets & Launchers/ }).getAttribute('aria-expanded')).toBe('true')
     expect(screen.getAllByRole('button', { name: /200mm AutoCannon/ }).filter((b) => b.getAttribute('aria-current') === 'true')).toHaveLength(1)
@@ -50,7 +50,7 @@ describe('M04 view the module in the market', () => {
   it('drops a stored search so the tree is visible', async () => {
     sessionStorage.setItem('pyfa.addModule.query.high', JSON.stringify('Gyro'))
     app(['/fit/rifter/add/high?market=2889'])
-    expect(await screen.findByRole('button', { name: /200mm AutoCannon II/ }, { timeout: 4000 })).toBeTruthy()
+    expect(await screen.findByRole('button', { name: /^200mm AutoCannon II/ }, { timeout: 4000 })).toBeTruthy()
     expect((screen.getByRole('searchbox') as HTMLInputElement).value).toBe('')
   }, 12_000)
 })

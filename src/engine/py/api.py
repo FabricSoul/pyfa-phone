@@ -615,15 +615,39 @@ def ship_catalog():
     return {'dataVersion': _engine.data_version, 'groups': list(groups.values())}
 
 
+def implant_sets():
+    sets = []
+    for preset in _engine.db.getAllImplantSets():
+        implants = []
+        for type_id in map(int, preset.implants.split(',')):
+            item = _engine.db.getItem(type_id)
+            slot = item.getAttribute('implantness') if item is not None else None
+            if slot:
+                implants.append({'typeId': type_id, 'name': _engine.lname(item), 'slot': int(slot)})
+        if not implants:
+            continue
+        implants.sort(key=lambda item: item['slot'])
+        translated = implants[0]['name']['zh']
+        stem = re.sub(r'\s*[-–—]?\s*阿尔法型$', '', translated)
+        if stem == translated:
+            stem = preset.fullName
+        sets.append({
+            'id': preset.ID, 'name': {'en': preset.fullName, 'zh': stem},
+            'implants': implants,
+        })
+    return sorted(sets, key=lambda preset: preset['name']['en'])
+
+
 def _extra_catalog(collection, query, remaining=None, attribute=None, occupied=()):
     from sqlalchemy import text
 
     category = {'drones': 'Drone', 'fighters': 'Fighter', 'implants': 'Implant'}.get(collection)
     with _engine.db.gamedata_engine.connect() as conn:
         rows = conn.execute(text("""
-            SELECT item.typeID, item.typeName, item.typeName_zh, item.iconID, item.metaGroupID, item.metaLevel,
-                   value.value
+            SELECT item.typeID, item.typeName, item.typeName_zh, COALESCE(NULLIF(item.iconID, 0), market.iconID),
+                   item.metaGroupID, item.metaLevel, value.value
             FROM invtypes item JOIN invgroups USING (groupID) JOIN invcategories category USING (categoryID)
+            LEFT JOIN invmarketgroups market ON market.marketGroupID = item.marketGroupID
             JOIN dgmtypeattribs value USING (typeID) JOIN dgmattribs attr USING (attributeID)
             WHERE item.published AND attr.attributeName = :attribute AND value.value > 0
               AND (:category IS NULL OR category.name = :category)
@@ -655,31 +679,43 @@ def _extra_key(collection, type_id):
     return {'keyValue': dps, 'keyLine': f'{r(dps, 1)} DPS'} if dps else none
 
 
-def items_for_extra(fit_json, collection, query=''):
+def items_for_extra(fit_json, collection, query='', options=None):
     from eos.saveddata.drone import Drone
     from eos.saveddata.fighter import Fighter
 
     bay = {'cargo': 'cargo', 'drones': 'droneBay', 'fighters': 'fighterBay'}.get(collection)
     if collection == 'cargo' and not query.strip():
         return []
-    with _temporary_fit():
-        fit, _ = _engine.build(fit_json)
-        if bay:
-            resource = _engine.resources(fit)[bay]
+    with _temporary_fit(), _calculation_settings(options):
+        fit, _ = _engine.build(fit_json, options)
+
+        def bay_rows(kind, resource, constructor=None):
             remaining = resource['total'] - resource['used']
             if remaining <= 0:
                 return []
-            rows = _extra_catalog(collection, query, remaining=remaining + 1e-9, attribute='volume')
+            rows = _extra_catalog(kind, query, remaining=remaining + 1e-9, attribute='volume')
+            return rows if constructor is None else [row for row in rows if constructor(_engine.item(row[0])).fits(fit)]
+
+        if bay:
+            resources = _engine.resources(fit)
+            constructor = {'drones': Drone, 'fighters': Fighter}.get(collection)
+            rows = bay_rows(collection, resources[bay], constructor)
         else:
             attribute = {'implants': 'implantness', 'boosters': 'boosterness'}[collection]
             occupied = {item.slot for item in getattr(fit, collection)}
             rows = _extra_catalog(collection, query, attribute=attribute, occupied=occupied)
-        if collection in ('drones', 'fighters'):
-            constructor = Drone if collection == 'drones' else Fighter
-            rows = [row for row in rows if constructor(_engine.item(row[0])).fits(fit)]
+        cargo_ids = set()
+        drone_ids = set()
+        if collection == 'cargo':
+            cargo_ids = {row[0] for row in rows}
+            drone_rows = bay_rows('drones', resources['droneBay'], Drone)
+            drone_ids = {row[0] for row in drone_rows}
+            rows.extend(row for row in drone_rows if row[0] not in cargo_ids)
         return _groups([
             {'typeId': type_id, 'name': {'en': en, 'zh': zh or en}, 'iconId': icon,
-             'meta': meta_of(meta), 'metaLevel': level, **_extra_key(collection, type_id)}
+             'meta': meta_of(meta), 'metaLevel': level, **_extra_key(collection, type_id),
+             **({'canAddToCargo': type_id in cargo_ids, 'canAddToDroneBay': type_id in drone_ids}
+                if collection == 'cargo' else {})}
             for type_id, en, zh, icon, meta, level in rows
         ])
 

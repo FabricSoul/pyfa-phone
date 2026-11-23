@@ -100,10 +100,28 @@
           "index": 0,
           "typeId": 2185,
           "active": 5,
-          "bandwidth": 10
+          "bandwidth": 10,
+          "optimalRange": 5250,
+          "falloff": 3000,
+          "velocity": 2520,
+          "hp": 1530
         }
       ],
-      "fighters": []
+      "fighters": [],
+      "fighterSlots": {
+        "light": {
+          "used": 0,
+          "total": 0
+        },
+        "heavy": {
+          "used": 0,
+          "total": 0
+        },
+        "support": {
+          "used": 0,
+          "total": 0
+        }
+      }
     },
     "slots": {
       "high": [
@@ -291,7 +309,15 @@
       "distancesKm": [],
       "series": []
     },
-    "warnings": []
+    "warnings": [],
+    "extras": {
+      "items": {
+        "2185": {
+          "iconId": 1084,
+          "graphicId": 1095
+        }
+      }
+    }
   },
   "thanatos": {
     "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
@@ -399,9 +425,26 @@
           "index": 0,
           "typeId": 23057,
           "active": true,
-          "maxAmount": 6
+          "maxAmount": 6,
+          "kind": "light",
+          "velocity": 1176.5625,
+          "hp": 4719.5312
         }
-      ]
+      ],
+      "fighterSlots": {
+        "light": {
+          "used": 1,
+          "total": 3.0
+        },
+        "heavy": {
+          "used": 0,
+          "total": 0
+        },
+        "support": {
+          "used": 0,
+          "total": 2.0
+        }
+      }
     },
     "slots": {
       "high": [
@@ -592,7 +635,15 @@
       "distancesKm": [],
       "series": []
     },
-    "warnings": []
+    "warnings": [],
+    "extras": {
+      "items": {
+        "23057": {
+          "iconId": 1084,
+          "graphicId": 2975
+        }
+      }
+    }
   },
   "legion": {
     "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",

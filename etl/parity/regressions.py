@@ -60,6 +60,136 @@ def regression_results(fits, data_version, client_build):
             self.assertEqual(25, limited['resources']['droneBandwidth']['used'])
             self.assertEqual(3, limited['resources']['activeDrones']['used'])
 
+        def test_g3_cargo_volumes_and_icons_come_from_eos(self):
+            doc = self.empty_ship(626, cargo=[
+                {'typeId': 21898, 'amount': 2000}, {'typeId': 2889, 'amount': 1},
+            ])
+            result = call('calc', doc)
+            ammo = result['extras']['items']['21898']
+            self.assertEqual(1286, ammo['iconId'])
+            self.assertEqual(0.0025, ammo['volume'])
+            self.assertEqual(5, ammo['volume'] * doc['cargo'][0]['amount'])
+            with api._temporary_fit():
+                from eos.saveddata.cargo import Cargo
+                fit = self.native_fit(626)
+                for entry in doc['cargo']:
+                    cargo = Cargo(api._engine.item(entry['typeId']))
+                    cargo.amount = entry['amount']
+                    fit.cargo.append(cargo)
+                capacity = fit.ship.getModifiedItemAttr('capacity')
+                self.assertEqual(capacity, result['extras']['cargoCapacity'])
+                free = capacity - fit.cargoBayUsed
+                amount = int(free / fit.cargo[0].getModifiedItemAttr('volume'))
+                self.assertGreater(amount, 0)
+                doc['cargo'][0]['amount'] += amount
+            filled = call('calc', doc)['resources']['cargo']
+            self.assertLessEqual(filled['used'], filled['total'])
+            self.assertLess(filled['total'] - filled['used'], ammo['volume'])
+
+        def test_g3_split_drone_dps_and_performance_match_native_eos(self):
+            from eos.saveddata.drone import Drone
+            doc = self.empty_ship(626, drones=[
+                {'typeId': 2185, 'amount': 4, 'active': 3},
+                {'typeId': 2185, 'amount': 1, 'active': 1},
+            ])
+            actual = call('calc', doc)
+            rows = actual['squadrons']['drones']
+            self.assertEqual([3, 1], [row['active'] for row in rows])
+            with api._temporary_fit():
+                fit = self.native_fit(626)
+                for amount, active in ((4, 3), (1, 1)):
+                    drone = Drone(api._engine.item(2185))
+                    drone.amount, drone.amountActive = amount, active
+                    fit.drones.append(drone)
+                api._engine.db.flush()
+                fit.clear()
+                fit.calculateModifiedAttributes()
+                dps = actual['stats']['firepower']['droneDps']
+                self.assertAlmostEqual(fit.getDroneDps().total, dps, places=4)
+                self.assertAlmostEqual(fit.drones[0].maxRange, rows[0]['optimalRange'], places=4)
+                self.assertAlmostEqual(fit.drones[0].falloff, rows[0]['falloff'], places=4)
+                self.assertAlmostEqual(fit.drones[0].getModifiedItemAttr('maxVelocity'), rows[0]['velocity'], places=4)
+                self.assertAlmostEqual(sum(fit.drones[0].hp.values()), rows[0]['hp'], places=4)
+            doc['drones'] = [{'typeId': 2185, 'amount': 5, 'active': 4}]
+            self.assertEqual(dps, call('calc', doc)['stats']['firepower']['droneDps'])
+
+        def test_g3_carrier_reports_each_class_and_fitted_squadron_performance(self):
+            from eos.const import FittingSlot
+            doc = self.empty_ship(23911, fighters=[{'typeId': 23057, 'amount': 6, 'active': True}])
+            actual = call('calc', doc)['squadrons']
+            with api._temporary_fit():
+                from eos.saveddata.fighter import Fighter
+                fit = self.native_fit(23911)
+                fighter = Fighter(api._engine.item(23057))
+                fighter.amount, fighter.active = 6, True
+                fit.fighters.append(fighter)
+                api._engine.db.flush()
+                fit.clear()
+                fit.calculateModifiedAttributes()
+                for kind, slot in (('light', FittingSlot.F_LIGHT), ('heavy', FittingSlot.F_HEAVY),
+                                   ('support', FittingSlot.F_SUPPORT)):
+                    self.assertEqual({
+                        'used': fit.getSlotsUsed(slot), 'total': fit.getNumSlots(slot),
+                    }, actual['fighterSlots'][kind])
+                row = actual['fighters'][0]
+                self.assertEqual('light', row['kind'])
+                self.assertEqual(fighter.fighterSquadronMaxSize, row['maxAmount'])
+                self.assertAlmostEqual(fighter.getModifiedItemAttr('maxVelocity'), row['velocity'], places=4)
+                self.assertAlmostEqual(sum(fighter.hp.values()), row['hp'], places=4)
+            empty = call('calc', self.empty_ship(23911))
+            self.assertEqual({'used': 0, 'total': 3}, empty['squadrons']['fighterSlots']['light'])
+
+        def test_g3_implant_source_takes_precedence_and_pyfa_set_ids_are_exposed(self):
+            doc = self.empty_ship(626, implants=[19540])
+            default = call('calc', doc, {'useCharacterImplants': True})
+            self.assertEqual([], default['priceItems']['implants'])
+            on = call('calc', {**doc, 'implantSource': 'fit'}, {'useCharacterImplants': True})
+            off = call('calc', {**doc, 'implantSource': 'character'}, {'useCharacterImplants': False})
+            self.assertEqual([{'typeId': 19540, 'quantity': 1}], on['priceItems']['implants'])
+            self.assertGreater(on['stats']['navigation']['maxVelocity'], off['stats']['navigation']['maxVelocity'])
+            self.assertEqual(default['stats'], off['stats'])
+            snake = next(s for s in call('implant_sets') if s['name']['en'] == 'High-grade Snake')
+            native = next(s for s in api._engine.db.getAllImplantSets() if s.fullName == 'High-grade Snake')
+            self.assertEqual([int(i) for i in native.implants.split(',')], [i['typeId'] for i in snake['implants']])
+            self.assertEqual(list(range(1, 7)), [i['slot'] for i in snake['implants']])
+
+        def test_g3_booster_side_effect_switches_change_only_selected_native_attributes(self):
+            from eos.saveddata.booster import Booster
+            doc = self.empty_ship(626, boosters=[15479])
+            off = call('calc', doc)
+            doc['boosterSideEffects'] = {'15479': [2735, -1]}
+            armor_only = call('calc', doc)
+            self.assertEqual(off['stats']['capacitor']['capacity'], armor_only['stats']['capacitor']['capacity'])
+            self.assertLess(armor_only['stats']['defense']['layers']['armor']['hp'],
+                            off['stats']['defense']['layers']['armor']['hp'])
+            doc['boosterSideEffects']['15479'].append(2745)
+            both = call('calc', doc)
+            self.assertLess(both['stats']['capacitor']['capacity'], off['stats']['capacitor']['capacity'])
+            self.assertEqual(1, both['extras']['items']['15479']['slot'])
+            effects = [e['id'] for e in both['extras']['items']['15479']['sideEffects']]
+            self.assertTrue({2735, 2745} <= set(effects))
+            with api._temporary_fit():
+                fit = self.native_fit(626)
+                booster = Booster(api._engine.item(15479))
+                for effect in booster.sideEffects:
+                    effect.active = effect.effectID in (2735, 2745)
+                fit.boosters.append(booster)
+                api._engine.db.flush()
+                fit.clear()
+                fit.calculateModifiedAttributes()
+                self.assertAlmostEqual(fit.hp['armor'], both['stats']['defense']['layers']['armor']['hp'], places=4)
+                self.assertAlmostEqual(fit.ship.getModifiedItemAttr('capacitorCapacity'),
+                                       both['stats']['capacitor']['capacity'], places=4)
+
+        def test_g3_market_drone_can_go_to_its_bay_even_when_the_hold_is_full(self):
+            doc = self.empty_ship(626, cargo=[{'typeId': 21898, 'amount': 1000000}])
+            groups = call('items_for_extra', doc, 'cargo', 'Hammerhead II')
+            drone = next(item for g in groups for item in g['items'] if item['typeId'] == 2185)
+            self.assertTrue(drone['canAddToDroneBay'])
+            self.assertFalse(drone['canAddToCargo'])
+            self.assertEqual(1084, drone['iconId'])
+            self.assertEqual([], call('items_for_extra', {**doc, 'shipTypeId': 587}, 'cargo', 'Hammerhead II'))
+
         def test_confessor_localized_eft_mode_round_trip_and_native_stats(self):
             from eos.saveddata.mode import Mode
             parsed = call('import_text', '[Confessor, Mode test]\nConfessor Sharpshooter Mode')

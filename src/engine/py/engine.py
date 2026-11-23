@@ -66,6 +66,9 @@ class Engine:
             self.zh = dict(conn.execute(text('select typeID, typeName_zh from invtypes')).all())
             self.market_zh = dict(conn.execute(text(
                 'select marketGroupID, marketGroupName_zh from invmarketgroups')).all())
+            self.booster_penalty_zh = dict(conn.execute(text(
+                "select attributeName, displayName_zh from dgmattribs where attributeName like 'booster%Penalty'"
+            )).all())
 
         self.data_version = data_version
         self.market_groups = {}
@@ -140,7 +143,9 @@ class Engine:
         if doc.get('modeTypeId') is not None:
             fit.mode = fit.ship.validateModeItem(self.db.getItem(doc['modeTypeId']))
         fit.character = Character.getAll5() if doc['character'] == 'all5' else Character.getAll0()
-        fit.implantLocation = ImplantLocation.CHARACTER if options.get('useCharacterImplants') else ImplantLocation.FIT
+        source = doc.get('implantSource')
+        use_character = options.get('useCharacterImplants') if source is None else source == 'character'
+        fit.implantLocation = ImplantLocation.CHARACTER if use_character else ImplantLocation.FIT
         fit.damagePattern = DamagePattern.getBuiltinById(doc['damagePatternId'])
         if doc['targetProfileId'] is not None:
             fit.targetProfile = TargetProfile.getBuiltinById(doc['targetProfileId'])
@@ -187,8 +192,14 @@ class Engine:
             collection = getattr(fit, key)
             for type_id in doc[key]:
                 item = self.db.getItem(type_id)
-                if item is not None:
-                    collection.append(constructor(item))
+                if item is None:
+                    continue
+                member = constructor(item)
+                if key == 'boosters':
+                    enabled = set(doc.get('boosterSideEffects', {}).get(str(type_id), ()))
+                    for effect in member.sideEffects:
+                        effect.active = effect.effectID in enabled
+                collection.append(member)
         self.db.flush()
         self.recalc(fit)
         if self.check_states(fit):
@@ -239,16 +250,64 @@ class Engine:
         return changed
 
     def squadron_controls(self, fit):
+        roles = {
+            'light': (self.Slot.F_LIGHT, self.Slot.FS_LIGHT),
+            'heavy': (self.Slot.F_HEAVY, self.Slot.FS_HEAVY),
+            'support': (self.Slot.F_SUPPORT, self.Slot.FS_SUPPORT),
+        }
+        kind_by_slot = {slot: kind for kind, slots in roles.items() for slot in slots}
+        fighter_slots = {kind: structure if fit.isStructure else ship for kind, (ship, structure) in roles.items()}
+
+        def performance(member):
+            return {
+                'velocity': r(member.getModifiedItemAttr('maxVelocity') or 0),
+                'hp': r(sum(value or 0 for value in member.hp.values())),
+            }
+
         return {
             'drones': [{
                 'index': index, 'typeId': drone.item.ID, 'active': int(drone.amountActive),
                 'bandwidth': r(drone.getModifiedItemAttr('droneBandwidthUsed')),
+                'optimalRange': r(drone.maxRange or 0), 'falloff': r(drone.falloff or 0),
+                **performance(drone),
             } for index, drone in zip(fit.drone_positions, fit.drones)],
             'fighters': [{
                 'index': index, 'typeId': fighter.item.ID, 'active': bool(fighter.active),
-                'maxAmount': fighter.fighterSquadronMaxSize,
+                'maxAmount': fighter.fighterSquadronMaxSize, 'kind': kind_by_slot.get(fighter.slot),
+                **performance(fighter),
             } for index, fighter in zip(fit.fighter_positions, fit.fighters)],
+            'fighterSlots': {
+                kind: {'used': fit.getSlotsUsed(slot), 'total': fit.getNumSlots(slot)}
+                for kind, slot in fighter_slots.items()
+            },
         }
+
+    def extra_items(self, fit):
+        items = {}
+        for collection in (fit.cargo, fit.drones, fit.fighters, fit.implants, fit.boosters):
+            for member in collection:
+                item = member.item
+                if item.ID not in items:
+                    market_group = self.market.getMarketGroupByItem(item) if not item.iconID else None
+                    items[item.ID] = {
+                        'iconId': item.iconID or (market_group.iconID if market_group else None),
+                        'graphicId': item.graphicID,
+                    }
+        for cargo in fit.cargo:
+            items[cargo.item.ID]['volume'] = cargo.getModifiedItemAttr('volume') or 0
+        for member in (*fit.implants, *fit.boosters):
+            items[member.item.ID]['slot'] = member.slot
+        for booster in fit.boosters:
+            effects = []
+            for effect in sorted(booster.sideEffects, key=lambda effect: effect.effectID):
+                name = effect.effect.getattr('displayName') or effect.effect.name
+                effects.append({
+                    'id': effect.effectID,
+                    'name': {'en': name, 'zh': self.booster_penalty_zh.get(effect.attr) or name},
+                    'percent': r(booster.getModifiedItemAttr(effect.attr) or 0),
+                })
+            items[booster.item.ID]['sideEffects'] = effects
+        return items
 
     @staticmethod
     def max_spool_cycles(mod):
@@ -558,6 +617,10 @@ class Engine:
         fit, positions = self.build(doc, options)
         curve = self.range_curve(fit)  # recalcs internally, restores the fit afterwards
         res = self.resources(fit)
+        extra_items = self.extra_items(fit)
+        extras = {'items': extra_items}
+        if fit.cargo:
+            extras['cargoCapacity'] = float(fit.ship.getModifiedItemAttr('capacity') or 0)
         return {
             'dataVersion': self.data_version,
             'clientBuild': self.client_build,
@@ -566,7 +629,8 @@ class Engine:
                      'graphicId': fit.ship.item.graphicID, 'group': self.group_name(fit.ship.item.group)},
             'resources': res,
             'missingSkills': self.missing_skills(fit),
-            **({'squadrons': self.squadron_controls(fit)} if fit.drones or fit.fighters else {}),
+            **({'squadrons': self.squadron_controls(fit)} if fit.drones or fit.fighters or fit.fighterTubesTotal else {}),
+            **({'extras': extras} if extra_items else {}),
             **({'modes': {
                 'selected': fit.mode.item.ID,
                 'options': [{'typeId': mode.ID, 'name': self.lname(mode)} for mode in fit.ship.modeItems],

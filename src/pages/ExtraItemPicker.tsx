@@ -3,6 +3,8 @@ import { useSticky } from '../app/sticky'
 import type { ExtraCollection, FitDoc, ItemGroup, ItemRow } from '../engine/types'
 import { _t } from '../i18n/t'
 import { ActionSheet } from '../ui/ActionSheet'
+import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
+import { ItemIcon } from '../ui/ItemIcon'
 import { MetaGroupList } from '../ui/MetaGroupList'
 import { useFitServices, useFitSession } from './fitSession'
 import { EmptyMessage } from './shared'
@@ -18,6 +20,7 @@ export function extraAddLabel(collection: ExtraCollection) {
 }
 
 export function ExtraItemPicker({ collection, onClose }: { collection: ExtraCollection; onClose: () => void }) {
+  const language = useNameLanguage()
   const { engine } = useFitServices()
   const { fit, edit } = useFitSession()
   const [query, setQuery] = useSticky('pyfa.extraPicker.query', '')
@@ -37,9 +40,31 @@ export function ExtraItemPicker({ collection, onClose }: { collection: ExtraColl
     return () => { live = false; clearTimeout(timer) }
   }, [collection, engine, fit, needsSearch, term])
 
-  function pick(item: ItemRow) {
-    edit((current) => current === fit ? addExtra(current, collection, item.typeId) : current, { [item.typeId]: item.name })
+  function pick(item: ItemRow, destination = collection) {
+    edit((current) => current === fit ? addExtra(current, destination, item.typeId) : current, { [item.typeId]: item.name })
     onClose()
+  }
+
+  function cargoCandidate(item: ItemRow) {
+    const label = lname(item.name, language)
+    const droneAction = _t('Add {item} to drone bay').replace('{item}', label)
+    const droneOnly = item.canAddToCargo === false
+    const primary = <button type="button" className="ar" aria-label={droneOnly ? droneAction : undefined}
+      onClick={() => pick(item, droneOnly ? 'drones' : 'cargo')}>
+      <ItemIcon src={iconUrl(item.iconId)} />
+      <span className="mn">
+        <span>{label}</span>
+        {item.keyLine && <small className="num">{item.keyLine}</small>}
+        {droneOnly && <small>{_t('Add to drone bay')}</small>}
+      </span>
+      {item.keyValue != null && <span className="v">{fmt(item.keyValue)}</span>}
+    </button>
+    if (droneOnly || !item.canAddToDroneBay) return primary
+    return <div className="market-candidate-actions">
+      {primary}
+      <button type="button" className="fit-button" aria-label={droneAction}
+        onClick={() => pick(item, 'drones')}>{_t('Add to drone bay')}</button>
+    </div>
   }
 
   return <ActionSheet open title={extraAddLabel(collection)} onClose={onClose}>
@@ -54,12 +79,13 @@ export function ExtraItemPicker({ collection, onClose }: { collection: ExtraColl
         : !groups
           ? <p role="status" className="page-message">{_t('Loading items…')}</p>
           : groups.length
-            ? <MetaGroupList key={term} groups={groups} onPick={pick} />
+            ? <MetaGroupList key={term} groups={groups} onPick={pick}
+                renderItem={collection === 'cargo' ? cargoCandidate : undefined} />
             : <EmptyMessage>{_t('No compatible items found')}</EmptyMessage>}
   </ActionSheet>
 }
 
-function addExtra(fit: FitDoc, collection: ExtraCollection, typeId: number): FitDoc {
+export function addExtra(fit: FitDoc, collection: ExtraCollection, typeId: number): FitDoc {
   switch (collection) {
     case 'cargo': {
       const index = fit.cargo.findIndex((item) => item.typeId === typeId)

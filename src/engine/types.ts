@@ -69,7 +69,11 @@ export const FitDocSchema = z.object({
   fighters: z.array(z.object({ typeId: z.number().int(), amount: z.number().int(), active: z.boolean() })).optional(),
   cargo: z.array(z.object({ typeId: z.number().int(), amount: z.number().int() })),
   implants: z.array(z.number().int()),
+  /** Older documents inherit the global default. */
+  implantSource: z.enum(['fit', 'character']).optional(),
   boosters: z.array(z.number().int()),
+  /** Enabled eos effect IDs keyed by booster type ID. Unlisted effects are off. */
+  boosterSideEffects: z.record(z.string(), z.array(z.number().int())).optional(),
   notes: z.string(),
   character: z.enum(['all5', 'all0']),
   /** pyfa built-in damage pattern id (negative; -1 = Uniform). */
@@ -222,6 +226,17 @@ const MissingSkillSchema = z.object({
   currentLevel: z.number().int(),
 })
 
+export const FIGHTER_KINDS = ['light', 'heavy', 'support'] as const
+export type FighterKind = typeof FIGHTER_KINDS[number]
+const ExtraItemDetailsSchema = z.object({
+  iconId: z.number().int().nullable(),
+  graphicId: z.number().int().nullable(),
+  volume: num.optional(),
+  slot: z.number().int().optional(),
+  sideEffects: z.array(z.object({ id: z.number().int(), name: LNameSchema, percent: num })).optional(),
+})
+export type ExtraItemDetails = z.infer<typeof ExtraItemDetailsSchema>
+
 export const CalcResultSchema = z.object({
   dataVersion: z.string(),
   clientBuild: z.string(),
@@ -269,10 +284,18 @@ export const CalcResultSchema = z.object({
   squadrons: z.object({
     drones: z.array(z.object({
       index: z.number().int(), typeId: z.number().int(), active: z.number().int(), bandwidth: num,
+      optimalRange: num, falloff: num, velocity: num, hp: num,
     })),
     fighters: z.array(z.object({
       index: z.number().int(), typeId: z.number().int(), active: z.boolean(), maxAmount: z.number().int(),
+      kind: z.enum(FIGHTER_KINDS).nullable(), velocity: num, hp: num,
     })),
+    fighterSlots: z.record(z.enum(FIGHTER_KINDS), UsedTotalSchema),
+  }).optional(),
+  extras: z.object({
+    items: z.record(z.string(), ExtraItemDetailsSchema),
+    /** Unrounded m³ capacity for filling cargo with small items. */
+    cargoCapacity: num.optional(),
   }).optional(),
   priceItems: z.object({
     ship: PriceStackSchema,
@@ -358,6 +381,8 @@ export const ItemRowSchema = z.object({
     /** CPU left over once every replaced module is this one. */
     cpuLeft: num,
   }).optional(),
+  canAddToCargo: z.boolean().optional(),
+  canAddToDroneBay: z.boolean().optional(),
 })
 export type ItemRow = z.infer<typeof ItemRowSchema>
 
@@ -438,6 +463,12 @@ export interface ShipCatalog {
 
 export type ExtraCollection = 'cargo' | 'drones' | 'fighters' | 'implants' | 'boosters'
 
+export interface ImplantSet {
+  id: number
+  name: LName
+  implants: { typeId: number; name: LName; slot: number }[]
+}
+
 export interface SlotFill {
   index: number
   module: FitModule
@@ -458,7 +489,8 @@ export interface EngineClient {
   importAdditions?(text: string, destination: ImportAddition): Promise<ImportAdditionsResult>
   exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh', options?: Partial<EftExportOptions>): Promise<string>
   shipCatalog?(): Promise<ShipCatalog>
-  itemsForExtra?(fit: FitDoc, collection: ExtraCollection, query: string): Promise<ItemGroup[]>
+  itemsForExtra?(fit: FitDoc, collection: ExtraCollection, query: string, options?: CalcOptions): Promise<ItemGroup[]>
+  implantSets?(): Promise<ImplantSet[]>
   fillEmptySlots?(fit: FitDoc, source: ModulePos): Promise<SlotFill[]>
   missingSkills(fit: FitDoc): Promise<MissingSkill[]>
   /** Current asset version, used to detect retired IDs before calculating an old fit. */

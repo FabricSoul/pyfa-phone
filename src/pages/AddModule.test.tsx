@@ -41,7 +41,7 @@ it('restores and persists the search query independently of the market branch', 
   /></MemoryRouter>)
   const input = await screen.findByRole<HTMLInputElement>('searchbox', { name: 'Search modules' })
   expect(input.value).toBe('Gyrostabilizer')
-  expect(await screen.findByRole('button', { name: /Gyrostabilizer II/ })).toBeTruthy()
+  expect(await screen.findByRole('button', { name: /^Gyrostabilizer II/ })).toBeTruthy()
   fireEvent.change(input, { target: { value: 'Damage Control' } })
   expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.query.low')!)).toBe('Damage Control')
   expect(sessionStorage.getItem('pyfa.addModule.query.high')).toBeNull()
@@ -76,7 +76,7 @@ it('remembers the market path when a candidate is added from search', async () =
   const store = createFitStore(new IDBFactory())
   render(<MemoryRouter initialEntries={['/fit/rifter/add/low']}><FittingRoutes engine={mockEngine} store={store} /></MemoryRouter>)
   fireEvent.change(await screen.findByRole('searchbox'), { target: { value: 'Damage Control II' } })
-  fireEvent.click(await screen.findByRole('button', { name: /Damage Control II/ }))
+  fireEvent.click(await screen.findByRole('button', { name: /^Damage Control II/ }))
   await screen.findByRole('tab', { name: 'Slots' })
   expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.market.low')!)).toEqual({
     branch: [14, 615], meta: 'tech2',

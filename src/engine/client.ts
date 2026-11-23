@@ -13,6 +13,7 @@ export interface WorkerEngineClient extends EngineClient {
   marketTreeForSlot: NonNullable<EngineClient['marketTreeForSlot']>
   shipCatalog: NonNullable<EngineClient['shipCatalog']>
   itemsForExtra: NonNullable<EngineClient['itemsForExtra']>
+  implantSets: NonNullable<EngineClient['implantSets']>
   fillEmptySlots: NonNullable<EngineClient['fillEmptySlots']>
   itemInfo: NonNullable<EngineClient['itemInfo']>
   getDataVersion(): Promise<string>
@@ -50,7 +51,8 @@ export async function createEngine(report?: ReportStage): Promise<WorkerEngineCl
       return result
     },
     shipCatalog: (...args) => remote.shipCatalog(...args),
-    itemsForExtra: (...args) => remote.itemsForExtra(...args),
+    itemsForExtra: (fit, collection, query, options) => remote.itemsForExtra(fit, collection, query, { ...calcOptions(), ...options }),
+    implantSets: () => remote.implantSets(),
     fillEmptySlots: (...args) => remote.fillEmptySlots(...args),
     itemInfo: (typeId, fit, pos, options) =>
       remote.itemInfo(typeId, fit, pos, fit && { ...calcOptions(), ...options }),
