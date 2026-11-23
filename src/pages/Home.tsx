@@ -6,7 +6,9 @@ import { useSettings } from '../settings/settings'
 import { _t } from '../i18n/t'
 import type { StoredFit } from '../store/fits'
 import { FitRow } from '../ui/FitRow'
-import { ItemIcon } from '../ui/ItemIcon'
+import { Appear } from '../ui/motion'
+import { ResumeCard } from '../ui/ResumeCard'
+import { SkeletonList } from '../ui/Skeleton'
 import { InstallCard } from '../ui/InstallCard'
 import { lname, renderUrl, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
@@ -17,6 +19,8 @@ import { FitSection, warningText } from './shared'
 interface Entry {
   record: StoredFit
   result?: CalcResult
+  /** The engine has not answered for this fit yet. */
+  pending: boolean
 }
 
 export function Home() {
@@ -31,21 +35,19 @@ function FitLibrary() {
   const { engine, store } = useFitServices()
   const [entries, setEntries] = useState<Entry[]>()
   const [query, setQuery] = useState('')
+  const [searching, setSearching] = useState(false)
   const [error, setError] = useState(false)
 
   useEffect(() => {
     let current = true
     void store.list().then(async (records) => {
       // The list does not need the engine: show it now, fill in the numbers as the engine answers.
-      if (current) setEntries(records.map((record) => ({ record })))
-      const rows = await Promise.all(records.map(async (record): Promise<Entry> => {
-        try {
-          return { record, result: await engine.calc(record.fit, { includeReload: considerReload }) }
-        } catch {
-          return { record }
-        }
+      if (current) setEntries(records.map((record) => ({ record, pending: true })))
+      await Promise.all(records.map(async (record) => {
+        let result: CalcResult | undefined
+        try { result = await engine.calc(record.fit, { includeReload: considerReload }) } catch { /* the row stays without numbers */ }
+        if (current) setEntries((rows) => rows?.map((row) => row.record.id === record.id ? { record, result, pending: false } : row))
       }))
-      if (current) setEntries(rows)
     }).catch(() => { if (current) setError(true) })
     return () => { current = false }
   }, [considerReload, engine, store])
@@ -62,44 +64,42 @@ function FitLibrary() {
     const key = group ? lname(group, lang) : _t('Other ships')
     groups.set(key, [...groups.get(key) ?? [], entry])
   }
-  const recent = entries?.filter(({ record }) => record.openedAt !== null)
-    .sort((a, b) => (b.record.openedAt ?? 0) - (a.record.openedAt ?? 0)).slice(0, 6) ?? []
+  const last = needle ? undefined : entries?.filter(({ record }) => record.openedAt !== null)
+    .sort((a, b) => (b.record.openedAt ?? 0) - (a.record.openedAt ?? 0))[0]
+  let appearing = 0
 
   return <main>
     <header className="home-heading">
       <h1>{_t('Fittings')}</h1>
-      <Link className="fit-button" to="/settings">{_t('Settings')}</Link>
-      <button type="button" className="fit-button primary" onClick={() => navigate('/?new')}>
-        <Icon name="plus" />{_t('New')}
-      </button>
+      <button type="button" className="ib" aria-label={_t('Search fits or ships')} aria-expanded={searching}
+        onClick={() => { setSearching(!searching); if (searching) setQuery('') }}><Icon name="search" size={22} /></button>
+      <Link className="ib" to="/settings" aria-label={_t('Settings')}><Icon name="settings" size={22} /></Link>
     </header>
-    <div className="fit-search-row">
-      <input type="search" className="fit-input" aria-label={_t('Search fits or ships')} placeholder={_t('Search fits or ships')}
+    {searching && <div className="fit-search-row">
+      <input type="search" className="fit-input" autoFocus aria-label={_t('Search fits or ships')} placeholder={_t('Search fits or ships')}
         value={query} onChange={(event) => setQuery(event.target.value)} />
-      <Link className="fit-button" to="/import">{_t('Paste to import')}</Link>
-    </div>
+    </div>}
+    <nav className="qa-row" aria-label={_t('Quick actions')}>
+      <Link className="qa primary" to="/?new"><Icon name="plus" size={22} />{_t('New fit')}</Link>
+      <Link className="qa" to="/import"><Icon name="clipboard" size={22} />{_t('Paste to import')}</Link>
+      <Link className="qa" to="/?new"><Icon name="ship" size={22} />{_t('Browse ships')}</Link>
+    </nav>
     <InstallCard />
     {error && <p role="alert" className="page-message">{_t('Could not load or save fits')}</p>}
-    {!entries && !error && <p role="status" className="page-message">{_t('Loading fits…')}</p>}
-    {recent.length > 0 && !needle && <FitSection title={_t('Recently opened')}>
-      <div className="recent-fits">
-        {recent.map(({ record, result }) => <Link key={record.id} className="recent-fit" to={`/fit/${record.id}`}>
-          <ItemIcon className="ship" size={36} src={renderUrl(result?.ship.graphicId ?? null)} />
-          <span><b>{record.fit.name}</b>{result && <small>{lname(result.ship.name, lang)}</small>}</span>
-        </Link>)}
-      </div>
-    </FitSection>}
+    {!entries && !error && <SkeletonList rows={4} label={_t('Loading fits…')} />}
+    {last && <ResumeCard id={last.record.id} name={last.record.fit.name} openedAt={last.record.openedAt ?? 0} result={last.result} />}
     {[...groups].map(([group, rows]) => <FitSection key={group} title={group} info={fmtCount(rows.length)}>
       <div className="list">
-        {rows.map(({ record, result }) => {
+        {rows.map(({ record, result, pending }) => {
           const ship = result?.ship.name ?? record.itemNames[record.fit.shipTypeId]
-          return <FitRow key={record.id}
+          return <Appear key={record.id} index={appearing++}><FitRow
             name={record.fit.name} shipName={ship ? lname(ship, lang) : undefined}
-            shipSrc={renderUrl(result?.ship.graphicId ?? null)}
+            shipSrc={renderUrl(result?.ship.graphicId ?? null)} pending={pending}
             dps={result?.stats.firepower.dps} ehp={result?.stats.defense.ehp} velocity={result?.stats.navigation.maxVelocity}
+            cpu={result?.resources.cpu} grid={result?.resources.powergrid}
             showPrice price={result ? priceTotal(totalPriceItems(result.priceItems, priceIncluded), quotes) : null}
             overflow={result?.warnings.map(warningText).join(' · ')}
-            onClick={() => navigate(`/fit/${record.id}`)} />
+            onClick={() => navigate(`/fit/${record.id}`)} /></Appear>
         })}
       </div>
     </FitSection>)}

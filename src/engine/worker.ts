@@ -2,40 +2,63 @@ import { expose } from 'comlink'
 import type * as Pyodide from 'pyodide'
 import pkg from '../../package.json'
 import type { EngineWorkerApi } from './client'
+import { countBody, countingFetch, createProgress } from './progress'
 
-async function fetchAsset(url: URL) {
+async function fetchAsset(url: URL, onBytes?: (bytes: number) => void) {
   const response = await fetch(url)
   if (!response.ok) throw new Error(`Engine asset request failed (${response.status}): ${url.pathname}`)
-  return response
+  if (!onBytes || !response.body) return response
+  return new Response(countBody(response.body, onBytes), { status: response.status, statusText: response.statusText, headers: response.headers })
 }
 
 interface EngineManifest {
   dataVersion: string
   clientBuild: string
-  db: { file: string; encoding: 'gzip' }
-  names: { file: string }
-  py: { file: string }
-  pyodide: { version: string }
+  db: { file: string; bytes: number; encoding: 'gzip' }
+  names: { file: string; bytes: number }
+  py: { file: string; bytes: number }
+  pyodide: { version: string; files?: { bytes: number }[] }
 }
 
-async function loadRuntime(manifestUrl: URL, version: string) {
+async function loadRuntime(manifestUrl: URL, version: string, onBytes?: (bytes: number) => void) {
   if (version !== pkg.dependencies.pyodide) throw new Error('Engine assets contain an incompatible Pyodide version')
   const indexURL = new URL(`../pyodide/${version}/`, manifestUrl).href
   const moduleUrl = new URL('pyodide.mjs', indexURL).href
   const { loadPyodide }: typeof Pyodide = await import(/* @vite-ignore */ moduleUrl)
-  return loadPyodide({ indexURL, packages: ['sqlalchemy', 'pyyaml', 'cryptography', 'sqlite3'] })
+  // Pyodide downloads its files itself; count the bytes of the ones under its index URL for the boot page.
+  const originalFetch = self.fetch
+  if (onBytes) self.fetch = countingFetch(originalFetch.bind(self), (url) => url.startsWith(indexURL), onBytes)
+  try {
+    return await loadPyodide({ indexURL, packages: ['sqlalchemy', 'pyyaml', 'cryptography', 'sqlite3'] })
+  } finally {
+    self.fetch = originalFetch
+  }
 }
 
 async function initialize(report: Parameters<EngineWorkerApi['ready']>[0]) {
   await report?.('runtime')
   const manifestUrl = new URL(`${import.meta.env.BASE_URL}data/manifest.json`, self.location.origin)
   const manifest: EngineManifest = await fetchAsset(manifestUrl).then((response) => response.json())
-  const runtime = await loadRuntime(manifestUrl, manifest.pyodide.version)
-  await report?.('data')
+  // Real byte counts for the boot page, throttled so the Worker does not flood the main thread.
+  let stage: 'runtime' | 'data' = 'runtime'
+  let last = 0
+  const progress = createProgress({
+    runtime: (manifest.pyodide.files ?? []).reduce((sum, file) => sum + file.bytes, 0),
+    data: manifest.db.bytes + manifest.names.bytes + manifest.py.bytes,
+  }, (snapshot) => {
+    const now = Date.now()
+    if (now - last < 100) return
+    last = now
+    void report?.(stage, snapshot)
+  })
+  const runtime = await loadRuntime(manifestUrl, manifest.pyodide.version, (bytes) => progress.add('runtime', bytes))
+  stage = 'data'
+  await report?.('data', progress.snapshot())
+  const count = (bytes: number) => progress.add('data', bytes)
   const [database, sources, names] = await Promise.all([
-    fetchAsset(new URL(manifest.db.file, manifestUrl)),
-    fetchAsset(new URL(manifest.py.file, manifestUrl)).then((response) => response.arrayBuffer()),
-    fetchAsset(new URL(manifest.names.file, manifestUrl)).then((response) => response.arrayBuffer()),
+    fetchAsset(new URL(manifest.db.file, manifestUrl), count),
+    fetchAsset(new URL(manifest.py.file, manifestUrl), count).then((response) => response.arrayBuffer()),
+    fetchAsset(new URL(manifest.names.file, manifestUrl), count).then((response) => response.arrayBuffer()),
   ])
   if (!database.body) throw new Error('Game database response has no body')
   // Preview servers can serve the gzip asset with Content-Encoding, which fetch decodes.
@@ -57,7 +80,7 @@ async function initialize(report: Parameters<EngineWorkerApi['ready']>[0]) {
     runtime.FS.close(stream)
     await reader.cancel().catch(() => {})
   }
-  await report?.('initialize')
+  await report?.('initialize', progress.snapshot())
   runtime.FS.writeFile('/pyfa.zip', new Uint8Array(sources))
   runtime.FS.writeFile('/names.json', new Uint8Array(names))
   runtime.globals.set('_asset_version', manifest.dataVersion)

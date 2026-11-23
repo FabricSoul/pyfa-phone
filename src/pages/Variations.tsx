@@ -1,3 +1,4 @@
+import { SkeletonList } from '../ui/Skeleton'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import type { ItemGroup, ItemRow } from '../engine/types'
@@ -81,7 +82,7 @@ export function Variations() {
       </>} />
     {!module && <EmptyMessage>{_t('Module not found')}</EmptyMessage>}
     {error && <p role="alert" className="page-message">{_t('Could not load or replace variations')}</p>}
-    {module && !groups && !error && <p role="status" className="page-message">{_t('Loading variations…')}</p>}
+    {module && !groups && !error && <SkeletonList rows={4} label={_t('Loading variations…')} />}
     {row?.kind === 'module' && <section aria-label={_t('Current module')}>
       <div className="ar on current-module">
         <ItemIcon src={iconUrl(row.iconId)} />

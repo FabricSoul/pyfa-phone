@@ -7,6 +7,7 @@ import { ResourceBar } from '../ui/ResourceGauge'
 import { Tabs } from '../ui/Tabs'
 import { ModuleRow } from '../ui/ModuleRow'
 import { Icon } from '../ui/icons'
+import { FitBodySkeleton } from '../ui/PageSkeletons'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
 import { calcOptions, updateSettings, useSettings } from '../settings/settings'
 import { ActionSheet } from '../ui/ActionSheet'
@@ -128,7 +129,7 @@ export function Fit() {
         {_t('Item removed')} · {item.name ? lname(item.name, language) : item.typeId}
       </li>)}
     </ul>}
-    {!result && !retired.has(fit.shipTypeId) && <p role="status" className="page-message">{_t('Calculating fit…')}</p>}
+    {!result && !retired.has(fit.shipTypeId) && <FitBodySkeleton label={_t('Calculating fit…')} />}
     {view === 'slots' && result && <FitSetup result={result} />}
     {view === 'slots' && result && SLOT_KINDS.map((slot) => {
       const { total, used } = result.resources.slots[slot]

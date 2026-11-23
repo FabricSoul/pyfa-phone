@@ -1,3 +1,4 @@
+import { FitPageSkeleton } from '../ui/PageSkeletons'
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link, Outlet, useParams } from 'react-router-dom'
 import { SLOT_KINDS, type CalcResult, type EngineClient, type FitDoc, type FitModule, type LName, type ModulePos, type SlotKind } from '../engine/types'
@@ -167,7 +168,7 @@ function Workspace({ id }: { id: string }) {
     <div className="fit-inset"><button type="button" className="fit-button" onClick={() => window.location.reload()}>{_t('Retry')}</button></div>
     <NotFoundLink />
   </>
-  if (!record || !history) return <p role="status" className="page-message">{_t('Loading fit…')}</p>
+  if (!record || !history) return <FitPageSkeleton />
 
   function apply(change: (value: History<FitDoc>) => History<FitDoc>, itemNames: Record<number, LName> = {}) {
     if (!record || !historyRef.current) return

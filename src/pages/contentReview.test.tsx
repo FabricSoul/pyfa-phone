@@ -29,7 +29,7 @@ it('browses and creates an empty non-example hull following the item name langua
     }),
     calc: vi.fn((fit) => mockEngine.calc(fit.shipTypeId === 626 ? { ...fit, shipTypeId: 587 } : fit)),
   }))
-  fireEvent.click(await screen.findByRole('button', { name: 'New' }))
+  fireEvent.click(await screen.findByRole('link', { name: 'New fit' }))
   fireEvent.click(await screen.findByRole('button', { name: /巡洋舰/ }))
   fireEvent.change(screen.getByRole('searchbox', { name: 'Search ships' }), { target: { value: 'Vexor' } })
   fireEvent.click(await screen.findByRole('button', { name: '狂怒者级' }))

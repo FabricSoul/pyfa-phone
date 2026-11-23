@@ -1,4 +1,5 @@
 import '../ui/extras.css'
+import { SkeletonList } from '../ui/Skeleton'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
@@ -186,7 +187,7 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
         value={query} onChange={(event) => setQuery(event.target.value)} />
     </div>
     {marketError && <p role="alert" className="page-message">{_t('Could not load modules')}</p>}
-    {!tree && !marketError && engine.marketTreeForSlot && <p role="status" className="page-message">{_t('Loading modules…')}</p>}
+    {!tree && !marketError && engine.marketTreeForSlot && <SkeletonList rows={6} label={_t('Loading modules…')} />}
     {result && index === undefined && <p role="status" className="page-message">{_t('No empty slot')}</p>}
     {!search && recentItems.length > 0 && <section aria-label={_t('Recent modules')}>
       <h2 className="fit-filter-label">{_t('Recent modules')}</h2>

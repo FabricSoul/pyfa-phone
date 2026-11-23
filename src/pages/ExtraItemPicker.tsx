@@ -1,3 +1,4 @@
+import { SkeletonList } from '../ui/Skeleton'
 import { useEffect, useState } from 'react'
 import { useSticky } from '../app/sticky'
 import type { ExtraCollection, FitDoc, ItemGroup, ItemRow } from '../engine/types'
@@ -77,7 +78,7 @@ export function ExtraItemPicker({ collection, onClose }: { collection: ExtraColl
       : needsSearch
         ? <EmptyMessage>{_t('Search for an item to add to cargo')}</EmptyMessage>
         : !groups
-          ? <p role="status" className="page-message">{_t('Loading items…')}</p>
+          ? <SkeletonList rows={5} label={_t('Loading items…')} />
           : groups.length
             ? <MetaGroupList key={term} groups={groups} onPick={pick}
                 renderItem={collection === 'cargo' ? cargoCandidate : undefined} />

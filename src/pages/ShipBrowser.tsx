@@ -1,3 +1,4 @@
+import { SkeletonList } from '../ui/Skeleton'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSticky } from '../app/sticky'
@@ -92,7 +93,7 @@ export function ShipBrowser() {
         value={query} onChange={(event) => setQuery(event.target.value)} />
     </div>
     {catalogError && <p className="page-message" role="alert">{_t('Could not load ships')}</p>}
-    {!catalog && !catalogError && <p className="page-message" role="status">{_t('Loading ships…')}</p>}
+    {!catalog && !catalogError && <SkeletonList rows={6} label={_t('Loading ships…')} />}
     {saveError && <p className="page-message" role="alert">{_t('Could not load or save fits')}</p>}
     {catalog && <div className="fit-inset">
       <select className="fit-input" aria-label={_t('Ship faction')} value={race ?? ''}

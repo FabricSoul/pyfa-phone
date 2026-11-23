@@ -35,9 +35,15 @@ describe('#13 pages that do not calculate work before the engine is ready', () =
     app('/')
     expect((await screen.findByRole('link', { name: 'About' })).getAttribute('href')).toBe('/about')
   })
-  it('a fit page waits for the engine and shows progress', async () => {
-    app('/fit/rifter')
-    expect(await screen.findByText(/Downloading Python runtime/)).toBeTruthy()
-    expect(screen.getByRole('progressbar')).toBeTruthy()
+  it('a fit page waits for the engine behind a skeleton and a floating progress bar, with a way back', async () => {
+    const { container } = app('/fit/rifter')
+    expect(await screen.findByText(/Starting engine · Python runtime/)).toBeTruthy()
+    expect(container.querySelectorAll('.sk').length).toBeGreaterThan(5)
+    expect(screen.getByRole('link', { name: 'Back' }).getAttribute('href')).toBe('/')
+  })
+  it('pages that only need the engine for a lookup show the boot page', async () => {
+    app('/import')
+    expect(await screen.findByRole('heading', { level: 1, name: 'Preparing the fitting engine' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Browse fittings first' })).toBeTruthy()
   })
 })

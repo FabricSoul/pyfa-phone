@@ -1,5 +1,6 @@
 import { proxy, wrap } from 'comlink'
 import { calcOptions, getSettings } from '../settings/settings'
+import type { EngineProgress } from './progress'
 import {
   isCalcResult,
   type EngineClient,
@@ -21,7 +22,8 @@ export interface WorkerEngineClient extends EngineClient {
 }
 
 export type EngineStage = 'runtime' | 'data' | 'initialize'
-type ReportStage = (stage: EngineStage) => void
+/** Called on every stage change and, while downloading, with the bytes loaded so far. */
+export type ReportStage = (stage: EngineStage, progress?: EngineProgress) => void
 
 export interface EngineWorkerApi extends WorkerEngineClient {
   ready(report?: ReportStage): Promise<void>

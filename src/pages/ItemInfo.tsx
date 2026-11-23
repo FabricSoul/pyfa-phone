@@ -1,3 +1,4 @@
+import { SkeletonList } from '../ui/Skeleton'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import type { ItemDetails, SkillNode } from '../engine/types'
@@ -61,7 +62,7 @@ function Details({ typeId, fitId, position }: { typeId: number; fitId: string; p
       image={item && <ItemIcon src={iconUrl(item.iconId)} />}
       subtitle={item && <>{item.group && lname(item.group, language)} {item.meta && <MetaTag meta={item.meta} />}</>} />
     {error && <p className="page-message" role="alert">{_t('Could not load item information')}</p>}
-    {item === undefined && !error && <p role="status" className="page-message">{_t('Loading item…')}</p>}
+    {item === undefined && !error && <SkeletonList rows={5} label={_t('Loading item…')} />}
     {item === null && <EmptyMessage>{_t('Item information unavailable')}</EmptyMessage>}
     {item && <>
       <Segmented value={view} onChange={setView} options={[

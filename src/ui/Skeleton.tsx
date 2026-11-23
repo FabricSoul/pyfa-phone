@@ -17,8 +17,9 @@ export function SkeletonRow({ lead = 70 }: { lead?: number }) {
 }
 
 /** A busy list region with one polite announcement. */
-export function SkeletonList({ rows = 3, label }: { rows?: number; label: string }) {
-  return <div className="list" role="status" aria-busy="true" aria-label={label}>
+export function SkeletonList({ rows = 3, label }: { rows?: number; label?: string }) {
+  const announce = label ? { role: 'status', 'aria-busy': true, 'aria-label': label } : { 'aria-hidden': true }
+  return <div className="list" {...announce}>
     {Array.from({ length: rows }, (_, i) => <SkeletonRow key={i} lead={i % 2 ? 55 : 70} />)}
   </div>
 }

@@ -57,3 +57,19 @@ export function motionTokens(): { duration: number; fast: number; ease: [number,
     ease: pts && pts.length === 4 && pts.every(Number.isFinite) ? (pts as [number, number, number, number]) : fallback.ease,
   }
 }
+
+/** pyfa's own icons (public/img/gui, copied by etl/20_assets.py), used for the key numbers. */
+export const guiIcon = (name: string) => `/img/gui/${name}.png`
+
+/** Capacitor as pyfa shows it: stable → percent, otherwise how long it lasts as m:ss. */
+export function capacitorText(cap: { stable: boolean; stablePercent: number | null; lastsSeconds: number | null }): string {
+  if (cap.stable) return `${fmt(cap.stablePercent ?? 100, 0)}%`
+  const seconds = Math.round(cap.lastsSeconds ?? 0)
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
+}
+
+/** Width of a margin bar: used / total, capped at 100%, one decimal. */
+export function usedPercent({ used, total }: { used: number; total: number }): string {
+  if (used > total) return '100%'
+  return `${total > 0 ? Number((used / total * 100).toFixed(1)) : 0}%`
+}
