@@ -65,7 +65,7 @@ function FitLibrary() {
 
   // Coming back keeps the scroll position of the library.
   useLayoutEffect(() => {
-    if (entries) window.scrollTo(0, libraryScroll)
+    if (entries && libraryScroll > 0) window.scrollTo(0, libraryScroll)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries === undefined])
   useEffect(() => () => { libraryScroll = window.scrollY }, [])

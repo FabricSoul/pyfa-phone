@@ -19,11 +19,11 @@ it('keeps the fit workspace mounted while its add page enters and leaves: no ske
   const callsBefore = calc.mock.calls.length
   fireEvent.click(screen.getAllByTestId('empty-row')[0]!)
   await screen.findByRole('heading', { name: 'Add low slot module' }, { timeout: 4000 })
-  expect(container.querySelector('main .sk')).toBeNull()
+  expect(container.querySelector('[aria-busy="true"]')).toBeNull()
   fireEvent.click(screen.getByRole('link', { name: 'Back' }))
   await screen.findByRole('tab', { name: 'Stats' })
   expect(calc.mock.calls.length).toBe(callsBefore)
-  expect(container.querySelector('main .sk')).toBeNull()
+  expect(container.querySelector('[aria-busy="true"]')).toBeNull()
 }, 12_000)
 
 it('the in-app back button of the fit page returns to the library entering from the left, and the fit page leaves inert', async () => {
