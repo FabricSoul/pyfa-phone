@@ -20,6 +20,8 @@ const base = `http://127.0.0.1:${server.httpServer.address().port}/`
 const fitName = '端到端装配'
 const eft = `[长尾鲛级, ${fitName}]
 200mm自动加农炮 II, 共和舰队电磁脉冲弹 S`
+// The example fits are not written in production builds; the smoke test switches them on (the same flag the store reads).
+const withExamples = (context) => context.addInitScript(() => localStorage.setItem('pyfa.examples', '1'))
 const ms = (start) => Math.round(performance.now() - start)
 let browser
 let page
@@ -30,6 +32,7 @@ try {
   const context = await browser.newContext({
     locale: 'zh-CN', viewport: { width: 402, height: 874 }, isMobile: true, hasTouch: true,
   })
+  await withExamples(context)
   await context.route(/^https:\/\/(market\.fuzzwork\.co\.uk|esi\.evetech\.net)\//, (route) => route.abort())
   page = await context.newPage()
   page.on('pageerror', (error) => browserErrors.push(String(error)))
@@ -90,6 +93,7 @@ try {
   {
     const early = await browser.newContext({ locale: 'zh-CN', serviceWorkers: 'block' })
     // Hold the engine's first download so it cannot be ready.
+    await withExamples(early)
     await early.route('**/data/manifest.json', () => {})
     const p = await early.newPage()
     p.setDefaultTimeout(15000)
@@ -178,6 +182,16 @@ try {
   await page.getByRole('button', { name: '返回', exact: true }).click()
   await page.getByTestId('fit-row').first().waitFor()
   assert.equal(await fitRow(fitName).count(), 0)
+  step = 'the library does not recalculate when coming back from a fit page (UX3)'
+  await page.waitForFunction(() => document.querySelectorAll('[data-testid="fit-row"] .stat').length > 0 && !document.querySelector('[data-testid="fit-row"] .sk'))
+  await fitRow('裂谷级').first().click()
+  await dps.waitFor()
+  await page.getByRole('button', { name: '返回', exact: true }).click()
+  // 200 ms after the tap the rows already show their numbers: no skeleton, no pending row.
+  await page.waitForFunction(() => {
+    const rows = [...document.querySelectorAll('[data-testid="fit-row"]')]
+    return rows.length > 0 && rows.every((row) => row.querySelector('.stat')) && !document.querySelector('[data-testid="fit-row"] .sk')
+  }, null, { timeout: 200 })
   console.log(`Unsaved preview and reload toggle passed: DPS ${reloading} → ${withoutReload}`)
 
   step = 'save a Chinese EFT fit'
@@ -559,6 +573,7 @@ try {
 
   step = 'retry a failed engine startup'
   const recovery = await browser.newContext({ locale: 'zh-CN', serviceWorkers: 'block' })
+  await withExamples(recovery)
   await recovery.route('**/data/manifest.json', (route) => route.fulfill({ status: 503 }), { times: 1 })
   page = await recovery.newPage()
   page.setDefaultTimeout(Number(process.env.SMOKE_TIMEOUT_MS ?? 90000))

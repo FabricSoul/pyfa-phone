@@ -70,18 +70,43 @@ const STORE = 'fits'
 export const exampleFitDocs = Object.entries(fixtures)
   .map(([id, sample]) => ({ id, fit: FitDocSchema.parse(sample) }))
 
-export function createFitStore(factory: IDBFactory, databaseName = 'pyfa-phone'): FitStore {
+/** Examples are written in development, or when `localStorage['pyfa.examples'] === '1'`, or the page is opened with `?examples=1`. */
+export function examplesEnabled(source?: { dev: boolean; flag: string | null; search: string }): boolean {
+  const { dev, flag, search } = source ?? {
+    dev: import.meta.env.DEV,
+    flag: (() => { try { return localStorage.getItem('pyfa.examples') } catch { return null } })(),
+    search: typeof location === 'undefined' ? '' : location.search,
+  }
+  return dev || flag === '1' || new URLSearchParams(search).get('examples') === '1'
+}
+
+const sameContent = (a: FitDoc, b: FitDoc) => {
+  const strip = ({ itemNames: _names, ...rest }: FitDoc) => JSON.stringify(rest)
+  return strip(a) === strip(b)
+}
+
+export function createFitStore(factory: IDBFactory, databaseName = 'pyfa-phone', options: { examples?: boolean } = {}): FitStore {
   let connection: Promise<IDBDatabase> | undefined
 
   function open(): Promise<IDBDatabase> {
     if (connection) return connection
     connection = new Promise<IDBDatabase>((resolve, reject) => {
-      const request = factory.open(databaseName, 1)
-      request.onupgradeneeded = () => {
-        const store = request.result.createObjectStore(STORE, { keyPath: 'id' })
-        for (const { id, fit } of exampleFitDocs) {
-          const record: StoredFit = { id, fit, openedAt: null, itemNames: {} }
-          store.add(withItemNames(record))
+      const request = factory.open(databaseName, 2)
+      request.onupgradeneeded = (event) => {
+        const examples = options.examples ?? examplesEnabled()
+        if (event.oldVersion < 1) {
+          const store = request.result.createObjectStore(STORE, { keyPath: 'id' })
+          if (examples) for (const { id, fit } of exampleFitDocs) store.add(withItemNames({ id, fit, openedAt: null, itemNames: {} }))
+        } else if (event.oldVersion < 2 && !examples) {
+          // Version 1 wrote the examples into every database: drop the ones nobody has changed, keep the edited ones.
+          const store = request.transaction!.objectStore(STORE)
+          for (const { id, fit } of exampleFitDocs) {
+            const get = store.get(id)
+            get.onsuccess = () => {
+              const saved = get.result as StoredFit | undefined
+              if (saved && sameContent(saved.fit, fit)) store.delete(id)
+            }
+          }
         }
       }
       request.onerror = () => reject(request.error)

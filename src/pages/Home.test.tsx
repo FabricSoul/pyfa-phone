@@ -166,3 +166,13 @@ describe('UX3: the library is not recalculated on every visit', () => {
     expect(calls).toEqual(['Edited rifter'])
   })
 })
+
+describe('UX3: an empty library', () => {
+  it('says so in one sentence and offers New fit and Paste to import', async () => {
+    home(createFitStore(new IDBFactory(), 'pyfa-phone', { examples: false }))
+    const empty = await screen.findByTestId('empty-library')
+    expect(within(empty).getByText('No fits yet. Start from a ship, or paste a fit to import.')).toBeTruthy()
+    expect(within(empty).getByRole('link', { name: 'New fit' }).getAttribute('href')).toBe('/?new')
+    expect(within(empty).getByRole('link', { name: 'Paste to import' }).getAttribute('href')).toBe('/import')
+  })
+})

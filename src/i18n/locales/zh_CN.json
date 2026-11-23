@@ -281,7 +281,7 @@
   "No description available": "没有描述",
   "No drones can be activated with the current fit.": "当前装配无法激活无人机。",
   "No empty slot": "没有空槽",
-  "No fits yet": "暂无装配",
+  "No fits yet. Start from a ship, or paste a fit to import.": "还没有装配。从一艘舰船开始，或粘贴装配文本导入。",
   "No free hardpoint": "没有空闲挂载点",
   "No items recognized": "未识别出物品",
   "No matching fits": "找不到匹配的装配",

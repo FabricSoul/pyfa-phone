@@ -121,7 +121,14 @@ function FitLibrary() {
         })}
       </div>
     </FitSection>)}
-    {entries && !groups.size && <p className="page-message">{needle ? _t('No matching fits') : _t('No fits yet')}</p>}
+    {entries && !groups.size && (needle ? <p className="page-message">{_t('No matching fits')}</p>
+      : <section className="empty-state" data-testid="empty-library">
+        <p>{_t('No fits yet. Start from a ship, or paste a fit to import.')}</p>
+        <div className="empty-actions">
+          <Link className="fit-button primary" to="/?new">{_t('New fit')}</Link>
+          <Link className="fit-button" to="/import">{_t('Paste to import')}</Link>
+        </div>
+      </section>)}
     <footer className="hint"><Link to="/about">{_t('About')}</Link></footer>
   </main>
 }
