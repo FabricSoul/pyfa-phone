@@ -1,5 +1,6 @@
 import './ui.css'
 import { useId, useRef, type KeyboardEvent, type ReactNode } from 'react'
+import { SlidingPill } from './motion'
 
 export interface TabOption<T extends string> { value: T; label: ReactNode }
 
@@ -24,6 +25,7 @@ export function Tabs<T extends string>({ options, value, onChange, label }: {
     {options.map((option) => <button key={option.value} type="button" role="tab" id={`${id}-${option.value}`}
       ref={(node) => { if (node) refs.current.set(option.value, node); else refs.current.delete(option.value) }}
       aria-selected={option.value === value} tabIndex={option.value === value ? 0 : -1}
-      className={option.value === value ? 'on' : ''} onClick={() => onChange(option.value)}>{option.label}</button>)}
+      className={option.value === value ? 'on' : ''} onClick={() => onChange(option.value)}>
+      {option.value === value && <SlidingPill group={id} />}{option.label}</button>)}
   </div>
 }

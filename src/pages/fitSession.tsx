@@ -1,11 +1,13 @@
 import { FitPageSkeleton } from '../ui/PageSkeletons'
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { Link, Outlet, useParams } from 'react-router-dom'
+import { Link, useLocation, useOutlet, useParams } from 'react-router-dom'
 import { SLOT_KINDS, type CalcResult, type EngineClient, type FitDoc, type FitModule, type LName, type ModulePos, type SlotKind } from '../engine/types'
 import { _t } from '../i18n/t'
 import { useSettings } from '../settings/settings'
+import { calcCacheFor } from '../store/calcCache'
 import { fitTypeIds, resolveStoredItems, withTemporaryFits, type FitStore, type StoredFit } from '../store/fits'
 import { commit, createHistory, redo, undo, type History } from '../store/history'
+import { Stage } from '../ui/motion'
 import { removedMessage, useToast } from '../ui/Toast'
 import { NotFound } from './shared'
 
@@ -119,6 +121,8 @@ function Workspace({ id }: { id: string }) {
   const [saveError, setSaveError] = useState(false)
   const [calcError, setCalcError] = useState(false)
   const [missing, setMissing] = useState(false)
+  const outlet = useOutlet()
+  const { pathname } = useLocation()
   const toast = useToast()
   // An undo offer belongs to this fit's session; it must not outlive it.
   useEffect(() => toast.dismiss, [toast])
@@ -161,6 +165,8 @@ function Workspace({ id }: { id: string }) {
       if (!current) return
       setResult(calc)
       setCalcError(false)
+      // The home page shows this result for the edited fit instead of calculating it again.
+      if (!removed.length) calcCacheFor(engine).set({ id, fit, openedAt: null, itemNames: {} }, includeReload, calc)
       void store.rememberNames(id, resultNames(calc)).catch(() => { if (current) setSaveError(true) })
     }, (error: unknown) => { console.error('Could not calculate fit', error); if (current) setCalcError(true) })
     return () => { current = false }
@@ -202,7 +208,7 @@ function Workspace({ id }: { id: string }) {
   }}>
     {saveError && <p role="alert" className="page-message warn">{_t('Could not save fit')}</p>}
     {calcError && <p role="alert" className="page-message warn">{_t('Could not recalculate fit')}</p>}
-    <Outlet />
+    <Stage pageKey={pathname}>{outlet}</Stage>
   </FitContext.Provider>
 }
 

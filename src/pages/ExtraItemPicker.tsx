@@ -1,4 +1,5 @@
 import { SkeletonList } from '../ui/Skeleton'
+import { Reveal } from '../ui/motion'
 import { useEffect, useState } from 'react'
 import { useSticky } from '../app/sticky'
 import type { ExtraCollection, FitDoc, ItemGroup, ItemRow } from '../engine/types'
@@ -80,8 +81,8 @@ export function ExtraItemPicker({ collection, onClose }: { collection: ExtraColl
         : !groups
           ? <SkeletonList rows={5} label={_t('Loading items…')} />
           : groups.length
-            ? <MetaGroupList key={term} groups={groups} onPick={pick}
-                renderItem={collection === 'cargo' ? cargoCandidate : undefined} />
+            ? <Reveal key={term}><MetaGroupList groups={groups} onPick={pick}
+                renderItem={collection === 'cargo' ? cargoCandidate : undefined} /></Reveal>
             : <EmptyMessage>{_t('No compatible items found')}</EmptyMessage>}
   </ActionSheet>
 }

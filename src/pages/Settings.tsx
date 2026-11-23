@@ -69,13 +69,13 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
     <button type="button" className="row" role="switch" aria-checked={checked} aria-label={label}
       onClick={() => onChange(!checked)} style={{ width: '100%', border: 0, textAlign: 'left' }}>
       <div className="mn"><span>{label}</span></div>
-      <span aria-hidden="true" style={{
+      <span aria-hidden="true" className="sw-track" style={{
         width: 44, height: 26, borderRadius: 13, flex: 'none',
         background: checked ? 'var(--color-accent)' : 'var(--color-fill)', position: 'relative',
       }}>
-        <i style={{
-          position: 'absolute', top: 3, width: 20, height: 20, borderRadius: 10,
-          background: 'var(--color-surface)', [checked ? 'right' : 'left']: 3,
+        <i className="sw-knob" style={{
+          position: 'absolute', top: 3, left: 3, width: 20, height: 20, borderRadius: 10,
+          background: 'var(--color-surface)', transform: checked ? 'translateX(18px)' : 'none',
         } as CSSProperties} />
       </span>
     </button>

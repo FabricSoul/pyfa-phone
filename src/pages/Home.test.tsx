@@ -126,3 +126,43 @@ describe('home A: grouped list', () => {
     await waitFor(() => expect(screen.getAllByTestId('fit-row')[0]!.querySelectorAll('.sk').length).toBe(0))
   })
 })
+
+describe('UX3: the library is not recalculated on every visit', () => {
+  const counted = () => {
+    const calls: string[] = []
+    const engine: Partial<EngineClient> = { calc: (fit, options) => { calls.push(fit.name); return mockEngine.calc(fit, options) } }
+    return { calls, engine: { ...mockEngine, ...engine } as EngineClient }
+  }
+  it('shows cached numbers at once when the page is mounted again, without calling the engine', async () => {
+    const store = createFitStore(new IDBFactory())
+    const { calls, engine } = counted()
+    const first = render(<MemoryRouter><FittingRoutes engine={engine} store={store} /></MemoryRouter>)
+    await waitFor(() => expect(first.container.querySelectorAll('.sk').length).toBe(0))
+    await waitFor(() => expect(screen.getAllByTestId('fit-row').length).toBeGreaterThan(0))
+    const firstCount = calls.length
+    expect(firstCount).toBeGreaterThan(0)
+    first.unmount()
+    const second = render(<MemoryRouter><FittingRoutes engine={engine} store={store} /></MemoryRouter>)
+    // The first paint already has the numbers: no skeleton, no pending row.
+    expect(second.container.querySelectorAll('.sk').length).toBe(0)
+    expect(screen.getAllByTestId('fit-row').length).toBeGreaterThan(0)
+    expect(second.container.querySelector('.stat img')).not.toBeNull()
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(calls.length).toBe(firstCount)
+  })
+  it('recalculates only the fit that was edited', async () => {
+    const store = createFitStore(new IDBFactory())
+    const { calls, engine } = counted()
+    const first = render(<MemoryRouter><FittingRoutes engine={engine} store={store} /></MemoryRouter>)
+    await waitFor(() => expect(first.container.querySelectorAll('.sk').length).toBe(0))
+    await waitFor(() => expect(screen.getAllByTestId('fit-row').length).toBeGreaterThan(1))
+    first.unmount()
+    calls.length = 0
+    const record = (await store.get('rifter'))!
+    await store.save({ ...record, fit: { ...record.fit, name: 'Edited rifter' } })
+    render(<MemoryRouter><FittingRoutes engine={engine} store={store} /></MemoryRouter>)
+    await screen.findByText('Edited rifter')
+    await waitFor(() => expect(screen.getAllByTestId('fit-row').every((row) => row.querySelector('.sk') === null)).toBe(true))
+    expect(calls).toEqual(['Edited rifter'])
+  })
+})

@@ -1,8 +1,9 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { AnimatePresence } from 'motion/react'
-import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
-import { Appear, Expand, ExpandItem, Page, RollingNumber, delayFor, motionSpec, sheetMotion } from './motion'
+import { useEffect } from 'react'
+import { MemoryRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Appear, Expand, ExpandItem, Reveal, RollingNumber, Stage, TabPanel, delayFor, motionSpec, sheetMotion } from './motion'
 
 afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 
@@ -117,36 +118,89 @@ describe('Expand (rows and panels open and close by height)', () => {
   })
 })
 
-describe('Page (route enter and return)', () => {
+describe('Stage (route enter, leave and return)', () => {
   function Pages() {
     const navigate = useNavigate()
-    return <Routes>
-      <Route path="/" element={<Page><button onClick={() => navigate('/next')}>go</button></Page>} />
-      <Route path="/next" element={<Page><button onClick={() => navigate(-1)}>back</button></Page>} />
-    </Routes>
+    const location = useLocation()
+    return <Stage pageKey={location.pathname}><Routes location={location}>
+      <Route path="/" element={<button onClick={() => navigate('/next')}>go</button>} />
+      <Route path="/next" element={<><button onClick={() => navigate(-1)}>back</button><button onClick={() => navigate('/', { state: { back: true } })}>home</button></>} />
+    </Routes></Stage>
   }
   it('does not animate the first page, slides the next one in from the right over 180 ms, and returns the other way', async () => {
     reduced(false)
     render(<MemoryRouter><Pages /></MemoryRouter>)
     expect(screen.getByTestId('page').getAttribute('data-motion')).toBe('none')
     fireEvent.click(screen.getByText('go'))
-    const next = screen.getByTestId('page')
+    const next = screen.getAllByTestId('page').find((page) => page.textContent?.includes('back'))!
     expect(next.getAttribute('data-motion')).toBe('push')
     expect(next.style.opacity).toBe('0')
     expect(next.style.transform).toBe('translateX(24px)')
     await waitFor(() => expect(next.style.opacity).toBe('1'), { timeout: 2000 })
     fireEvent.click(screen.getByText('back'))
-    const back = screen.getByTestId('page')
+    const back = screen.getAllByTestId('page').find((page) => page.textContent?.includes('go'))!
     expect(back.getAttribute('data-motion')).toBe('back')
     expect(back.style.transform).toBe('translateX(-24px)')
+  })
+  it('a link with state.back (an in-app back button) also enters from the left', async () => {
+    reduced(false)
+    render(<MemoryRouter><Pages /></MemoryRouter>)
+    fireEvent.click(screen.getByText('go'))
+    await waitFor(() => expect(screen.getAllByTestId('page')).toHaveLength(1), { timeout: 2000 })
+    fireEvent.click(screen.getByText('home'))
+    expect(screen.getAllByTestId('page').find((page) => page.textContent?.includes('go'))!.getAttribute('data-motion')).toBe('back')
+  })
+  it('keeps the page that leaves on screen, inert, until it has faded out', async () => {
+    reduced(false)
+    render(<MemoryRouter><Pages /></MemoryRouter>)
+    fireEvent.click(screen.getByText('go'))
+    const pages = screen.getAllByTestId('page')
+    expect(pages).toHaveLength(2)
+    const leaving = pages.find((page) => page.textContent === 'go')!
+    expect(leaving.hasAttribute('inert')).toBe(true)
+    expect(leaving.getAttribute('aria-hidden')).toBe('true')
+    await waitFor(() => expect(screen.getAllByTestId('page')).toHaveLength(1), { timeout: 2000 })
   })
   it('only fades under reduced motion', () => {
     reduced(true)
     render(<MemoryRouter><Pages /></MemoryRouter>)
     fireEvent.click(screen.getByText('go'))
-    const next = screen.getByTestId('page')
+    const next = screen.getAllByTestId('page').find((page) => page.textContent?.includes('back'))!
     expect(next.style.opacity).toBe('0')
     expect(next.style.transform).not.toMatch(/translate/)
+  })
+  it('pages that share a key stay mounted', () => {
+    reduced(false)
+    let mounts = 0
+    function Probe() { useEffect(() => { mounts++ }, []); return <i /> }
+    function Shared() {
+      const navigate = useNavigate()
+      return <Stage pageKey="same"><Probe /><button onClick={() => navigate('/x')}>x</button></Stage>
+    }
+    render(<MemoryRouter><Shared /></MemoryRouter>)
+    fireEvent.click(screen.getByText('x'))
+    expect(mounts).toBe(1)
+  })
+})
+
+describe('TabPanel and Reveal', () => {
+  it('fades a new tab in from the side it sits on, and does not animate the first tab', () => {
+    reduced(false)
+    const order = ['a', 'b', 'c']
+    const panel = (value: string) => <TabPanel value={value} order={order}><p>{value}</p></TabPanel>
+    const { rerender } = render(panel('b'))
+    expect((screen.getByText('b').parentElement as HTMLElement).style.opacity).toBe('')
+    rerender(panel('c'))
+    expect((screen.getByText('c').parentElement as HTMLElement).style.transform).toBe('translateX(12px)')
+    rerender(panel('a'))
+    expect((screen.getByText('a').parentElement as HTMLElement).style.transform).toBe('translateX(-12px)')
+  })
+  it('Reveal starts transparent and ends opaque', async () => {
+    reduced(false)
+    render(<Reveal><p>x</p></Reveal>)
+    const el = screen.getByText('x').parentElement as HTMLElement
+    expect(el.style.opacity).toBe('0')
+    await waitFor(() => expect(el.style.opacity).toBe('1'), { timeout: 2000 })
   })
 })
 

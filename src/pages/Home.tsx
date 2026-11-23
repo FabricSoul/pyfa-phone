@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import type { CalcResult } from '../engine/types'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
 import { useSettings } from '../settings/settings'
 import { _t } from '../i18n/t'
+import { calcCacheFor } from '../store/calcCache'
 import type { StoredFit } from '../store/fits'
 import { FitRow } from '../ui/FitRow'
-import { Appear, Page } from '../ui/motion'
+import { Appear } from '../ui/motion'
 import { ResumeCard } from '../ui/ResumeCard'
 import { SkeletonList } from '../ui/Skeleton'
 import { InstallCard } from '../ui/InstallCard'
@@ -25,15 +26,21 @@ interface Entry {
 
 export function Home() {
   const [params] = useSearchParams()
-  return params.has('new') ? <Page key="new"><ShipBrowser /></Page> : <Page key="library"><FitLibrary /></Page>
+  return params.has('new') ? <ShipBrowser /> : <FitLibrary />
 }
+
+let libraryScroll = 0
 
 function FitLibrary() {
   const lang = useNameLanguage()
   const { considerReload, priceIncluded } = useSettings()
   const navigate = useNavigate()
   const { engine, store } = useFitServices()
-  const [entries, setEntries] = useState<Entry[]>()
+  const cache = calcCacheFor(engine)
+  const [entries, setEntries] = useState<Entry[] | undefined>(() => cache.records?.map((record) => {
+    const result = cache.get(record, considerReload)
+    return { record, result, pending: !result }
+  }))
   const [query, setQuery] = useState('')
   const [searching, setSearching] = useState(false)
   const [error, setError] = useState(false)
@@ -41,16 +48,27 @@ function FitLibrary() {
   useEffect(() => {
     let current = true
     void store.list().then(async (records) => {
-      // The list does not need the engine: show it now, fill in the numbers as the engine answers.
-      if (current) setEntries(records.map((record) => ({ record, pending: true })))
-      await Promise.all(records.map(async (record) => {
+      cache.records = records
+      // Cached numbers show at once; the list does not need the engine, so the rest wait as pending rows.
+      if (current) setEntries(records.map((record) => {
+        const result = cache.get(record, considerReload)
+        return { record, result, pending: !result }
+      }))
+      await Promise.all(records.filter((record) => !cache.get(record, considerReload)).map(async (record) => {
         let result: CalcResult | undefined
-        try { result = await engine.calc(record.fit, { includeReload: considerReload }) } catch { /* the row stays without numbers */ }
+        try { result = await cache.run(record, considerReload, () => engine.calc(record.fit, { includeReload: considerReload })) } catch { /* the row stays without numbers */ }
         if (current) setEntries((rows) => rows?.map((row) => row.record.id === record.id ? { record, result, pending: false } : row))
       }))
     }).catch(() => { if (current) setError(true) })
     return () => { current = false }
-  }, [considerReload, engine, store])
+  }, [cache, considerReload, engine, store])
+
+  // Coming back keeps the scroll position of the library.
+  useLayoutEffect(() => {
+    if (entries) window.scrollTo(0, libraryScroll)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entries === undefined])
+  useEffect(() => () => { libraryScroll = window.scrollY }, [])
 
   const quotes = usePriceQuotes((entries ?? []).flatMap(({ result }) =>
     result ? totalPriceItems(result.priceItems, priceIncluded) : []))

@@ -1,5 +1,5 @@
 import './ui.css'
-import type { ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 import { _t } from '../i18n/t'
 import { fmt, guiIcon, usedPercent } from './format'
 import { Icon } from './icons'
@@ -16,6 +16,9 @@ export function FitRow({ name, shipName, shipSrc, dps, ehp, velocity, cpu, grid,
   cpu?: UsedTotal; grid?: UsedTotal; overflow?: string; pending?: boolean; showPrice?: boolean; price?: number | null; onClick?: () => void
 }) {
   const over = !!overflow
+  // Numbers that arrive after the skeleton fade in; a row that was never pending is simply there.
+  const wasPending = useRef(pending)
+  const reveal = wasPending.current && !pending ? ' reveal' : ''
   const stat = (icon: string, label: string, value: ReactNode) =>
     <span className="stat"><img src={guiIcon(icon)} alt="" /><span className="sr-only">{label} </span>{value}</span>
   return (
@@ -25,7 +28,7 @@ export function FitRow({ name, shipName, shipSrc, dps, ehp, velocity, cpu, grid,
         <span>{name}{shipName && !name.includes(shipName) && <small className="ship-name">{shipName}</small>}</span>
         {pending
           ? <div className="stats" aria-hidden="true"><Skeleton width={44} height={12} /><Skeleton width={44} height={12} /><Skeleton width={44} height={12} /></div>
-          : (dps != null || ehp != null || velocity != null || showPrice) && <div className="stats">
+          : (dps != null || ehp != null || velocity != null || showPrice) && <div className={`stats${reveal}`}>
             {dps != null && stat('turret_big', _t('DPS'), fmt(dps))}
             {ehp != null && stat('shieldActive_big', _t('EHP'), fmt(ehp, 0))}
             {velocity != null && stat('maxVelocity_big', _t('m/s'), fmt(velocity, 0))}
@@ -34,7 +37,7 @@ export function FitRow({ name, shipName, shipSrc, dps, ehp, velocity, cpu, grid,
         {over && <small className="warn">{_t('Does not fit')} · {overflow}</small>}
         {pending
           ? <div className="bars" aria-hidden="true"><Skeleton height={3} radius={2} /><Skeleton height={3} radius={2} /></div>
-          : cpu && grid && <div className="bars">
+          : cpu && grid && <div className={`bars${reveal}`}>
             <Bar testId="cpu-bar" label={_t('CPU')} {...cpu} />
             <Bar testId="grid-bar" label={_t('Powergrid')} {...grid} />
           </div>}

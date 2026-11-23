@@ -1,4 +1,5 @@
 import '../ui/extras.css'
+import { AnimatePresence } from 'motion/react'
 import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { FIGHTER_KINDS, type CalcResult, type ExtraCollection, type FighterKind, type FitDoc } from '../engine/types'
@@ -9,6 +10,7 @@ import { ExtraQuantity } from '../ui/ExtraQuantity'
 import { ImplantSetPicker } from '../ui/ImplantSetPicker'
 import { ExtraItemIcon } from '../ui/ExtraItemIcon'
 import { fmt, lname, useNameLanguage } from '../ui/format'
+import { ExpandItem } from '../ui/motion'
 import { removedMessage, useToast } from '../ui/Toast'
 import { ExtraItemPicker, extraAddLabel } from './ExtraItemPicker'
 import { FitNotes } from './FitNotes'
@@ -120,7 +122,7 @@ export function FitExtras() {
     }
 
     const stats = description()
-    return <li className={controlled ? 'fit-squadron' : 'fit-squadron extra-plain'} key={`${typeId}-${index}`}>
+    return <ExpandItem as="li" className={controlled ? 'fit-squadron' : 'fit-squadron extra-plain'} key={`${typeId}-${index}`}>
       <div className="extra-title fit-squadron-title">
         <ExtraItemIcon collection={collection} details={item} />
         <div>
@@ -194,7 +196,7 @@ export function FitExtras() {
           })
         }}>{_t('Remove')}</button>
       </div>
-    </li>
+    </ExpandItem>
   }
 
   function items(collection: ExtraCollection) {
@@ -209,10 +211,10 @@ export function FitExtras() {
             <h3 className="extra-fighter-group">{fighterLabel(kind)}{' '}
               <span className={used > total ? 'num warn' : 'num'}>{fmt(used)}/{fmt(total)}</span>
             </h3>
-            {rows.length > 0 && <ul className="list">{rows}</ul>}
+            {rows.length > 0 && <ul className="list"><AnimatePresence initial={false}>{rows}</AnimatePresence></ul>}
           </div>
         })}
-        {unclassified.length > 0 && <ul className="list">{unclassified}</ul>}
+        {unclassified.length > 0 && <ul className="list"><AnimatePresence initial={false}>{unclassified}</AnimatePresence></ul>}
       </>
     }
     if (!list.length || collection === 'implants' && !usesFitImplants) {
@@ -222,7 +224,7 @@ export function FitExtras() {
         : _t('None')
       return <EmptyMessage>{message}</EmptyMessage>
     }
-    return <ul className="list">{list.map((entry, index) => row(collection, entry, index))}</ul>
+    return <ul className="list"><AnimatePresence initial={false}>{list.map((entry, index) => row(collection, entry, index))}</AnimatePresence></ul>
   }
 
   const stackSheet = sheet?.kind === 'split' || sheet?.kind === 'merge' ? sheet : undefined

@@ -56,7 +56,8 @@ it('restores only the saved market branch down to its technology group', async (
   expect(tech.getAttribute('aria-expanded')).toBe('true')
   expect(screen.getByRole('button', { name: /Turrets & Launchers/ }).getAttribute('aria-expanded')).toBe('false')
   fireEvent.click(screen.getByRole('button', { name: /Hull & Armor/ }))
-  expect(screen.queryByRole('button', { name: /Damage Controls/ })).toBeNull()
+  // The branch closes with a 120 ms collapse, so it leaves the page a moment after the tap.
+  await waitFor(() => expect(screen.queryByRole('button', { name: /Damage Controls/ })).toBeNull())
   expect(JSON.parse(sessionStorage.getItem('pyfa.addModule.market.low')!)).toEqual({ branch: [] })
 }, 12_000)
 

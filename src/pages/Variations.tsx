@@ -1,4 +1,5 @@
 import { SkeletonList } from '../ui/Skeleton'
+import { Reveal } from '../ui/motion'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import type { ItemGroup, ItemRow } from '../engine/types'
@@ -97,7 +98,7 @@ export function Variations() {
         .replace('{n}', String(positions.length))}
     </p>}
     {groups?.length === 0 && <EmptyMessage>{_t('No variations')}</EmptyMessage>}
-    {groups && groups.length > 0 && <fieldset disabled={working || !result}><MetaGroupList key={typeId}
+    {groups && groups.length > 0 && <Reveal><fieldset disabled={working || !result}><MetaGroupList key={typeId}
       groups={groups} onPick={(item) => void pick(item)}
       renderItem={(item) => <button type="button" className="ar" onClick={() => void pick(item)}>
         <ItemIcon src={iconUrl(item.iconId)} />
@@ -105,6 +106,6 @@ export function Variations() {
           <span>{lname(item.name, language)}</span>
           <small className={`num${item.compare && item.compare.cpuLeft < 0 ? ' warn' : ''}`}>{compareLine(item) || item.keyLine}</small>
         </div>
-      </button>} /></fieldset>}
+      </button>} /></fieldset></Reveal>}
   </main>
 }

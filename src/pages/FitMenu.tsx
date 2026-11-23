@@ -4,6 +4,7 @@ import type { ExportFormat, ImportAddition, ImportAdditionsResult } from '../eng
 import { _t } from '../i18n/t'
 import { updateSettings, useSettings } from '../settings/settings'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
+import { Reveal } from '../ui/motion'
 import { useFitServices, useFitSession } from './fitSession'
 import { ImportWarnings } from './Import'
 
@@ -115,7 +116,7 @@ export function FitMenu({ open, onClose }: { open: boolean; onClose: () => void 
     await store.remove(record.id)
     histories.delete(record.id)
     close()
-    navigate('/')
+    navigate('/', { state: { back: true } })
   }
 
   function run(work: () => Promise<void>) {
@@ -156,6 +157,7 @@ export function FitMenu({ open, onClose }: { open: boolean; onClose: () => void 
 
   return <ActionSheet open={open} title={_t('Fit actions')} onClose={close}>
     {error && <p className="page-message warn" role="alert">{_t('Could not complete action')}</p>}
+    <Reveal key={mode}>
     {mode === 'menu' && <>
       <button type="button" className="act" disabled={!canRedo} onClick={() => { redo(); close() }}>{_t('Redo')}</button>
       <SheetAction onClick={() => setMode('rename')}>{_t('Rename fit')}</SheetAction>
@@ -233,5 +235,6 @@ export function FitMenu({ open, onClose }: { open: boolean; onClose: () => void 
         <button type="button" className="fit-button warn" onClick={() => run(remove)}>{_t('Delete fit')}</button>
       </div>
     </div>}
+    </Reveal>
   </ActionSheet>
 }

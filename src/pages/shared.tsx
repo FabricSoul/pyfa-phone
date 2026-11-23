@@ -39,7 +39,7 @@ export const warningText = (warning: Warning) => `${warningName(warning.kind)} $
 export function useGoBack(fallback = '/') {
   const navigate = useNavigate()
   const { key } = useLocation()
-  return () => key !== 'default' ? navigate(-1) : navigate(fallback, { replace: true })
+  return () => key !== 'default' ? navigate(-1) : navigate(fallback, { replace: true, state: { back: true } })
 }
 
 export function PageHeading({ back, title, subtitle, image, historyBack }: {
@@ -54,7 +54,7 @@ export function PageHeading({ back, title, subtitle, image, historyBack }: {
   return <header className="fit-heading">
     {historyBack
       ? <button type="button" className="ib" aria-label={_t('Back')} onClick={goBack}><Icon name="chevron-left" size={22} /></button>
-      : <Link className="ib" to={back} aria-label={_t('Back')}><Icon name="chevron-left" size={22} /></Link>}
+      : <Link className="ib" to={back} state={{ back: true }} aria-label={_t('Back')}><Icon name="chevron-left" size={22} /></Link>}
     {image}
     <div>
       <h1>{title}</h1>

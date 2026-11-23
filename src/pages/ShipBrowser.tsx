@@ -5,6 +5,7 @@ import { useSticky } from '../app/sticky'
 import type { CatalogShip, ShipCatalog } from '../engine/types'
 import { _t } from '../i18n/t'
 import { useSettings } from '../settings/settings'
+import { TabPanel } from '../ui/motion'
 import { lname, renderUrl, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { ItemIcon } from '../ui/ItemIcon'
@@ -95,6 +96,7 @@ export function ShipBrowser() {
     {catalogError && <p className="page-message" role="alert">{_t('Could not load ships')}</p>}
     {!catalog && !catalogError && <SkeletonList rows={6} label={_t('Loading ships…')} />}
     {saveError && <p className="page-message" role="alert">{_t('Could not load or save fits')}</p>}
+    <TabPanel value={group || term ? 'group' : 'classes'} order={['classes', 'group']} ready={Boolean(catalog)}>
     {catalog && <div className="fit-inset">
       <select className="fit-input" aria-label={_t('Ship faction')} value={race ?? ''}
         onChange={(event) => setRace(event.target.value === '' ? undefined : Number(event.target.value))}>
@@ -122,5 +124,6 @@ export function ShipBrowser() {
         <Icon name="chevron-down" />
       </button>)}
     </div> : catalog && <EmptyMessage>{_t('No ships available')}</EmptyMessage>}
+    </TabPanel>
   </main>
 }

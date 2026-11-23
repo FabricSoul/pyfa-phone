@@ -1,4 +1,5 @@
 import { SkeletonList } from '../ui/Skeleton'
+import { Reveal, TabPanel } from '../ui/motion'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import type { ItemDetails, SkillNode } from '../engine/types'
@@ -65,13 +66,14 @@ function Details({ typeId, fitId, position }: { typeId: number; fitId: string; p
     {error && <p className="page-message" role="alert">{_t('Could not load item information')}</p>}
     {item === undefined && !error && <SkeletonList rows={5} label={_t('Loading item…')} />}
     {item === null && <EmptyMessage>{_t('Item information unavailable')}</EmptyMessage>}
-    {item && <>
+    {item && <Reveal>
       <Segmented value={view} onChange={setView} options={[
         { value: 'attributes', label: _t('Attributes') },
         ...item.traits?.length ? [{ value: 'traits' as const, label: _t('Traits') }] : [],
         { value: 'description', label: _t('Description') },
         { value: 'skills', label: _t('Requirements') },
       ]} />
+      <TabPanel value={view} order={['attributes', 'traits', 'description', 'skills']}>
       {view === 'attributes' && <FitSection title={_t('Attributes')}
         info={item.attributes.some((attribute) => attribute.current !== undefined) && _t('Base → fitted')}>
         {item.attributes.length ? <dl className="list">
@@ -102,6 +104,7 @@ function Details({ typeId, fitId, position }: { typeId: number; fitId: string; p
           ? <SkillTree nodes={item.skillTree ?? item.skills.map((skill) => ({ ...skill, requires: [] }))} fitId={fitId} language={language} />
           : <EmptyMessage>{_t('No skill requirements')}</EmptyMessage>}
       </FitSection>}
-    </>}
+      </TabPanel>
+    </Reveal>}
   </main>
 }

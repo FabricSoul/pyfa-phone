@@ -1,5 +1,6 @@
 import '../ui/extras.css'
 import { SkeletonList } from '../ui/Skeleton'
+import { Expand, Reveal } from '../ui/motion'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
@@ -168,12 +169,12 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
         <span>{lname(node.name, language)}</span>
         <em className="num">{fmt(node.count)}</em>
       </button>
-      {expanded && <>
+      <Expand open={expanded}><>
         {showChildren && node.children.map((child) => renderNode(child, branch))}
         {(!showChildren || node.directCount > 0) && <CandidateList slot={slot} groupId={node.id} exactGroup={showChildren}
           disabled={index === undefined} expanded={defaultMeta ? [defaultMeta] : []} onPick={pick} focusId={focusId}
           onToggle={(meta) => setSelection({ branch, meta: defaultMeta === meta ? undefined : meta })} />}
-      </>}
+      </></Expand>
     </div>
   }
 
@@ -201,11 +202,11 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     </section>}
     {search && (tree || !engine.marketTreeForSlot || marketError)
       ? <CandidateList key={search} slot={slot} search={search} groupId={tree?.rootId} disabled={index === undefined} onPick={pick} />
-      : !search && tree && <section aria-label={_t('Browse by market category')}>
+      : !search && tree && <Reveal><section aria-label={_t('Browse by market category')}>
         <h2 className="fit-filter-label">{_t('Browse by market category')}</h2>
         {tree.total ? <div className="list market-tree">{tree.groups.map((node) => renderNode(node, []))}</div>
           : <EmptyMessage>{_t('No matching modules')}</EmptyMessage>}
-      </section>}
+      </section></Reveal>}
   </main>
 }
 

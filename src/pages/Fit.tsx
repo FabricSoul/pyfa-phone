@@ -8,7 +8,7 @@ import { ResourceBar } from '../ui/ResourceGauge'
 import { Tabs } from '../ui/Tabs'
 import { ModuleRow } from '../ui/ModuleRow'
 import { Icon } from '../ui/icons'
-import { ExpandItem } from '../ui/motion'
+import { Expand, ExpandItem, TabPanel } from '../ui/motion'
 import { FitBodySkeleton } from '../ui/PageSkeletons'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
 import { calcOptions, updateSettings, useSettings } from '../settings/settings'
@@ -122,12 +122,13 @@ export function Fit() {
   return <main>
     <NavBar title={fit.name} subtitle={subtitle} shipSrc={renderUrl(result?.ship.graphicId ?? null)}
       onShipClick={() => navigate(`/item/${fit.shipTypeId}?fit=${encodeURIComponent(record.id)}`)}
-      canUndo={canUndo} onBack={() => { try { sessionStorage.removeItem(scrollKey(record.id)) } catch { /* optional */ } scrollY.current = 0; navigate('/') }} onUndo={undo} onMore={() => setMenu(true)} />
+      canUndo={canUndo} onBack={() => { try { sessionStorage.removeItem(scrollKey(record.id)) } catch { /* optional */ } scrollY.current = 0; navigate('/', { state: { back: true } }) }} onUndo={undo} onMore={() => setMenu(true)} />
     {store.isTemporary(record.id) && <p className="page-message">{_t('Unsaved preview')}</p>}
     {result && <ResourceBar {...result.resources} />}
     <Tabs value={view} onChange={setView} label={_t('Fit view')} options={[
       { value: 'slots', label: _t('Slots') }, { value: 'stats', label: _t('Stats') }, { value: 'extras', label: _t('Extras') },
     ]} />
+    <TabPanel value={view} order={['slots', 'stats', 'extras']} ready={Boolean(result)}>
     {view === 'slots' && showHint && hasModules && <p className="hint swipe-hint" role="note">{_t('Swipe a module row left for offline and remove.')}</p>}
     {removed.length > 0 && <ul className="fit-retired">
       {removed.map((item) => <li key={item.typeId}>
@@ -200,6 +201,7 @@ export function Fit() {
     {view === 'stats' && spoolError && <p role="alert" className="page-message warn">{_t('Could not recalculate fit')}</p>}
     {view === 'stats' && result && <FitStats result={result} quotes={quotes} onSpoolDefaultChange={changeSpoolDefault} />}
     {view === 'extras' && <FitExtras />}
+    </TabPanel>
     <ModuleSheet selected={selected} row={row} price={row && unitPrice(row.typeId)} onClose={() => setSelected(undefined)} />
     <FitMenu open={menu} onClose={() => setMenu(false)} />
     {!result && retired.has(fit.shipTypeId) && <Link className="fit-inset" to="/">{_t('Back to fittings')}</Link>}
@@ -214,6 +216,7 @@ function FitSetup({ result }: { result: CalcResult }) {
   const language = useNameLanguage()
   const { fit, edit } = useFitSession()
   const [characterOpen, setCharacterOpen] = useState(false)
+  const [skillsOpen, setSkillsOpen] = useState(false)
   const skills = result.missingSkills
   const modes = result.modes
 
@@ -233,14 +236,16 @@ function FitSetup({ result }: { result: CalcResult }) {
       <button type="button" className="fit-button" onClick={() => setCharacterOpen(true)}>
         {_t('Character')} · {characterName(fit.character)}
       </button>
-      {skills && (skills.length > 0 ? <details>
-        <summary className="fit-skill-summary warn">{_t('Missing skills')} <span className="num">{skills.length}</span></summary>
-        <ul className="fit-skill-list">
+      {skills && (skills.length > 0 ? <div>
+        <button type="button" className="fit-skill-summary warn" aria-expanded={skillsOpen} onClick={() => setSkillsOpen(!skillsOpen)}>
+          {_t('Missing skills')} <span className="num">{skills.length}</span>
+        </button>
+        <Expand open={skillsOpen}><ul className="fit-skill-list">
           {skills.map((skill) => <li key={skill.typeId}>
             {lname(skill.name, language)} <span className="num">{skill.currentLevel}/{skill.requiredLevel}</span>
           </li>)}
-        </ul>
-      </details> : <span className="fit-caption fit-skill-good">{_t('Skill requirements met')}</span>)}
+        </ul></Expand>
+      </div> : <span className="fit-caption fit-skill-good">{_t('Skill requirements met')}</span>)}
     </div>
     <ActionSheet open={characterOpen} title={_t('Character')} onClose={() => setCharacterOpen(false)}>
       <CharacterPicker value={fit.character} onPick={(character) => {

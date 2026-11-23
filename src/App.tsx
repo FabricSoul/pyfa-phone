@@ -1,6 +1,6 @@
 import { createContext, lazy, Suspense, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { MotionConfig } from 'motion/react'
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { createEngine, type EngineStage } from './engine/client'
 import type { EngineProgress } from './engine/progress'
 import type { EngineClient } from './engine/types'
@@ -17,7 +17,7 @@ import { NotFound } from './pages/shared'
 import { Variations } from './pages/Variations'
 import { EngineBar, EngineBoot } from './ui/EngineBoot'
 import { FitPageSkeleton } from './ui/PageSkeletons'
-import { Page } from './ui/motion'
+import { Stage } from './ui/motion'
 import { ToastProvider } from './ui/Toast'
 import { defaultFitStore, type FitStore } from './store/fits'
 import './pages/pages.css'
@@ -71,25 +71,36 @@ function EngineFailure() {
   </div>
 }
 
+/** Pages that share a key share one stage item: the fit workspace stays mounted while its pages change inside it. */
+function stageKey({ pathname, search }: { pathname: string; search: string }) {
+  const fit = /^\/fit\/[^/]+/.exec(pathname)
+  if (fit) return fit[0]
+  return pathname === '/' && new URLSearchParams(search).has('new') ? '/?new' : pathname
+}
+
 export function FittingRoutes({ engine, store, startup }: { engine: EngineClient; store: FitStore; startup?: Startup }) {
   useUiLanguage()
+  const location = useLocation()
   return <StartupContext.Provider value={startup ?? null}><FitServices engine={engine} store={store}>
     <ToastProvider>
     <div className="fit-app">
       <EngineFailure />
-      <Routes>
+      <Stage pageKey={stageKey(location)}>
+      {/* The location is frozen into the element, so the page that is leaving keeps showing itself. */}
+      <Routes location={location}>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<Page><About /></Page>} />
-        <Route path="/import" element={<Page><NeedsEngine><Import /></NeedsEngine></Page>} />
-        <Route path="/settings" element={<Page><Settings /></Page>} />
+        <Route path="/about" element={<About />} />
+        <Route path="/import" element={<NeedsEngine><Import /></NeedsEngine>} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/fit/:id" element={<NeedsEngine skeleton><FitWorkspace /></NeedsEngine>}>
-          <Route index element={<Page><Fit /></Page>} />
-          <Route path="add/:slot" element={<Page><AddModule /></Page>} />
-          <Route path="variations/:pos" element={<Page><Variations /></Page>} />
+          <Route index element={<Fit />} />
+          <Route path="add/:slot" element={<AddModule />} />
+          <Route path="variations/:pos" element={<Variations />} />
         </Route>
-        <Route path="/item/:typeId" element={<Page><NeedsEngine><ItemInfo /></NeedsEngine></Page>} />
-        <Route path="*" element={<Page><NotFound /></Page>} />
+        <Route path="/item/:typeId" element={<NeedsEngine><ItemInfo /></NeedsEngine>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
+      </Stage>
     </div>
     </ToastProvider>
   </FitServices></StartupContext.Provider>

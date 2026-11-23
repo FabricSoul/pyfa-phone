@@ -13,9 +13,12 @@
 .pill.on { background: var(--color-accent); color: var(--color-surface); }
 .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; margin: var(--space-2) var(--space-4); padding: calc(var(--space-1) / 2);
   border-radius: var(--radius-m); background: var(--color-fill); }
-.seg button { min-height: 44px; border: 0; border-radius: calc(var(--radius-m) * 0.8); background: transparent; font: var(--type-name);
+.seg button { position: relative; isolation: isolate; min-height: 44px; border: 0; border-radius: calc(var(--radius-m) * 0.8); background: transparent; font: var(--type-name);
   color: var(--color-text-secondary); cursor: pointer; }
-.seg button.on { background: var(--color-surface); color: var(--color-text); box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text) 14%, transparent); }
+.seg button.on { color: var(--color-text); }
+/* The selected backdrop is one shared element that slides between buttons (transform only). */
+.seg-pill { position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--color-surface); box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text) 14%, transparent); }
+.module-states .seg button.on:has([data-state="overheated"]) .seg-pill { background: var(--color-warn); }
 
 
 /* Gauge */
@@ -474,3 +477,21 @@
 .stats-repairs th[scope="col"], .stats-repairs td.num { text-align: end; }
 .stats-lock summary { display: list-item; align-content: center; min-height: var(--control); padding-inline: var(--space-4); cursor: pointer; font: var(--type-label); }
 .stats-bay > div { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); font: var(--type-label); }
+
+/* UX3 motion. Route stage: the leaving page is laid over the entering one and cannot be clicked. */
+.stage { position: relative; overflow-x: clip; }
+.stage-page[inert] { pointer-events: none; }
+/* Press feedback: a pressed control dips 2 % (transform only, 120 ms). */
+.fit, .qa, .ib, .act, .fit-button, .toast-action, .seg button, .pill, .mh, .row[role="switch"], button.row, .rack-heat, .resume {
+  transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+}
+.fit:active, .qa:active, .ib:active, .act:active, .fit-button:active, .toast-action:active, .seg button:active, .pill:active, .mh:active, button.row:active, .rack-heat:active, .resume:active { transform: scale(.97); }
+/* Switches: the knob travels, the track changes colour. */
+.sw-track { transition: background-color var(--dur) var(--ease); }
+.sw-knob { transition: transform var(--dur) var(--ease); }
+@media (prefers-reduced-motion: reduce) {
+  .fit, .qa, .ib, .act, .fit-button, .toast-action, .seg button, .pill, .mh, .row[role="switch"], button.row, .rack-heat, .resume, .sw-track, .sw-knob { transition: none; }
+  .fit:active, .qa:active, .ib:active, .act:active, .fit-button:active, .toast-action:active, .seg button:active, .pill:active, .mh:active, button.row:active, .rack-heat:active, .resume:active { transform: none; }
+}
+.reveal-in { animation: fade-in var(--dur) var(--ease); }
+@media (prefers-reduced-motion: reduce) { .reveal-in { animation: none; } }
