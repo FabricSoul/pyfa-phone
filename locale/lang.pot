@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 19:57-0500\n"
+"POT-Creation-Date: 2026-11-22 20:00-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,6 +60,10 @@ msgstr ""
 msgid "Add subsystem"
 msgstr ""
 
+#: src/ui/pickers/DamagePatternPicker.tsx:18
+msgid "Affects effective HP · built into pyfa"
+msgstr ""
+
 #: src/pages/AddModule.tsx:259
 msgid "After fitting: {resources}"
 msgstr ""
@@ -68,8 +72,28 @@ msgstr ""
 msgid "Align time"
 msgstr ""
 
+#: src/pages/Settings.tsx:73 src/ui/pickers/CharacterPicker.tsx:8
+msgid "All 0"
+msgstr ""
+
+#: src/pages/Settings.tsx:73 src/ui/pickers/CharacterPicker.tsx:8
+msgid "All V"
+msgstr ""
+
+#: src/ui/pickers/CharacterPicker.tsx:11
+msgid "All skills level 0 · only items without skill requirements"
+msgstr ""
+
+#: src/ui/pickers/CharacterPicker.tsx:10
+msgid "All skills level 5 · Security status 5.0"
+msgstr ""
+
 #: src/pages/AddModule.tsx:190
 msgid "All technology levels"
+msgstr ""
+
+#: src/pages/Settings.tsx:141
+msgid "Appearance & language"
 msgstr ""
 
 #: src/pages/ModuleSheet.tsx:75
@@ -98,6 +122,10 @@ msgstr ""
 msgid "Base → fitted"
 msgstr ""
 
+#: src/pages/Settings.tsx:189
+msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
+msgstr ""
+
 #: src/pages/About.tsx:38
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
@@ -118,6 +146,10 @@ msgstr ""
 msgid "Calculating fit…"
 msgstr ""
 
+#: src/pages/Settings.tsx:160
+msgid "Calculation"
+msgstr ""
+
 #: src/dev/Gallery.tsx:73 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:43
 msgid "Calibration"
 msgstr ""
@@ -134,12 +166,16 @@ msgstr ""
 msgid "Capacity"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:15 src/pages/shared.tsx:25
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:29 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:153
 msgid "Cargo hold"
+msgstr ""
+
+#: src/pages/Settings.tsx:152 src/ui/pickers/CharacterPicker.tsx:19
+msgid "Character"
 msgstr ""
 
 #: src/pages/ModuleSheet.tsx:74
@@ -152,6 +188,14 @@ msgstr ""
 
 #: src/pages/AddModule.tsx:187
 msgid "Compatible modules"
+msgstr ""
+
+#: src/pages/Settings.tsx:164
+msgid "Consider reboot"
+msgstr ""
+
+#: src/pages/Settings.tsx:162
+msgid "Consider reload"
 msgstr ""
 
 #: src/pages/FitMenu.tsx:49
@@ -202,7 +246,19 @@ msgstr ""
 msgid "Could not save fit"
 msgstr ""
 
-#: src/ui/AmmoList.tsx:36 src/ui/FitRow.tsx:19
+#: src/ui/pickers/CharacterPicker.tsx:43
+msgid "Custom characters and EVE login come later."
+msgstr ""
+
+#: src/ui/pickers/DamagePatternPicker.tsx:29
+msgid "Custom patterns are not in the first version."
+msgstr ""
+
+#: src/ui/pickers/TargetProfilePicker.tsx:35
+msgid "Custom profiles are not in the first version."
+msgstr ""
+
+#: src/pages/Import.tsx:138 src/ui/AmmoList.tsx:36 src/ui/FitRow.tsx:19
 msgid "DPS"
 msgstr ""
 
@@ -214,8 +270,28 @@ msgstr ""
 msgid "Damage over distance"
 msgstr ""
 
+#: src/pages/Settings.tsx:154 src/ui/pickers/DamagePatternPicker.tsx:17
+msgid "Damage pattern"
+msgstr ""
+
+#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:201
+msgid "Dark"
+msgstr ""
+
+#: src/pages/Settings.tsx:179
+msgid "Data"
+msgstr ""
+
 #: src/ui/MetaGroupList.tsx:15
 msgid "Deadspace"
+msgstr ""
+
+#: src/ui/pickers/CharacterPicker.tsx:20
+msgid "Decides skill levels · two built-in characters in the first version"
+msgstr ""
+
+#: src/pages/Settings.tsx:168
+msgid "Default preheat"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:80
@@ -262,7 +338,7 @@ msgstr ""
 msgid "Drone control range"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:15
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:28
 msgid "Drones"
 msgstr ""
 
@@ -270,11 +346,11 @@ msgstr ""
 msgid "Duplicate fit"
 msgstr ""
 
-#: src/dev/Gallery.tsx:82 src/ui/FitRow.tsx:20 src/ui/StatsPage.tsx:80 src/ui/StatsPage.tsx:82 src/ui/StatsPage.tsx:86
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:139 src/ui/FitRow.tsx:20 src/ui/StatsPage.tsx:80 src/ui/StatsPage.tsx:82 src/ui/StatsPage.tsx:86
 msgid "EHP"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:36
+#: src/ui/StatsPage.tsx:36 src/ui/pickers/patterns.ts:118
 msgid "EM"
 msgstr ""
 
@@ -286,8 +362,12 @@ msgstr ""
 msgid "Empty slot"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:36
+#: src/ui/StatsPage.tsx:36 src/ui/pickers/patterns.ts:118
 msgid "Explosive"
+msgstr ""
+
+#: src/pages/Settings.tsx:181
+msgid "Export all fits backup"
 msgstr ""
 
 #: src/pages/Fit.tsx:41
@@ -314,6 +394,10 @@ msgstr ""
 msgid "Fit not found"
 msgstr ""
 
+#: src/pages/Import.tsx:92
+msgid "Fits"
+msgstr ""
+
 #: src/dev/Gallery.tsx:66
 msgid "Fitting"
 msgstr ""
@@ -322,12 +406,20 @@ msgstr ""
 msgid "Fittings"
 msgstr ""
 
+#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:69 src/pages/Settings.tsx:199
+msgid "Follow system"
+msgstr ""
+
 #: src/ui/StatsPage.tsx:123
 msgid "GJ"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:125 src/ui/StatsPage.tsx:126 src/ui/StatsPage.tsx:127
 msgid "GJ/s"
+msgstr ""
+
+#: src/pages/Settings.tsx:183
+msgid "Game data version"
 msgstr ""
 
 #: src/dev/Gallery.tsx:82 src/ui/StatsPage.tsx:83 src/ui/StatsPage.tsx:86
@@ -350,8 +442,16 @@ msgstr ""
 msgid "ISK"
 msgstr ""
 
-#: src/pages/FitExtras.tsx:15
+#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:30
 msgid "Implants"
+msgstr ""
+
+#: src/pages/Import.tsx:97
+msgid "Import"
+msgstr ""
+
+#: src/pages/Settings.tsx:144 src/pages/Settings.tsx:209
+msgid "Interface language"
 msgstr ""
 
 #: src/pages/ItemInfo.tsx:46 src/pages/ModuleSheet.tsx:90
@@ -362,11 +462,15 @@ msgstr ""
 msgid "Item information unavailable"
 msgstr ""
 
+#: src/pages/Settings.tsx:146 src/pages/Settings.tsx:218
+msgid "Item names"
+msgstr ""
+
 #: src/pages/Fit.tsx:45 src/pages/FitExtras.tsx:36
 msgid "Item removed"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:36
+#: src/ui/StatsPage.tsx:36 src/ui/pickers/patterns.ts:118
 msgid "Kinetic"
 msgstr ""
 
@@ -380,6 +484,10 @@ msgstr ""
 
 #: src/pages/Fit.tsx:55
 msgid "Launchers"
+msgstr ""
+
+#: src/pages/Settings.tsx:67 src/pages/Settings.tsx:200
+msgid "Light"
 msgstr ""
 
 #: src/pages/Home.tsx:92
@@ -454,6 +562,10 @@ msgstr ""
 msgid "New fit"
 msgstr ""
 
+#: src/pages/Settings.tsx:150
+msgid "New fit defaults"
+msgstr ""
+
 #: src/pages/ItemInfo.tsx:69
 msgid "No attributes available"
 msgstr ""
@@ -526,12 +638,32 @@ msgstr ""
 msgid "Passive shield"
 msgstr ""
 
+#: src/pages/Import.tsx:111
+msgid "Paste fit text"
+msgstr ""
+
+#: src/pages/Import.tsx:114
+msgid "Paste fit text here"
+msgstr ""
+
+#: src/pages/Import.tsx:97
+msgid "Paste fit text to preview"
+msgstr ""
+
+#: src/pages/Import.tsx:107
+msgid "Paste from clipboard"
+msgstr ""
+
 #: src/pages/Home.tsx:89
 msgid "Paste to import"
 msgstr ""
 
 #: src/pages/AddModule.tsx:153 src/pages/AddModule.tsx:241 src/pages/AddModule.tsx:255 src/pages/ModuleSheet.tsx:60 src/pages/shared.tsx:21 src/ui/ResourceGauge.tsx:42
 msgid "Powergrid"
+msgstr ""
+
+#: src/pages/Settings.tsx:171
+msgid "Price"
 msgstr ""
 
 #: src/pages/AddModule.tsx:165
@@ -552,6 +684,10 @@ msgstr ""
 
 #: src/ui/StatsPage.tsx:124
 msgid "Recharge time"
+msgstr ""
+
+#: src/pages/Import.tsx:132
+msgid "Recognized as EFT fit"
 msgstr ""
 
 #: src/pages/FitMenu.tsx:43
@@ -594,6 +730,10 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
+#: src/pages/Settings.tsx:182
+msgid "Restore from backup"
+msgstr ""
+
 #: src/pages/AddModule.tsx:201
 msgid "Return to modules"
 msgstr ""
@@ -604,6 +744,10 @@ msgstr ""
 
 #: src/pages/FitMenu.tsx:62
 msgid "Save"
+msgstr ""
+
+#: src/pages/Import.tsx:143
+msgid "Save and open"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:144
@@ -630,7 +774,7 @@ msgstr ""
 msgid "Set {n} modules individually"
 msgstr ""
 
-#: src/pages/Home.tsx:81
+#: src/pages/Home.tsx:81 src/pages/Settings.tsx:134
 msgid "Settings"
 msgstr ""
 
@@ -640,6 +784,10 @@ msgstr ""
 
 #: src/ui/StatsPage.tsx:161
 msgid "Ship"
+msgstr ""
+
+#: src/ui/pickers/TargetProfilePicker.tsx:26
+msgid "Shows effective DPS when selected · built into pyfa"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:140
@@ -662,6 +810,14 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
+#: src/pages/Settings.tsx:173
+msgid "Source"
+msgstr ""
+
+#: src/pages/Import.tsx:140
+msgid "Speed m/s"
+msgstr ""
+
 #: src/ui/StatsPage.tsx:131
 msgid "Stable"
 msgstr ""
@@ -676,6 +832,10 @@ msgstr ""
 
 #: src/ui/MetaGroupList.tsx:14
 msgid "Storyline"
+msgstr ""
+
+#: src/pages/Settings.tsx:166
+msgid "Strict skill requirements"
 msgstr ""
 
 #: src/pages/shared.tsx:14
@@ -694,6 +854,10 @@ msgstr ""
 msgid "Tap to add a module"
 msgstr ""
 
+#: src/ui/pickers/TargetProfilePicker.tsx:25
+msgid "Target profile"
+msgstr ""
+
 #: src/ui/StatsPage.tsx:136
 msgid "Targeting"
 msgstr ""
@@ -710,7 +874,11 @@ msgstr ""
 msgid "Technology level"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:36
+#: src/pages/Settings.tsx:143 src/pages/Settings.tsx:196
+msgid "Theme"
+msgstr ""
+
+#: src/ui/StatsPage.tsx:36 src/ui/pickers/patterns.ts:118
 msgid "Thermal"
 msgstr ""
 
@@ -720,6 +888,10 @@ msgstr ""
 
 #: src/ui/StatsPage.tsx:69
 msgid "Total DPS"
+msgstr ""
+
+#: src/pages/Settings.tsx:174 src/pages/Settings.tsx:235
+msgid "Total price includes"
 msgstr ""
 
 #: src/pages/shared.tsx:23 src/ui/StatsPage.tsx:156
@@ -742,6 +914,14 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
+#: src/pages/Settings.tsx:156
+msgid "Use character implants"
+msgstr ""
+
+#: src/pages/Import.tsx:144
+msgid "View only without saving"
+msgstr ""
+
 #: src/ui/StatsPage.tsx:70
 msgid "Volley"
 msgstr ""
@@ -754,8 +934,20 @@ msgstr ""
 msgid "best"
 msgstr ""
 
+#: src/pages/Import.tsx:92
+msgid "calibration"
+msgstr ""
+
 #: src/ui/DamageRangeChart.tsx:34
 msgid "current"
+msgstr ""
+
+#: src/pages/Settings.tsx:173
+msgid "fuzzwork · Jita"
+msgstr ""
+
+#: src/pages/Import.tsx:133
+msgid "items recognized"
 msgstr ""
 
 #: src/ui/StatsPage.tsx:147
@@ -782,8 +974,16 @@ msgstr ""
 msgid "m³"
 msgstr ""
 
+#: src/pages/Import.tsx:92
+msgid "powergrid"
+msgstr ""
+
 #: src/pages/About.tsx:67
 msgid "pyfa original source on GitHub"
+msgstr ""
+
+#: src/pages/Settings.tsx:190
+msgid "pyfa-phone"
 msgstr ""
 
 #: src/pages/About.tsx:20
@@ -812,4 +1012,8 @@ msgstr ""
 
 #: src/pages/FitExtras.tsx:23
 msgid "{ship} has no drone bay"
+msgstr ""
+
+#: src/pages/Settings.tsx:71 src/pages/Settings.tsx:220
+msgid "中文"
 msgstr ""

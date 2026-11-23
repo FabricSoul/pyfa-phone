@@ -3,15 +3,21 @@ import Gallery from './dev/Gallery'
 import TokensPage from './dev/TokensPage'
 import { mockEngine } from './engine/mockClient'
 import type { EngineClient } from './engine/types'
+import { initApp } from './i18n/initial'
+import About from './pages/About'
 import { AddModule } from './pages/AddModule'
 import { Fit } from './pages/Fit'
 import { FitServices, FitWorkspace } from './pages/fitSession'
 import { Home } from './pages/Home'
+import Import from './pages/Import'
 import { ItemInfo } from './pages/ItemInfo'
+import Settings from './pages/Settings'
 import { Variations } from './pages/Variations'
-import { createFitStore, type FitStore } from './store/fits'
+import { defaultFitStore, type FitStore } from './store/fits'
 import './pages/pages.css'
-import About from './pages/About'
+
+// Apply the stored theme / browser-derived UI language before the first page renders.
+initApp()
 
 export function FittingRoutes({ engine, store }: { engine: EngineClient; store: FitStore }) {
   return <FitServices engine={engine} store={store}>
@@ -29,14 +35,14 @@ export function FittingRoutes({ engine, store }: { engine: EngineClient; store: 
   </FitServices>
 }
 
-let store: FitStore | undefined
-
 export default function App() {
-  store ??= createFitStore(indexedDB)
+  const store = defaultFitStore()
   return (
     <HashRouter>
       <Routes>
         <Route path="/about" element={<About />} />
+        <Route path="/import" element={<Import />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/dev/tokens" element={<TokensPage />} />
         <Route path="/dev/gallery" element={<Gallery />} />
         <Route path="*" element={<FittingRoutes engine={mockEngine} store={store} />} />

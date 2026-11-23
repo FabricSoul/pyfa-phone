@@ -120,3 +120,39 @@ export async function resolveStoredItems(record: StoredFit, dataVersion: string,
   removed.sort((a, b) => a.typeId - b.typeId)
   return { itemNames, removed }
 }
+
+// ── 共享仓库和函数式接口（导入页、设置页使用）──────────────────────
+let sharedStore: FitStore | undefined
+let sharedName = 'pyfa-phone'
+
+/** 整个应用共用的 IndexedDB 装配仓库。 */
+export function defaultFitStore(): FitStore {
+  sharedStore ??= createFitStore(indexedDB, sharedName)
+  return sharedStore
+}
+
+/** 仅供测试：换一个独立的数据库名，避免用例互相影响。 */
+export function resetDefaultFitStoreForTests(databaseName: string) {
+  sharedName = databaseName
+  sharedStore = undefined
+}
+
+function newFitId() {
+  return globalThis.crypto?.randomUUID?.() ?? `fit-${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
+
+export async function saveFit(fit: FitDoc): Promise<string> {
+  const id = newFitId()
+  await defaultFitStore().save({ id, fit, openedAt: Date.now(), itemNames: {} })
+  return id
+}
+
+export async function listFits(): Promise<FitDoc[]> {
+  return (await defaultFitStore().list()).map(record => record.fit)
+}
+
+export async function replaceAllFits(fits: FitDoc[]): Promise<void> {
+  const store = defaultFitStore()
+  for (const record of await store.list()) await store.remove(record.id)
+  for (const fit of fits) await store.save({ id: newFitId(), fit, openedAt: null, itemNames: {} })
+}
