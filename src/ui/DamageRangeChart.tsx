@@ -1,15 +1,15 @@
 import './ui.css'
 import { useRef, useState } from 'react'
 import type { RangeCurve } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
-import { fmt, lname } from './format'
+import { _t } from '../i18n/t'
+import { fmt, lname, useNameLanguage } from './format'
 
 const W = 340, H = 160, PAD = { l: 28, r: 8, t: 8, b: 20 }
 const COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)']
 
 /** DPS against distance, up to 3 lines (current charge first). Press and hold for a crosshair. */
 export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
-  const lang = useUiLanguage()
+  const lang = useNameLanguage()
   const ref = useRef<SVGSVGElement>(null)
   const [at, setAt] = useState<number | null>(null)
   const series = curve.series.slice(0, 3)

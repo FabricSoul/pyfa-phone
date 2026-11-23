@@ -1,4 +1,4 @@
-import { wrap } from 'comlink'
+import { proxy, wrap } from 'comlink'
 import {
   isCalcResult,
   type EngineClient,
@@ -10,15 +10,19 @@ import {
 
 export interface WorkerEngineClient extends EngineClient {
   marketGroupsForSlot(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
+  itemInfo: NonNullable<EngineClient['itemInfo']>
   getDataVersion(): Promise<string>
   exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh'): Promise<string>
 }
 
+export type EngineStage = 'runtime' | 'data' | 'initialize'
+type ReportStage = (stage: EngineStage) => void
+
 export interface EngineWorkerApi extends WorkerEngineClient {
-  ready(): Promise<void>
+  ready(report?: ReportStage): Promise<void>
 }
 
-export async function createEngine(): Promise<WorkerEngineClient> {
+export async function createEngine(report?: ReportStage): Promise<WorkerEngineClient> {
   const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' })
   const remote = wrap<EngineWorkerApi>(worker)
   let onError: (event: ErrorEvent) => void = () => {}
@@ -27,7 +31,7 @@ export async function createEngine(): Promise<WorkerEngineClient> {
     worker.addEventListener('error', onError)
   })
   try {
-    await Promise.race([remote.ready(), startupFailure])
+    await Promise.race([remote.ready(report && proxy(report)), startupFailure])
   } catch (error) {
     worker.terminate()
     throw error
@@ -41,6 +45,7 @@ export async function createEngine(): Promise<WorkerEngineClient> {
       if (!isCalcResult(result)) throw new Error('Invalid CalcResult from engine Worker')
       return result
     },
+    itemInfo: (...args) => remote.itemInfo(...args),
     getDataVersion: () => remote.getDataVersion(),
     marketGroupsForSlot: (...args) => remote.marketGroupsForSlot(...args),
     itemsForSlot: (...args) => remote.itemsForSlot(...args),

@@ -68,6 +68,7 @@ class Engine:
                 'select marketGroupID, marketGroupName_zh from invmarketgroups')).all())
 
         self.data_version = data_version
+        self.market_groups = {}
 
     def item(self, type_id):
         it = self.db.getItem(type_id)
@@ -77,6 +78,14 @@ class Engine:
 
     def lname(self, it):
         return {'en': it.name, 'zh': self.zh.get(it.ID) or it.name}
+
+    @staticmethod
+    def group_name(group):
+        return {'en': group.name, 'zh': group.name_zh or group.name}
+
+    @staticmethod
+    def supported_states(module):
+        return [name for name, state in STATES.items() if module.isValidState(state)]
 
     @staticmethod
     def item_ids(doc):
@@ -250,6 +259,7 @@ class Engine:
                     'count': len(members),
                     'positions': idx,
                     'state': STATE_NAMES[int(mod.state)],
+                    'supportedStates': self.supported_states(mod),
                     'charge': charge,
                     'keyLine': ' · '.join(parts),
                     'keyParts': parts,
@@ -460,7 +470,7 @@ class Engine:
             'clientBuild': self.client_build,
             'itemNames': self.item_names(doc),
             'ship': {'typeId': fit.ship.item.ID, 'name': self.lname(fit.ship.item),
-                     'graphicId': fit.ship.item.graphicID},
+                     'graphicId': fit.ship.item.graphicID, 'group': self.group_name(fit.ship.item.group)},
             'resources': res,
             'slots': self.slot_rows(fit, positions, doc),
             'stats': self.stats(fit),
@@ -477,14 +487,17 @@ class Engine:
 
     def market_group(self, item):
         leaf = self.market.getMarketGroupByItem(item)
-        if leaf is None:
-            return None
-        path = []
-        node = leaf
-        while node is not None:
-            path.append({'id': node.ID, 'name': {'en': node.name, 'zh': self.market_zh.get(node.ID) or node.name}})
-            node = node.parent
-        return {**path[0], 'ancestors': list(reversed(path[1:]))}
+        return self.market_path(leaf.ID) if leaf is not None else None
+
+    def market_path(self, group_id):
+        if group_id not in self.market_groups:
+            path = []
+            node = self.market.getMarketGroup(group_id)
+            while node is not None:
+                path.append({'id': node.ID, 'name': {'en': node.name, 'zh': self.market_zh.get(node.ID) or node.name}})
+                node = node.parent
+            self.market_groups[group_id] = {**path[0], 'ancestors': list(reversed(path[1:]))} if path else None
+        return self.market_groups[group_id]
 
     def charge_row(self, charge):
         damage = sum(charge.getAttribute(attr) or 0 for attr in

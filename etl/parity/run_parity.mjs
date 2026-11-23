@@ -47,10 +47,12 @@ ${snapshot}
 `))
 for (const name of Object.keys(fits)) {
   const committed = await readJson(join(root, 'src/engine/fixtures', `${name}.json`))
-  // JSON treats 0 and -0 identically.
-  assert.deepEqual(expected[name].calc, committed, `${name}: CPython calc fixture drift`)
+  // The manifest also hashes the bundled Python source, so each build has its own data version.
+  assert.equal(expected[name].calc.dataVersion, manifest.dataVersion)
+  assert.equal(expected[name].getDataVersion, manifest.dataVersion)
+  assert.deepEqual(expected[name].calc, { ...committed, dataVersion: manifest.dataVersion }, `${name}: CPython calc fixture drift`)
   for (const section of Object.keys(expected[name])) {
     assert.deepEqual(actual[name][section], expected[name][section], `${name}: ${section}`)
   }
-  console.log(`${name}: 0 differences (calc, itemsForSlot, chargesFor, and text/skill APIs)`)
+  console.log(`${name}: 0 differences (calc, market and item APIs, charges, text and skills)`)
 }

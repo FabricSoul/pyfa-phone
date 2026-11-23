@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import type { ItemDetails } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
-import { iconUrl, lname, fmt } from '../ui/format'
+import { _t } from '../i18n/t'
+import { iconUrl, lname, fmt, useNameLanguage } from '../ui/format'
 import { ItemIcon } from '../ui/ItemIcon'
 import { MetaTag } from '../ui/MetaGroupList'
 import { Segmented } from '../ui/Segmented'
@@ -21,7 +21,7 @@ export function ItemInfo() {
 }
 
 function Details({ typeId, fitId, position }: { typeId: number; fitId: string; position: string }) {
-  const language = useUiLanguage()
+  const language = useNameLanguage()
   const { engine, store } = useFitServices()
   const [view, setView] = useState<View>('attributes')
   const [item, setItem] = useState<ItemDetails | null>()

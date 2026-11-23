@@ -2,6 +2,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import merlin from '../engine/fixtures/merlin.json'
 import rifter from '../engine/fixtures/rifter.json'
+import { fmt } from './format'
 import { CalcResultSchema } from '../engine/types'
 import { StatsPage } from './StatsPage'
 
@@ -76,4 +77,14 @@ describe('StatsPage panels', () => {
     expect(screen.getByText(/12,000/)).toBeTruthy()
     expect(screen.getByText(/1,500,000/)).toBeTruthy()
   })
+})
+
+it('switches the defense summary and the repair units between EHP and HP', () => {
+  render(<StatsPage result={unstable} />)
+  const defense = screen.getByRole('button', { name: /^Defense/ })
+  expect(defense.textContent).toContain(`EHP ${fmt(unstable.stats.defense.ehp, 0)}`)
+  expect(screen.getAllByText('EHP/s').length).toBeGreaterThan(0)
+  fireEvent.click(screen.getByRole('button', { name: 'HP' }))
+  expect(defense.textContent).toContain(`HP ${fmt(unstable.stats.defense.hp, 0)}`)
+  expect(screen.getAllByText('HP/s').length).toBeGreaterThan(0)
 })

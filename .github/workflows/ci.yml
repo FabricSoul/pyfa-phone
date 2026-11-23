@@ -26,6 +26,8 @@ jobs:
         run: pnpm etl
       - name: ETL tests
         run: uv run -q --python 3.13 --with sqlalchemy==2.0.51 --with logbook==1.9.2 --with pyyaml --with cryptography --with pytest python -m pytest -q etl/test_etl.py
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright-core install --with-deps chromium
       - name: All gates
         run: ./check-all.sh
       - name: Report to OwlMem
@@ -34,6 +36,6 @@ jobs:
           OWLMEM_CI_KEY: ${{ secrets.OWLMEM_CI_KEY }}
         run: |
           [ -n "$OWLMEM_CI_KEY" ] || exit 0
-          curl -s -X POST https://mcp.owlmem.com/v1/ci \
+          curl -sS --fail-with-body -X POST https://mcp.owlmem.com/v1/ci \
             -H "Authorization: Bearer $OWLMEM_CI_KEY" \
             -d "{\"repo\":\"$GITHUB_REPOSITORY\",\"sha\":\"$GITHUB_SHA\",\"ok\":${{ job.status == 'success' }},\"step\":\"main\",\"url\":\"$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\"}"

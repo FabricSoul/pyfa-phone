@@ -50,7 +50,7 @@ function Row({ label, value, name, onClick }: {
     <button type="button" className="row" aria-label={name ?? label} onClick={onClick}
       style={{ width: '100%', border: 0, textAlign: 'left' }}>
       <div className="mn"><span style={{ fontSize: 15 }}>{label}</span></div>
-      {value !== undefined && <span style={{ color: 'var(--color-text-secondary)', fontSize: 14 }}>{value}</span>}
+      {value !== undefined && <span className="settings-value">{value}</span>}
       <span style={{ color: 'var(--color-text-secondary)' }}>›</span>
     </button>
   )
@@ -74,7 +74,7 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
   )
 }
 
-const valueOf = (sheet: Sheet, s: ReturnType<typeof useSettings>, uiLang: UiLanguage): string | undefined => {
+const valueOf = (sheet: Sheet, s: ReturnType<typeof useSettings>): string | undefined => {
   switch (sheet) {
     case 'theme':
       return s.appearance === 'system' ? _t('Follow system') : s.appearance === 'dark' ? _t('Dark') : _t('Light')
@@ -86,7 +86,7 @@ const valueOf = (sheet: Sheet, s: ReturnType<typeof useSettings>, uiLang: UiLang
       return s.defaultCharacter === 'all5' ? _t('All V') : _t('All 0')
     case 'damage': {
       const row = getPatternData().damagePatterns.find((p) => p.id === s.defaultDamagePatternId)
-      return row ? labelOf(row.name, uiLang === 'zh_CN' ? 'zh' : 'en') : undefined
+      return row ? labelOf(row.name, s.itemNameLanguage) : undefined
     }
     default:
       return undefined
@@ -95,7 +95,7 @@ const valueOf = (sheet: Sheet, s: ReturnType<typeof useSettings>, uiLang: UiLang
 
 /** Settings screen: appearance/language, defaults, calculation toggles, data and legal notice. */
 export default function Settings() {
-  useUiLanguage()
+  const uiLang = useUiLanguage()
   const settings = useSettings()
   const [sheet, setSheet] = useState<Sheet>(null)
   const [dataVersion, setDataVersion] = useState('')
@@ -145,7 +145,6 @@ export default function Settings() {
   }
 
   const title = _t('Settings')
-  const uiLang = settings.uiLanguage === 'zh_CN' ? 'zh_CN' : 'en_US'
 
   return (
     <main>
@@ -153,18 +152,18 @@ export default function Settings() {
 
       <Section>{_t('Appearance & language')}</Section>
       <div className="list">
-        <Row label={_t('Theme')} name={_t('Theme')} value={valueOf('theme', settings, uiLang)} onClick={() => setSheet('theme')} />
+        <Row label={_t('Theme')} name={_t('Theme')} value={valueOf('theme', settings)} onClick={() => setSheet('theme')} />
         <Row label={_t('Interface language')} name={_t('Interface language')}
-          value={valueOf('uiLanguage', settings, uiLang)} onClick={() => setSheet('uiLanguage')} />
-        <Row label={_t('Item names')} name={_t('Item names')} value={valueOf('itemName', settings, uiLang)}
+          value={valueOf('uiLanguage', settings)} onClick={() => setSheet('uiLanguage')} />
+        <Row label={_t('Item names')} name={_t('Item names')} value={valueOf('itemName', settings)}
           onClick={() => setSheet('itemName')} />
       </div>
 
       <Section>{_t('New fit defaults')}</Section>
       <div className="list">
-        <Row label={_t('Character')} name={_t('Character')} value={valueOf('character', settings, uiLang)}
+        <Row label={_t('Character')} name={_t('Character')} value={valueOf('character', settings)}
           onClick={() => setSheet('character')} />
-        <Row label={_t('Damage pattern')} name={_t('Damage pattern')} value={valueOf('damage', settings, uiLang)}
+        <Row label={_t('Damage pattern')} name={_t('Damage pattern')} value={valueOf('damage', settings)}
           onClick={() => setSheet('damage')} />
         <Toggle label={_t('Use character implants')} checked={settings.useCharacterImplants}
           onChange={(v) => updateSettings({ useCharacterImplants: v })} />
@@ -222,7 +221,7 @@ export default function Settings() {
             <div className="row" style={{ paddingTop: 0 }}><div className="mn"><span>{_t('Interface language')}</span></div></div>
             <Segmented<UiLanguage>
               options={[{ value: 'en_US', label: 'English' }, { value: 'zh_CN', label: '简体中文' }]}
-              value={settings.uiLanguage ?? 'en_US'} onChange={pickUiLanguage}
+              value={uiLang} onChange={pickUiLanguage}
             />
           </>
         )}

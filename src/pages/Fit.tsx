@@ -1,15 +1,21 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { SLOT_KINDS, type ModulePos, type ModuleSlotRow, type SlotKind } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
+import { SLOT_KINDS, type CalcResult, type ModulePos, type ModuleSlotRow, type SlotKind } from '../engine/types'
+import { _t } from '../i18n/t'
 import { NavBar } from '../ui/NavBar'
 import { ResourceBar } from '../ui/ResourceGauge'
 import { Segmented } from '../ui/Segmented'
 import { ModuleRow } from '../ui/ModuleRow'
+import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
+import { updateSettings, useSettings } from '../settings/settings'
+import { ActionSheet } from '../ui/ActionSheet'
+import { DamagePatternPicker } from '../ui/pickers/DamagePatternPicker'
+import { TargetProfilePicker } from '../ui/pickers/TargetProfilePicker'
+import { getPatternData } from '../ui/pickers/patterns'
 import { StatsPage } from '../ui/StatsPage'
-import { fmt, lname, renderUrl } from '../ui/format'
+import { fmt, lname, renderUrl, useNameLanguage } from '../ui/format'
 import { FitExtras } from './FitExtras'
-import { useFitSession, withModules } from './fitSession'
+import { useFitServices, useFitSession, withModules } from './fitSession'
 import { ModuleSheet } from './ModuleSheet'
 import { FitMenu } from './FitMenu'
 import { FitSection, slotName } from './shared'
@@ -17,9 +23,10 @@ import { FitSection, slotName } from './shared'
 type View = 'slots' | 'stats' | 'extras'
 
 export function Fit() {
-  const language = useUiLanguage()
+  const language = useNameLanguage()
   const navigate = useNavigate()
   const { record, fit, result, removed, canUndo, undo, edit } = useFitSession()
+  const { store } = useFitServices()
   const [view, setView] = useState<View>('slots')
   const [selected, setSelected] = useState<ModulePos>()
   const [menu, setMenu] = useState(false)
@@ -36,6 +43,7 @@ export function Fit() {
   return <main>
     <NavBar title={fit.name} subtitle={shipName && lname(shipName, language)} shipSrc={renderUrl(result?.ship.graphicId ?? null)}
       canUndo={canUndo} onBack={() => navigate('/')} onUndo={undo} onMore={() => setMenu(true)} />
+    {store.isTemporary(record.id) && <p className="page-message">{_t('Unsaved preview')}</p>}
     {result && <ResourceBar {...result.resources} />}
     <Segmented value={view} onChange={setView} options={[
       { value: 'slots', label: _t('Slots') }, { value: 'stats', label: _t('Stats') }, { value: 'extras', label: _t('Extras') },
@@ -93,10 +101,57 @@ export function Fit() {
         </div>
       </FitSection>
     })}
-    {view === 'stats' && result && <StatsPage result={result} />}
+    {view === 'stats' && result && <FitStats result={result} />}
     {view === 'extras' && <FitExtras />}
     <ModuleSheet selected={selected} row={row} onClose={() => setSelected(undefined)} />
     <FitMenu open={menu} onClose={() => setMenu(false)} />
     {!result && retired.has(fit.shipTypeId) && <Link className="fit-inset" to="/">{_t('Back to fittings')}</Link>}
   </main>
+}
+
+function FitStats({ result }: { result: CalcResult }) {
+  const language = useNameLanguage()
+  const { fit, edit } = useFitSession()
+  const { considerReload, priceIncluded } = useSettings()
+  const [picker, setPicker] = useState<'damage' | 'target'>()
+  const { damagePatterns, targetProfiles } = getPatternData()
+  const damage = damagePatterns.find(({ id }) => id === fit.damagePatternId)
+  const target = targetProfiles.find(({ id }) => id === fit.targetProfileId)
+  const items = result.priceItems
+  const quotes = usePriceQuotes(Object.values(items).flat())
+  const prices = quotes ? {
+    ship: priceTotal(items.ship, quotes),
+    fit: priceTotal(totalPriceItems(items, priceIncluded), quotes),
+    lines: [
+      { label: _t('Modules'), items: items.modules },
+      { label: _t('Loaded charges'), items: items.loadedCharges },
+      { label: _t('Drones'), items: items.drones },
+      { label: _t('Fighters'), items: items.fighters },
+      { label: _t('Cargo'), items: items.cargo },
+      { label: _t('Implants'), items: items.implants },
+      { label: _t('Boosters'), items: items.boosters },
+    ].flatMap(({ label, items }) => items.length ? [{ label, value: priceTotal(items, quotes) ?? null }] : []),
+  } : { pending: true }
+
+  return <>
+    <StatsPage result={result} prices={prices} settings={{
+      damagePattern: damage && lname(damage.name, language),
+      targetProfile: target && lname(target.name, language),
+      includeReload: considerReload,
+      onReloadChange: (includeReload) => updateSettings({ considerReload: includeReload }),
+      onDamagePattern: () => setPicker('damage'),
+      onTargetProfile: () => setPicker('target'),
+    }} />
+    <ActionSheet open={picker !== undefined} title={picker === 'damage' ? _t('Damage pattern') : _t('Target profile')}
+      onClose={() => setPicker(undefined)}>
+      {picker === 'damage' && <DamagePatternPicker value={fit.damagePatternId} onPick={(damagePatternId) => {
+        edit((fit) => ({ ...fit, damagePatternId }))
+        setPicker(undefined)
+      }} />}
+      {picker === 'target' && <TargetProfilePicker value={fit.targetProfileId} onPick={(targetProfileId) => {
+        edit((fit) => ({ ...fit, targetProfileId }))
+        setPicker(undefined)
+      }} />}
+    </ActionSheet>
+  </>
 }

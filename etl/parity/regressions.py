@@ -106,6 +106,34 @@ def regression_results(fits, data_version, client_build):
             self.assertTrue(trial)
             self.assertEqual({(group_id, 2)}, set(trial))
 
+        def test_market_leaf_and_meta_filter_only_trial_the_requested_candidates(self):
+            market = api._engine.market_group(api._engine.item(2889))
+            self.assertIn(market, call('market_groups_for_slot', rifter, 'high'))
+            self.assertEqual(data_version, call('get_data_version'))
+            with patch.object(api._engine, 'recalc', wraps=api._engine.recalc) as recalc:
+                catalog = call('items_for_slot', rifter, 'high', None, {
+                    'marketGroupId': market['id'], 'preview': False,
+                })
+                self.assertNotIn('resourceOverages', catalog[0]['items'][0])
+                self.assertEqual(1, recalc.call_count)  # Calculate hull layout once.
+                recalc.reset_mock()
+                preview = call('items_for_slot', rifter, 'high', None, {
+                    'marketGroupId': market['id'], 'meta': 'tech2', 'preview': True,
+                })
+                self.assertEqual(['tech2'], [group['meta'] for group in preview])
+                self.assertEqual({market['id']}, {row['marketGroup']['id'] for row in preview[0]['items']})
+                self.assertEqual(2 + len(preview[0]['items']), recalc.call_count)
+
+        def test_item_info_reports_fitted_cpu_only_for_the_matching_position(self):
+            base = call('item_info', 2889)
+            fitted = call('item_info', 2889, rifter, {'slot': 'high', 'index': 0})
+            wrong = call('item_info', 2889, rifter, {'slot': 'low', 'index': 0})
+            cpu = lambda info: next(a for a in info['attributes'] if a['id'] == 50)
+            self.assertEqual(9, cpu(base)['base'])
+            self.assertEqual(6.75, cpu(fitted)['current'])
+            self.assertNotIn('current', cpu(wrong))
+            self.assertIsNone(call('item_info', 987654321))
+
         def test_stats_expose_eos_repairs_reload_mining_bays_and_price_inputs(self):
             current = call('calc', rifter)
             stats = current['stats']

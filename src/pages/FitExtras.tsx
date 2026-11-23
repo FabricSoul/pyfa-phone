@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 import type { FitDoc } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
-import { fmt, lname } from '../ui/format'
+import { _t } from '../i18n/t'
+import { fmt, lname, useNameLanguage } from '../ui/format'
 import { useFitSession } from './fitSession'
 import { EmptyMessage, FitSection } from './shared'
 
 type Collection = 'cargo' | 'drones' | 'implants' | 'boosters'
 
 export function FitExtras() {
-  const language = useUiLanguage()
+  const language = useNameLanguage()
   const { fit, record, result, edit, removed } = useFitSession()
   const { cargo, droneBay } = result?.resources ?? {}
   const headings = {

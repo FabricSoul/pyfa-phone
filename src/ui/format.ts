@@ -1,5 +1,6 @@
 import type { LName } from '../engine/types'
-import type { UiLanguage } from '../i18n/t'
+import { useUiLanguage, type UiLanguage } from '../i18n/t'
+import { useItemNameLanguage, type ItemNameLanguage } from '../settings/settings'
 
 /** One decimal at most, integers without ".0", thousands separated (DESIGN.md §3). */
 export function fmt(n: number, maxDigits = 1): string {
@@ -14,8 +15,13 @@ export function fmt(n: number, maxDigits = 1): string {
   return (rounded === 0 || n >= 0 ? rounded : -rounded).toLocaleString('en-US', { maximumFractionDigits: maxDigits })
 }
 
-export function lname(n: LName, lang: UiLanguage): string {
-  return lang === 'zh_CN' ? n.zh || n.en : n.en
+export function lname(n: LName, lang: UiLanguage | ItemNameLanguage): string {
+  return lang === 'zh_CN' || lang === 'zh' ? n.zh || n.en : n.en
+}
+
+export function useNameLanguage(): ItemNameLanguage {
+  useUiLanguage()
+  return useItemNameLanguage()
 }
 
 /** Icon files written by etl/20_assets.py. */

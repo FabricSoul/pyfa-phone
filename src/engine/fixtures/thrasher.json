@@ -49,7 +49,11 @@
       "en": "Thrasher",
       "zh": "长尾鲛级"
     },
-    "graphicId": 2390
+    "graphicId": 2390,
+    "group": {
+      "en": "Destroyer",
+      "zh": "驱逐舰"
+    }
   },
   "resources": {
     "cpu": {
@@ -142,6 +146,12 @@
           6
         ],
         "state": "active",
+        "supportedStates": [
+          "offline",
+          "online",
+          "active",
+          "overheated"
+        ],
         "charge": {
           "typeId": 21898,
           "name": {
@@ -183,6 +193,12 @@
           0
         ],
         "state": "active",
+        "supportedStates": [
+          "offline",
+          "online",
+          "active",
+          "overheated"
+        ],
         "charge": null,
         "keyLine": "",
         "keyParts": [],
@@ -204,6 +220,12 @@
           1
         ],
         "state": "active",
+        "supportedStates": [
+          "offline",
+          "online",
+          "active",
+          "overheated"
+        ],
         "charge": null,
         "keyLine": "9km · -2",
         "keyParts": [
@@ -228,6 +250,10 @@
           2
         ],
         "state": "online",
+        "supportedStates": [
+          "offline",
+          "online"
+        ],
         "charge": null,
         "keyLine": "",
         "keyParts": [],
@@ -252,6 +278,10 @@
           1
         ],
         "state": "online",
+        "supportedStates": [
+          "offline",
+          "online"
+        ],
         "charge": null,
         "keyLine": "+22.9%",
         "keyParts": [
@@ -277,6 +307,10 @@
           0
         ],
         "state": "online",
+        "supportedStates": [
+          "offline",
+          "online"
+        ],
         "charge": null,
         "keyLine": "",
         "keyParts": [],
@@ -298,6 +332,10 @@
           1
         ],
         "state": "online",
+        "supportedStates": [
+          "offline",
+          "online"
+        ],
         "charge": null,
         "keyLine": "",
         "keyParts": [],
@@ -319,6 +357,10 @@
           2
         ],
         "state": "online",
+        "supportedStates": [
+          "offline",
+          "online"
+        ],
         "charge": null,
         "keyLine": "",
         "keyParts": [],

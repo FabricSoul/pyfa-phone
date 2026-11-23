@@ -3,8 +3,8 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
   META_GROUPS, SlotKindSchema, type FitDoc, type ItemGroup, type ItemRow, type MarketGroup, type MetaGroup, type SlotKind,
 } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
-import { fmt, iconUrl, lname } from '../ui/format'
+import { _t } from '../i18n/t'
+import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { ItemIcon } from '../ui/ItemIcon'
 import { MetaGroupList, metaLabel } from '../ui/MetaGroupList'
@@ -58,13 +58,14 @@ interface Listing {
 }
 
 function ModulePicker({ slot }: { slot: SlotKind }) {
-  const language = useUiLanguage()
+  const language = useNameLanguage()
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const { engine } = useFitServices()
   const { record, fit, result, edit } = useFitSession()
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<number>()
+  const [previewed, setPreviewed] = useState<ReadonlySet<MetaGroup>>(new Set())
   const [meta, setMeta] = useState<MetaGroup>()
   const [browse, setBrowse] = useState(false)
   const [branch, setBranch] = useState<number[]>([])
@@ -78,15 +79,16 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
 
   useEffect(() => {
     let current = true
-    if (!engine.marketGroupsForSlot) return
-    void engine.marketGroupsForSlot(fit, slot).then((groups) => {
-      if (current) { setMarketGroups(groups); setMarketError(false) }
-    }, () => { if (current) setMarketError(true) })
-    return () => { current = false }
+    const timer = setTimeout(() => {
+      void engine.marketGroupsForSlot?.(fit, slot).then((groups) => {
+        if (current) { setMarketGroups(groups); setMarketError(false) }
+      }, () => { if (current) setMarketError(true) })
+    }, 0)
+    return () => { current = false; clearTimeout(timer) }
   }, [engine, fit, slot])
 
   const families = useMemo(() => (marketGroups ?? []).slice().sort((a, b) =>
-    lname(a.name, language).localeCompare(lname(b.name, language), language === 'zh_CN' ? 'zh-CN' : 'en')),
+    lname(a.name, language).localeCompare(lname(b.name, language), language === 'zh' ? 'zh-CN' : 'en')),
   [marketGroups, language])
   const recent = recents.find((item) => item.slot === slot && families.some((group) => group.id === item.marketGroupId))
   const family = selected ?? recent?.marketGroupId ?? families[0]?.id
@@ -99,6 +101,7 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     const timer = setTimeout(() => {
       void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId: groupId, preview: false }).then((groups) => {
         if (!current) return
+        setPreviewed(new Set())
         setListing({ fit, query: search, groupId, groups: groups.filter((group) => group.items.length > 0) })
         setError(false)
       }, () => { if (current) setError(true) })
@@ -144,6 +147,7 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     setSelected(group.id)
     setError(false)
     setMeta(undefined)
+    setPreviewed(new Set())
     setBrowse(false)
     setBranch([])
   }
@@ -186,7 +190,11 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
       {loaded && items.length > 0 && <div className="fit-filter-bar">
         <h2>{focus && !search ? marketLabel(focus) : _t('Compatible modules')}</h2>
         <select className="fit-input" aria-label={_t('Technology level')} value={meta ?? ''}
-          onChange={(event) => setMeta(event.target.value ? event.target.value as MetaGroup : undefined)}>
+          onChange={(event) => {
+            const code = event.target.value as MetaGroup | ''
+            setMeta(code || undefined)
+            if (code) setPreviewed((previous) => new Set([...previous, code]))
+          }}>
           <option value="">{_t('All technology levels')}</option>
           {META_GROUPS.filter((code) => groups.some((group) => group.meta === code)).map((code) =>
             <option key={code} value={code}>{metaLabel(code)}</option>)}
@@ -194,8 +202,9 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
       </div>}
       {loaded && !visible.length && <EmptyMessage>{_t('No matching modules')}</EmptyMessage>}
       {visible.length > 0 && <MetaGroupList key={JSON.stringify([search, groupId, meta])} groups={visible}
+        onExpand={(code) => setPreviewed((previous) => new Set([...previous, code]))}
         renderGroup={(group) => <CandidateRows group={group} slot={slot} search={search} groupId={groupId}
-          disabled={index === undefined} onPick={pick} />} />}
+          disabled={index === undefined} checkFit={previewed.has(group.meta)} onPick={pick} />} />}
     </>}
     {!search && families.length > 0 && <button type="button" className="market-link" onClick={() => { setBrowse(!browse); setBranch([]) }}>
       {browse ? _t('Return to modules') : _t('Browse all market groups')} <Icon name="chevron-down" />
@@ -203,36 +212,38 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   </main>
 }
 
-function CandidateRows({ group, slot, search, groupId, disabled, onPick }: {
+function CandidateRows({ group, slot, search, groupId, disabled, checkFit, onPick }: {
   group: ItemGroup
   slot: SlotKind
   search: string
   groupId?: number
   disabled: boolean
+  checkFit: boolean
   onPick: (item: ItemRow) => void
 }) {
-  const lang = useUiLanguage()
+  const lang = useNameLanguage()
   const { engine } = useFitServices()
   const { fit } = useFitSession()
-  const [previews, setPreviews] = useState<Map<number, ItemRow>>()
+  const [previews, setPreviews] = useState<ItemRow[]>()
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    if (disabled) return
+    if (disabled || !checkFit) return
     let current = true
-    void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId: groupId, meta: group.meta, preview: true })
-      .then((groups) => {
-        if (current) setPreviews(new Map(groups.flatMap((group) => group.items.map((row) => [row.typeId, row]))))
-      }, () => { if (current) setError(true) })
-    return () => { current = false }
-  }, [disabled, engine, fit, group.meta, groupId, search, slot])
+    const timer = setTimeout(() => {
+      void engine.itemsForSlot(fit, slot, search || undefined, { marketGroupId: groupId, meta: group.meta, preview: true })
+        .then((groups) => {
+          if (current) setPreviews(groups.flatMap((group) => group.items))
+        }, () => { if (current) setError(true) })
+    }, 0)
+    return () => { current = false; clearTimeout(timer) }
+  }, [checkFit, disabled, engine, fit, group.meta, groupId, search, slot])
 
   return <>
-    {!disabled && !previews && !error && <p className="fit-caption fit-preview" role="status">{_t('Checking fit…')}</p>}
+    {checkFit && !disabled && !previews && !error && <p className="fit-caption fit-preview" role="status">{_t('Checking fit…')}</p>}
     {error && <p className="fit-caption fit-preview warn" role="status">{_t('Could not check fitting resources')}</p>}
-    {group.items.map((item) => {
-      const preview = previews?.get(item.typeId)
-      const warnings = fittingWarnings(preview)
+    {(previews ?? group.items).map((item) => {
+      const warnings = fittingWarnings(item)
       return <button key={item.typeId} type="button" className="ar candidate" disabled={disabled} onClick={() => onPick(item)}>
         <ItemIcon src={iconUrl(item.iconId)} />
         <span className="mn">

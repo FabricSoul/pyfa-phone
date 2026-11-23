@@ -23,6 +23,47 @@ function withItemNames(record: StoredFit, names: Record<number, LName> = {}): St
   return { ...record, itemNames, fit: { ...record.fit, itemNames } }
 }
 
+/** Temporary imports use the normal fitting routes without making any IndexedDB writes. */
+export function withTemporaryFits(persistent: FitStore) {
+  const records = new Map<string, StoredFit>()
+  const isTemporary = (id: string) => id.startsWith('preview-')
+
+  return {
+    ...persistent,
+    isTemporary,
+    openTemporary(fit: FitDoc, itemNames: Record<number, LName>) {
+      const id = `preview-${crypto.randomUUID()}`
+      records.set(id, withItemNames({ id, fit, itemNames, openedAt: null }))
+      return id
+    },
+    async get(id: string) {
+      return isTemporary(id) ? records.get(id) : persistent.get(id)
+    },
+    async save(record: StoredFit) {
+      if (!isTemporary(record.id)) return persistent.save(record)
+      const previous = records.get(record.id)
+      if (previous) records.set(record.id, withItemNames(record, { ...previous.itemNames, ...record.itemNames }))
+    },
+    async remove(id: string) {
+      if (!isTemporary(id)) return persistent.remove(id)
+      records.delete(id)
+    },
+    async touch(id: string, openedAt: number) {
+      if (!isTemporary(id)) return persistent.touch(id, openedAt)
+      const record = records.get(id)
+      if (record) records.set(id, { ...record, openedAt })
+    },
+    async rememberNames(id: string, names: Record<number, LName>) {
+      if (!isTemporary(id)) return persistent.rememberNames(id, names)
+      const record = records.get(id)
+      if (record) records.set(id, withItemNames(record, names))
+    },
+  } satisfies FitStore & {
+    isTemporary(id: string): boolean
+    openTemporary(fit: FitDoc, itemNames: Record<number, LName>): string
+  }
+}
+
 const STORE = 'fits'
 export const exampleFitDocs = Object.entries(fixtures)
   .map(([id, sample]) => ({ id, fit: FitDocSchema.parse(sample) }))

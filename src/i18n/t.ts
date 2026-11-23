@@ -53,6 +53,7 @@ export async function setUiLanguage(lang: UiLanguage): Promise<void> {
   const load = loaders[`./locales/${lang}.json`]
   const next = load ? await load() : {}
   if (seq !== loadSeq) return // a later call won
+  if (typeof document !== 'undefined') document.documentElement.lang = lang.replace('_', '-')
   if (lang === current && next === catalog) return
   current = lang
   catalog = next

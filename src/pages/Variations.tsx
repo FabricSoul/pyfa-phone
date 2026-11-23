@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import type { ItemGroup, ItemRow } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
-import { lname } from '../ui/format'
+import { _t } from '../i18n/t'
+import { lname, useNameLanguage } from '../ui/format'
 import { MetaGroupList } from '../ui/MetaGroupList'
 import { parsePosition, useFitServices, useFitSession, withModules } from './fitSession'
 import { EmptyMessage, PageHeading } from './shared'
 
 export function Variations() {
-  const language = useUiLanguage()
+  const language = useNameLanguage()
   const navigate = useNavigate()
   const params = useParams()
   const [query] = useSearchParams()

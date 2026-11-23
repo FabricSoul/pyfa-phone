@@ -1,7 +1,7 @@
 import './ui.css'
 import type { ChargeGroup, ChargeOption, DamageTypes } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
-import { fmt, iconUrl, lname } from './format'
+import { _t } from '../i18n/t'
+import { fmt, iconUrl, lname, useNameLanguage } from './format'
 import { ItemIcon } from './ItemIcon'
 import { MetaGroupList, MetaTag } from './MetaGroupList'
 
@@ -28,7 +28,7 @@ export function AmmoList({ groups, currentTypeId, onPick }: {
   currentTypeId?: number
   onPick?: (item: ChargeOption) => void
 }) {
-  const lang = useUiLanguage()
+  const lang = useNameLanguage()
   return (
     <MetaGroupList groups={groups} currentTypeId={currentTypeId} valueUnit={_t('DPS')}
       renderItem={(it, current) => {

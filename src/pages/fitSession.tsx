@@ -1,13 +1,14 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Link, Outlet, useParams } from 'react-router-dom'
 import { SLOT_KINDS, type CalcResult, type EngineClient, type FitDoc, type FitModule, type LName, type ModulePos, type SlotKind } from '../engine/types'
 import { _t } from '../i18n/t'
-import { fitTypeIds, resolveStoredItems, type FitStore, type StoredFit } from '../store/fits'
+import { useSettings } from '../settings/settings'
+import { fitTypeIds, resolveStoredItems, withTemporaryFits, type FitStore, type StoredFit } from '../store/fits'
 import { commit, createHistory, redo, undo, type History } from '../store/history'
 
 interface Services {
   engine: EngineClient
-  store: FitStore
+  store: ReturnType<typeof withTemporaryFits>
   histories: Map<string, History<FitDoc>>
 }
 
@@ -15,7 +16,8 @@ const ServicesContext = createContext<Services | null>(null)
 
 export function FitServices({ engine, store, children }: { engine: EngineClient; store: FitStore; children: ReactNode }) {
   const histories = useMemo(() => new Map<string, History<FitDoc>>(), [engine, store])
-  return <ServicesContext.Provider value={{ engine, store, histories }}>{children}</ServicesContext.Provider>
+  const sessionStore = useMemo(() => withTemporaryFits(store), [store])
+  return <ServicesContext.Provider value={{ engine, store: sessionStore, histories }}>{children}</ServicesContext.Provider>
 }
 
 export function useFitServices() {
@@ -100,6 +102,7 @@ export function FitWorkspace() {
 
 function Workspace({ id }: { id: string }) {
   const { engine, store, histories } = useFitServices()
+  const { considerReload } = useSettings()
   const [record, setRecord] = useState<StoredFit>()
   const [history, setHistory] = useState<History<FitDoc>>()
   const historyRef = useRef<History<FitDoc> | undefined>(undefined)
@@ -144,16 +147,19 @@ function Workspace({ id }: { id: string }) {
   useEffect(() => {
     if (!fit || removed.some((item) => item.typeId === fit.shipTypeId)) return
     let current = true
-    void engine.calc(withoutRetiredItems(fit, removed)).then((calc) => {
+    void engine.calc(withoutRetiredItems(fit, removed), { includeReload: considerReload }).then((calc) => {
       if (!current) return
       setResult(calc)
       setCalcError(false)
       void store.rememberNames(id, resultNames(calc)).catch(() => { if (current) setSaveError(true) })
     }, () => { if (current) setCalcError(true) })
     return () => { current = false }
-  }, [engine, fit, id, removed, store])
+  }, [considerReload, engine, fit, id, removed, store])
 
-  if (missing) return <p className="page-message">{_t('Fit not found')}</p>
+  if (missing) return <>
+    <p className="page-message">{_t('Fit not found')}</p>
+    {store.isTemporary(id) && <Link className="fit-inset" to="/">{_t('Back to fittings')}</Link>}
+  </>
   if (loadError || calcError && !result) return <p role="alert" className="page-message">{_t('Could not load fit')}</p>
   if (!record || !history) return <p role="status" className="page-message">{_t('Loading fit…')}</p>
 

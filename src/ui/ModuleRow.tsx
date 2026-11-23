@@ -1,9 +1,9 @@
 import './ui.css'
 import { useRef, useState } from 'react'
 import type { ModuleState, SlotRow } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
+import { _t } from '../i18n/t'
 import { Icon, type IconName } from './icons'
-import { iconUrl, lname } from './format'
+import { iconUrl, lname, useNameLanguage } from './format'
 import { ItemIcon } from './ItemIcon'
 
 const ICON: Record<ModuleState, IconName> = { offline: 'power-off', online: 'power', active: 'zap', overheated: 'flame' }
@@ -35,7 +35,7 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
   onRemove?: () => void
   onAdd?: () => void
 }) {
-  const lang = useUiLanguage()
+  const lang = useNameLanguage()
   // The engine reports which states a module supports; an explicit prop wins, ALL_STATES is the fallback.
   const availableStates = provided ?? (row.kind === 'module' ? row.supportedStates : undefined) ?? ALL_STATES
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)

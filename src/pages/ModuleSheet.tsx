@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MODULE_STATES, type FitDoc, type ChargeGroup, type ModulePos, type ModuleSlotRow, type ModuleState } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
+import { _t } from '../i18n/t'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { AmmoList } from '../ui/AmmoList'
-import { fmt, iconUrl, lname } from '../ui/format'
+import { fmt, iconUrl, lname, useNameLanguage } from '../ui/format'
 import { ItemIcon } from '../ui/ItemIcon'
 import { Segmented } from '../ui/Segmented'
 import { positionKey, useFitServices, useFitSession, withModules } from './fitSession'
@@ -25,7 +25,7 @@ export function ModuleSheet({ selected, row, onClose }: { selected?: ModulePos; 
 }
 
 function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: ModuleSlotRow; onClose: () => void }) {
-  const language = useUiLanguage()
+  const language = useNameLanguage()
   const navigate = useNavigate()
   const { engine } = useFitServices()
   const { edit, fit, record } = useFitSession()

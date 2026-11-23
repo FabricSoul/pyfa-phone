@@ -1,8 +1,8 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
-import { mockEngine } from './engine/mockClient'
+import { createEngine, type EngineStage } from './engine/client'
 import type { EngineClient } from './engine/types'
-import { initApp } from './i18n/initial'
+import { _t, useUiLanguage } from './i18n/t'
 import About from './pages/About'
 import { AddModule } from './pages/AddModule'
 import { Fit } from './pages/Fit'
@@ -15,19 +15,20 @@ import { Variations } from './pages/Variations'
 import { defaultFitStore, type FitStore } from './store/fits'
 import './pages/pages.css'
 
-// Apply the stored theme / browser-derived UI language before the first page renders.
-initApp()
-
 // Dev pages exist only in `vite dev`: import.meta.env.DEV is a build-time constant, so the dynamic
 // imports (and the pages) are dropped from production bundles. check-all.sh greps dist/ to prove it.
 const Gallery = import.meta.env.DEV ? lazy(() => import('./dev/Gallery')) : null
 const TokensPage = import.meta.env.DEV ? lazy(() => import('./dev/TokensPage')) : null
 
 export function FittingRoutes({ engine, store }: { engine: EngineClient; store: FitStore }) {
+  useUiLanguage()
   return <FitServices engine={engine} store={store}>
     <div className="fit-app">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/import" element={<Import />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/fit/:id" element={<FitWorkspace />}>
           <Route index element={<Fit />} />
           <Route path="add/:slot" element={<AddModule />} />
@@ -39,18 +40,64 @@ export function FittingRoutes({ engine, store }: { engine: EngineClient; store: 
   </FitServices>
 }
 
+const stages = ['runtime', 'data', 'initialize'] as const
+
+function stageLabel(stage: EngineStage) {
+  switch (stage) {
+    case 'runtime': return _t('Downloading Python runtime…')
+    case 'data': return _t('Downloading game data…')
+    case 'initialize': return _t('Initializing fitting engine…')
+  }
+}
+
+function EngineApp() {
+  const [engine, setEngine] = useState<EngineClient>()
+  const [stage, setStage] = useState<EngineStage>('runtime')
+  const [error, setError] = useState(false)
+  const [attempt, setAttempt] = useState(0)
+
+  useEffect(() => {
+    let current = true
+    // StrictMode tears down the first effect before this timer can create a Worker.
+    const timer = setTimeout(() => {
+      void createEngine((stage) => { if (current) setStage(stage) }).then(
+        (client) => { if (current) setEngine(client) },
+        (error) => {
+          if (!current) return
+          console.error('Could not start fitting engine', error)
+          setError(true)
+        },
+      )
+    }, 0)
+    return () => { current = false; clearTimeout(timer) }
+  }, [attempt])
+
+  if (engine) return <FittingRoutes engine={engine} store={defaultFitStore()} />
+
+  return <main className="fit-app engine-startup">
+    <h1>{_t('Fittings')}</h1>
+    {error ? <>
+      <p role="alert">{_t('Could not start the fitting engine')}</p>
+      <button type="button" className="fit-button primary" onClick={() => {
+        setStage('runtime')
+        setError(false)
+        setAttempt((attempt) => attempt + 1)
+      }}>{_t('Retry')}</button>
+    </> : <>
+      <p role="status" id="engine-stage">{stageLabel(stage)}</p>
+      <progress aria-labelledby="engine-stage" max={stages.length} value={stages.indexOf(stage)} />
+    </>}
+  </main>
+}
+
 export default function App() {
-  const store = defaultFitStore()
   return (
     <HashRouter>
       <Suspense fallback={null}>
         <Routes>
-          <Route path="/about" element={<About />} />
-          <Route path="/import" element={<Import />} />
-          <Route path="/settings" element={<Settings />} />
           {TokensPage && <Route path="/dev/tokens" element={<TokensPage />} />}
           {Gallery && <Route path="/dev/gallery" element={<Gallery />} />}
-          <Route path="*" element={<FittingRoutes engine={mockEngine} store={store} />} />
+          <Route path="*" element={<EngineApp />} />
         </Routes>
       </Suspense>
     </HashRouter>

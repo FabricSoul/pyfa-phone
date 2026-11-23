@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { CalcResult } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
+import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
+import { useSettings } from '../settings/settings'
+import { _t } from '../i18n/t'
 import { exampleFitDocs, type StoredFit } from '../store/fits'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { FitRow } from '../ui/FitRow'
 import { ItemIcon } from '../ui/ItemIcon'
-import { lname, renderUrl } from '../ui/format'
+import { lname, renderUrl, useNameLanguage } from '../ui/format'
 import { Icon } from '../ui/icons'
 import { useFitServices } from './fitSession'
 import { FitSection, warningText } from './shared'
@@ -17,7 +19,8 @@ interface Entry {
 }
 
 export function Home() {
-  const lang = useUiLanguage()
+  const lang = useNameLanguage()
+  const { considerReload, priceIncluded } = useSettings()
   const navigate = useNavigate()
   const { engine, store } = useFitServices()
   const [entries, setEntries] = useState<Entry[]>()
@@ -31,7 +34,7 @@ export function Home() {
     void store.list().then(async (records) => {
       const rows = await Promise.all(records.map(async (record): Promise<Entry> => {
         try {
-          return { record, result: await engine.calc(record.fit) }
+          return { record, result: await engine.calc(record.fit, { includeReload: considerReload }) }
         } catch {
           return { record }
         }
@@ -39,19 +42,21 @@ export function Home() {
       if (current) setEntries(rows)
     }).catch(() => { if (current) setError(true) })
     return () => { current = false }
-  }, [engine, store])
+  }, [considerReload, engine, store])
 
   useEffect(() => {
     if (!creating || examples || !entries) return
     let current = true
     void Promise.allSettled(exampleFitDocs.map(({ fit }) => {
       const existing = entries.find(({ result }) => result?.ship.typeId === fit.shipTypeId)?.result
-      return existing ?? engine.calc(emptyFit(fit, ''))
+      return existing ?? engine.calc(emptyFit(fit, ''), { includeReload: considerReload })
     })).then((ships) => {
       if (current) setExamples(ships.flatMap((ship) => ship.status === 'fulfilled' ? [ship.value] : []))
     })
     return () => { current = false }
-  }, [creating, engine, entries, examples])
+  }, [considerReload, creating, engine, entries, examples])
+  const quotes = usePriceQuotes((entries ?? []).flatMap(({ result }) =>
+    result ? totalPriceItems(result.priceItems, priceIncluded) : []))
   const needle = query.trim().toLowerCase()
   const groups = new Map<string, Entry[]>()
   for (const entry of entries ?? []) {
@@ -106,6 +111,7 @@ export function Home() {
             name={record.fit.name} shipName={ship ? lname(ship, lang) : undefined}
             shipSrc={renderUrl(result?.ship.graphicId ?? null)}
             dps={result?.stats.firepower.dps} ehp={result?.stats.defense.ehp} velocity={result?.stats.navigation.maxVelocity}
+            showPrice price={result ? priceTotal(totalPriceItems(result.priceItems, priceIncluded), quotes) : null}
             overflow={result?.warnings.map(warningText).join(' · ')}
             onClick={() => navigate(`/fit/${record.id}`)} />
         })}

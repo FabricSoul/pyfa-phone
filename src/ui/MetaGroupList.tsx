@@ -1,9 +1,9 @@
 import './ui.css'
 import { useState, type ReactNode } from 'react'
 import type { ItemGroup, ItemRow, MetaGroup } from '../engine/types'
-import { _t, useUiLanguage } from '../i18n/t'
+import { _t } from '../i18n/t'
 import { Icon } from './icons'
-import { fmt, iconUrl, lname } from './format'
+import { fmt, iconUrl, lname, useNameLanguage } from './format'
 import { ItemIcon } from './ItemIcon'
 
 export function metaLabel(meta: MetaGroup): string {
@@ -29,9 +29,10 @@ export function defaultExpanded(groups: ItemGroup[], currentTypeId?: number): Se
 }
 
 /** Items grouped by tech level, collapsible. Collapsed headers show the count and the best value. */
-export function MetaGroupList<T extends ItemRow>({ groups, currentTypeId, onPick, renderItem, renderGroup, valueUnit }: {
+export function MetaGroupList<T extends ItemRow>({ groups, currentTypeId, onPick, onExpand, renderItem, renderGroup, valueUnit }: {
   groups: ItemGroup<T>[]
   currentTypeId?: number
+  onExpand?: (meta: MetaGroup) => void
   onPick?: (item: T) => void
   /** Replaces the default row; `current` marks the selected item. */
   renderItem?: (item: T, current: boolean) => ReactNode
@@ -40,17 +41,21 @@ export function MetaGroupList<T extends ItemRow>({ groups, currentTypeId, onPick
   /** Unit shown after the best value, e.g. "DPS". */
   valueUnit?: string
 }) {
-  const lang = useUiLanguage()
+  const lang = useNameLanguage()
   // The default rule re-applies when the list first gets data or the current item changes (or moves to
   // another group); manual expand/collapse survives re-renders and refetches of the same object.
   const seed = `${currentTypeId ?? ''}|${defaultExpanded(groups, currentTypeId).values().next().value ?? ''}`
   const [state, setState] = useState(() => ({ seed, open: defaultExpanded(groups, currentTypeId) }))
   if (state.seed !== seed) setState({ seed, open: defaultExpanded(groups, currentTypeId) })
   const open = state.seed === seed ? state.open : defaultExpanded(groups, currentTypeId)
-  const toggle = (m: MetaGroup) => setState((st) => {
-    const n = new Set(st.open); if (!n.delete(m)) n.add(m)
-    return { ...st, open: n }
-  })
+  function toggle(meta: MetaGroup) {
+    const next = new Set(open)
+    if (!next.delete(meta)) {
+      next.add(meta)
+      onExpand?.(meta)
+    }
+    setState({ seed, open: next })
+  }
   return (
     <div>
       {groups.map((g) => {

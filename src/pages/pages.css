@@ -117,3 +117,37 @@
 .fit-controls { justify-content: flex-end; margin-top: var(--space-3); }
 .item-description { white-space: pre-line; }
 .fit-preview { padding: var(--space-1) var(--space-4); }
+
+
+.engine-startup {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-height: 80vh;
+}
+.engine-startup h1 { margin: 0; font: var(--type-title); }
+.engine-startup p { margin: 0; color: var(--color-text-secondary); }
+.engine-startup progress { width: 100%; accent-color: var(--color-accent); }
+
+.settings-value {
+  min-width: 0;
+  max-width: 52%;
+  overflow-wrap: anywhere;
+  text-align: right;
+  color: var(--color-text-secondary);
+  font: var(--type-label);
+}
+
+.import-form, .import-actions {
+  display: grid;
+  gap: var(--space-2);
+}
+.import-form textarea {
+  resize: vertical;
+  font: var(--type-caption);
+  font-family: var(--font-num);
+}
+.import-form button { justify-self: end; }
+.import-warnings { overflow-wrap: anywhere; color: var(--color-warn); }

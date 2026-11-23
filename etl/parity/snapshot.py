@@ -18,6 +18,15 @@ def module_ids(doc, slot):
 
 def snapshot(doc):
     result = api.calc(doc)
+    assert result['ship']['group']['en']
+    assert all(row['state'] in row['supportedStates']
+               for rack in result['slots'].values() for row in rack if row['kind'] == 'module')
+    market = api.market_groups_for_slot(doc, 'low')
+    assert market and any(group['ancestors'] for group in market), market
+    item = api.item_info(doc['modules']['high'][0]['typeId'], doc, {'slot': 'high', 'index': 0})
+    assert item['name']['zh'] and item['group']['zh'] and item['description']['zh']
+    assert item['skills'] and any(a['base'] != a['current'] for a in item['attributes'])
+    assert api.item_info(987654321) is None
     items = {
         slot: api.items_for_slot(doc, slot, query)
         for slot, query in (
@@ -76,7 +85,8 @@ def snapshot(doc):
     missing = api.missing_skills({**doc, 'character': 'all0'})
     assert missing and all(s['requiredLevel'] > s['currentLevel'] == 0 for s in missing), missing
     return {
-        'calc': result, 'itemsForSlot': items, 'chargesFor': charges,
+        'calc': result, 'marketGroupsForSlot': market, 'itemInfo': item,
+        'getDataVersion': api.get_data_version(), 'itemsForSlot': items, 'chargesFor': charges,
         'exports': exports, 'chineseEft': chinese, 'variations': variations, 'missingSkills': missing,
     }
 

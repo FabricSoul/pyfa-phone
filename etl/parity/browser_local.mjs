@@ -35,7 +35,8 @@ try {
 import { createEngine } from '/src/engine/client.ts'
 import fits from '/etl/fixtures/fits.json'
 window.testEngine = async () => {
-  const engine = await createEngine()
+  const stages = []
+  const engine = await createEngine((stage) => stages.push(stage))
   const result = await engine.calc(fits.rifter)
   const fit = { ...fits.rifter, modules: { ...fits.rifter.modules,
     low: [{ typeId: 15070, state: 'active', chargeTypeId: null }] } }
@@ -46,7 +47,18 @@ window.testEngine = async () => {
   const [removed, ammo] = await Promise.all([
     engine.calc(doc), engine.chargesFor(fit, { slot: 'high', index: 0 }, 'tech2'),
   ])
-  return { ship: result.ship.typeId, dps: result.stats.firepower.dps, version: result.dataVersion,
+  const [info, dataVersion, marketGroups] = await Promise.all([
+    engine.itemInfo(2889, fits.rifter, { slot: 'high', index: 0 }),
+    engine.getDataVersion(),
+    engine.marketGroupsForSlot(fits.rifter, 'low'),
+  ])
+  const firstMarketGroup = marketGroups[0]
+  const candidates = await engine.itemsForSlot(fits.rifter, 'low', undefined,
+    { marketGroupId: firstMarketGroup.id, preview: false })
+  return { stages, dataVersion, fittedCpu: info.attributes.find((attr) => attr.id === 50).current,
+    limitedToGroup: candidates.length > 0 && candidates.every(({items}) => items.every(
+      (row) => row.marketGroup.id === firstMarketGroup.id && !('resourceOverages' in row))),
+    ship: result.ship.typeId, dps: result.stats.firepower.dps, version: result.dataVersion,
     imported: imported.fits[0]?.modules.low[0]?.typeId, importWarnings: imported.warnings,
     removed: removed.slots.low[0], chargeGroups: ammo.map((group) => group.meta) }
 }
@@ -78,6 +90,8 @@ window.testEngine = async () => {
   const manifest = JSON.parse(await readFile(join(output, 'data/manifest.json'), 'utf8'))
   const rifter = JSON.parse(await readFile(join(root, 'src/engine/fixtures/rifter.json'), 'utf8'))
   assert.deepEqual(result, {
+    stages: ['runtime', 'data', 'initialize'], dataVersion: manifest.dataVersion,
+    fittedCpu: 6.75, limitedToGroup: true,
     ship: 587, dps: rifter.stats.firepower.dps, version: manifest.dataVersion,
     imported: 15070, importWarnings: [], chargeGroups: ['tech2'],
     removed: { kind: 'removed', typeId: -1, name: { en: 'Retired', zh: '已移除' }, count: 1, positions: [0] },

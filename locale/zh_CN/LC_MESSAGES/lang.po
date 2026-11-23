@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pyfa-phone\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 20:10-0500\n"
+"POT-Creation-Date: 2026-11-22 20:53-0500\n"
 "PO-Revision-Date: 2026-11-22 19:13-0500\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -17,7 +17,7 @@ msgid "%d attribute."
 msgid_plural "%d attributes."
 msgstr[0] "共%d个属性。"
 
-#: src/ui/StatsPage.tsx:167
+#: src/ui/StatsPage.tsx:170
 msgid "AU/s"
 msgstr "AU/s"
 
@@ -57,11 +57,11 @@ msgstr "添加子系统"
 msgid "Affects effective HP · built into pyfa"
 msgstr "影响有效 HP · pyfa 内置"
 
-#: src/pages/AddModule.tsx:259
+#: src/pages/AddModule.tsx:270
 msgid "After fitting: {resources}"
 msgstr "装上后：{resources}"
 
-#: src/ui/StatsPage.tsx:165
+#: src/ui/StatsPage.tsx:168
 msgid "Align time"
 msgstr "起跳时间"
 
@@ -81,11 +81,11 @@ msgstr "所有技能 0 级 · 仅使用无技能需求的物品"
 msgid "All skills level 5 · Security status 5.0"
 msgstr "所有技能 5 级 · 安全等级 5.0"
 
-#: src/pages/AddModule.tsx:190
+#: src/pages/AddModule.tsx:198
 msgid "All technology levels"
 msgstr "全部科技等级"
 
-#: src/pages/Settings.tsx:154
+#: src/pages/Settings.tsx:153
 msgid "Appearance & language"
 msgstr "外观与语言"
 
@@ -95,7 +95,7 @@ msgid_plural "Applies to {n} modules"
 msgstr[0] "应用到 {n} 门"
 msgstr[1] "应用到 {n} 门"
 
-#: src/ui/StatsPage.tsx:79 src/ui/StatsPage.tsx:132 src/ui/StatsPage.tsx:141
+#: src/ui/StatsPage.tsx:82 src/ui/StatsPage.tsx:135 src/ui/StatsPage.tsx:144
 msgid "Armor"
 msgstr "装甲"
 
@@ -107,7 +107,7 @@ msgstr "属性"
 msgid "Back"
 msgstr "返回"
 
-#: src/pages/Fit.tsx:100
+#: src/pages/Fit.tsx:108 src/pages/fitSession.tsx:161
 msgid "Back to fittings"
 msgstr "返回装配列表"
 
@@ -115,7 +115,7 @@ msgstr "返回装配列表"
 msgid "Base → fitted"
 msgstr "基础值 → 装配值"
 
-#: src/pages/Settings.tsx:202
+#: src/pages/Settings.tsx:201
 msgid "Based on pyfa (GPLv3). EVE Online names and images belong to CCP hf."
 msgstr "基于 pyfa（GPLv3）。EVE Online 相关名称和图像归 CCP hf. 所有。"
 
@@ -123,27 +123,27 @@ msgstr "基于 pyfa（GPLv3）。EVE Online 相关名称和图像归 CCP hf. 所
 msgid "Based on pyfa under the GPLv3 license. Non-commercial fan project."
 msgstr ""
 
-#: src/pages/FitExtras.tsx:15
+#: src/pages/Fit.tsx:132 src/pages/FitExtras.tsx:15
 msgid "Boosters"
 msgstr "增效剂"
 
-#: src/pages/AddModule.tsx:201
+#: src/pages/AddModule.tsx:210
 msgid "Browse all market groups"
 msgstr "按市场分组浏览全部"
 
-#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:153 src/pages/AddModule.tsx:241 src/pages/AddModule.tsx:255 src/pages/ModuleSheet.tsx:60 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
+#: src/dev/Gallery.tsx:72 src/dev/Gallery.tsx:74 src/pages/AddModule.tsx:157 src/pages/AddModule.tsx:252 src/pages/AddModule.tsx:266 src/pages/Import.tsx:122 src/pages/ModuleSheet.tsx:60 src/pages/shared.tsx:20 src/ui/ResourceGauge.tsx:41
 msgid "CPU"
 msgstr "CPU"
 
-#: src/pages/Fit.tsx:48
+#: src/pages/Fit.tsx:56
 msgid "Calculating fit…"
 msgstr "正在计算装配…"
 
-#: src/pages/Settings.tsx:173
+#: src/pages/Settings.tsx:172
 msgid "Calculation"
 msgstr "计算"
 
-#: src/dev/Gallery.tsx:73 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:43
+#: src/dev/Gallery.tsx:73 src/pages/Import.tsx:124 src/pages/shared.tsx:22 src/ui/ResourceGauge.tsx:43
 msgid "Calibration"
 msgstr "校准"
 
@@ -151,23 +151,23 @@ msgstr "校准"
 msgid "Cancel"
 msgstr "取消"
 
-#: src/ui/StatsPage.tsx:143 src/ui/StatsPage.tsx:147
+#: src/ui/StatsPage.tsx:146 src/ui/StatsPage.tsx:150
 msgid "Capacitor"
 msgstr "电容"
 
-#: src/ui/StatsPage.tsx:149
+#: src/ui/StatsPage.tsx:152
 msgid "Capacity"
 msgstr "容量"
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:42 src/pages/shared.tsx:25
+#: src/pages/Fit.tsx:130 src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:42 src/pages/shared.tsx:25
 msgid "Cargo"
 msgstr "货舱"
 
-#: src/ui/StatsPage.tsx:179
+#: src/ui/StatsPage.tsx:182
 msgid "Cargo bay"
 msgstr "货舱"
 
-#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:165 src/ui/pickers/CharacterPicker.tsx:19
+#: src/pages/Settings.tsx:24 src/pages/Settings.tsx:164 src/ui/pickers/CharacterPicker.tsx:19
 msgid "Character"
 msgstr "角色"
 
@@ -175,19 +175,19 @@ msgstr "角色"
 msgid "Charges"
 msgstr "弹药"
 
-#: src/pages/AddModule.tsx:231
+#: src/pages/AddModule.tsx:243
 msgid "Checking fit…"
 msgstr "正在试装…"
 
-#: src/pages/AddModule.tsx:187
+#: src/pages/AddModule.tsx:191
 msgid "Compatible modules"
 msgstr "兼容装备"
 
-#: src/pages/Settings.tsx:177
+#: src/pages/Settings.tsx:176
 msgid "Consider reboot"
 msgstr "考虑重启计时"
 
-#: src/pages/Settings.tsx:175
+#: src/pages/Settings.tsx:174
 msgid "Consider reload"
 msgstr "考虑装填时间"
 
@@ -199,7 +199,7 @@ msgstr "复制 EFT"
 msgid "Copy of {name}"
 msgstr "{name}的副本"
 
-#: src/pages/AddModule.tsx:232
+#: src/pages/AddModule.tsx:244
 msgid "Could not check fitting resources"
 msgstr "无法检查装配资源"
 
@@ -211,7 +211,7 @@ msgstr "操作失败"
 msgid "Could not load charges"
 msgstr "无法加载弹药"
 
-#: src/pages/fitSession.tsx:157
+#: src/pages/fitSession.tsx:163
 msgid "Could not load fit"
 msgstr "无法加载装配"
 
@@ -219,7 +219,7 @@ msgstr "无法加载装配"
 msgid "Could not load item information"
 msgstr "无法加载物品信息"
 
-#: src/pages/AddModule.tsx:159
+#: src/pages/AddModule.tsx:163
 msgid "Could not load modules"
 msgstr "无法加载装备"
 
@@ -227,17 +227,25 @@ msgstr "无法加载装备"
 msgid "Could not load or replace variations"
 msgstr "无法加载或替换同系列型号"
 
-#: src/pages/Home.tsx:91
+#: src/pages/Home.tsx:96
 msgid "Could not load or save fits"
 msgstr "无法加载或保存装配"
 
-#: src/pages/fitSession.tsx:185
+#: src/pages/Import.tsx:106
+msgid "Could not read this fit text"
+msgstr "无法读取这段装配文本"
+
+#: src/pages/fitSession.tsx:191
 msgid "Could not recalculate fit"
 msgstr "无法重新计算装配"
 
-#: src/pages/fitSession.tsx:184
+#: src/pages/Import.tsx:107 src/pages/fitSession.tsx:190
 msgid "Could not save fit"
 msgstr "无法保存装配"
+
+#: src/App.tsx:80
+msgid "Could not start the fitting engine"
+msgstr "无法启动装配引擎"
 
 #: src/ui/DamageRangeChart.tsx:34
 msgid "Current"
@@ -255,23 +263,23 @@ msgstr "自定义模式将在后续版本提供。"
 msgid "Custom profiles are not in the first version."
 msgstr "自定义配置将在后续版本提供。"
 
-#: src/pages/Import.tsx:138 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:19
+#: src/pages/Import.tsx:117 src/ui/AmmoList.tsx:33 src/ui/FitRow.tsx:20
 msgid "DPS"
 msgstr "秒伤"
 
-#: src/ui/DamageRangeChart.tsx:37 src/ui/StatsPage.tsx:100
+#: src/ui/DamageRangeChart.tsx:37 src/ui/StatsPage.tsx:103
 msgid "Damage over distance"
 msgstr "伤害随距离"
 
-#: src/pages/Settings.tsx:25 src/pages/Settings.tsx:167 src/ui/pickers/DamagePatternPicker.tsx:17
+#: src/pages/Fit.tsx:145 src/pages/Settings.tsx:25 src/pages/Settings.tsx:166 src/ui/pickers/DamagePatternPicker.tsx:17
 msgid "Damage pattern"
 msgstr "伤害模式"
 
-#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:214
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:213
 msgid "Dark"
 msgstr "深色"
 
-#: src/pages/Settings.tsx:192
+#: src/pages/Settings.tsx:191
 msgid "Data"
 msgstr "数据"
 
@@ -283,11 +291,11 @@ msgstr "死亡空间"
 msgid "Decides skill levels · two built-in characters in the first version"
 msgstr "决定技能等级 · 首个版本提供两个内置角色"
 
-#: src/pages/Settings.tsx:181
+#: src/pages/Settings.tsx:180
 msgid "Default preheat"
 msgstr "默认预热"
 
-#: src/ui/StatsPage.tsx:105
+#: src/ui/StatsPage.tsx:108
 msgid "Defense"
 msgstr "防御"
 
@@ -299,7 +307,7 @@ msgstr "删除装配"
 msgid "Delete {name}?"
 msgstr "删除「{name}」？"
 
-#: src/ui/StatsPage.tsx:153
+#: src/ui/StatsPage.tsx:156
 msgid "Delta"
 msgstr "净变化"
 
@@ -307,31 +315,39 @@ msgstr "净变化"
 msgid "Description"
 msgstr "简介"
 
-#: src/ui/StatsPage.tsx:102
+#: src/ui/StatsPage.tsx:105
 msgid "Distance in km, DPS on the vertical axis; stationary target, tracking ignored. Press and hold the chart for per-km values."
 msgstr "横轴为距离（km），纵轴为 DPS。目标静止，不计跟踪。长按图表查看每公里数值。"
 
-#: src/ui/FitRow.tsx:16
+#: src/ui/FitRow.tsx:17
 msgid "Does not fit"
 msgstr "装不下"
 
-#: src/ui/StatsPage.tsx:96
+#: src/App.tsx:47
+msgid "Downloading Python runtime…"
+msgstr "正在下载 Python 运行时…"
+
+#: src/App.tsx:48
+msgid "Downloading game data…"
+msgstr "正在下载游戏数据…"
+
+#: src/ui/StatsPage.tsx:99
 msgid "Drone DPS"
 msgstr "无人机 DPS"
 
-#: src/pages/shared.tsx:27 src/ui/StatsPage.tsx:181
+#: src/pages/shared.tsx:27 src/ui/StatsPage.tsx:184
 msgid "Drone bandwidth"
 msgstr "无人机带宽"
 
-#: src/dev/Gallery.tsx:75 src/pages/shared.tsx:26 src/ui/StatsPage.tsx:180
+#: src/dev/Gallery.tsx:75 src/pages/shared.tsx:26 src/ui/StatsPage.tsx:183
 msgid "Drone bay"
 msgstr "无人机仓库"
 
-#: src/ui/StatsPage.tsx:172
+#: src/ui/StatsPage.tsx:175
 msgid "Drone control range"
 msgstr "无人机控制范围"
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:41
+#: src/pages/Fit.tsx:128 src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:41
 msgid "Drones"
 msgstr "无人机"
 
@@ -339,15 +355,15 @@ msgstr "无人机"
 msgid "Duplicate fit"
 msgstr "复制装配"
 
-#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:139 src/ui/FitRow.tsx:20 src/ui/StatsPage.tsx:105 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:112
+#: src/dev/Gallery.tsx:82 src/pages/Import.tsx:118 src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:111 src/ui/StatsPage.tsx:115
 msgid "EHP"
 msgstr "有效HP"
 
-#: src/ui/StatsPage.tsx:84
+#: src/ui/StatsPage.tsx:87
 msgid "EHP/s"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:53 src/ui/pickers/patterns.ts:118
+#: src/ui/StatsPage.tsx:56 src/ui/pickers/patterns.ts:70
 msgid "EM"
 msgstr "电磁"
 
@@ -359,15 +375,15 @@ msgstr ""
 msgid "Empty slot"
 msgstr "空槽"
 
-#: src/ui/StatsPage.tsx:53 src/ui/pickers/patterns.ts:118
+#: src/ui/StatsPage.tsx:56 src/ui/pickers/patterns.ts:70
 msgid "Explosive"
 msgstr "爆炸"
 
-#: src/pages/Settings.tsx:194
+#: src/pages/Settings.tsx:193
 msgid "Export all fits backup"
 msgstr "导出全部装配备份"
 
-#: src/pages/Fit.tsx:41
+#: src/pages/Fit.tsx:49
 msgid "Extras"
 msgstr "附加"
 
@@ -375,15 +391,19 @@ msgstr "附加"
 msgid "Faction"
 msgstr "势力"
 
-#: src/ui/StatsPage.tsx:91
+#: src/ui/StatsPage.tsx:94
 msgid "Factor in Reload Time"
 msgstr "考虑换弹时间"
 
-#: src/i18n/seed.ts:7 src/ui/StatsPage.tsx:88
+#: src/pages/Fit.tsx:129
+msgid "Fighters"
+msgstr "铁骑舰载机"
+
+#: src/i18n/seed.ts:7 src/ui/StatsPage.tsx:91
 msgid "Firepower"
 msgstr "火力"
 
-#: src/ui/StatsPage.tsx:188
+#: src/ui/StatsPage.tsx:191
 msgid "Fit"
 msgstr "装配"
 
@@ -395,43 +415,39 @@ msgstr ""
 msgid "Fit name"
 msgstr "装配名称"
 
-#: src/pages/fitSession.tsx:156
+#: src/pages/fitSession.tsx:160
 msgid "Fit not found"
 msgstr "找不到此装配"
-
-#: src/pages/Import.tsx:92
-msgid "Fits"
-msgstr "装得下"
 
 #: src/dev/Gallery.tsx:66
 msgid "Fitting"
 msgstr "装配"
 
-#: src/pages/Home.tsx:80
+#: src/App.tsx:78 src/pages/Home.tsx:85
 msgid "Fittings"
 msgstr "装配"
 
-#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:82 src/pages/Settings.tsx:212
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:82 src/pages/Settings.tsx:211
 msgid "Follow system"
 msgstr "跟随系统"
 
-#: src/ui/StatsPage.tsx:149
+#: src/ui/StatsPage.tsx:152
 msgid "GJ"
 msgstr "GJ"
 
-#: src/ui/StatsPage.tsx:151 src/ui/StatsPage.tsx:152 src/ui/StatsPage.tsx:153
+#: src/ui/StatsPage.tsx:154 src/ui/StatsPage.tsx:155 src/ui/StatsPage.tsx:156
 msgid "GJ/s"
 msgstr "GJ/s"
 
-#: src/pages/Settings.tsx:196
+#: src/pages/Settings.tsx:195
 msgid "Game data version"
 msgstr "游戏数据版本"
 
-#: src/dev/Gallery.tsx:82 src/ui/StatsPage.tsx:109 src/ui/StatsPage.tsx:112
+#: src/dev/Gallery.tsx:82 src/ui/StatsPage.tsx:108 src/ui/StatsPage.tsx:112 src/ui/StatsPage.tsx:115
 msgid "HP"
 msgstr "生命值"
 
-#: src/ui/StatsPage.tsx:84
+#: src/ui/StatsPage.tsx:87
 msgid "HP/s"
 msgstr "HP/s"
 
@@ -439,27 +455,31 @@ msgstr "HP/s"
 msgid "High slots"
 msgstr "高槽"
 
-#: src/ui/StatsPage.tsx:80 src/ui/StatsPage.tsx:133 src/ui/StatsPage.tsx:142
+#: src/ui/StatsPage.tsx:83 src/ui/StatsPage.tsx:136 src/ui/StatsPage.tsx:145
 msgid "Hull"
 msgstr "结构"
 
-#: src/ui/StatsPage.tsx:187 src/ui/StatsPage.tsx:188 src/ui/StatsPage.tsx:189
+#: src/ui/PriceValue.tsx:7
 msgid "ISK"
 msgstr "ISK"
 
-#: src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:43
+#: src/pages/Fit.tsx:131 src/pages/FitExtras.tsx:15 src/pages/Settings.tsx:43
 msgid "Implants"
 msgstr "植入体"
 
-#: src/pages/Import.tsx:97
+#: src/pages/Import.tsx:96
 msgid "Import"
 msgstr "导入"
 
-#: src/ui/StatsPage.tsx:107
+#: src/ui/StatsPage.tsx:110
 msgid "Incoming damage pattern"
 msgstr "伤害分布"
 
-#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:157 src/pages/Settings.tsx:222
+#: src/App.tsx:49
+msgid "Initializing fitting engine…"
+msgstr "正在初始化装配引擎…"
+
+#: src/pages/Settings.tsx:22 src/pages/Settings.tsx:156 src/pages/Settings.tsx:221
 msgid "Interface language"
 msgstr "界面语言"
 
@@ -471,39 +491,43 @@ msgstr "物品信息"
 msgid "Item information unavailable"
 msgstr "物品信息不可用"
 
-#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:159 src/pages/Settings.tsx:231
+#: src/pages/Settings.tsx:23 src/pages/Settings.tsx:158 src/pages/Settings.tsx:230
 msgid "Item names"
 msgstr "物品名称"
 
-#: src/pages/Fit.tsx:45 src/pages/FitExtras.tsx:36 src/ui/ModuleRow.tsx:61 src/ui/ModuleRow.tsx:122
+#: src/pages/Fit.tsx:53 src/pages/FitExtras.tsx:36 src/ui/ModuleRow.tsx:61 src/ui/ModuleRow.tsx:122
 msgid "Item removed"
 msgstr "物品已移除"
 
-#: src/ui/StatsPage.tsx:53 src/ui/pickers/patterns.ts:118
+#: src/ui/StatsPage.tsx:56 src/ui/pickers/patterns.ts:70
 msgid "Kinetic"
 msgstr "动能"
 
-#: src/ui/StatsPage.tsx:157
+#: src/ui/StatsPage.tsx:160
 msgid "Lasts "
 msgstr "可维持"
 
-#: src/pages/shared.tsx:24 src/ui/StatsPage.tsx:183
+#: src/pages/shared.tsx:24 src/ui/StatsPage.tsx:186
 msgid "Launcher hardpoints"
 msgstr "发射器"
 
-#: src/pages/Fit.tsx:55
+#: src/pages/Fit.tsx:63
 msgid "Launchers"
 msgstr "发射器"
 
-#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:213
+#: src/pages/Settings.tsx:80 src/pages/Settings.tsx:212
 msgid "Light"
 msgstr "轻型"
 
-#: src/pages/Home.tsx:92
+#: src/pages/Fit.tsx:127
+msgid "Loaded charges"
+msgstr "已装填弹药"
+
+#: src/pages/Home.tsx:97
 msgid "Loading fits…"
 msgstr "正在加载装配列表…"
 
-#: src/pages/fitSession.tsx:158
+#: src/pages/fitSession.tsx:164
 msgid "Loading fit…"
 msgstr "正在加载装配…"
 
@@ -511,11 +535,11 @@ msgstr "正在加载装配…"
 msgid "Loading item…"
 msgstr "正在加载物品…"
 
-#: src/pages/AddModule.tsx:161
+#: src/pages/AddModule.tsx:165
 msgid "Loading modules…"
 msgstr "正在加载装备…"
 
-#: src/pages/Home.tsx:117
+#: src/pages/Home.tsx:123
 msgid "Loading ships…"
 msgstr "正在加载舰船…"
 
@@ -527,19 +551,19 @@ msgstr "正在加载同系列型号…"
 msgid "Low slots"
 msgstr "低槽"
 
-#: src/ui/StatsPage.tsx:173
+#: src/ui/StatsPage.tsx:176
 msgid "Mass"
 msgstr "质量"
 
-#: src/ui/StatsPage.tsx:168
+#: src/ui/StatsPage.tsx:171
 msgid "Max target range"
 msgstr "最大锁定距离"
 
-#: src/ui/StatsPage.tsx:169
+#: src/ui/StatsPage.tsx:172
 msgid "Max targets"
 msgstr "最大锁定目标数"
 
-#: src/ui/StatsPage.tsx:164
+#: src/ui/StatsPage.tsx:167
 msgid "Max velocity"
 msgstr "最大速度"
 
@@ -551,7 +575,7 @@ msgstr "中槽"
 msgid "Module actions"
 msgstr "模块操作"
 
-#: src/pages/AddModule.tsx:172
+#: src/pages/AddModule.tsx:176
 msgid "Module groups"
 msgstr "装备分组"
 
@@ -559,19 +583,23 @@ msgstr "装备分组"
 msgid "Module not found"
 msgstr "找不到此装备"
 
+#: src/pages/Fit.tsx:126
+msgid "Modules"
+msgstr "装备"
+
 #: src/ui/NavBar.tsx:15
 msgid "More"
 msgstr "更多"
 
-#: src/pages/Home.tsx:83
+#: src/pages/Home.tsx:88
 msgid "New"
 msgstr "新建"
 
-#: src/pages/Home.tsx:115 src/pages/Home.tsx:116
+#: src/pages/Home.tsx:121 src/pages/Home.tsx:122
 msgid "New fit"
 msgstr "新建装配"
 
-#: src/pages/Settings.tsx:163
+#: src/pages/Settings.tsx:162
 msgid "New fit defaults"
 msgstr "新装配默认"
 
@@ -583,23 +611,23 @@ msgstr "没有可用属性"
 msgid "No description available"
 msgstr "没有描述"
 
-#: src/pages/AddModule.tsx:163
+#: src/pages/AddModule.tsx:167
 msgid "No empty slot"
 msgstr "没有空槽"
 
-#: src/pages/Home.tsx:114
+#: src/pages/Home.tsx:120
 msgid "No fits yet"
 msgstr "暂无装配"
 
-#: src/pages/Home.tsx:114
+#: src/pages/Home.tsx:120
 msgid "No matching fits"
 msgstr "找不到匹配的装配"
 
-#: src/pages/AddModule.tsx:162 src/pages/AddModule.tsx:195
+#: src/pages/AddModule.tsx:166 src/pages/AddModule.tsx:203
 msgid "No matching modules"
 msgstr "找不到匹配的装备"
 
-#: src/pages/Home.tsx:118
+#: src/pages/Home.tsx:124
 msgid "No ships available"
 msgstr "没有可用舰船"
 
@@ -611,7 +639,7 @@ msgstr "没有技能需求"
 msgid "No variations"
 msgstr "没有同系列型号"
 
-#: src/pages/FitExtras.tsx:24 src/ui/ResourceGauge.tsx:14 src/ui/StatsPage.tsx:38 src/ui/StatsPage.tsx:90 src/ui/StatsPage.tsx:107
+#: src/pages/FitExtras.tsx:24 src/ui/ResourceGauge.tsx:14 src/ui/StatsPage.tsx:41 src/ui/StatsPage.tsx:93 src/ui/StatsPage.tsx:110
 msgid "None"
 msgstr "无"
 
@@ -631,11 +659,11 @@ msgstr "离线"
 msgid "Online"
 msgstr "在线"
 
-#: src/pages/Home.tsx:62
+#: src/pages/Home.tsx:67
 msgid "Other ships"
 msgstr "其他舰船"
 
-#: src/pages/AddModule.tsx:256 src/pages/shared.tsx:36 src/ui/ResourceGauge.tsx:24
+#: src/pages/AddModule.tsx:267 src/pages/shared.tsx:36 src/ui/ResourceGauge.tsx:24
 msgid "Over"
 msgstr "超"
 
@@ -643,27 +671,27 @@ msgstr "超"
 msgid "Overheated"
 msgstr "超载"
 
-#: src/ui/StatsPage.tsx:134
+#: src/ui/StatsPage.tsx:137
 msgid "Passive shield"
 msgstr "被动护盾"
 
-#: src/pages/Import.tsx:111
+#: src/pages/Import.tsx:96
+msgid "Paste an EFT fit or a DNA fitting link."
+msgstr "粘贴 EFT 装配文本或 DNA 装配链接。"
+
+#: src/pages/Import.tsx:99
 msgid "Paste fit text"
 msgstr "粘贴装配文本"
 
-#: src/pages/Import.tsx:114
+#: src/pages/Import.tsx:101
 msgid "Paste fit text here"
 msgstr "在此粘贴装配文本"
 
-#: src/pages/Import.tsx:97
-msgid "Paste fit text to preview"
-msgstr "粘贴装配文本以预览"
-
-#: src/pages/Import.tsx:107
+#: src/pages/Import.tsx:103
 msgid "Paste from clipboard"
-msgstr ""
+msgstr "从剪贴板粘贴"
 
-#: src/pages/Home.tsx:89
+#: src/pages/Home.tsx:94
 msgid "Paste to import"
 msgstr "粘贴导入"
 
@@ -671,51 +699,51 @@ msgstr "粘贴导入"
 msgid "PowerGrid"
 msgstr "PG"
 
-#: src/pages/AddModule.tsx:153 src/pages/AddModule.tsx:241 src/pages/AddModule.tsx:255 src/pages/ModuleSheet.tsx:60 src/pages/shared.tsx:21
+#: src/pages/AddModule.tsx:157 src/pages/AddModule.tsx:252 src/pages/AddModule.tsx:266 src/pages/Import.tsx:123 src/pages/ModuleSheet.tsx:60 src/pages/shared.tsx:21
 msgid "Powergrid"
 msgstr "能量栅格"
 
-#: src/pages/Settings.tsx:184
+#: src/pages/Settings.tsx:183
 msgid "Price"
 msgstr "价格"
 
-#: src/pages/AddModule.tsx:165
+#: src/pages/AddModule.tsx:169
 msgid "Recent modules"
 msgstr "最近使用"
 
-#: src/pages/Home.tsx:93
+#: src/pages/Home.tsx:98
 msgid "Recently opened"
 msgstr "最近打开"
 
-#: src/ui/StatsPage.tsx:151
+#: src/ui/StatsPage.tsx:154
 msgid "Recharge"
 msgstr "回充"
 
-#: src/ui/StatsPage.tsx:125
+#: src/ui/StatsPage.tsx:128
 msgid "Recharge rates"
 msgstr "回充速度"
 
-#: src/ui/StatsPage.tsx:150
+#: src/ui/StatsPage.tsx:153
 msgid "Recharge time"
 msgstr "回充时间"
 
-#: src/pages/Import.tsx:132
-msgid "Recognized as EFT fit"
-msgstr "识别为 EFT 装配"
+#: src/pages/Import.tsx:112
+msgid "Recognized fit"
+msgstr "已识别装配"
 
 #: src/pages/FitMenu.tsx:43
 msgid "Redo"
 msgstr "重做"
 
-#: src/ui/StatsPage.tsx:127
+#: src/ui/StatsPage.tsx:130
 msgid "Reinforced"
 msgstr "加强回充"
 
-#: src/ui/StatsPage.tsx:138
+#: src/ui/StatsPage.tsx:141
 msgid "Remote Repairs"
 msgstr "遥修"
 
-#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:90 src/pages/FitExtras.tsx:40 src/ui/ModuleRow.tsx:63 src/ui/ModuleRow.tsx:110
+#: src/dev/Gallery.tsx:116 src/pages/Fit.tsx:98 src/pages/FitExtras.tsx:40 src/ui/ModuleRow.tsx:63 src/ui/ModuleRow.tsx:110
 msgid "Remove"
 msgstr "移除"
 
@@ -739,15 +767,19 @@ msgstr "换成同系列其他型号"
 msgid "Requirements"
 msgstr "技能需求"
 
-#: src/ui/StatsPage.tsx:177
-msgid "Resources"
-msgstr "装配资源"
+#: src/ui/StatsPage.tsx:180
+msgid "Resources and prices"
+msgstr "资源与价格"
 
-#: src/pages/Settings.tsx:195
+#: src/pages/Settings.tsx:194
 msgid "Restore from backup"
 msgstr "从备份恢复"
 
-#: src/pages/AddModule.tsx:201
+#: src/App.tsx:85
+msgid "Retry"
+msgstr "重试"
+
+#: src/pages/AddModule.tsx:210
 msgid "Return to modules"
 msgstr "返回装备列表"
 
@@ -759,23 +791,23 @@ msgstr "改装件"
 msgid "Save"
 msgstr "保存"
 
-#: src/pages/Import.tsx:143
+#: src/pages/Import.tsx:128
 msgid "Save and open"
 msgstr "保存并打开"
 
-#: src/ui/StatsPage.tsx:170
+#: src/ui/StatsPage.tsx:173
 msgid "Scan resolution"
 msgstr "扫描分辨率"
 
-#: src/pages/Home.tsx:87
+#: src/pages/Home.tsx:92
 msgid "Search fits or ships"
 msgstr "搜索装配或船名"
 
-#: src/pages/AddModule.tsx:156
+#: src/pages/AddModule.tsx:160
 msgid "Search modules"
 msgstr "搜索装备"
 
-#: src/ui/StatsPage.tsx:171
+#: src/ui/StatsPage.tsx:174
 msgid "Sensor strength"
 msgstr "感应强度"
 
@@ -787,15 +819,15 @@ msgstr "统一设置"
 msgid "Set {n} modules individually"
 msgstr "分别设置 {n} 门"
 
-#: src/pages/Home.tsx:81 src/pages/Settings.tsx:27 src/pages/Settings.tsx:147
+#: src/pages/Home.tsx:86 src/pages/Settings.tsx:27 src/pages/Settings.tsx:147
 msgid "Settings"
 msgstr "设置"
 
-#: src/ui/StatsPage.tsx:78 src/ui/StatsPage.tsx:131 src/ui/StatsPage.tsx:140
+#: src/ui/StatsPage.tsx:81 src/ui/StatsPage.tsx:134 src/ui/StatsPage.tsx:143
 msgid "Shield"
 msgstr "护盾"
 
-#: src/ui/StatsPage.tsx:187
+#: src/ui/StatsPage.tsx:190
 msgid "Ship"
 msgstr "船体"
 
@@ -803,7 +835,7 @@ msgstr "船体"
 msgid "Shows effective DPS when selected · built into pyfa"
 msgstr "选择后显示有效 DPS · pyfa 内置"
 
-#: src/ui/StatsPage.tsx:166
+#: src/ui/StatsPage.tsx:169
 msgid "Signature radius"
 msgstr "信号半径"
 
@@ -819,27 +851,27 @@ msgstr "找不到此槽位"
 msgid "Slot {n}"
 msgstr "槽位 {n}"
 
-#: src/pages/Fit.tsx:41
+#: src/pages/Fit.tsx:49
 msgid "Slots"
 msgstr "槽位"
 
-#: src/pages/Settings.tsx:186
+#: src/pages/Settings.tsx:185
 msgid "Source"
 msgstr "来源"
 
-#: src/pages/Import.tsx:140
+#: src/pages/Import.tsx:119
 msgid "Speed m/s"
 msgstr "速度 m/s"
 
-#: src/ui/StatsPage.tsx:157
+#: src/ui/StatsPage.tsx:160
 msgid "Stable: "
 msgstr "稳定："
 
-#: src/pages/Fit.tsx:41
+#: src/pages/Fit.tsx:49
 msgid "Stats"
 msgstr "属性"
 
-#: src/ui/StatsPage.tsx:154
+#: src/ui/StatsPage.tsx:157
 msgid "Status"
 msgstr "状态"
 
@@ -847,7 +879,7 @@ msgstr "状态"
 msgid "Storyline"
 msgstr "故事线"
 
-#: src/pages/Settings.tsx:179
+#: src/pages/Settings.tsx:178
 msgid "Strict skill requirements"
 msgstr "严格技能要求"
 
@@ -855,7 +887,7 @@ msgstr "严格技能要求"
 msgid "Subsystems"
 msgstr "子系统"
 
-#: src/ui/StatsPage.tsx:128
+#: src/ui/StatsPage.tsx:131
 msgid "Sustained"
 msgstr "持续回充"
 
@@ -867,15 +899,15 @@ msgstr "换成同系列其他型号"
 msgid "Tap to add a module"
 msgstr "点按添加装备"
 
-#: src/ui/StatsPage.tsx:90
+#: src/ui/StatsPage.tsx:93
 msgid "Target Resists"
 msgstr "目标抗性"
 
-#: src/ui/pickers/TargetProfilePicker.tsx:25
+#: src/pages/Fit.tsx:145 src/ui/pickers/TargetProfilePicker.tsx:25
 msgid "Target profile"
 msgstr "目标配置"
 
-#: src/ui/StatsPage.tsx:162
+#: src/ui/StatsPage.tsx:165
 msgid "Targeting"
 msgstr "锁定"
 
@@ -887,15 +919,15 @@ msgstr "一级"
 msgid "Tech II"
 msgstr "二级"
 
-#: src/pages/AddModule.tsx:188
+#: src/pages/AddModule.tsx:192
 msgid "Technology level"
 msgstr "科技等级"
 
-#: src/pages/Settings.tsx:21 src/pages/Settings.tsx:156 src/pages/Settings.tsx:209
+#: src/pages/Settings.tsx:21 src/pages/Settings.tsx:155 src/pages/Settings.tsx:208
 msgid "Theme"
 msgstr "主题"
 
-#: src/ui/StatsPage.tsx:53 src/ui/pickers/patterns.ts:118
+#: src/ui/StatsPage.tsx:56 src/ui/pickers/patterns.ts:70
 msgid "Thermal"
 msgstr "热能"
 
@@ -903,19 +935,19 @@ msgstr "热能"
 msgid "This application is not affiliated with, endorsed by, or associated with CCP hf."
 msgstr ""
 
-#: src/ui/StatsPage.tsx:94
+#: src/ui/StatsPage.tsx:97
 msgid "Total DPS"
 msgstr "总 DPS"
 
-#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:187 src/pages/Settings.tsx:248
+#: src/pages/Settings.tsx:26 src/pages/Settings.tsx:186 src/pages/Settings.tsx:247
 msgid "Total price includes"
 msgstr "总价包含"
 
-#: src/pages/shared.tsx:23 src/ui/StatsPage.tsx:182
+#: src/pages/shared.tsx:23 src/ui/StatsPage.tsx:185
 msgid "Turret hardpoints"
 msgstr "炮台"
 
-#: src/pages/Fit.tsx:54
+#: src/pages/Fit.tsx:62
 msgid "Turrets"
 msgstr "炮台"
 
@@ -923,63 +955,67 @@ msgstr "炮台"
 msgid "Undo"
 msgstr "撤销"
 
-#: src/pages/AddModule.tsx:178
+#: src/pages/Fit.tsx:46
+msgid "Unsaved preview"
+msgstr "未保存的装配预览"
+
+#: src/pages/AddModule.tsx:182
 msgid "Up one market group"
 msgstr "返回上一级市场分组"
 
-#: src/ui/StatsPage.tsx:152
+#: src/ui/PriceValue.tsx:5
+msgid "Updating prices…"
+msgstr "正在更新价格…"
+
+#: src/ui/StatsPage.tsx:155
 msgid "Usage"
 msgstr "消耗"
 
-#: src/pages/Settings.tsx:169
+#: src/pages/Settings.tsx:168
 msgid "Use character implants"
 msgstr "使用角色植入体"
 
-#: src/pages/Import.tsx:144
+#: src/pages/Import.tsx:131
 msgid "View only without saving"
-msgstr ""
+msgstr "仅查看，不保存"
 
-#: src/ui/StatsPage.tsx:95
+#: src/ui/StatsPage.tsx:98
 msgid "Volley"
 msgstr "齐射伤害"
 
-#: src/ui/StatsPage.tsx:167
+#: src/ui/StatsPage.tsx:170
 msgid "Warp Speed"
 msgstr "曲速航速"
 
-#: src/ui/MetaGroupList.tsx:65
+#: src/ui/MetaGroupList.tsx:70
 msgid "best"
 msgstr "最高"
 
-#: src/pages/Import.tsx:92
-msgid "calibration"
-msgstr "校准"
-
-#: src/pages/Settings.tsx:186
+#: src/pages/Settings.tsx:185
 msgid "fuzzwork · Jita"
 msgstr "fuzzwork · 吉他"
 
-#: src/pages/Import.tsx:133
+#: src/pages/Import.tsx:114
 msgid "items recognized"
 msgstr "个物品已识别"
 
-#: src/ui/StatsPage.tsx:173
+#: src/ui/StatsPage.tsx:176
 msgid "kg"
 msgstr "kg"
 
-#: src/ui/AmmoList.tsx:36 src/ui/DamageRangeChart.tsx:56 src/ui/StatsPage.tsx:168 src/ui/StatsPage.tsx:172
+#: src/ui/AmmoList.tsx:36 src/ui/DamageRangeChart.tsx:56 src/ui/StatsPage.tsx:171 src/ui/StatsPage.tsx:175
 msgid "km"
 msgstr "km"
 
-#: src/ui/StatsPage.tsx:166
+#: src/ui/StatsPage.tsx:169
 msgid "m"
 msgstr "m"
 
-#: src/ui/FitRow.tsx:21 src/ui/StatsPage.tsx:164
+#: src/ui/FitRow.tsx:23 src/ui/StatsPage.tsx:167
 msgid "m/s"
 msgstr "m/s"
 
-#: src/ui/StatsPage.tsx:170
+#: src/ui/StatsPage.tsx:173
 msgid "mm"
 msgstr "mm"
 
@@ -987,15 +1023,11 @@ msgstr "mm"
 msgid "m³"
 msgstr "m³"
 
-#: src/pages/Import.tsx:92
-msgid "powergrid"
-msgstr "栅格"
-
 #: src/pages/About.tsx:67
 msgid "pyfa original source on GitHub"
 msgstr ""
 
-#: src/pages/Settings.tsx:203
+#: src/pages/Settings.tsx:202
 msgid "pyfa-phone"
 msgstr "pyfa-phone"
 
@@ -1007,19 +1039,19 @@ msgstr ""
 msgid "pyfa-phone source on GitHub"
 msgstr ""
 
-#: src/ui/StatsPage.tsx:150 src/ui/StatsPage.tsx:157 src/ui/StatsPage.tsx:165
+#: src/ui/StatsPage.tsx:153 src/ui/StatsPage.tsx:160 src/ui/StatsPage.tsx:168
 msgid "s"
 msgstr "秒"
 
-#: src/pages/Home.tsx:127
+#: src/pages/Home.tsx:133
 msgid "{n} fits"
 msgstr "{n} 套"
 
-#: src/ui/MetaGroupList.tsx:64
+#: src/ui/MetaGroupList.tsx:69
 msgid "{n} items"
 msgstr "{n} 种"
 
-#: src/pages/AddModule.tsx:250
+#: src/pages/AddModule.tsx:261
 msgid "{n} remaining"
 msgstr "剩 {n}"
 
@@ -1027,7 +1059,7 @@ msgstr "剩 {n}"
 msgid "{ship} has no drone bay"
 msgstr "{ship}没有无人机舱"
 
-#: src/pages/Settings.tsx:84 src/pages/Settings.tsx:233
+#: src/pages/Settings.tsx:84 src/pages/Settings.tsx:232
 msgid "中文"
 msgstr "中文"
 
@@ -1040,11 +1072,23 @@ msgstr "中文"
 #~ msgid "Damage"
 #~ msgstr "伤害"
 
+#~ msgid "Fits"
+#~ msgstr "装得下"
+
 #~ msgid "Lasts"
 #~ msgstr "可撑"
 
+#~ msgid "Paste fit text to preview"
+#~ msgstr "粘贴装配文本以预览"
+
+#~ msgid "Recognized as EFT fit"
+#~ msgstr "识别为 EFT 装配"
+
 #~ msgid "Remote repairs"
 #~ msgstr "远程维修"
+
+#~ msgid "Resources"
+#~ msgstr "装配资源"
 
 #~ msgid "Stable"
 #~ msgstr "稳定"
@@ -1052,8 +1096,14 @@ msgstr "中文"
 #~ msgid "Warp speed"
 #~ msgstr "跃迁速度"
 
+#~ msgid "calibration"
+#~ msgstr "校准"
+
 #~ msgid "current"
 #~ msgstr "当前"
+
+#~ msgid "powergrid"
+#~ msgstr "栅格"
 
 #~ msgid "pyfa"
 #~ msgstr "pyfa"

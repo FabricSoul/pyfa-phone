@@ -23,7 +23,7 @@ export async function initI18n(): Promise<void> {
 }
 
 /** Startup glue: theme and UI language, before the first page renders its text. */
-export function initApp(): void {
+export function initApp(): Promise<void> {
   initAppearance()
-  void initI18n()
+  return initI18n()
 }

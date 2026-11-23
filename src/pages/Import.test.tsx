@@ -1,17 +1,12 @@
+import { IDBFactory } from 'fake-indexeddb'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { FittingRoutes } from '../App'
 import { resetSettings, updateSettings } from '../settings/settings'
 import { setUiLanguage } from '../i18n/t'
-
-const { saveFit, navigate } = vi.hoisted(() => ({ saveFit: vi.fn(), navigate: vi.fn() }))
-
-vi.mock('../store/fits', () => ({ saveFit: (...a: unknown[]) => saveFit(...a) }))
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('react-router-dom')>()
-  return { ...actual, useNavigate: () => navigate }
-})
-
-import Import from './Import'
+import { mockEngine } from '../engine/mockClient'
+import { createFitStore } from '../store/fits'
 
 const eft = `[Thrasher, Test thrasher]
 200mm AutoCannon II, Republic Fleet EMP S
@@ -24,8 +19,6 @@ Damage Control II
 Small Projectile Burst Aerator I`
 
 beforeEach(async () => {
-  saveFit.mockReset().mockResolvedValue('fit-1')
-  navigate.mockReset()
   resetSettings()
   updateSettings({ itemNameLanguage: 'en' })
   await setUiLanguage('en_US')
@@ -33,29 +26,38 @@ beforeEach(async () => {
 afterEach(cleanup)
 
 async function paste() {
-  render(<Import />)
+  const store = createFitStore(new IDBFactory())
+  const save = vi.spyOn(store, 'save')
+  render(<MemoryRouter initialEntries={['/import']}><FittingRoutes engine={mockEngine} store={store} /></MemoryRouter>)
   fireEvent.change(screen.getByRole('textbox'), { target: { value: eft } })
-  await waitFor(() => expect(screen.getByText(/EFT/)).toBeTruthy())
+  await screen.findByText(/Thrasher · 15 items recognized/)
+  return { store, save }
 }
 
 describe('Import page', () => {
   it('previews the ship name and item count after EFT text is pasted', async () => {
     await paste()
-    expect(screen.getByText(/Thrasher · 15 items recognized/)).toBeTruthy()
     expect(screen.getByText(/382/)).toBeTruthy()
   })
 
-  it('does not save when "View only without saving" is tapped', async () => {
-    await paste()
-    fireEvent.click(screen.getByRole('button', { name: /View only without saving|只看不保存|Preview only/i }))
-    expect(saveFit).not.toHaveBeenCalled()
-    expect(navigate).toHaveBeenCalledWith('/')
+  it('opens an editable temporary fit without writing it to the fit store', async () => {
+    const { store, save } = await paste()
+    fireEvent.click(screen.getByRole('button', { name: 'View only without saving' }))
+    await screen.findByText('Test thrasher', { exact: true })
+    const first = (await screen.findAllByTestId('state-button'))[0]!
+    fireEvent.click(first)
+    await waitFor(() => expect(first.dataset.state).not.toBe('active'))
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }))
+    await screen.findByRole('heading', { name: 'Fittings' })
+    expect(save).not.toHaveBeenCalled()
+    expect((await store.list()).map(({ fit }) => fit.name)).not.toContain('Test thrasher')
   })
 
   it('saves and opens the recognized fit', async () => {
-    await paste()
+    const { store, save } = await paste()
     fireEvent.click(screen.getByRole('button', { name: 'Save and open' }))
-    await waitFor(() => expect(saveFit).toHaveBeenCalledTimes(1))
-    expect(navigate).toHaveBeenCalledWith('/fit/fit-1')
+    await screen.findByText('Test thrasher', { exact: true })
+    expect(save).toHaveBeenCalledTimes(1)
+    expect((await store.list()).map(({ fit }) => fit.name)).toContain('Test thrasher')
   })
 })

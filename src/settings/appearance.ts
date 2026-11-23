@@ -16,9 +16,6 @@ export function initAppearance(): void {
   if (started || typeof document === 'undefined') return
   started = true
   applyAppearance()
-  // main.tsx also writes data-appearance from the system theme. Re-apply after it so a
-  // stored user choice wins, both at startup and whenever the OS theme changes.
-  queueMicrotask(() => applyAppearance())
   subscribeSettings(() => applyAppearance())
-  mq?.addEventListener?.('change', () => queueMicrotask(() => applyAppearance()))
+  mq?.addEventListener?.('change', () => applyAppearance())
 }

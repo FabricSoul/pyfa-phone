@@ -24,7 +24,8 @@ echo "▸ 数值对拍" && node etl/parity/run_parity.mjs
 echo "▸ 生产构建"      && npx vite build >/dev/null
 echo "▸ 无外域请求的 Chromium Worker" && node etl/parity/browser_local.mjs
 echo "▸ SW 盖印"        && node etl/99_stamp_sw.mjs
+echo "▸ 端到端冒烟测试" && node etl/98_smoke.mjs
 echo "▸ SW 测试"        && node --test etl/sw.test.mjs
-echo "▸ 生产包不含开发页面" && { ! grep -rlE "dev/gallery|dev/tokens" dist; }
+echo "▸ 生产包不含开发页面" && { ! grep -rlE "dev/gallery|dev/tokens|mockEngine only imports" dist; }
 echo
 echo "全部闸门通过 ✅"

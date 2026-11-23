@@ -5,16 +5,19 @@ import { _t } from '../i18n/t'
 import { DamageRangeChart } from './DamageRangeChart'
 import { Icon } from './icons'
 import { Pill } from './Pill'
+import { PriceValue } from './PriceValue'
 import { ResourceGauge } from './ResourceGauge'
 import { fmt } from './format'
 
-export interface PriceLine { label: string; value: number }
-export interface Prices { ship?: number; fit?: number; /** Per-item breakdown, shown under the totals. */ lines?: PriceLine[] }
+export interface PriceLine { label: string; value: number | null }
+export interface Prices { ship?: number | null; fit?: number | null; pending?: boolean; /** Per-item breakdown, shown under the totals. */ lines?: PriceLine[] }
 /** Labels for the setting pills; the page does not own these choices, the fit does. */
 export interface StatsSettings {
   /** Name of the target profile, "None" when empty. */
   targetProfile?: string
   damagePattern?: string
+  includeReload?: boolean
+  onReloadChange?: (includeReload: boolean) => void
   onTargetProfile?: () => void
   onDamagePattern?: () => void
 }
@@ -68,7 +71,7 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
   // Panels without data start collapsed; what the user toggled is remembered in localStorage.
   const [saved, setSaved] = useState(loadOpen)
   const open = Object.fromEntries((Object.keys(has) as PanelId[]).map((id) => [id, saved[id] ?? has[id]])) as Record<PanelId, boolean>
-  const [reload, setReload] = useState(true)
+  const reload = settings?.includeReload ?? true
   const [effective, setEffective] = useState(true)
   const [sustained, setSustained] = useState(false)
   const flip = (id: PanelId) => () => setSaved((o) => { const n = { ...o, [id]: !open[id] }; saveOpen(n); return n })
@@ -88,7 +91,7 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
       <Panel title={_t('Firepower')} empty={!has.firepower} open={open.firepower} onToggle={flip('firepower')}>
         <div className="tools">
           <Pill onClick={settings?.onTargetProfile}>{_t('Target Resists')}: {settings?.targetProfile ?? _t('None')} ▾</Pill>
-          <Pill on={reload} onClick={() => setReload((v) => !v)}>{_t('Factor in Reload Time')}</Pill>
+          <Pill on={reload} onClick={settings?.onReloadChange && (() => settings.onReloadChange?.(!reload))}>{_t('Factor in Reload Time')}</Pill>
         </div>
         <div className="hero">
           <div><small>{_t('Total DPS')}</small><b className="num">{fmt(stats.firepower.dps)}</b></div>
@@ -102,7 +105,7 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
         <div className="hint">{_t('Distance in km, DPS on the vertical axis; stationary target, tracking ignored. Press and hold the chart for per-km values.')}</div>
       </Panel>
 
-      <Panel title={_t('Defense')} note={`${_t('EHP')} ${fmt(stats.defense.ehp, 0)}`} empty={!has.defense} open={open.defense} onToggle={flip('defense')}>
+      <Panel title={_t('Defense')} note={effective ? `${_t('EHP')} ${fmt(stats.defense.ehp, 0)}` : `${_t('HP')} ${fmt(stats.defense.hp, 0)}`} empty={!has.defense} open={open.defense} onToggle={flip('defense')}>
         <div className="tools">
           <Pill onClick={settings?.onDamagePattern}>{_t('Incoming damage pattern')}: {settings?.damagePattern ?? _t('None')} ▾</Pill>
           <Pill on={effective} onClick={() => setEffective(true)}>{_t('EHP')}</Pill>
@@ -174,7 +177,7 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
         </div>
       </Panel>
 
-      <Panel title={_t('Resources')} open={open.resources} onToggle={flip('resources')}>
+      <Panel title={_t('Resources and prices')} open={open.resources} onToggle={flip('resources')}>
         <div style={{ display: 'grid', gap: 'var(--space-3)', padding: 'var(--space-1) var(--space-4) var(--space-3)' }}>
           <ResourceGauge tall label={_t('Cargo bay')} {...resources.cargo} />
           <ResourceGauge tall label={_t('Drone bay')} {...resources.droneBay} />
@@ -182,11 +185,11 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
           <ResourceGauge tall label={_t('Turret hardpoints')} {...resources.turretHardpoints} />
           <ResourceGauge tall label={_t('Launcher hardpoints')} {...resources.launcherHardpoints} />
         </div>
-        {prices && (
+        {prices?.pending ? <p className="hint" role="status"><PriceValue value={undefined} /></p> : prices && (
           <div className="kv">
-            {prices.ship != null && <KV k={_t('Ship')} v={<>{fmt(prices.ship, 0)} <small>{_t('ISK')}</small></>} />}
-            {prices.fit != null && <KV k={_t('Fit')} v={<>{fmt(prices.fit, 0)} <small>{_t('ISK')}</small></>} />}
-            {prices.lines?.map((l) => <KV key={l.label} k={l.label} v={<>{fmt(l.value, 0)} <small>{_t('ISK')}</small></>} />)}
+            {prices.ship !== undefined && <KV k={_t('Ship')} v={<PriceValue value={prices.ship} />} />}
+            {prices.fit !== undefined && <KV k={_t('Fit')} v={<PriceValue value={prices.fit} />} />}
+            {prices.lines?.map(({ label, value }) => <KV key={label} k={label} v={<PriceValue value={value} />} />)}
           </div>
         )}
       </Panel>
