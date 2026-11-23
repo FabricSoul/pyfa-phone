@@ -6,6 +6,7 @@ import importlib.machinery
 import sys
 import tempfile
 import types
+from functools import lru_cache, wraps
 
 
 class _Dummy:
@@ -79,6 +80,28 @@ def install_stubs():
     sys.meta_path.insert(0, _StubFinder())
 
 
+def _cache_game_query(_amount, *_keywords):
+    """Use eos's configurable cache hook with a separate namespace for each query."""
+    def decorate(query):
+        @lru_cache(maxsize=4096)
+        def cached(args, kwargs):
+            return query(*args, **dict(kwargs))
+
+        @wraps(query)
+        def load(*args, **kwargs):
+            use_cache = kwargs.pop('useCache', True)
+            key = (args, tuple(sorted(kwargs.items())))
+            try:
+                hash(key)
+            except TypeError:  # eos also accepts mutable lists of item IDs
+                return query(*args, **kwargs)
+            if not use_cache:
+                return query(*args, **kwargs)
+            return cached(*key)
+        return load
+    return decorate
+
+
 def bootstrap(db_path):
     sys.dont_write_bytecode = True  # keep the submodule clean
     install_stubs()
@@ -87,6 +110,8 @@ def bootstrap(db_path):
     import eos.config
     # Temporary fits reuse database IDs after rollback.
     eos.config.saveddataCache = False
+    # The stock game cache keys only by numeric arguments. Item and market group IDs overlap.
+    eos.config.gamedataCache = _cache_game_query
     eos.config.gamedata_connectionstring = f'sqlite:///{db_path}'
     import config
     config.savePath = tempfile.mkdtemp(prefix='pyfa-settings-')

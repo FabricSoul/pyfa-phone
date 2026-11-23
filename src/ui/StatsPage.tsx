@@ -79,7 +79,9 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
     ['armor', _t('Armor'), stats.defense.layers.armor],
     ['hull', _t('Hull'), stats.defense.layers.hull],
   ] as const
-  const tank = sustained ? rep.sustained : rep.reinforced
+  const repair = effective ? rep : rep.raw
+  const tank = sustained ? repair.sustained : repair.reinforced
+  const repairUnit = repair.unit === 'EHP/s' ? _t('EHP/s') : _t('HP/s')
 
   return (
     <div>
@@ -126,10 +128,10 @@ export function StatsPage({ result, prices, settings }: { result: CalcResult; pr
           <Pill on={sustained} onClick={() => setSustained(true)}>{_t('Sustained')}</Pill>
         </div>
         <div className="kv">
-          <KV k={_t('Shield')} v={<>{fmt(tank.shield)} <small>{_t('HP/s')}</small></>} />
-          <KV k={_t('Armor')} v={<>{fmt(tank.armor)} <small>{_t('HP/s')}</small></>} />
-          <KV k={_t('Hull')} v={<>{fmt(tank.hull)} <small>{_t('HP/s')}</small></>} />
-          <KV k={_t('Passive shield')} v={<>{fmt(tank.passiveShield)} <small>{_t('HP/s')}</small></>} />
+          <KV k={_t('Shield')} v={<>{fmt(tank.shield)} <small>{repairUnit}</small></>} />
+          <KV k={_t('Armor')} v={<>{fmt(tank.armor)} <small>{repairUnit}</small></>} />
+          <KV k={_t('Hull')} v={<>{fmt(tank.hull)} <small>{repairUnit}</small></>} />
+          <KV k={_t('Passive shield')} v={<>{fmt(tank.passiveShield)} <small>{repairUnit}</small></>} />
         </div>
       </Panel>
 

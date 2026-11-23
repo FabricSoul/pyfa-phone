@@ -46,12 +46,13 @@ describe('mockEngine', () => {
     expect(await mockEngine.variationsOf(-5)).toEqual([])
   })
 
-  it('exportText writes EFT that importText reads back', async () => {
+  it('demo EFT import substitutes the sample fit and reports that limitation', async () => {
     const eft = await mockEngine.exportText(sampleFits.rifter, 'eft')
     expect(eft.split('\n')[0]).toBe('[Rifter, 裂谷级 · 示例]')
     expect(eft).toContain('200mm AutoCannon II, Republic Fleet EMP S')
     expect(eft).toContain('[Empty Low slot]')
-    const back = await mockEngine.importText(eft)
-    expect(back.fits[0]?.shipTypeId).toBe(587)
+    const back = await mockEngine.importText(eft.replaceAll('200mm AutoCannon II', 'Unknown module'))
+    expect(back.fits[0]?.modules).toEqual(sampleFits.rifter.modules)
+    expect(back.warnings).toEqual(['Demo import loads the sample fitting for this ship'])
   })
 })

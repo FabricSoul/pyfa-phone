@@ -4,6 +4,8 @@
  *
  * Ship statistics are fixture values. Editable rows and fitting resource deltas are
  * projected from sample modules so UI interactions work without Pyodide.
+ * Demo text import selects a sample fit for its hull. Its exports cover a limited
+ * subset of EFT, DNA and MultiBuy. The Worker exercises the real converters.
  */
 import fitsJson from '../../etl/fixtures/fits.json'
 import catalogJson from './fixtures/catalog.json'
@@ -12,6 +14,7 @@ import rifter from './fixtures/rifter.json'
 import thrasher from './fixtures/thrasher.json'
 import {
   CalcResultSchema,
+  ChargeOptionSchema,
   FitDocSchema,
   ItemRowSchema,
   META_GROUPS,
@@ -43,8 +46,8 @@ const resultByShip = new Map(results.map((r) => [r.ship.typeId, r]))
 
 const CatalogSchema = z.object({
   dataVersion: z.string(),
-  modules: z.array(ItemRowSchema.extend({ slot: SlotKindSchema, family: z.number().int() })),
-  charges: z.record(z.string(), z.array(ItemRowSchema)),
+  modules: z.array(ItemRowSchema.extend({ slot: SlotKindSchema, family: z.number().int(), groupId: z.number().int() })),
+  charges: z.record(z.string(), z.record(z.string(), z.array(ChargeOptionSchema))),
 })
 const catalog = CatalogSchema.parse(catalogJson)
 
@@ -52,10 +55,11 @@ const catalog = CatalogSchema.parse(catalogJson)
 const names = new Map<number, string>()
 for (const r of results) names.set(r.ship.typeId, r.ship.name.en)
 for (const m of catalog.modules) names.set(m.typeId, m.name.en)
-for (const list of Object.values(catalog.charges)) for (const c of list) names.set(c.typeId, c.name.en)
+const chargeOptions = Object.values(catalog.charges).flatMap((sample) => Object.values(sample).flat())
+for (const option of chargeOptions) names.set(option.typeId, option.name.en)
 
 const modules = new Map(catalog.modules.map((m) => [m.typeId, m]))
-const charges = new Map(Object.values(catalog.charges).flat().map((item) => [item.typeId, item]))
+const charges = new Map(chargeOptions.map((item) => [item.typeId, item]))
 const templates = new Map<number, ModuleSlotRow>()
 for (const result of results) {
   for (const row of Object.values(result.slots).flat()) {
@@ -164,12 +168,12 @@ function browseRow(item: typeof catalog.modules[number]): ItemRow {
 }
 
 /** Group rows in META_GROUPS order, each sorted by keyValue (high first), then meta level. */
-export function groupItems(rows: ItemRow[]): ItemGroup[] {
-  const out: ItemGroup[] = []
+export function groupItems<T extends ItemRow>(rows: T[]): ItemGroup<T>[] {
+  const out: ItemGroup<T>[] = []
   for (const meta of META_GROUPS) {
     const items = rows
       .filter((r) => r.meta === meta)
-      .map(toRow)
+      .map((item) => clone(item))
       .sort((a, b) =>
         (b.keyValue ?? -Infinity) - (a.keyValue ?? -Infinity) ||
         (b.metaLevel ?? 0) - (a.metaLevel ?? 0) ||
@@ -358,12 +362,15 @@ export const mockEngine: EngineClient = {
     return [...new Map(groups.map((group) => [group.id, group])).values()]
   },
 
-  async itemsForSlot(fit, slot, query, options) {
-    const source = catalog.modules.filter((item) => item.slot === slot && matches(item, query))
-      .filter((item) => options?.marketGroupId === undefined || marketLeaves[item.family] === options.marketGroupId)
-      .filter((item) => options?.meta === undefined || item.meta === options.meta)
+  async itemsForSlot(fit, slot, filters, options) {
+    const request = { ...options, ...(typeof filters === 'string' ? { query: filters } : filters) }
+    const meta = request.metaGroup ?? request.meta
+    const source = catalog.modules.filter((item) => item.slot === slot && matches(item, request.query))
+      .filter((item) => request.group === undefined || item.groupId === request.group)
+      .filter((item) => request.marketGroupId === undefined || marketLeaves[item.family] === request.marketGroupId)
+      .filter((item) => meta === undefined || item.meta === meta)
     const rows = source.map(browseRow)
-    if (!options?.preview) return groupItems(rows)
+    if (!request.preview) return groupItems(rows)
     const result = await mockEngine.calc(fit)
     for (const row of rows) {
       const fitting = row.fitting
@@ -377,10 +384,14 @@ export const mockEngine: EngineClient = {
     return groupItems(rows)
   },
 
-  async chargesFor(fit, pos) {
+  async chargesFor(fit, pos, metaGroup) {
     const mod = fit.modules[pos.slot][pos.index]
     if (!mod) return []
-    return groupItems(catalog.charges[String(mod.typeId)] ?? catalog.charges[String(templateFor(mod.typeId)?.typeId)] ?? [])
+    const alternatives = catalog.charges[String(fit.shipTypeId)] ?? {}
+    const key = `${pos.slot}/${mod.typeId}/${mod.state}/${mod.chargeTypeId}`
+    const fallback = Object.entries(alternatives).find(([entry]) => entry.startsWith(`${pos.slot}/${mod.typeId}/`))
+    const options = alternatives[key] ?? fallback?.[1] ?? []
+    return groupItems(options.filter((option) => !metaGroup || option.meta === metaGroup))
   },
 
   async variationsOf(typeId) {
@@ -395,7 +406,8 @@ export const mockEngine: EngineClient = {
     if (!header || !sample) {
       return { fits: [], warnings: ['mockEngine only imports EFT text for the sample ships (Rifter, Merlin, Thrasher)'] }
     }
-    return { fits: [{ ...clone(sample), name: header[2]?.trim() || sample.name }], warnings: [] }
+    return { fits: [{ ...clone(sample), name: header[2]?.trim() || sample.name }],
+      warnings: ['Demo import loads the sample fitting for this ship'] }
   },
 
   async exportText(fit, format: ExportFormat) {

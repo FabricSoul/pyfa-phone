@@ -8,9 +8,8 @@ Reads etl/fixtures/fits.json (FitDoc objects, see src/engine/types.ts) and write
 src/engine/fixtures/{rifter,merlin,thrasher}.json plus catalog.json (item lists for the
 mock engine). --check recomputes everything and exits 1 if the committed files differ.
 
-eve.db: --db, else $PYFA_EVE_DB, else ~/.cache/pyfa-phone/eve-<pyfa commit>.db, which is
-built on first use by running vendor/pyfa/db_update.py in a temporary copy of the
-submodule (the submodule itself is never written to).
+Run pnpm etl first. The manifest supplies the asset version and eve.db defaults to
+the generated build/eve.db (overridable with --db or PYFA_EVE_DB).
 
 pyfa is imported unmodified. Modules it imports that are not available or not wanted here
 (wx, requests, jose, and pyfa's GUI frame / column base class / bitmap loader) are replaced
@@ -20,10 +19,7 @@ import argparse
 import difflib
 import json
 import os
-import shutil
-import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,41 +28,7 @@ FITS = Path(__file__).resolve().parent / 'fits.json'
 OUT = ROOT / 'src' / 'engine' / 'fixtures'
 sys.path[:0] = [str(ROOT / 'src/engine/py'), str(PYFA)]
 from engine import Engine
-from headless import bootstrap, install_stubs
-
-
-# ---------------------------------------------------------------------------
-# eve.db
-
-def pyfa_commit():
-    return subprocess.check_output(['git', '-C', str(PYFA), 'rev-parse', 'HEAD'], text=True).strip()
-
-
-def resolve_db(arg):
-    if arg:
-        return Path(arg)
-    if os.environ.get('PYFA_EVE_DB'):
-        return Path(os.environ['PYFA_EVE_DB'])
-    cached = Path.home() / '.cache' / 'pyfa-phone' / f'eve-{pyfa_commit()[:12]}.db'
-    if not cached.exists():
-        cached.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.TemporaryDirectory() as tmp:
-            copy = Path(tmp) / 'pyfa'
-            print(f'building eve.db from {PYFA} (about 30 s)…', file=sys.stderr)
-            shutil.copytree(PYFA, copy, ignore=shutil.ignore_patterns('.git', '__pycache__'))
-            # db_update.py imports eos -> config.py -> wx, so it runs behind the same stand-ins.
-            subprocess.check_call([sys.executable, __file__, '--run-db-update', str(copy)],
-                                  cwd=copy, stdout=subprocess.DEVNULL)
-            shutil.move(str(copy / 'eve.db'), cached)
-    return cached
-
-
-def run_db_update(pyfa_copy):
-    import runpy
-    sys.dont_write_bytecode = True
-    sys.path.insert(0, pyfa_copy)
-    install_stubs()
-    runpy.run_path(os.path.join(pyfa_copy, 'db_update.py'), run_name='__main__')
+from headless import bootstrap
 
 
 def dump(obj):
@@ -77,21 +39,24 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('--check', action='store_true', help='recompute and fail if committed JSON differs')
     ap.add_argument('--db', help='path to eve.db')
-    ap.add_argument('--run-db-update', metavar='PYFA_COPY', help=argparse.SUPPRESS)
     args = ap.parse_args()
-    if args.run_db_update:
-        return run_db_update(args.run_db_update)
 
-    bootstrap(resolve_db(args.db))
-    engine = Engine()
+    manifest = json.loads((ROOT / 'public/data/manifest.json').read_text())
+    bootstrap(Path(args.db or os.environ.get('PYFA_EVE_DB') or ROOT / 'build/eve.db').resolve())
+    engine = Engine(manifest['dataVersion'])
+    if engine.client_build != manifest['clientBuild']:
+        ap.error('The fixture database client build does not match the asset manifest')
     docs = json.loads(FITS.read_text())
-    outputs = {f'{name}.json': dump(engine.calc(doc)) for name, doc in docs.items()}
-    outputs['catalog.json'] = dump(engine.catalog(list(docs.values())))
+    for doc in docs.values():
+        doc.update(dataVersion=engine.data_version, clientBuild=engine.client_build, itemNames=engine.item_names(doc))
+    outputs = {OUT / f'{name}.json': dump(engine.calc(doc)) for name, doc in docs.items()}
+    outputs[OUT / 'catalog.json'] = dump(engine.catalog(list(docs.values())))
+    outputs[FITS] = dump(docs)
 
     if args.check:
         bad = 0
-        for fname, text in outputs.items():
-            path = OUT / fname
+        for path, text in outputs.items():
+            fname = path.name
             old = path.read_text() if path.exists() else ''
             if old != text:
                 bad += 1
@@ -105,9 +70,9 @@ def main():
         return
 
     OUT.mkdir(parents=True, exist_ok=True)
-    for fname, text in outputs.items():
-        (OUT / fname).write_text(text)
-        print(f'wrote {(OUT / fname).relative_to(ROOT)}')
+    for path, text in outputs.items():
+        path.write_text(text)
+        print(f'wrote {path.relative_to(ROOT)}')
 
 
 if __name__ == '__main__':

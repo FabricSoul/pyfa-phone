@@ -6,7 +6,7 @@ from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 
-from engine import Engine, META_ORDER, SLOT_KINDS, r
+from engine import Engine, META_ORDER, SLOT_KINDS, STATES, meta_of, r
 from headless import bootstrap
 
 _engine = None
@@ -21,14 +21,16 @@ _NUMBER = re.compile(r'([+-]?(?:\d+(?:\.\d*)?|\.\d+))([kMG]?)')
 _MAGNITUDE = {'': 1, 'k': 1000, 'M': 10**6, 'G': 10**9}
 
 
-def initialize(db_path, names_path):
+def initialize(db_path, names_path, data_version, client_build):
     global _engine, _port, _character
     from port_adapter import PortAdapter
 
     bootstrap(db_path)
     from service.character import Character
 
-    _engine = Engine()
+    _engine = Engine(data_version)
+    if _engine.client_build != client_build:
+        raise ValueError('Game database client build does not match the asset manifest')
     # Construct the built-in characters once, before the temporary fit transactions.
     _character = Character.getInstance()
     _port = PortAdapter(_engine, json.loads(Path(names_path).read_text(encoding='utf-8')))
@@ -45,9 +47,9 @@ def _temporary_fit():
             transaction.rollback()
 
 
-def calc(fit_json):
+def calc(fit_json, options=None):
     with _temporary_fit():
-        return _engine.calc(fit_json)
+        return _engine.calc(fit_json, options)
 
 
 def _groups(rows):
@@ -89,26 +91,31 @@ def _slot_items(slot):
     # Limit the ORM load to published items with this slot effect.
     with _engine.db.gamedata_engine.connect() as conn:
         return conn.execute(text('''
-            SELECT invtypes.typeID, typeName, typeName_zh
+            SELECT invtypes.typeID, typeName, typeName_zh, groupID
             FROM invtypes JOIN dgmtypeeffects USING (typeID) JOIN dgmeffects USING (effectID)
             WHERE invtypes.published AND effectName = :effect
         '''), {'effect': _SLOT_EFFECT[slot]}).all()
 
 
-def items_for_slot(fit_json, slot, query=''):
+def items_for_slot(fit_json, slot, filters=None, options=None):
     from eos.saveddata.module import Module
     from gui.fitCommands.helpers import activeStateLimit
     from eos.gamedata import Item
     from sqlalchemy.orm import selectinload
 
-    term = (query or '').strip().casefold()
-    ids = [type_id for type_id, en, zh in _slot_items(slot)
-           if term in en.casefold() or (zh and term in zh.casefold())]
+    filters = {**(options or {}), **({'query': filters} if isinstance(filters, str) else filters or {})}
+    term = (filters.get('query') or '').strip().casefold()
+    group = filters.get('group')
+    market_id = filters.get('marketGroupId')
+    meta = filters.get('metaGroup') or filters.get('meta')
+    preview = filters.get('preview', True)
+    ids = [type_id for type_id, en, zh, group_id in _slot_items(slot)
+           if (group is None or group == group_id) and (term in en.casefold() or (zh and term in zh.casefold()))]
     if not ids:
         return []
 
     with _temporary_fit():
-        fit, _ = _engine.build(fit_json)
+        fit = _engine.build(fit_json)[0] if preview else None
         # Test permanent restrictions on a hull with its slot layout, then preview resource
         # use on the actual fitting. A full rack can still be browsed for replacements.
         hull_doc = {**fit_json, 'modules': {
@@ -121,12 +128,30 @@ def items_for_slot(fit_json, slot, query=''):
             selectinload(Item.effects), selectinload(Item._Item__attributes),
         ).all()
         for item in candidates:
+            if meta is not None and meta_of(_engine.market.getMetaGroupIdByItem(item, fallback=1)) != meta:
+                continue
             if Module.calculateSlot(item) != _engine.kind_slot[slot] or item.category.name not in (
                 'Module', 'Subsystem', 'Structure Module',
             ):
                 continue
+            market_group = _engine.market_group(item)
+            if market_id is not None and (
+                market_group is None or market_id not in
+                {market_group['id'], *(node['id'] for node in market_group['ancestors'])}
+            ):
+                continue
             mod = Module(item)
             if not mod.fits(hull):
+                continue
+            fields = {
+                'supportedStates': [name for name, state in STATES.items() if mod.isValidState(state)],
+                'fitting': {'cpu': r(mod.getModifiedItemAttr('cpu') or 0),
+                            'powergrid': r(mod.getModifiedItemAttr('power') or 0)},
+            }
+            if market_group is not None:
+                fields['marketGroup'] = market_group
+            if not preview:
+                rows.append({**_engine.item_row(item), **fields})
                 continue
             mod.owner = fit  # required by pyfa's module columns before the next flush
             fit.modules.appendIgnoreEmpty(mod)
@@ -135,7 +160,7 @@ def items_for_slot(fit_json, slot, query=''):
                     mod.state = activeStateLimit(item)
                 _engine.recalc(fit)
                 overages = _engine.warnings(_engine.resources(fit))
-                rows.append({**_module_row(mod), 'resourceOverages': [
+                rows.append({**_module_row(mod), **fields, 'resourceOverages': [
                     {**warning, 'overBy': r(warning['used'] - warning['total'])} for warning in overages
                 ]})
             finally:
@@ -144,15 +169,33 @@ def items_for_slot(fit_json, slot, query=''):
         return _groups(rows)
 
 
-def charges_for(fit_json, pos):
-    from eos.saveddata.module import Module
 
-    entries = fit_json['modules'][pos['slot']]
-    index = pos['index']
+def market_groups_for_slot(fit_json, slot):
+    groups = {}
+    for group in items_for_slot(fit_json, slot, {'preview': False}):
+        for item in group['items']:
+            market_group = item.get('marketGroup')
+            if market_group is not None:
+                groups[market_group['id']] = market_group
+    return sorted(groups.values(), key=lambda group: group['id'])
+
+
+def get_data_version():
+    return _engine.data_version
+
+
+def charges_for(fit_json, pos, meta_group=None):
+    slot, index = pos['slot'], pos['index']
+    entries = fit_json['modules'][slot]
     if not 0 <= index < len(entries) or entries[index] is None:
         return []
-    module = Module(_engine.item(entries[index]['typeId']))
-    return _groups(_engine.charge_rows(module))
+
+    with _temporary_fit():
+        fit, positions = _engine.build(fit_json)
+        module = next(mod for mod in fit.modules if positions[id(mod)] == (slot, index))
+        if module.isEmpty:
+            return []
+        return _groups(_engine.charge_options(fit, module, meta_group))
 
 
 def variations_of(type_id):

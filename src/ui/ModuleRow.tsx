@@ -54,6 +54,17 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
     )
   }
 
+  if (row.kind === 'removed') {
+    return (
+      <div className="row warn">
+        <ItemIcon />
+        <div className="mn"><span>{lname(row.name, lang)}</span><small>{_t('Item removed')}</small></div>
+        {row.count > 1 && <span className="cnt num">×{row.count}</span>}
+        {onRemove && <button type="button" className="sb" aria-label={_t('Remove')} onClick={onRemove}><Icon name="x" /></button>}
+      </div>
+    )
+  }
+
   const startPress = () => {
     longPressed.current = false
     if (!availableStates.includes('overheated')) return
@@ -108,7 +119,7 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
           <span className="mn">
             <span>{lname(row.name, lang)}</span>
             {row.charge && (
-              <small><ItemIcon className="mini-ic" size={16} src={iconUrl(row.charge.iconId)} />{lname(row.charge.name, lang)} · {row.charge.count}</small>
+              <small><ItemIcon className="mini-ic" size={16} src={iconUrl(row.charge.iconId)} />{lname(row.charge.name, lang)} · {row.charge.removed ? _t('Item removed') : row.charge.count}</small>
             )}
             {row.keyParts.length > 0 && (
               <small className="num">{first && <b>{first}</b>}{rest.map((p) => <span key={p}> · {p}</span>)}</small>

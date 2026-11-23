@@ -10,13 +10,17 @@ async function fetchAsset(url: URL) {
 }
 
 interface EngineManifest {
+  dataVersion: string
+  clientBuild: string
   db: { file: string; encoding: 'gzip' }
   names: { file: string }
-  py: { file: string; sha256: string }
+  py: { file: string }
+  pyodide: { version: string }
 }
 
-async function loadRuntime() {
-  const indexURL = `https://cdn.jsdelivr.net/pyodide/v${pkg.dependencies.pyodide}/full/`
+async function loadRuntime(manifestUrl: URL, version: string) {
+  if (version !== pkg.dependencies.pyodide) throw new Error('Engine assets contain an incompatible Pyodide version')
+  const indexURL = new URL(`../pyodide/${version}/`, manifestUrl).href
   const moduleUrl = new URL('pyodide.mjs', indexURL).href
   const { loadPyodide }: typeof Pyodide = await import(/* @vite-ignore */ moduleUrl)
   return loadPyodide({ indexURL, packages: ['sqlalchemy', 'pyyaml', 'cryptography', 'sqlite3'] })
@@ -25,12 +29,10 @@ async function loadRuntime() {
 async function initialize() {
   const manifestUrl = new URL(`${import.meta.env.BASE_URL}data/manifest.json`, self.location.origin)
   const manifest: EngineManifest = await fetchAsset(manifestUrl).then((response) => response.json())
-  const sourceUrl = new URL(manifest.py.file, manifestUrl)
-  sourceUrl.searchParams.set('v', manifest.py.sha256)
   const [runtime, database, sources, names] = await Promise.all([
-    loadRuntime(),
+    loadRuntime(manifestUrl, manifest.pyodide.version),
     fetchAsset(new URL(manifest.db.file, manifestUrl)),
-    fetchAsset(sourceUrl).then((response) => response.arrayBuffer()),
+    fetchAsset(new URL(manifest.py.file, manifestUrl)).then((response) => response.arrayBuffer()),
     fetchAsset(new URL(manifest.names.file, manifestUrl)).then((response) => response.arrayBuffer()),
   ])
   if (!database.body) throw new Error('Game database response has no body')
@@ -48,11 +50,14 @@ async function initialize() {
   }
   runtime.FS.writeFile('/pyfa.zip', new Uint8Array(sources))
   runtime.FS.writeFile('/names.json', new Uint8Array(names))
+  runtime.globals.set('_asset_version', manifest.dataVersion)
+  runtime.globals.set('_client_build', manifest.clientBuild)
   runtime.runPython(`
 import sys
 sys.path.insert(0, '/pyfa.zip')
 import api
-api.initialize('/eve.db', '/names.json')
+api.initialize('/eve.db', '/names.json', _asset_version, _client_build)
+del _asset_version, _client_build
 `)
   return runtime
 }
@@ -61,9 +66,11 @@ let startup: ReturnType<typeof initialize> | undefined
 const runtime = () => (startup ??= initialize())
 
 // 只列出 Worker 已实现的操作；EngineClient 里的可选方法（itemInfo 等）由集成任务补上。
-type Operation = 'calc' | 'itemsForSlot' | 'chargesFor' | 'variationsOf' | 'importText' | 'exportText' | 'missingSkills'
+type Operation = Exclude<keyof EngineWorkerApi, 'ready' | 'itemInfo'>
 const pythonFunction: Record<Operation, string> = {
   calc: 'calc',
+  getDataVersion: 'get_data_version',
+  marketGroupsForSlot: 'market_groups_for_slot',
   itemsForSlot: 'items_for_slot',
   chargesFor: 'charges_for',
   variationsOf: 'variations_of',
@@ -90,6 +97,8 @@ async function call<K extends Operation>(
 expose({
   async ready() { await runtime() },
   calc: (...args) => call('calc', ...args),
+  getDataVersion: () => call('getDataVersion'),
+  marketGroupsForSlot: (...args) => call('marketGroupsForSlot', ...args),
   itemsForSlot: (...args) => call('itemsForSlot', ...args),
   chargesFor: (...args) => call('chargesFor', ...args),
   variationsOf: (...args) => call('variationsOf', ...args),

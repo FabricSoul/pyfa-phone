@@ -1,15 +1,4 @@
-"""Build eve.db from the pyfa submodule and publish it gzipped to public/data.
-
-Outputs:
-  build/eve.db              uncompressed copy used by the later ETL steps
-  build/data_version        the data version string
-  public/data/eve.<ver>.db.gz
-  public/data/manifest.json (names.file filled in; 30_name_index.py writes that file)
-
-The data version is "<pyfa commit date, UTC, YYYYMMDD>-<short sha>" of vendor/pyfa,
-so it changes whenever the submodule moves (pyfa also hardcodes data in db_update.py,
-which the game client build number would not capture).
-"""
+"""Build eve.db and stage its content-addressed gzip and metadata for ETL."""
 
 import gzip
 import hashlib
@@ -19,7 +8,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
-from datetime import datetime, timezone
+from contextlib import closing
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -52,15 +41,6 @@ sys.modules["wx"] = wx
 sys.path.insert(0, ".")
 runpy.run_path("db_update.py", run_name="__main__")
 """
-
-
-def data_version() -> str:
-    out = subprocess.run(
-        ["git", "-C", str(PYFA), "log", "-1", "--format=%ct %h"],
-        check=True, capture_output=True, text=True,
-    ).stdout.split()
-    date = datetime.fromtimestamp(int(out[0]), tz=timezone.utc).strftime("%Y%m%d")
-    return f"{date}-{out[1]}"
 
 
 def build_db(dest: Path) -> None:
@@ -104,14 +84,14 @@ def sha256(path: Path) -> str:
 
 
 def main() -> None:
-    ver = data_version()
     BUILD.mkdir(exist_ok=True)
     DATA.mkdir(parents=True, exist_ok=True)
     db = BUILD / "eve.db"
-    db.unlink(missing_ok=True)
-    build_db(db)
+    staged_db = BUILD / "eve.db.tmp"
+    build_db(staged_db)
+    staged_db.replace(db)
 
-    gz = DATA / f"eve.{ver}.db.gz"
+    gz = DATA / "eve.db.gz.tmp"
     gzip_file(db, gz)
     if gz.stat().st_size >= MAX_BYTES:
         print(f"gzip is {gz.stat().st_size} bytes, clearing unused languages")
@@ -121,18 +101,19 @@ def main() -> None:
     if size >= MAX_BYTES:
         sys.exit(f"{gz.name} is {size} bytes, over the 25 MiB Pages limit")
 
-    for old in list(DATA.glob("eve.*.db.gz")) + list(DATA.glob("names.*.json")):
-        if ver not in old.name:
-            old.unlink()
+    digest = sha256(gz)
+    asset = f"eve.{digest}.db.gz"
+    gz.replace(DATA / asset)
+    with closing(sqlite3.connect(db)) as conn:
+        client_build = conn.execute(
+            "SELECT field_value FROM metadata WHERE field_name='client_build'"
+        ).fetchone()[0]
+    (BUILD / "game-db.json").write_text(json.dumps({
+        "clientBuild": client_build,
+        "db": {"file": asset, "bytes": size, "sha256": digest, "encoding": "gzip"},
+    }))
+    print(f"{asset}: {size} bytes ({size / 1024 / 1024:.2f} MiB)")
 
-    manifest = {
-        "dataVersion": ver,
-        "db": {"file": gz.name, "bytes": size, "sha256": sha256(gz), "encoding": "gzip"},
-        "names": {"file": f"names.{ver}.json"},
-    }
-    (DATA / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    (BUILD / "data_version").write_text(ver + "\n", encoding="utf-8")
-    print(f"dataVersion {ver}: {gz.name} {size} bytes ({size / 1024 / 1024:.2f} MiB)")
 
 
 if __name__ == "__main__":

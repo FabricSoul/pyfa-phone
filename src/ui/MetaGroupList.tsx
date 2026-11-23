@@ -29,14 +29,14 @@ export function defaultExpanded(groups: ItemGroup[], currentTypeId?: number): Se
 }
 
 /** Items grouped by tech level, collapsible. Collapsed headers show the count and the best value. */
-export function MetaGroupList({ groups, currentTypeId, onPick, renderItem, renderGroup, valueUnit }: {
-  groups: ItemGroup[]
+export function MetaGroupList<T extends ItemRow>({ groups, currentTypeId, onPick, renderItem, renderGroup, valueUnit }: {
+  groups: ItemGroup<T>[]
   currentTypeId?: number
-  onPick?: (item: ItemRow) => void
+  onPick?: (item: T) => void
   /** Replaces the default row; `current` marks the selected item. */
-  renderItem?: (item: ItemRow, current: boolean) => ReactNode
+  renderItem?: (item: T, current: boolean) => ReactNode
   /** Replaces the contents of an expanded group. */
-  renderGroup?: (group: ItemGroup) => ReactNode
+  renderGroup?: (group: ItemGroup<T>) => ReactNode
   /** Unit shown after the best value, e.g. "DPS". */
   valueUnit?: string
 }) {

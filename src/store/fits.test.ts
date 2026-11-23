@@ -17,6 +17,16 @@ describe('stored fits', () => {
     expect((await reopened.get('rifter'))?.fit.notes).toBe('Keep at range')
   })
 
+  it('embeds legacy and newly remembered names in the saved FitDoc', async () => {
+    const store = createFitStore(new IDBFactory())
+    const name = { en: 'Retired charge', zh: '旧弹药' }
+    const fit = { ...sampleFits.rifter, cargo: [{ typeId: 987, amount: 1 }] }
+    await store.save({ id: 'legacy', fit, openedAt: null, itemNames: { 987: name } })
+    expect((await store.get('legacy'))?.fit.itemNames?.[987]).toEqual(name)
+    await store.rememberNames('legacy', { 988: name })
+    expect((await store.get('legacy'))?.fit.itemNames?.[988]).toEqual(name)
+  })
+
   it('retains the original name and type ID for items absent after a data update', async () => {
     const fit = structuredClone(sampleFits.rifter)
     fit.cargo = [{ typeId: 987, amount: 4 }]

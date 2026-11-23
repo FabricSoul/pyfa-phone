@@ -18,6 +18,11 @@ export interface FitStore {
   rememberNames(id: string, names: Record<number, LName>): Promise<void>
 }
 
+function withItemNames(record: StoredFit, names: Record<number, LName> = {}): StoredFit {
+  const itemNames = { ...record.fit.itemNames, ...record.itemNames, ...names }
+  return { ...record, itemNames, fit: { ...record.fit, itemNames } }
+}
+
 const STORE = 'fits'
 export const exampleFitDocs = Object.entries(fixtures)
   .map(([id, sample]) => ({ id, fit: FitDocSchema.parse(sample) }))
@@ -33,7 +38,7 @@ export function createFitStore(factory: IDBFactory, databaseName = 'pyfa-phone')
         const store = request.result.createObjectStore(STORE, { keyPath: 'id' })
         for (const { id, fit } of exampleFitDocs) {
           const record: StoredFit = { id, fit, openedAt: null, itemNames: {} }
-          store.add(record)
+          store.add(withItemNames(record))
         }
       }
       request.onerror = () => reject(request.error)
@@ -73,25 +78,31 @@ export function createFitStore(factory: IDBFactory, databaseName = 'pyfa-phone')
   }
 
   return {
-    list: () => transact('readonly', (store) => store.getAll()),
-    get: (id) => transact('readonly', (store) => store.get(id)),
+    async list() {
+      const records: StoredFit[] = await transact('readonly', (store) => store.getAll())
+      return records.map((record) => withItemNames(record))
+    },
+    async get(id) {
+      const record: StoredFit | undefined = await transact('readonly', (store) => store.get(id))
+      return record && withItemNames(record)
+    },
     async save(record) {
       await transact('readwrite', (store) => {
         const request: IDBRequest<StoredFit | undefined> = store.get(record.id)
         request.onsuccess = () => {
           const previous = request.result
-          store.put({
+          store.put(withItemNames({
             ...record,
             openedAt: Math.max(record.openedAt ?? 0, previous?.openedAt ?? 0) || null,
-            itemNames: { ...previous?.itemNames, ...record.itemNames },
-          })
+            itemNames: { ...previous?.fit.itemNames, ...previous?.itemNames, ...record.fit.itemNames, ...record.itemNames },
+          }))
         }
         return request
       })
     },
     async remove(id) { await transact('readwrite', (store) => store.delete(id)) },
     touch: (id, openedAt) => update(id, (record) => ({ ...record, openedAt })),
-    rememberNames: (id, names) => update(id, (record) => ({ ...record, itemNames: { ...record.itemNames, ...names } })),
+    rememberNames: (id, names) => update(id, (record) => withItemNames(record, names)),
   }
 }
 
@@ -101,6 +112,7 @@ export function fitTypeIds(fit: FitDoc): number[] {
     ...Object.values(fit.modules).flatMap((slots) => slots.flatMap((item) =>
       item ? [item.typeId, ...(item.chargeTypeId === null ? [] : [item.chargeTypeId])] : [])),
     ...fit.drones.map((d) => d.typeId),
+    ...(fit.fighters ?? []).map((f) => f.typeId),
     ...fit.cargo.map((c) => c.typeId),
     ...fit.implants,
     ...fit.boosters,
@@ -108,7 +120,7 @@ export function fitTypeIds(fit: FitDoc): number[] {
 }
 
 export async function resolveStoredItems(record: StoredFit, dataVersion: string, lookup: (id: number) => Promise<LName | null>) {
-  const itemNames = { ...record.itemNames }
+  const itemNames: Record<number, LName> = { ...record.fit.itemNames, ...record.itemNames }
   const removed: { typeId: number; name?: LName }[] = []
   const changed = record.fit.dataVersion !== dataVersion
   await Promise.all(fitTypeIds(record.fit).map(async (typeId) => {

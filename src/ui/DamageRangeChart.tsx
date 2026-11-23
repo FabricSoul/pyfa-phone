@@ -43,7 +43,7 @@ export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
             <text className="tick" x={PAD.l - 4} y={y(maxY * f) + 3} textAnchor="end">{fmt(maxY * f, 0)}</text></g>
         ))}
         {xs.filter((_, i) => i % 5 === 0).map((d) => (
-          <text key={d} className="tick" x={x(xs.indexOf(d))} y={H - 6} textAnchor="middle">{d}</text>
+          <text key={d} className="tick" x={x(xs.indexOf(d))} y={H - 6} textAnchor="middle">{fmt(d)}</text>
         ))}
         {series.map((s, i) => (
           <polyline key={i} fill="none" stroke={COLORS[i]} strokeWidth={i === 0 ? 2.5 : 2} strokeLinejoin="round"
@@ -53,7 +53,7 @@ export function DamageRangeChart({ curve }: { curve: RangeCurve }) {
       </svg>
       {at !== null && (
         <div className="tip num" data-testid="chart-tip">
-          {xs[at]} {_t('km')}
+          {fmt(xs[at] ?? 0)} {_t('km')}
           {series.map((s, i) => <div key={i} style={{ color: COLORS[i] }}>{fmt(s.dps[at] ?? 0)}</div>)}
         </div>
       )}

@@ -71,6 +71,12 @@ export function Fit() {
                 onStateChange={(state) => edit((fit) => withModules(fit, slot, activePositions, (mod) => mod && { ...mod, state }))}
                 onRemove={() => edit((fit) => withModules(fit, slot, activePositions, () => null))} />
             }
+            if (entry.kind === 'removed') {
+              const positions = entry.positions.filter((index) => slotItems[index]?.typeId === entry.typeId)
+              if (!positions.length) return null
+              return <ModuleRow key={`removed-${positions[0]}`} row={{ ...entry, positions, count: positions.length }}
+                onRemove={() => edit((fit) => withModules(fit, slot, positions, () => null))} />
+            }
             const positions = entry.positions.filter((index) => !slotItems[index])
             if (!positions.length) return null
             return <ModuleRow key="empty" row={{ ...entry, positions, count: positions.length }}

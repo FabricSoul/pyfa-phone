@@ -1,7 +1,7 @@
 {
   "rifter": {
     "schema": 1,
-    "dataVersion": "3724492",
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
     "name": "裂谷级 · 示例",
     "shipTypeId": 587,
     "modules": {
@@ -83,11 +83,62 @@
     "notes": "",
     "character": "all5",
     "damagePatternId": -1,
-    "targetProfileId": null
+    "targetProfileId": null,
+    "clientBuild": "3724492",
+    "itemNames": {
+      "438": {
+        "en": "1MN Afterburner II",
+        "zh": "1MN加力燃烧器 II"
+      },
+      "448": {
+        "en": "Warp Scrambler II",
+        "zh": "跃迁扰频器 II"
+      },
+      "519": {
+        "en": "Gyrostabilizer II",
+        "zh": "回转稳定器 II"
+      },
+      "526": {
+        "en": "Stasis Webifier I",
+        "zh": "停滞缠绕光束 I"
+      },
+      "587": {
+        "en": "Rifter",
+        "zh": "裂谷级"
+      },
+      "1183": {
+        "en": "Small Armor Repairer II",
+        "zh": "小型装甲维修器 II"
+      },
+      "2048": {
+        "en": "Damage Control II",
+        "zh": "损伤控制 II"
+      },
+      "2889": {
+        "en": "200mm AutoCannon II",
+        "zh": "200mm自动加农炮 II"
+      },
+      "21898": {
+        "en": "Republic Fleet EMP S",
+        "zh": "共和舰队电磁脉冲弹 S"
+      },
+      "31358": {
+        "en": "Small Ancillary Current Router I",
+        "zh": "小型辅助电源路由器 I"
+      },
+      "31668": {
+        "en": "Small Projectile Burst Aerator I",
+        "zh": "小型射弹武器射速调节装置 I"
+      },
+      "31704": {
+        "en": "Small Projectile Metastasis Adjuster I",
+        "zh": "小型射弹武器急转控制器 I"
+      }
+    }
   },
   "merlin": {
     "schema": 1,
-    "dataVersion": "3724492",
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
     "name": "小鹰级 · 超限示例",
     "shipTypeId": 603,
     "modules": {
@@ -168,11 +219,58 @@
     "notes": "",
     "character": "all5",
     "damagePatternId": -1,
-    "targetProfileId": null
+    "targetProfileId": null,
+    "clientBuild": "3724492",
+    "itemNames": {
+      "438": {
+        "en": "1MN Afterburner II",
+        "zh": "1MN加力燃烧器 II"
+      },
+      "448": {
+        "en": "Warp Scrambler II",
+        "zh": "跃迁扰频器 II"
+      },
+      "603": {
+        "en": "Merlin",
+        "zh": "小鹰级"
+      },
+      "2048": {
+        "en": "Damage Control II",
+        "zh": "损伤控制 II"
+      },
+      "2281": {
+        "en": "Multispectrum Shield Hardener II",
+        "zh": "多谱式护盾增强器 II"
+      },
+      "3178": {
+        "en": "Light Neutron Blaster II",
+        "zh": "轻型中子疾速炮 II"
+      },
+      "3831": {
+        "en": "Medium Shield Extender II",
+        "zh": "中型护盾扩展装置 II"
+      },
+      "10190": {
+        "en": "Magnetic Field Stabilizer II",
+        "zh": "磁性力场稳定器 II"
+      },
+      "12614": {
+        "en": "Null S",
+        "zh": "虚空 S"
+      },
+      "31358": {
+        "en": "Small Ancillary Current Router I",
+        "zh": "小型辅助电源路由器 I"
+      },
+      "31526": {
+        "en": "Small Hybrid Burst Aerator I",
+        "zh": "小型混合武器射速调节装置 I"
+      }
+    }
   },
   "thrasher": {
     "schema": 1,
-    "dataVersion": "3724492",
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
     "name": "长尾鲛级 · 示例",
     "shipTypeId": 16242,
     "modules": {
@@ -268,6 +366,49 @@
     "notes": "",
     "character": "all5",
     "damagePatternId": -1,
-    "targetProfileId": null
+    "targetProfileId": null,
+    "clientBuild": "3724492",
+    "itemNames": {
+      "438": {
+        "en": "1MN Afterburner II",
+        "zh": "1MN加力燃烧器 II"
+      },
+      "448": {
+        "en": "Warp Scrambler II",
+        "zh": "跃迁扰频器 II"
+      },
+      "519": {
+        "en": "Gyrostabilizer II",
+        "zh": "回转稳定器 II"
+      },
+      "2889": {
+        "en": "200mm AutoCannon II",
+        "zh": "200mm自动加农炮 II"
+      },
+      "3831": {
+        "en": "Medium Shield Extender II",
+        "zh": "中型护盾扩展装置 II"
+      },
+      "16242": {
+        "en": "Thrasher",
+        "zh": "长尾鲛级"
+      },
+      "21898": {
+        "en": "Republic Fleet EMP S",
+        "zh": "共和舰队电磁脉冲弹 S"
+      },
+      "31358": {
+        "en": "Small Ancillary Current Router I",
+        "zh": "小型辅助电源路由器 I"
+      },
+      "31668": {
+        "en": "Small Projectile Burst Aerator I",
+        "zh": "小型射弹武器射速调节装置 I"
+      },
+      "31704": {
+        "en": "Small Projectile Metastasis Adjuster I",
+        "zh": "小型射弹武器急转控制器 I"
+      }
+    }
   }
 }

@@ -1,15 +1,9 @@
-"""Write public/data/names.<ver>.json: item name -> typeID, for EFT import.
+"""Stage a content-addressed EFT name index of published typeIDs."""
 
-  {"zh": {name: typeID}, "en": {name: typeID}, "conflicts": [...]}
-
-Only published items. When several published items share a name, the one with a
-market group wins (lowest typeID breaks ties); every such name is listed in
-"conflicts" as {"lang", "name", "typeID", "others"}.
-Reads build/eve.db and build/data_version written by 10_build_db.py.
-"""
-
+import hashlib
 import json
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -18,40 +12,35 @@ DATA = ROOT / "public" / "data"
 COLUMNS = {"zh": "typeName_zh", "en": "typeName"}
 
 
-def build_index(conn: sqlite3.Connection) -> dict:
-    out: dict = {"zh": {}, "en": {}, "conflicts": []}
+def build_index(conn: sqlite3.Connection) -> dict[str, dict[str, list[int]]]:
+    out = {}
     for lang, column in COLUMNS.items():
-        # Preferred row first for each name: has a market group, then lowest typeID.
         rows = conn.execute(
             f"""SELECT {column}, typeID FROM invtypes
                 WHERE published = 1 AND {column} IS NOT NULL AND {column} != ''
-                ORDER BY {column}, marketGroupID IS NULL, typeID"""
-        ).fetchall()
-        groups: dict[str, list[int]] = {}
+                ORDER BY {column}, typeID"""
+        )
+        groups = {}
         for name, type_id in rows:
             groups.setdefault(name, []).append(type_id)
-        for name, ids in groups.items():
-            out[lang][name] = ids[0]
-            if len(ids) > 1:
-                out["conflicts"].append(
-                    {"lang": lang, "name": name, "typeID": ids[0], "others": ids[1:]}
-                )
+        out[lang] = groups
     return out
 
 
 def main() -> None:
-    ver = (BUILD / "data_version").read_text(encoding="utf-8").strip()
-    conn = sqlite3.connect(BUILD / "eve.db")
-    index = build_index(conn)
-    conn.close()
-    path = DATA / f"names.{ver}.json"
-    path.write_text(
-        json.dumps(index, ensure_ascii=False, separators=(",", ":")), encoding="utf-8"
-    )
-    print(
-        f"{path.name}: zh {len(index['zh'])}, en {len(index['en'])}, "
-        f"conflicts {len(index['conflicts'])}, {path.stat().st_size} bytes"
-    )
+    database = json.loads((BUILD / "game-db.json").read_text())
+    with closing(sqlite3.connect(BUILD / "eve.db")) as conn:
+        index = build_index(conn)
+    content = json.dumps(index, ensure_ascii=False, separators=(",", ":")).encode()
+    digest = hashlib.sha256(content).hexdigest()
+    name = f"names.{digest}.json"
+    pending = DATA / f"{name}.tmp"
+    pending.write_bytes(content)
+    pending.replace(DATA / name)
+    (BUILD / "names.json").write_text(json.dumps({
+        "file": name, "bytes": len(content), "sha256": digest, "dbSha256": database["db"]["sha256"],
+    }))
+    print(f"{name}: zh {len(index['zh'])}, en {len(index['en'])}, {len(content)} bytes")
 
 
 if __name__ == "__main__":

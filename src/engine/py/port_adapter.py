@@ -21,25 +21,31 @@ _ALT_DNA = re.compile(r'\d+(?::[0-9]+(?:\*[0-9]+)?)*:?')
 class PortAdapter:
     def __init__(self, engine, names):
         self.engine = engine
-        self.ids = {name.casefold(): type_id for lang in ('zh', 'en')
-                    for name, type_id in names[lang].items()}
+        self.ids = {}
+        for lang in ('zh', 'en'):
+            for name, candidates in names[lang].items():
+                self.ids.setdefault(name.casefold(), set()).update(candidates)
 
     @contextmanager
     def _indexed_names(self):
         from service.port import eft
 
         fetch = eft.fetchItem
+        ambiguous = {}
 
         def lookup(name, eagerCat=False):
-            type_id = self.ids.get(name.strip().casefold())
-            if type_id is not None:
-                return self.engine.market.getItem(type_id, eager='group.category' if eagerCat else None)
+            candidates = self.ids.get(name.strip().casefold(), ())
+            if len(candidates) > 1:
+                ambiguous[name] = sorted(candidates)
+                return None
+            if candidates:
+                return self.engine.market.getItem(next(iter(candidates)), eager='group.category' if eagerCat else None)
             # The native parser also has a map of renamed items.
             return fetch(name, eagerCat=eagerCat)
 
         eft.fetchItem = lookup
         try:
-            yield lookup
+            yield lookup, ambiguous
         finally:
             eft.fetchItem = fetch
 
@@ -55,21 +61,26 @@ class PortAdapter:
         for rack in modules.values():
             while rack and rack[-1] is None:
                 rack.pop()
-        return {
-            'schema': 1, 'dataVersion': self.engine.data_version, 'name': fit.name,
+        doc = {
+            'schema': 1, 'dataVersion': self.engine.data_version, 'clientBuild': self.engine.client_build,
+            'name': fit.name,
             'shipTypeId': fit.shipID, 'modules': modules,
             'drones': [{'typeId': d.item.ID, 'amount': d.amount, 'active': d.amountActive}
                        for d in fit.drones],
+            'fighters': [{'typeId': f.item.ID, 'amount': f.amount, 'active': f.active}
+                         for f in fit.fighters],
             'cargo': [{'typeId': c.item.ID, 'amount': c.amount} for c in fit.cargo],
             'implants': [i.item.ID for i in fit.implants],
             'boosters': [b.item.ID for b in fit.boosters],
             'notes': '', 'character': 'all5', 'damagePatternId': -1, 'targetProfileId': None,
         }
+        doc['itemNames'] = self.engine.item_names(doc)
+        return doc
 
     def _unparsed_eft(self, lines, fit, lookup):
         modules = [m for m in fit.modules if m.item and m.slot in self.engine.slot_of]
         fitted = Counter(m.item.ID for m in modules)
-        for collection in (fit.drones, fit.cargo, fit.implants, fit.boosters):
+        for collection in (fit.drones, fit.fighters, fit.cargo, fit.implants, fit.boosters):
             for entry in collection:
                 fitted[entry.item.ID] += getattr(entry, 'amount', 1)
         fitted_charges = Counter((m.item.ID, m.charge.ID) for m in modules if m.charge)
@@ -102,7 +113,7 @@ class PortAdapter:
         if _HEADER.fullmatch(lines[0]):
             fits, warnings = [], []
             starts = [i for i, line in enumerate(lines) if _HEADER.fullmatch(line)] + [len(lines)]
-            with self._indexed_names() as lookup:
+            with self._indexed_names() as (lookup, ambiguous):
                 for first, last in zip(starts, starts[1:]):
                     block = lines[first:last]
                     try:
@@ -114,6 +125,9 @@ class PortAdapter:
                         continue
                     fits.append(self._doc(fit))
                     warnings += self._unparsed_eft(block[1:], fit, lookup)
+            for name, ids in ambiguous.items():
+                candidates = ', '.join(f'{self.engine.item(t).name} (typeID {t})' for t in ids)
+                warnings.append(f'Ambiguous item name: {name}. Candidates: {candidates}')
             return {'fits': fits, 'warnings': warnings}
 
         if len(lines) == 1:
@@ -169,7 +183,13 @@ class PortAdapter:
 
         if language == 'zh':
             def translate(name):
-                return self.engine.zh.get(self.ids.get(name.casefold())) or name
+                candidates = self.ids.get(name.casefold(), ())
+                if len(candidates) == 1:
+                    type_id = next(iter(candidates))
+                    zh = self.engine.zh.get(type_id)
+                    if zh and self.ids.get(zh.casefold()) == {type_id}:
+                        return zh
+                return name
 
             def localize(line):
                 header = _HEADER.fullmatch(line)

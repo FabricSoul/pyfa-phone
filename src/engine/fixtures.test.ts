@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { isCalcResult, type CalcResult, type SlotRow } from './types'
+import { FitDocSchema, isCalcResult, type CalcResult, type SlotRow } from './types'
 import rifter from './fixtures/rifter.json'
 import merlin from './fixtures/merlin.json'
 import thrasher from './fixtures/thrasher.json'
+import sampleFits from '../../etl/fixtures/fits.json'
 
 const fixtures: Record<string, unknown> = { rifter, merlin, thrasher }
 
@@ -15,6 +16,12 @@ function load(name: string): CalcResult {
 const moduleRows = (rows: SlotRow[]) => rows.filter((r) => r.kind === 'module')
 
 describe('engine fixtures', () => {
+  it('preserves optional name snapshots and accepts older fit documents', () => {
+    const { itemNames, clientBuild, ...legacy } = sampleFits.rifter
+    expect(FitDocSchema.parse({ ...legacy, dataVersion: clientBuild }).itemNames).toBeUndefined()
+    expect(FitDocSchema.parse(sampleFits.rifter).itemNames).toEqual(itemNames)
+  })
+
   it.each(Object.keys(fixtures))('%s passes isCalcResult', (name) => {
     expect(isCalcResult(fixtures[name])).toBe(true)
   })
@@ -78,9 +85,10 @@ describe('engine fixtures', () => {
     expect(cpu.total).toBeCloseTo(225, 1)
   })
 
-  it('range curve covers 0–30 km with the current ammo first', () => {
+  it('range curve starts at zero and keeps the current ammo first', () => {
     const r = load('rifter')
     expect(r.rangeCurve.distancesKm).toHaveLength(31)
+    expect(r.rangeCurve.distancesKm[0]).toBe(0)
     const first = r.rangeCurve.series[0]!
     const guns = moduleRows(r.slots.high)[0]
     if (guns?.kind !== 'module') throw new Error('no guns')

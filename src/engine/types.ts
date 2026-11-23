@@ -48,8 +48,11 @@ export type FitModule = z.infer<typeof FitModuleSchema>
 export const FitDocSchema = z.object({
   /** Format version of this JSON, bumped on breaking changes. */
   schema: z.literal(1),
-  /** eve.db `client_build` the typeIDs were taken from. */
+  /** Asset version from the manifest. Legacy docs may still carry a client build here. */
   dataVersion: z.string(),
+  clientBuild: z.string().optional(),
+  /** Last known display name per typeID, including loaded charges and attachments. */
+  itemNames: z.record(z.string(), LNameSchema).optional(),
   name: z.string(),
   shipTypeId: z.number().int(),
   /** Positional: index = slot position; `null` = an empty slot the user kept. Slots past the end are empty too. */
@@ -61,6 +64,7 @@ export const FitDocSchema = z.object({
     subsystem: z.array(FitModuleSchema.nullable()),
   }),
   drones: z.array(z.object({ typeId: z.number().int(), amount: z.number().int(), active: z.number().int() })),
+  fighters: z.array(z.object({ typeId: z.number().int(), amount: z.number().int(), active: z.boolean() })).optional(),
   cargo: z.array(z.object({ typeId: z.number().int(), amount: z.number().int() })),
   implants: z.array(z.number().int()),
   boosters: z.array(z.number().int()),
@@ -88,6 +92,7 @@ export const ChargeInfoSchema = z.object({
   iconId: z.number().int().nullable(),
   /** Charges loaded per module. */
   count: z.number().int(),
+  removed: z.literal(true).optional(),
 })
 export type ChargeInfo = z.infer<typeof ChargeInfoSchema>
 
@@ -119,14 +124,19 @@ export const EmptySlotRowSchema = z.object({
   count: z.number().int().positive(),
   positions: z.array(z.number().int()),
 })
-export const SlotRowSchema = z.discriminatedUnion('kind', [ModuleSlotRowSchema, EmptySlotRowSchema])
+export const RemovedSlotRowSchema = EmptySlotRowSchema.extend({
+  kind: z.literal('removed'),
+  typeId: z.number().int(),
+  name: LNameSchema,
+})
+export const SlotRowSchema = z.discriminatedUnion('kind', [ModuleSlotRowSchema, EmptySlotRowSchema, RemovedSlotRowSchema])
 export type ModuleSlotRow = z.infer<typeof ModuleSlotRowSchema>
 export type EmptySlotRow = z.infer<typeof EmptySlotRowSchema>
 export type SlotRow = z.infer<typeof SlotRowSchema>
 
 export const WARNING_KINDS = [
   'cpu', 'powergrid', 'calibration', 'turretHardpoints', 'launcherHardpoints',
-  'cargo', 'droneBay', 'droneBandwidth',
+  'cargo', 'droneBay', 'droneBandwidth', 'activeDrones', 'fighterBay', 'fighterTubes',
   'highSlots', 'midSlots', 'lowSlots', 'rigSlots', 'subsystemSlots',
 ] as const
 export const WarningSchema = z.object({ kind: z.enum(WARNING_KINDS), used: num, total: num })
@@ -136,18 +146,25 @@ const LayerSchema = z.object({ hp: num, ehp: num, resists: DamageTypesSchema })
 const TankSchema = z.object({ passiveShield: num, shield: num, armor: num, hull: num })
 
 export const StatsSchema = z.object({
-  firepower: z.object({ dps: num, weaponDps: num, droneDps: num, volley: num }),
+  firepower: z.object({ dps: num, weaponDps: num, droneDps: num, volley: num, includesReload: z.boolean() }),
+  mining: z.object({ miner: num, drone: num, total: num, unit: z.literal('m³/s') }),
   defense: z.object({
     hp: num,
     ehp: num,
     /** Resists are fractions 0–1; EHP uses the fit's damage pattern. */
     layers: z.object({ shield: LayerSchema, armor: LayerSchema, hull: LayerSchema }),
   }),
-  /** Effective HP/s (damage pattern applied), like pyfa's default "effective" view. */
-  repair: z.object({ reinforced: TankSchema, sustained: TankSchema }),
+  repair: z.object({
+    unit: z.literal('EHP/s'),
+    reinforced: TankSchema,
+    sustained: TankSchema,
+    raw: z.object({ unit: z.literal('HP/s'), reinforced: TankSchema, sustained: TankSchema }),
+  }),
   remoteRepair: z.object({ shield: num, armor: num, hull: num, capacitor: num }),
   capacitor: z.object({
     capacity: num,
+    /** Fraction resisted, 0–1. */
+    neutralizerResistance: num,
     rechargeTime: num,
     stable: z.boolean(),
     /** Set when stable, 0–100. */
@@ -180,7 +197,7 @@ export const StatsSchema = z.object({
 export type Stats = z.infer<typeof StatsSchema>
 
 export const RangeCurveSchema = z.object({
-  /** 0, 1, …, 30 */
+  /** Kilometres, evenly sampled through the fitted weapons’ effective range. */
   distancesKm: z.array(num),
   /** Current charge first; at most 3 series. Stationary target, tracking ignored. */
   series: z.array(z.object({
@@ -191,8 +208,13 @@ export const RangeCurveSchema = z.object({
 })
 export type RangeCurve = z.infer<typeof RangeCurveSchema>
 
+const PriceStackSchema = z.array(z.object({ typeId: z.number().int(), quantity: z.number().int().positive() }))
+
 export const CalcResultSchema = z.object({
   dataVersion: z.string(),
+  clientBuild: z.string(),
+  /** Merge into FitDoc.itemNames when persisting an edited fit. */
+  itemNames: z.record(z.string(), LNameSchema),
   ship: z.object({ typeId: z.number().int(), name: LNameSchema, graphicId: z.number().int().nullable(), group: LNameSchema.optional() }),
   resources: z.object({
     cpu: UsedTotalSchema,
@@ -204,6 +226,11 @@ export const CalcResultSchema = z.object({
     cargo: UsedTotalSchema,
     /** m³ */
     droneBay: UsedTotalSchema,
+    activeDrones: UsedTotalSchema,
+    fighterBay: UsedTotalSchema,
+    fighterTubes: UsedTotalSchema,
+    /** Nonzero specialized cargo capacities keyed by dogma attribute name, in m³. */
+    specializedBays: z.record(z.string(), num),
     /** Mbit/s */
     droneBandwidth: UsedTotalSchema,
     slots: z.object({
@@ -222,6 +249,16 @@ export const CalcResultSchema = z.object({
     subsystem: z.array(SlotRowSchema),
   }),
   stats: StatsSchema,
+  priceItems: z.object({
+    ship: PriceStackSchema,
+    modules: PriceStackSchema,
+    loadedCharges: PriceStackSchema,
+    drones: PriceStackSchema,
+    fighters: PriceStackSchema,
+    cargo: PriceStackSchema,
+    implants: PriceStackSchema,
+    boosters: PriceStackSchema,
+  }),
   rangeCurve: RangeCurveSchema,
   /** Only real overages (used > total); 400/400 is not a warning. */
   warnings: z.array(WarningSchema),
@@ -271,7 +308,30 @@ export const ItemGroupSchema = z.object({
   /** Best keyValue in the group, shown when the group is collapsed. */
   best: num.nullable(),
 })
-export type ItemGroup = z.infer<typeof ItemGroupSchema>
+export type ItemGroup<T extends ItemRow = ItemRow> = Omit<z.infer<typeof ItemGroupSchema>, 'items'> & { items: T[] }
+
+export const ChargeOptionSchema = ItemRowSchema.extend({
+  dps: num,
+  /** Metres. */
+  optimalRange: num,
+  /** Metres. */
+  falloff: num,
+  /** DPS by damage type after the fitted weapon's modifiers. */
+  damageMix: DamageTypesSchema,
+})
+export type ChargeOption = z.infer<typeof ChargeOptionSchema>
+export type ChargeGroup = ItemGroup<ChargeOption>
+
+export interface SlotItemFilters extends SlotItemsOptions {
+  /** EVE inventory group ID. */
+  group?: number
+  metaGroup?: MetaGroup
+  query?: string
+}
+
+export interface CalcOptions {
+  includeReload?: boolean
+}
 
 export interface ImportResult {
   fits: FitDoc[]
@@ -290,17 +350,17 @@ export type ExportFormat = 'eft' | 'dna' | 'multibuy'
 
 /** What the UI calls; implemented by the Worker client and by `mockEngine`. */
 export interface EngineClient {
-  calc(fit: FitDoc): Promise<CalcResult>
+  calc(fit: FitDoc, options?: CalcOptions): Promise<CalcResult>
   /** Groups in META_GROUPS order, empty groups omitted. */
-  itemsForSlot(fit: FitDoc, slot: SlotKind, query?: string, options?: SlotItemsOptions): Promise<ItemGroup[]>
+  itemsForSlot(fit: FitDoc, slot: SlotKind, filters?: SlotItemFilters | string, options?: SlotItemsOptions): Promise<ItemGroup[]>
   /** Lightweight market navigation for eligible modules, with no insertion previews. */
   marketGroupsForSlot?(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
-  chargesFor(fit: FitDoc, pos: ModulePos): Promise<ItemGroup[]>
+  chargesFor(fit: FitDoc, pos: ModulePos, metaGroup?: MetaGroup): Promise<ChargeGroup[]>
   variationsOf(typeId: number): Promise<ItemGroup[]>
   importText(text: string): Promise<ImportResult>
   exportText(fit: FitDoc, format: ExportFormat): Promise<string>
   missingSkills(fit: FitDoc): Promise<MissingSkill[]>
-  /** Current game data build, used to detect retired IDs before calculating an old fit. */
+  /** Current asset version, used to detect retired IDs before calculating an old fit. */
   getDataVersion?(): Promise<string>
   /** An absent type resolves to null. Attributes reflect fit context when supplied. */
   itemInfo?(typeId: number, fit?: FitDoc, pos?: ModulePos): Promise<ItemDetails | null>

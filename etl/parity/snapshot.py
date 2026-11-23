@@ -1,6 +1,7 @@
 """Exercise every engine entry point with the same inputs under both interpreters."""
 import json
 import sys
+import unittest
 from pathlib import Path
 
 if __name__ == '__main__' and sys.platform != 'emscripten':
@@ -8,6 +9,7 @@ if __name__ == '__main__' and sys.platform != 'emscripten':
     sys.path[:0] = [str(root / 'src/engine/py'), str(root / 'vendor/pyfa')]
 
 import api
+from regressions import regression_results
 
 
 def module_ids(doc, slot):
@@ -24,12 +26,11 @@ def snapshot(doc):
         )
     }
     charges = {
-        f'{slot}/{i}': api.charges_for(doc, {'slot': slot, 'index': i})
-        for slot, entries in doc['modules'].items()
-        for i, entry in enumerate(entries) if entry
+        meta: api.charges_for(doc, {'slot': 'high', 'index': 0}, meta)
+        for meta in ('tech2', 'tech1', 'faction', 'storyline', 'deadspace', 'officer')
     }
     assert items['high'] and items['mid'] and items['low'] and items['rig'], items
-    assert charges['high/0'], charges
+    assert charges['tech2'], charges
     if doc['shipTypeId'] == 587:
         # The high-slot catalogue includes remote repair gear whose pyfa column reads its owning fit.
         remote = api.items_for_slot(doc, 'high', 'remote shield booster')
@@ -80,8 +81,14 @@ def snapshot(doc):
     }
 
 
-api.initialize(sys.argv[1], sys.argv[2])
-snapshots = {name: snapshot(doc) for name, doc in json.loads(Path(sys.argv[3]).read_text()).items()}
+data_version, client_build = sys.argv[4:6]
+api.initialize(sys.argv[1], sys.argv[2], data_version, client_build)
+fits = json.loads(Path(sys.argv[3]).read_text())
+platform = 'Pyodide' if sys.platform == 'emscripten' else 'CPython'
+print(f'{platform} Worker API regressions', file=sys.stderr)
+runner = unittest.TextTestRunner(stream=sys.stderr, verbosity=2)
+assert runner.run(regression_results(fits, data_version, client_build)).wasSuccessful()
+snapshots = {name: snapshot(doc) for name, doc in fits.items()}
 serialized = json.dumps(snapshots, allow_nan=False)
 if sys.platform != 'emscripten':
     print(serialized)

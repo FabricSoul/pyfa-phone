@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { mockEngine, sampleFits, type SampleName } from '../engine/mockClient'
-import type { CalcResult, ItemGroup, ModuleSlotRow, ModuleState, SlotRow } from '../engine/types'
+import type { CalcResult, ChargeGroup, ModuleSlotRow, ModuleState, SlotRow } from '../engine/types'
 import { _t, useUiLanguage } from '../i18n/t'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { AmmoList } from '../ui/AmmoList'
@@ -29,7 +29,7 @@ function overflowOf(r: CalcResult): string | undefined {
 export default function Gallery() {
   useUiLanguage()
   const [results, setResults] = useState<Record<SampleName, CalcResult> | null>(null)
-  const [ammo, setAmmo] = useState<ItemGroup[]>([])
+  const [ammo, setAmmo] = useState<ChargeGroup[]>([])
   const [which, setWhich] = useState<SampleName>('rifter')
   const [appearance, setAppearance] = useState<'system' | 'light' | 'dark'>('system')
   const [sheet, setSheet] = useState(false)
@@ -101,8 +101,7 @@ export default function Gallery() {
       </div>
 
       <H>MetaGroupList / AmmoList</H>
-      <AmmoList groups={ammo} currentTypeId={currentCharge}
-        damageMix={(it) => (it.name.en.includes('EMP') ? { em: 77, thermal: 0, kinetic: 8, explosive: 15 } : { em: 0, thermal: 0, kinetic: 17, explosive: 83 })} />
+      <AmmoList groups={ammo} currentTypeId={currentCharge} />
       <H>MetaGroupList (no current item)</H>
       <MetaGroupList groups={ammo} />
 

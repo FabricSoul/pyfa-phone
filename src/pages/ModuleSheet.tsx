@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MODULE_STATES, type FitDoc, type ItemGroup, type ModulePos, type ModuleSlotRow, type ModuleState } from '../engine/types'
+import { MODULE_STATES, type FitDoc, type ChargeGroup, type ModulePos, type ModuleSlotRow, type ModuleState } from '../engine/types'
 import { _t, useUiLanguage } from '../i18n/t'
 import { ActionSheet, SheetAction } from '../ui/ActionSheet'
 import { AmmoList } from '../ui/AmmoList'
@@ -29,7 +29,7 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   const navigate = useNavigate()
   const { engine } = useFitServices()
   const { edit, fit, record } = useFitSession()
-  const [ammo, setAmmo] = useState<{ fit: FitDoc; index: number; groups: ItemGroup[] }>()
+  const [ammo, setAmmo] = useState<{ fit: FitDoc; index: number; groups: ChargeGroup[] }>()
   const [error, setError] = useState(false)
   const [individual, setIndividual] = useState<{ positions: number[]; index: number }>()
   const { slot, index } = selected
@@ -76,7 +76,7 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
       </span></div>
       <div className="module-ammo-list">
         <AmmoList key={`${source}-${chargeTypeId}`} groups={ammo.groups} currentTypeId={chargeTypeId ?? undefined}
-          valueUnit={_t('Damage')} onPick={(item) => edit((fit) => withModules(fit, slot, positions,
+          onPick={(item) => edit((fit) => withModules(fit, slot, positions,
             (mod) => mod && { ...mod, chargeTypeId: item.typeId }), { [item.typeId]: item.name })} />
       </div>
     </>}

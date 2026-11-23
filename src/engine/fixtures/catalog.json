@@ -1,5 +1,6 @@
 {
-  "dataVersion": "3724492",
+  "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+  "clientBuild": "3724492",
   "modules": [
     {
       "typeId": 34284,
@@ -13,6 +14,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -27,6 +29,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -41,6 +44,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -55,6 +59,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -69,6 +74,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -83,6 +89,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -97,6 +104,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -111,6 +119,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -125,6 +134,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -139,6 +149,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -153,6 +164,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 55,
       "family": 486
     },
     {
@@ -167,6 +179,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -181,6 +194,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -195,6 +209,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -209,6 +224,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -223,6 +239,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -237,6 +254,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -251,6 +269,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -265,6 +284,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -279,6 +299,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -293,6 +314,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -307,6 +329,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "high",
+      "groupId": 74,
       "family": 564
     },
     {
@@ -321,6 +344,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -335,6 +359,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -349,6 +374,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -363,6 +389,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -377,6 +404,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -391,6 +419,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -405,6 +434,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -419,6 +449,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -433,6 +464,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -447,6 +479,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -461,6 +494,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -475,6 +509,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -489,6 +524,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 59,
       "family": 520
     },
     {
@@ -503,6 +539,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -517,6 +554,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -531,6 +569,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -545,6 +584,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -559,6 +599,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -573,6 +614,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -587,6 +629,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -601,6 +644,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -615,6 +659,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -629,6 +674,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -643,6 +689,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -657,6 +704,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -671,6 +719,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -685,6 +734,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -699,6 +749,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -713,6 +764,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -727,6 +779,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -741,6 +794,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -755,6 +809,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -769,6 +824,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -783,6 +839,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -797,6 +854,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -811,6 +869,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -825,6 +884,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -839,6 +899,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -853,6 +914,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 62,
       "family": 523
     },
     {
@@ -867,6 +929,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -881,6 +944,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -895,6 +959,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -909,6 +974,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -923,6 +989,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -937,6 +1004,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -951,6 +1019,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -965,6 +1034,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -979,6 +1049,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -993,6 +1064,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1007,6 +1079,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1021,6 +1094,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1035,6 +1109,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1049,6 +1124,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1063,6 +1139,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1077,6 +1154,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1091,6 +1169,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 60,
       "family": 2046
     },
     {
@@ -1105,6 +1184,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1119,6 +1199,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1133,6 +1214,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1147,6 +1229,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1161,6 +1244,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1175,6 +1259,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1189,6 +1274,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1203,6 +1289,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1217,6 +1304,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1231,6 +1319,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1245,6 +1334,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1259,6 +1349,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1273,6 +1364,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1287,6 +1379,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1301,6 +1394,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1315,6 +1409,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "low",
+      "groupId": 302,
       "family": 9944
     },
     {
@@ -1329,6 +1424,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1343,6 +1439,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1357,6 +1454,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1371,6 +1469,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1385,6 +1484,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1399,6 +1499,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1413,6 +1514,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1427,6 +1529,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1441,6 +1544,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1455,6 +1559,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1469,6 +1574,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1483,6 +1589,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1497,6 +1604,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1511,6 +1619,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1525,6 +1634,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1539,6 +1649,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1553,6 +1664,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1567,6 +1679,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1581,6 +1694,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 46,
       "family": 439
     },
     {
@@ -1595,6 +1709,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1609,6 +1724,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1623,6 +1739,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1637,6 +1754,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1651,6 +1769,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1665,6 +1784,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1679,6 +1799,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1693,6 +1814,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1707,6 +1829,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1721,6 +1844,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1735,6 +1859,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1749,6 +1874,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1763,6 +1889,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1777,6 +1904,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1791,6 +1919,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1805,6 +1934,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 52,
       "family": 447
     },
     {
@@ -1819,6 +1949,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1833,6 +1964,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1847,6 +1979,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1861,6 +1994,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1875,6 +2009,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1889,6 +2024,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1903,6 +2039,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1917,6 +2054,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1931,6 +2069,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1945,6 +2084,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1959,6 +2099,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1973,6 +2114,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -1987,6 +2129,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -2001,6 +2144,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -2015,6 +2159,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -2029,6 +2174,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -2043,6 +2189,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -2057,6 +2204,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -2071,6 +2219,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 65,
       "family": 526
     },
     {
@@ -2085,6 +2234,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2099,6 +2249,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2113,6 +2264,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2127,6 +2279,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2141,6 +2294,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2155,6 +2309,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2169,6 +2324,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2183,6 +2339,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2197,6 +2354,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2211,6 +2369,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2225,6 +2384,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2239,6 +2399,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2253,6 +2414,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2267,6 +2429,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2281,6 +2444,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2295,6 +2459,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2309,6 +2474,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2323,6 +2489,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2337,6 +2504,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 77,
       "family": 578
     },
     {
@@ -2351,6 +2519,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2365,6 +2534,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2379,6 +2549,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2393,6 +2564,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2407,6 +2579,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2421,6 +2594,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2435,6 +2609,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2449,6 +2624,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "mid",
+      "groupId": 38,
       "family": 3829
     },
     {
@@ -2463,6 +2639,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 781,
       "family": 31358
     },
     {
@@ -2477,6 +2654,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 781,
       "family": 31358
     },
     {
@@ -2491,6 +2669,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 776,
       "family": 31526
     },
     {
@@ -2505,6 +2684,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 776,
       "family": 31526
     },
     {
@@ -2519,6 +2699,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 777,
       "family": 31668
     },
     {
@@ -2533,6 +2714,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 777,
       "family": 31668
     },
     {
@@ -2547,6 +2729,7 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 777,
       "family": 31704
     },
     {
@@ -2561,1117 +2744,2668 @@
       "keyValue": null,
       "keyLine": "",
       "slot": "rig",
+      "groupId": 777,
       "family": 31704
     }
   ],
   "charges": {
-    "2889": [
-      {
-        "typeId": 12608,
-        "name": {
-          "en": "Hail S",
-          "zh": "冰雹 S"
-        },
-        "iconId": 1285,
-        "meta": "tech2",
-        "metaLevel": 5,
-        "keyValue": 17.7,
-        "keyLine": "17.7 dmg"
-      },
-      {
-        "typeId": 12625,
-        "name": {
-          "en": "Barrage S",
-          "zh": "雷暴 S"
-        },
-        "iconId": 1288,
-        "meta": "tech2",
-        "metaLevel": 5,
-        "keyValue": 11,
-        "keyLine": "11 dmg"
-      },
-      {
-        "typeId": 185,
-        "name": {
-          "en": "EMP S",
-          "zh": "电磁脉冲弹 S"
-        },
-        "iconId": 1286,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 12,
-        "keyLine": "12 dmg"
-      },
-      {
-        "typeId": 183,
-        "name": {
-          "en": "Fusion S",
-          "zh": "聚变弹 S"
-        },
-        "iconId": 1287,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 12,
-        "keyLine": "12 dmg"
-      },
-      {
-        "typeId": 184,
-        "name": {
-          "en": "Phased Plasma S",
-          "zh": "定相等离子弹 S"
-        },
-        "iconId": 1289,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 12,
-        "keyLine": "12 dmg"
-      },
-      {
-        "typeId": 181,
-        "name": {
-          "en": "Depleted Uranium S",
-          "zh": "贫铀弹 S"
-        },
-        "iconId": 1285,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 8,
-        "keyLine": "8 dmg"
-      },
-      {
-        "typeId": 182,
-        "name": {
-          "en": "Titanium Sabot S",
-          "zh": "钛合金萨博弹 S"
-        },
-        "iconId": 1291,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 8,
-        "keyLine": "8 dmg"
-      },
-      {
-        "typeId": 178,
-        "name": {
-          "en": "Carbonized Lead S",
-          "zh": "碳铅弹 S"
-        },
-        "iconId": 1004,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 5,
-        "keyLine": "5 dmg"
-      },
-      {
-        "typeId": 179,
-        "name": {
-          "en": "Nuclear S",
-          "zh": "核芯弹 S"
-        },
-        "iconId": 1288,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 5,
-        "keyLine": "5 dmg"
-      },
-      {
-        "typeId": 180,
-        "name": {
-          "en": "Proton S",
-          "zh": "质子弹 S"
-        },
-        "iconId": 1290,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 5,
-        "keyLine": "5 dmg"
-      },
-      {
-        "typeId": 20767,
-        "name": {
-          "en": "Domination EMP S",
-          "zh": "主天使电磁脉冲弹 S"
-        },
-        "iconId": 1286,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 14.4,
-        "keyLine": "14.4 dmg"
-      },
-      {
-        "typeId": 20763,
-        "name": {
-          "en": "Domination Fusion S",
-          "zh": "主天使聚变弹 S"
-        },
-        "iconId": 1287,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 14.4,
-        "keyLine": "14.4 dmg"
-      },
-      {
-        "typeId": 20765,
-        "name": {
-          "en": "Domination Phased Plasma S",
-          "zh": "主天使定相等离子弹 S"
-        },
-        "iconId": 1289,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 14.4,
-        "keyLine": "14.4 dmg"
-      },
-      {
-        "typeId": 21898,
-        "name": {
-          "en": "Republic Fleet EMP S",
-          "zh": "共和舰队电磁脉冲弹 S"
-        },
-        "iconId": 1286,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.8,
-        "keyLine": "13.8 dmg"
-      },
-      {
-        "typeId": 21906,
-        "name": {
-          "en": "Republic Fleet Fusion S",
-          "zh": "共和舰队聚变弹 S"
-        },
-        "iconId": 1287,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.8,
-        "keyLine": "13.8 dmg"
-      },
-      {
-        "typeId": 21924,
-        "name": {
-          "en": "Republic Fleet Phased Plasma S",
-          "zh": "共和舰队定相等离子弹 S"
-        },
-        "iconId": 1289,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.8,
-        "keyLine": "13.8 dmg"
-      },
-      {
-        "typeId": 19992,
-        "name": {
-          "en": "Arch Angel EMP S",
-          "zh": "大天使电磁脉冲弹 S"
-        },
-        "iconId": 1286,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.2,
-        "keyLine": "13.2 dmg"
-      },
-      {
-        "typeId": 19988,
-        "name": {
-          "en": "Arch Angel Fusion S",
-          "zh": "大天使聚变弹 S"
-        },
-        "iconId": 1287,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.2,
-        "keyLine": "13.2 dmg"
-      },
-      {
-        "typeId": 19990,
-        "name": {
-          "en": "Arch Angel Phased Plasma S",
-          "zh": "大天使定相等离子弹 S"
-        },
-        "iconId": 1289,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.2,
-        "keyLine": "13.2 dmg"
-      },
-      {
-        "typeId": 20759,
-        "name": {
-          "en": "Domination Depleted Uranium S",
-          "zh": "主天使贫铀弹 S"
-        },
-        "iconId": 1285,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.6,
-        "keyLine": "9.6 dmg"
-      },
-      {
-        "typeId": 20761,
-        "name": {
-          "en": "Domination Titanium Sabot S",
-          "zh": "主天使钛合金萨博弹 S"
-        },
-        "iconId": 1291,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.6,
-        "keyLine": "9.6 dmg"
-      },
-      {
-        "typeId": 28336,
-        "name": {
-          "en": "Republic Fleet Depleted Uranium S",
-          "zh": "共和舰队贫铀弹 S"
-        },
-        "iconId": 1285,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.2,
-        "keyLine": "9.2 dmg"
-      },
-      {
-        "typeId": 21939,
-        "name": {
-          "en": "Republic Fleet Titanium Sabot S",
-          "zh": "共和舰队钛合金萨博弹 S"
-        },
-        "iconId": 1291,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.2,
-        "keyLine": "9.2 dmg"
-      },
-      {
-        "typeId": 19976,
-        "name": {
-          "en": "Arch Angel Depleted Uranium S",
-          "zh": "大天使贫铀弹 S"
-        },
-        "iconId": 1285,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.8,
-        "keyLine": "8.8 dmg"
-      },
-      {
-        "typeId": 19986,
-        "name": {
-          "en": "Arch Angel Titanium Sabot S",
-          "zh": "大天使钛合金萨博弹 S"
-        },
-        "iconId": 1291,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.8,
-        "keyLine": "8.8 dmg"
-      },
-      {
-        "typeId": 20753,
-        "name": {
-          "en": "Domination Carbonized Lead S",
-          "zh": "主天使碳铅弹 S"
-        },
-        "iconId": 1004,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6,
-        "keyLine": "6 dmg"
-      },
-      {
-        "typeId": 20755,
-        "name": {
-          "en": "Domination Nuclear S",
-          "zh": "主天使核芯弹 S"
-        },
-        "iconId": 1288,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6,
-        "keyLine": "6 dmg"
-      },
-      {
-        "typeId": 20757,
-        "name": {
-          "en": "Domination Proton S",
-          "zh": "主天使质子弹 S"
-        },
-        "iconId": 1290,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6,
-        "keyLine": "6 dmg"
-      },
-      {
-        "typeId": 28328,
-        "name": {
-          "en": "Republic Fleet Carbonized Lead S",
-          "zh": "共和舰队碳铅弹 S"
-        },
-        "iconId": 1004,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.75,
-        "keyLine": "5.8 dmg"
-      },
-      {
-        "typeId": 21914,
-        "name": {
-          "en": "Republic Fleet Nuclear S",
-          "zh": "共和舰队核芯弹 S"
-        },
-        "iconId": 1288,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.75,
-        "keyLine": "5.8 dmg"
-      },
-      {
-        "typeId": 21931,
-        "name": {
-          "en": "Republic Fleet Proton S",
-          "zh": "共和舰队质子弹 S"
-        },
-        "iconId": 1290,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.75,
-        "keyLine": "5.8 dmg"
-      },
-      {
-        "typeId": 19970,
-        "name": {
-          "en": "Arch Angel Carbonized Lead S",
-          "zh": "大天使碳铅弹 S"
-        },
-        "iconId": 1004,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.5,
-        "keyLine": "5.5 dmg"
-      },
-      {
-        "typeId": 19972,
-        "name": {
-          "en": "Arch Angel Nuclear S",
-          "zh": "大天使核芯弹 S"
-        },
-        "iconId": 1288,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.5,
-        "keyLine": "5.5 dmg"
-      },
-      {
-        "typeId": 19974,
-        "name": {
-          "en": "Arch Angel Proton S",
-          "zh": "大天使质子弹 S"
-        },
-        "iconId": 1290,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.5,
-        "keyLine": "5.5 dmg"
-      }
-    ],
-    "3178": [
-      {
-        "typeId": 12612,
-        "name": {
-          "en": "Void S",
-          "zh": "涅槃 S"
-        },
-        "iconId": 1047,
-        "meta": "tech2",
-        "metaLevel": 5,
-        "keyValue": 17.8,
-        "keyLine": "17.8 dmg"
-      },
-      {
-        "typeId": 12614,
-        "name": {
-          "en": "Null S",
-          "zh": "虚空 S"
-        },
-        "iconId": 1314,
-        "meta": "tech2",
-        "metaLevel": 5,
-        "keyValue": 11,
-        "keyLine": "11 dmg"
-      },
-      {
-        "typeId": 222,
-        "name": {
-          "en": "Antimatter Charge S",
-          "zh": "反物质轨道弹 S"
-        },
-        "iconId": 1047,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 12,
-        "keyLine": "12 dmg"
-      },
-      {
-        "typeId": 221,
-        "name": {
-          "en": "Plutonium Charge S",
-          "zh": "钸质轨道弹 S"
-        },
-        "iconId": 1313,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 11,
-        "keyLine": "11 dmg"
-      },
-      {
-        "typeId": 220,
-        "name": {
-          "en": "Uranium Charge S",
-          "zh": "铀质轨道弹 S"
-        },
-        "iconId": 1316,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 10,
-        "keyLine": "10 dmg"
-      },
-      {
-        "typeId": 219,
-        "name": {
-          "en": "Thorium Charge S",
-          "zh": "钍质轨道弹 S"
-        },
-        "iconId": 1314,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 9,
-        "keyLine": "9 dmg"
-      },
-      {
-        "typeId": 218,
-        "name": {
-          "en": "Lead Charge S",
-          "zh": "铅质轨道弹 S"
-        },
-        "iconId": 1312,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 8,
-        "keyLine": "8 dmg"
-      },
-      {
-        "typeId": 217,
-        "name": {
-          "en": "Iridium Charge S",
-          "zh": "铱质轨道弹 S"
-        },
-        "iconId": 1310,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 7,
-        "keyLine": "7 dmg"
-      },
-      {
-        "typeId": 216,
-        "name": {
-          "en": "Tungsten Charge S",
-          "zh": "钨质轨道弹 S"
-        },
-        "iconId": 1315,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 6,
-        "keyLine": "6 dmg"
-      },
-      {
-        "typeId": 215,
-        "name": {
-          "en": "Iron Charge S",
-          "zh": "铁质轨道弹 S"
-        },
-        "iconId": 1311,
-        "meta": "tech1",
-        "metaLevel": null,
-        "keyValue": 5,
-        "keyLine": "5 dmg"
-      },
-      {
-        "typeId": 21398,
-        "name": {
-          "en": "Dread Guristas Antimatter Charge S",
-          "zh": "恐惧古斯塔斯反物质轨道弹 S"
-        },
-        "iconId": 1047,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 14.4,
-        "keyLine": "14.4 dmg"
-      },
-      {
-        "typeId": 20959,
-        "name": {
-          "en": "Guardian Antimatter Charge S",
-          "zh": "卫士反物质轨道弹 S"
-        },
-        "iconId": 1047,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 14.4,
-        "keyLine": "14.4 dmg"
-      },
-      {
-        "typeId": 23009,
-        "name": {
-          "en": "Caldari Navy Antimatter Charge S",
-          "zh": "加达里海军反物质轨道弹 S"
-        },
-        "iconId": 1047,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.8,
-        "keyLine": "13.8 dmg"
-      },
-      {
-        "typeId": 22961,
-        "name": {
-          "en": "Federation Navy Antimatter Charge S",
-          "zh": "联邦海军反物质轨道弹 S"
-        },
-        "iconId": 1047,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.8,
-        "keyLine": "13.8 dmg"
-      },
-      {
-        "typeId": 21396,
-        "name": {
-          "en": "Dread Guristas Plutonium Charge S",
-          "zh": "恐惧古斯塔斯钸质轨道弹 S"
-        },
-        "iconId": 1313,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.2,
-        "keyLine": "13.2 dmg"
-      },
-      {
-        "typeId": 20957,
-        "name": {
-          "en": "Guardian Plutonium Charge S",
-          "zh": "卫士钸质轨道弹 S"
-        },
-        "iconId": 1313,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.2,
-        "keyLine": "13.2 dmg"
-      },
-      {
-        "typeId": 21334,
-        "name": {
-          "en": "Guristas Antimatter Charge S",
-          "zh": "古斯塔斯反物质轨道弹 S"
-        },
-        "iconId": 1047,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.2,
-        "keyLine": "13.2 dmg"
-      },
-      {
-        "typeId": 20040,
-        "name": {
-          "en": "Shadow Antimatter Charge S",
-          "zh": "暗影反物质轨道弹 S"
-        },
-        "iconId": 1047,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 13.2,
-        "keyLine": "13.2 dmg"
-      },
-      {
-        "typeId": 23011,
-        "name": {
-          "en": "Caldari Navy Plutonium Charge S",
-          "zh": "加达里海军钸质轨道弹 S"
-        },
-        "iconId": 1313,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 12.65,
-        "keyLine": "12.7 dmg"
-      },
-      {
-        "typeId": 22963,
-        "name": {
-          "en": "Federation Navy Plutonium Charge S",
-          "zh": "联邦海军钸质轨道弹 S"
-        },
-        "iconId": 1313,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 12.65,
-        "keyLine": "12.7 dmg"
-      },
-      {
-        "typeId": 21332,
-        "name": {
-          "en": "Guristas Plutonium Charge S",
-          "zh": "古斯塔斯钸质轨道弹 S"
-        },
-        "iconId": 1313,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 12.1,
-        "keyLine": "12.1 dmg"
-      },
-      {
-        "typeId": 20038,
-        "name": {
-          "en": "Shadow Plutonium Charge S",
-          "zh": "暗影钸质轨道弹 S"
-        },
-        "iconId": 1313,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 12.1,
-        "keyLine": "12.1 dmg"
-      },
-      {
-        "typeId": 21394,
-        "name": {
-          "en": "Dread Guristas Uranium Charge S",
-          "zh": "恐惧古斯塔斯铀质轨道弹 S"
-        },
-        "iconId": 1316,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 12,
-        "keyLine": "12 dmg"
-      },
-      {
-        "typeId": 20955,
-        "name": {
-          "en": "Guardian Uranium Charge S",
-          "zh": "卫士铀质轨道弹 S"
-        },
-        "iconId": 1316,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 12,
-        "keyLine": "12 dmg"
-      },
-      {
-        "typeId": 23013,
-        "name": {
-          "en": "Caldari Navy Uranium Charge S",
-          "zh": "加达里海军铀质轨道弹 S"
-        },
-        "iconId": 1316,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 11.5,
-        "keyLine": "11.5 dmg"
-      },
-      {
-        "typeId": 22965,
-        "name": {
-          "en": "Federation Navy Uranium Charge S",
-          "zh": "联邦海军铀质轨道弹 S"
-        },
-        "iconId": 1316,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 11.5,
-        "keyLine": "11.5 dmg"
-      },
-      {
-        "typeId": 21330,
-        "name": {
-          "en": "Guristas Uranium Charge S",
-          "zh": "古斯塔斯铀质轨道弹 S"
-        },
-        "iconId": 1316,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 11,
-        "keyLine": "11 dmg"
-      },
-      {
-        "typeId": 20036,
-        "name": {
-          "en": "Shadow Uranium Charge S",
-          "zh": "暗影铀质轨道弹 S"
-        },
-        "iconId": 1316,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 11,
-        "keyLine": "11 dmg"
-      },
-      {
-        "typeId": 21392,
-        "name": {
-          "en": "Dread Guristas Thorium Charge S",
-          "zh": "恐惧古斯塔斯钍质轨道弹 S"
-        },
-        "iconId": 1314,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 10.8,
-        "keyLine": "10.8 dmg"
-      },
-      {
-        "typeId": 20953,
-        "name": {
-          "en": "Guardian Thorium Charge S",
-          "zh": "卫士钍质轨道弹 S"
-        },
-        "iconId": 1314,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 10.8,
-        "keyLine": "10.8 dmg"
-      },
-      {
-        "typeId": 23015,
-        "name": {
-          "en": "Caldari Navy Thorium Charge S",
-          "zh": "加达里海军钍质轨道弹 S"
-        },
-        "iconId": 1314,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 10.35,
-        "keyLine": "10.3 dmg"
-      },
-      {
-        "typeId": 22967,
-        "name": {
-          "en": "Federation Navy Thorium Charge S",
-          "zh": "联邦海军钍质轨道弹 S"
-        },
-        "iconId": 1314,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 10.35,
-        "keyLine": "10.3 dmg"
-      },
-      {
-        "typeId": 21328,
-        "name": {
-          "en": "Guristas Thorium Charge S",
-          "zh": "古斯塔斯钍质轨道弹 S"
-        },
-        "iconId": 1314,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.9,
-        "keyLine": "9.9 dmg"
-      },
-      {
-        "typeId": 20034,
-        "name": {
-          "en": "Shadow Thorium Charge S",
-          "zh": "暗影钍质轨道弹 S"
-        },
-        "iconId": 1314,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.9,
-        "keyLine": "9.9 dmg"
-      },
-      {
-        "typeId": 21390,
-        "name": {
-          "en": "Dread Guristas Lead Charge S",
-          "zh": "恐惧古斯塔斯铅质轨道弹 S"
-        },
-        "iconId": 1312,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.6,
-        "keyLine": "9.6 dmg"
-      },
-      {
-        "typeId": 20951,
-        "name": {
-          "en": "Guardian Lead Charge S",
-          "zh": "卫士铅质轨道弹 S"
-        },
-        "iconId": 1312,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.6,
-        "keyLine": "9.6 dmg"
-      },
-      {
-        "typeId": 23017,
-        "name": {
-          "en": "Caldari Navy Lead Charge S",
-          "zh": "加达里海军铅质轨道弹 S"
-        },
-        "iconId": 1312,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.2,
-        "keyLine": "9.2 dmg"
-      },
-      {
-        "typeId": 22969,
-        "name": {
-          "en": "Federation Navy Lead Charge S",
-          "zh": "联邦海军铅质轨道弹 S"
-        },
-        "iconId": 1312,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 9.2,
-        "keyLine": "9.2 dmg"
-      },
-      {
-        "typeId": 21326,
-        "name": {
-          "en": "Guristas Lead Charge S",
-          "zh": "古斯塔斯铅质轨道弹 S"
-        },
-        "iconId": 1312,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.8,
-        "keyLine": "8.8 dmg"
-      },
-      {
-        "typeId": 19968,
-        "name": {
-          "en": "Shadow Lead Charge S",
-          "zh": "暗影铅质轨道弹 S"
-        },
-        "iconId": 1312,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.8,
-        "keyLine": "8.8 dmg"
-      },
-      {
-        "typeId": 21388,
-        "name": {
-          "en": "Dread Guristas Iridium Charge S",
-          "zh": "恐惧古斯塔斯铱质轨道弹 S"
-        },
-        "iconId": 1310,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.4,
-        "keyLine": "8.4 dmg"
-      },
-      {
-        "typeId": 20949,
-        "name": {
-          "en": "Guardian Iridium Charge S",
-          "zh": "卫士铱质轨道弹 S"
-        },
-        "iconId": 1310,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.4,
-        "keyLine": "8.4 dmg"
-      },
-      {
-        "typeId": 23019,
-        "name": {
-          "en": "Caldari Navy Iridium Charge S",
-          "zh": "加达里海军铱质轨道弹 S"
-        },
-        "iconId": 1310,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.05,
-        "keyLine": "8.1 dmg"
-      },
-      {
-        "typeId": 22971,
-        "name": {
-          "en": "Federation Navy Iridium Charge S",
-          "zh": "联邦海军铱质轨道弹 S"
-        },
-        "iconId": 1310,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 8.05,
-        "keyLine": "8.1 dmg"
-      },
-      {
-        "typeId": 21324,
-        "name": {
-          "en": "Guristas Iridium Charge S",
-          "zh": "古斯塔斯铱质轨道弹 S"
-        },
-        "iconId": 1310,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 7.7,
-        "keyLine": "7.7 dmg"
-      },
-      {
-        "typeId": 19966,
-        "name": {
-          "en": "Shadow Iridium Charge S",
-          "zh": "暗影铱质轨道弹 S"
-        },
-        "iconId": 1310,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 7.7,
-        "keyLine": "7.7 dmg"
-      },
-      {
-        "typeId": 21386,
-        "name": {
-          "en": "Dread Guristas Tungsten Charge S",
-          "zh": "恐惧古斯塔斯钨质轨道弹 S"
-        },
-        "iconId": 1315,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 7.2,
-        "keyLine": "7.2 dmg"
-      },
-      {
-        "typeId": 20947,
-        "name": {
-          "en": "Guardian Tungsten Charge S",
-          "zh": "卫士钨质轨道弹 S"
-        },
-        "iconId": 1315,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 7.2,
-        "keyLine": "7.2 dmg"
-      },
-      {
-        "typeId": 23021,
-        "name": {
-          "en": "Caldari Navy Tungsten Charge S",
-          "zh": "加达里海军钨质轨道弹 S"
-        },
-        "iconId": 1315,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6.9,
-        "keyLine": "6.9 dmg"
-      },
-      {
-        "typeId": 22973,
-        "name": {
-          "en": "Federation Navy Tungsten Charge S",
-          "zh": "联邦海军钨质轨道弹 S"
-        },
-        "iconId": 1315,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6.9,
-        "keyLine": "6.9 dmg"
-      },
-      {
-        "typeId": 21322,
-        "name": {
-          "en": "Guristas Tungsten Charge S",
-          "zh": "古斯塔斯钨质轨道弹 S"
-        },
-        "iconId": 1315,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6.6,
-        "keyLine": "6.6 dmg"
-      },
-      {
-        "typeId": 19964,
-        "name": {
-          "en": "Shadow Tungsten Charge S",
-          "zh": "暗影钨质轨道弹 S"
-        },
-        "iconId": 1315,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6.6,
-        "keyLine": "6.6 dmg"
-      },
-      {
-        "typeId": 21384,
-        "name": {
-          "en": "Dread Guristas Iron Charge S",
-          "zh": "恐惧古斯塔斯铁质轨道弹 S"
-        },
-        "iconId": 1311,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6,
-        "keyLine": "6 dmg"
-      },
-      {
-        "typeId": 20945,
-        "name": {
-          "en": "Guardian Iron Charge S",
-          "zh": "卫士铁质轨道弹 S"
-        },
-        "iconId": 1311,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 6,
-        "keyLine": "6 dmg"
-      },
-      {
-        "typeId": 23023,
-        "name": {
-          "en": "Caldari Navy Iron Charge S",
-          "zh": "加达里海军铁质轨道弹 S"
-        },
-        "iconId": 1311,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.75,
-        "keyLine": "5.8 dmg"
-      },
-      {
-        "typeId": 22975,
-        "name": {
-          "en": "Federation Navy Iron Charge S",
-          "zh": "联邦海军铁质轨道弹 S"
-        },
-        "iconId": 1311,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.75,
-        "keyLine": "5.8 dmg"
-      },
-      {
-        "typeId": 21320,
-        "name": {
-          "en": "Guristas Iron Charge S",
-          "zh": "古斯塔斯铁质轨道弹 S"
-        },
-        "iconId": 1311,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.5,
-        "keyLine": "5.5 dmg"
-      },
-      {
-        "typeId": 19962,
-        "name": {
-          "en": "Shadow Iron Charge S",
-          "zh": "暗影铁质轨道弹 S"
-        },
-        "iconId": 1311,
-        "meta": "faction",
-        "metaLevel": null,
-        "keyValue": 5.5,
-        "keyLine": "5.5 dmg"
-      }
-    ]
+    "587": {
+      "high/2889/active/21898": [
+        {
+          "typeId": 178,
+          "name": {
+            "en": "Carbonized Lead S",
+            "zh": "碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 21.8518,
+          "keyLine": "",
+          "dps": 21.8518,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 17.4814,
+            "explosive": 4.3704
+          }
+        },
+        {
+          "typeId": 179,
+          "name": {
+            "en": "Nuclear S",
+            "zh": "核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 21.8518,
+          "keyLine": "",
+          "dps": 21.8518,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 4.3704,
+            "explosive": 17.4814
+          }
+        },
+        {
+          "typeId": 180,
+          "name": {
+            "en": "Proton S",
+            "zh": "质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 21.8518,
+          "keyLine": "",
+          "dps": 21.8518,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 13.1111,
+            "thermal": 0,
+            "kinetic": 8.7407,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 181,
+          "name": {
+            "en": "Depleted Uranium S",
+            "zh": "贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 34.9629,
+          "keyLine": "",
+          "dps": 34.9629,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 13.1111,
+            "kinetic": 8.7407,
+            "explosive": 13.1111
+          }
+        },
+        {
+          "typeId": 182,
+          "name": {
+            "en": "Titanium Sabot S",
+            "zh": "钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 34.9629,
+          "keyLine": "",
+          "dps": 34.9629,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 26.2221,
+            "explosive": 8.7407
+          }
+        },
+        {
+          "typeId": 183,
+          "name": {
+            "en": "Fusion S",
+            "zh": "聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 52.4443,
+          "keyLine": "",
+          "dps": 52.4443,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 8.7407,
+            "explosive": 43.7036
+          }
+        },
+        {
+          "typeId": 184,
+          "name": {
+            "en": "Phased Plasma S",
+            "zh": "定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 52.4443,
+          "keyLine": "",
+          "dps": 52.4443,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 43.7036,
+            "kinetic": 8.7407,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 185,
+          "name": {
+            "en": "EMP S",
+            "zh": "电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 52.4443,
+          "keyLine": "",
+          "dps": 52.4443,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 39.3332,
+            "thermal": 0,
+            "kinetic": 4.3704,
+            "explosive": 8.7407
+          }
+        },
+        {
+          "typeId": 12608,
+          "name": {
+            "en": "Hail S",
+            "zh": "冰雹 S"
+          },
+          "iconId": 1285,
+          "meta": "tech2",
+          "metaLevel": 5,
+          "keyValue": 77.3553,
+          "keyLine": "",
+          "dps": 77.3553,
+          "optimalRange": 750,
+          "falloff": 7256.25,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 16.6074,
+            "explosive": 60.748
+          }
+        },
+        {
+          "typeId": 12625,
+          "name": {
+            "en": "Barrage S",
+            "zh": "雷暴 S"
+          },
+          "iconId": 1288,
+          "meta": "tech2",
+          "metaLevel": 5,
+          "keyValue": 48.0739,
+          "keyLine": "",
+          "dps": 48.0739,
+          "optimalRange": 1500,
+          "falloff": 14512.5,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 21.8518,
+            "explosive": 26.2221
+          }
+        },
+        {
+          "typeId": 19970,
+          "name": {
+            "en": "Arch Angel Carbonized Lead S",
+            "zh": "大天使碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 24.037,
+          "keyLine": "",
+          "dps": 24.037,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 19.2296,
+            "explosive": 4.8074
+          }
+        },
+        {
+          "typeId": 19972,
+          "name": {
+            "en": "Arch Angel Nuclear S",
+            "zh": "大天使核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 24.037,
+          "keyLine": "",
+          "dps": 24.037,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 4.8074,
+            "explosive": 19.2296
+          }
+        },
+        {
+          "typeId": 19974,
+          "name": {
+            "en": "Arch Angel Proton S",
+            "zh": "大天使质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 24.037,
+          "keyLine": "",
+          "dps": 24.037,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 14.4222,
+            "thermal": 0,
+            "kinetic": 9.6148,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19976,
+          "name": {
+            "en": "Arch Angel Depleted Uranium S",
+            "zh": "大天使贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 38.4592,
+          "keyLine": "",
+          "dps": 38.4592,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 14.4222,
+            "kinetic": 9.6148,
+            "explosive": 14.4222
+          }
+        },
+        {
+          "typeId": 19986,
+          "name": {
+            "en": "Arch Angel Titanium Sabot S",
+            "zh": "大天使钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 38.4592,
+          "keyLine": "",
+          "dps": 38.4592,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 28.8444,
+            "explosive": 9.6148
+          }
+        },
+        {
+          "typeId": 19988,
+          "name": {
+            "en": "Arch Angel Fusion S",
+            "zh": "大天使聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 57.6887,
+          "keyLine": "",
+          "dps": 57.6887,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 9.6148,
+            "explosive": 48.0739
+          }
+        },
+        {
+          "typeId": 19990,
+          "name": {
+            "en": "Arch Angel Phased Plasma S",
+            "zh": "大天使定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 57.6887,
+          "keyLine": "",
+          "dps": 57.6887,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 48.0739,
+            "kinetic": 9.6148,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19992,
+          "name": {
+            "en": "Arch Angel EMP S",
+            "zh": "大天使电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 57.6887,
+          "keyLine": "",
+          "dps": 57.6887,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 43.2665,
+            "thermal": 0,
+            "kinetic": 4.8074,
+            "explosive": 9.6148
+          }
+        },
+        {
+          "typeId": 20753,
+          "name": {
+            "en": "Domination Carbonized Lead S",
+            "zh": "主天使碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 26.2221,
+          "keyLine": "",
+          "dps": 26.2221,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 20.9777,
+            "explosive": 5.2444
+          }
+        },
+        {
+          "typeId": 20755,
+          "name": {
+            "en": "Domination Nuclear S",
+            "zh": "主天使核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 26.2221,
+          "keyLine": "",
+          "dps": 26.2221,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 5.2444,
+            "explosive": 20.9777
+          }
+        },
+        {
+          "typeId": 20757,
+          "name": {
+            "en": "Domination Proton S",
+            "zh": "主天使质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 26.2221,
+          "keyLine": "",
+          "dps": 26.2221,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 15.7333,
+            "thermal": 0,
+            "kinetic": 10.4889,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20759,
+          "name": {
+            "en": "Domination Depleted Uranium S",
+            "zh": "主天使贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 41.9554,
+          "keyLine": "",
+          "dps": 41.9554,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 15.7333,
+            "kinetic": 10.4889,
+            "explosive": 15.7333
+          }
+        },
+        {
+          "typeId": 20761,
+          "name": {
+            "en": "Domination Titanium Sabot S",
+            "zh": "主天使钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 41.9554,
+          "keyLine": "",
+          "dps": 41.9554,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 31.4666,
+            "explosive": 10.4889
+          }
+        },
+        {
+          "typeId": 20763,
+          "name": {
+            "en": "Domination Fusion S",
+            "zh": "主天使聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 62.9332,
+          "keyLine": "",
+          "dps": 62.9332,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 10.4889,
+            "explosive": 52.4443
+          }
+        },
+        {
+          "typeId": 20765,
+          "name": {
+            "en": "Domination Phased Plasma S",
+            "zh": "主天使定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 62.9332,
+          "keyLine": "",
+          "dps": 62.9332,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 52.4443,
+            "kinetic": 10.4889,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20767,
+          "name": {
+            "en": "Domination EMP S",
+            "zh": "主天使电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 62.9332,
+          "keyLine": "",
+          "dps": 62.9332,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 47.1999,
+            "thermal": 0,
+            "kinetic": 5.2444,
+            "explosive": 10.4889
+          }
+        },
+        {
+          "typeId": 21898,
+          "name": {
+            "en": "Republic Fleet EMP S",
+            "zh": "共和舰队电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 60.3109,
+          "keyLine": "",
+          "dps": 60.3109,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 45.2332,
+            "thermal": 0,
+            "kinetic": 5.0259,
+            "explosive": 10.0518
+          }
+        },
+        {
+          "typeId": 21906,
+          "name": {
+            "en": "Republic Fleet Fusion S",
+            "zh": "共和舰队聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 60.3109,
+          "keyLine": "",
+          "dps": 60.3109,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 10.0518,
+            "explosive": 50.2591
+          }
+        },
+        {
+          "typeId": 21914,
+          "name": {
+            "en": "Republic Fleet Nuclear S",
+            "zh": "共和舰队核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 25.1296,
+          "keyLine": "",
+          "dps": 25.1296,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 5.0259,
+            "explosive": 20.1036
+          }
+        },
+        {
+          "typeId": 21924,
+          "name": {
+            "en": "Republic Fleet Phased Plasma S",
+            "zh": "共和舰队定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 60.3109,
+          "keyLine": "",
+          "dps": 60.3109,
+          "optimalRange": 750,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 50.2591,
+            "kinetic": 10.0518,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21931,
+          "name": {
+            "en": "Republic Fleet Proton S",
+            "zh": "共和舰队质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 25.1296,
+          "keyLine": "",
+          "dps": 25.1296,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 15.0777,
+            "thermal": 0,
+            "kinetic": 10.0518,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21939,
+          "name": {
+            "en": "Republic Fleet Titanium Sabot S",
+            "zh": "共和舰队钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 40.2073,
+          "keyLine": "",
+          "dps": 40.2073,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 30.1555,
+            "explosive": 10.0518
+          }
+        },
+        {
+          "typeId": 28328,
+          "name": {
+            "en": "Republic Fleet Carbonized Lead S",
+            "zh": "共和舰队碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 25.1296,
+          "keyLine": "",
+          "dps": 25.1296,
+          "optimalRange": 2400,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 20.1036,
+            "explosive": 5.0259
+          }
+        },
+        {
+          "typeId": 28336,
+          "name": {
+            "en": "Republic Fleet Depleted Uranium S",
+            "zh": "共和舰队贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 40.2073,
+          "keyLine": "",
+          "dps": 40.2073,
+          "optimalRange": 1500,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 15.0777,
+            "kinetic": 10.0518,
+            "explosive": 15.0777
+          }
+        }
+      ]
+    },
+    "603": {
+      "high/3178/active/12614": [
+        {
+          "typeId": 215,
+          "name": {
+            "en": "Iron Charge S",
+            "zh": "铁质轨道弹 S"
+          },
+          "iconId": 1311,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 24.6883,
+          "keyLine": "",
+          "dps": 24.6883,
+          "optimalRange": 3600,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 9.8753,
+            "kinetic": 14.813,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 216,
+          "name": {
+            "en": "Tungsten Charge S",
+            "zh": "钨质轨道弹 S"
+          },
+          "iconId": 1315,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 29.6259,
+          "keyLine": "",
+          "dps": 29.6259,
+          "optimalRange": 3150,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 9.8753,
+            "kinetic": 19.7506,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 217,
+          "name": {
+            "en": "Iridium Charge S",
+            "zh": "铱质轨道弹 S"
+          },
+          "iconId": 1310,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 34.5636,
+          "keyLine": "",
+          "dps": 34.5636,
+          "optimalRange": 2700,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 14.813,
+            "kinetic": 19.7506,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 218,
+          "name": {
+            "en": "Lead Charge S",
+            "zh": "铅质轨道弹 S"
+          },
+          "iconId": 1312,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 39.5012,
+          "keyLine": "",
+          "dps": 39.5012,
+          "optimalRange": 2250,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 14.813,
+            "kinetic": 24.6883,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 219,
+          "name": {
+            "en": "Thorium Charge S",
+            "zh": "钍质轨道弹 S"
+          },
+          "iconId": 1314,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 44.4389,
+          "keyLine": "",
+          "dps": 44.4389,
+          "optimalRange": 1968.75,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 19.7506,
+            "kinetic": 24.6883,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 220,
+          "name": {
+            "en": "Uranium Charge S",
+            "zh": "铀质轨道弹 S"
+          },
+          "iconId": 1316,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 49.3766,
+          "keyLine": "",
+          "dps": 49.3766,
+          "optimalRange": 1687.5,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 19.7506,
+            "kinetic": 29.6259,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 221,
+          "name": {
+            "en": "Plutonium Charge S",
+            "zh": "钸质轨道弹 S"
+          },
+          "iconId": 1313,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 54.3142,
+          "keyLine": "",
+          "dps": 54.3142,
+          "optimalRange": 1406.25,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 24.6883,
+            "kinetic": 29.6259,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 222,
+          "name": {
+            "en": "Antimatter Charge S",
+            "zh": "反物质轨道弹 S"
+          },
+          "iconId": 1047,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 59.2519,
+          "keyLine": "",
+          "dps": 59.2519,
+          "optimalRange": 1125,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 24.6883,
+            "kinetic": 34.5636,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 12612,
+          "name": {
+            "en": "Void S",
+            "zh": "涅槃 S"
+          },
+          "iconId": 1047,
+          "meta": "tech2",
+          "metaLevel": 5,
+          "keyValue": 87.8903,
+          "keyLine": "",
+          "dps": 87.8903,
+          "optimalRange": 1687.5,
+          "falloff": 1562.5,
+          "damageMix": {
+            "em": 0,
+            "thermal": 43.9451,
+            "kinetic": 43.9451,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 12614,
+          "name": {
+            "en": "Null S",
+            "zh": "虚空 S"
+          },
+          "iconId": 1314,
+          "meta": "tech2",
+          "metaLevel": 5,
+          "keyValue": 54.3142,
+          "keyLine": "",
+          "dps": 54.3142,
+          "optimalRange": 3150,
+          "falloff": 4375,
+          "damageMix": {
+            "em": 0,
+            "thermal": 29.6259,
+            "kinetic": 24.6883,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19962,
+          "name": {
+            "en": "Shadow Iron Charge S",
+            "zh": "暗影铁质轨道弹 S"
+          },
+          "iconId": 1311,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 27.1571,
+          "keyLine": "",
+          "dps": 27.1571,
+          "optimalRange": 3600,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 10.8628,
+            "kinetic": 16.2943,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19964,
+          "name": {
+            "en": "Shadow Tungsten Charge S",
+            "zh": "暗影钨质轨道弹 S"
+          },
+          "iconId": 1315,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 32.5885,
+          "keyLine": "",
+          "dps": 32.5885,
+          "optimalRange": 3150,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 10.8628,
+            "kinetic": 21.7257,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19966,
+          "name": {
+            "en": "Shadow Iridium Charge S",
+            "zh": "暗影铱质轨道弹 S"
+          },
+          "iconId": 1310,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 38.0199,
+          "keyLine": "",
+          "dps": 38.0199,
+          "optimalRange": 2700,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 16.2943,
+            "kinetic": 21.7257,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19968,
+          "name": {
+            "en": "Shadow Lead Charge S",
+            "zh": "暗影铅质轨道弹 S"
+          },
+          "iconId": 1312,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 43.4514,
+          "keyLine": "",
+          "dps": 43.4514,
+          "optimalRange": 2250,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 16.2943,
+            "kinetic": 27.1571,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20034,
+          "name": {
+            "en": "Shadow Thorium Charge S",
+            "zh": "暗影钍质轨道弹 S"
+          },
+          "iconId": 1314,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 48.8828,
+          "keyLine": "",
+          "dps": 48.8828,
+          "optimalRange": 1968.75,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 21.7257,
+            "kinetic": 27.1571,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20036,
+          "name": {
+            "en": "Shadow Uranium Charge S",
+            "zh": "暗影铀质轨道弹 S"
+          },
+          "iconId": 1316,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 54.3142,
+          "keyLine": "",
+          "dps": 54.3142,
+          "optimalRange": 1687.5,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 21.7257,
+            "kinetic": 32.5885,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20038,
+          "name": {
+            "en": "Shadow Plutonium Charge S",
+            "zh": "暗影钸质轨道弹 S"
+          },
+          "iconId": 1313,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 59.7456,
+          "keyLine": "",
+          "dps": 59.7456,
+          "optimalRange": 1406.25,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 27.1571,
+            "kinetic": 32.5885,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20040,
+          "name": {
+            "en": "Shadow Antimatter Charge S",
+            "zh": "暗影反物质轨道弹 S"
+          },
+          "iconId": 1047,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 65.1771,
+          "keyLine": "",
+          "dps": 65.1771,
+          "optimalRange": 1125,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 27.1571,
+            "kinetic": 38.0199,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20945,
+          "name": {
+            "en": "Guardian Iron Charge S",
+            "zh": "卫士铁质轨道弹 S"
+          },
+          "iconId": 1311,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 29.6259,
+          "keyLine": "",
+          "dps": 29.6259,
+          "optimalRange": 3600,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.8504,
+            "kinetic": 17.7756,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20947,
+          "name": {
+            "en": "Guardian Tungsten Charge S",
+            "zh": "卫士钨质轨道弹 S"
+          },
+          "iconId": 1315,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 35.5511,
+          "keyLine": "",
+          "dps": 35.5511,
+          "optimalRange": 3150,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.8504,
+            "kinetic": 23.7007,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20949,
+          "name": {
+            "en": "Guardian Iridium Charge S",
+            "zh": "卫士铱质轨道弹 S"
+          },
+          "iconId": 1310,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 41.4763,
+          "keyLine": "",
+          "dps": 41.4763,
+          "optimalRange": 2700,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.7756,
+            "kinetic": 23.7007,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20951,
+          "name": {
+            "en": "Guardian Lead Charge S",
+            "zh": "卫士铅质轨道弹 S"
+          },
+          "iconId": 1312,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 47.4015,
+          "keyLine": "",
+          "dps": 47.4015,
+          "optimalRange": 2250,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.7756,
+            "kinetic": 29.6259,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20953,
+          "name": {
+            "en": "Guardian Thorium Charge S",
+            "zh": "卫士钍质轨道弹 S"
+          },
+          "iconId": 1314,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 53.3267,
+          "keyLine": "",
+          "dps": 53.3267,
+          "optimalRange": 1968.75,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 23.7007,
+            "kinetic": 29.6259,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20955,
+          "name": {
+            "en": "Guardian Uranium Charge S",
+            "zh": "卫士铀质轨道弹 S"
+          },
+          "iconId": 1316,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 59.2519,
+          "keyLine": "",
+          "dps": 59.2519,
+          "optimalRange": 1687.5,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 23.7007,
+            "kinetic": 35.5511,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20957,
+          "name": {
+            "en": "Guardian Plutonium Charge S",
+            "zh": "卫士钸质轨道弹 S"
+          },
+          "iconId": 1313,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 65.1771,
+          "keyLine": "",
+          "dps": 65.1771,
+          "optimalRange": 1406.25,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 29.6259,
+            "kinetic": 35.5511,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20959,
+          "name": {
+            "en": "Guardian Antimatter Charge S",
+            "zh": "卫士反物质轨道弹 S"
+          },
+          "iconId": 1047,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 71.1022,
+          "keyLine": "",
+          "dps": 71.1022,
+          "optimalRange": 1125,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 29.6259,
+            "kinetic": 41.4763,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21320,
+          "name": {
+            "en": "Guristas Iron Charge S",
+            "zh": "古斯塔斯铁质轨道弹 S"
+          },
+          "iconId": 1311,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 27.1571,
+          "keyLine": "",
+          "dps": 27.1571,
+          "optimalRange": 3600,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 10.8628,
+            "kinetic": 16.2943,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21322,
+          "name": {
+            "en": "Guristas Tungsten Charge S",
+            "zh": "古斯塔斯钨质轨道弹 S"
+          },
+          "iconId": 1315,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 32.5885,
+          "keyLine": "",
+          "dps": 32.5885,
+          "optimalRange": 3150,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 10.8628,
+            "kinetic": 21.7257,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21324,
+          "name": {
+            "en": "Guristas Iridium Charge S",
+            "zh": "古斯塔斯铱质轨道弹 S"
+          },
+          "iconId": 1310,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 38.0199,
+          "keyLine": "",
+          "dps": 38.0199,
+          "optimalRange": 2700,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 16.2943,
+            "kinetic": 21.7257,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21326,
+          "name": {
+            "en": "Guristas Lead Charge S",
+            "zh": "古斯塔斯铅质轨道弹 S"
+          },
+          "iconId": 1312,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 43.4514,
+          "keyLine": "",
+          "dps": 43.4514,
+          "optimalRange": 2250,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 16.2943,
+            "kinetic": 27.1571,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21328,
+          "name": {
+            "en": "Guristas Thorium Charge S",
+            "zh": "古斯塔斯钍质轨道弹 S"
+          },
+          "iconId": 1314,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 48.8828,
+          "keyLine": "",
+          "dps": 48.8828,
+          "optimalRange": 1968.75,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 21.7257,
+            "kinetic": 27.1571,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21330,
+          "name": {
+            "en": "Guristas Uranium Charge S",
+            "zh": "古斯塔斯铀质轨道弹 S"
+          },
+          "iconId": 1316,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 54.3142,
+          "keyLine": "",
+          "dps": 54.3142,
+          "optimalRange": 1687.5,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 21.7257,
+            "kinetic": 32.5885,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21332,
+          "name": {
+            "en": "Guristas Plutonium Charge S",
+            "zh": "古斯塔斯钸质轨道弹 S"
+          },
+          "iconId": 1313,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 59.7456,
+          "keyLine": "",
+          "dps": 59.7456,
+          "optimalRange": 1406.25,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 27.1571,
+            "kinetic": 32.5885,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21334,
+          "name": {
+            "en": "Guristas Antimatter Charge S",
+            "zh": "古斯塔斯反物质轨道弹 S"
+          },
+          "iconId": 1047,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 65.1771,
+          "keyLine": "",
+          "dps": 65.1771,
+          "optimalRange": 1125,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 27.1571,
+            "kinetic": 38.0199,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21384,
+          "name": {
+            "en": "Dread Guristas Iron Charge S",
+            "zh": "恐惧古斯塔斯铁质轨道弹 S"
+          },
+          "iconId": 1311,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 29.6259,
+          "keyLine": "",
+          "dps": 29.6259,
+          "optimalRange": 3600,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.8504,
+            "kinetic": 17.7756,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21386,
+          "name": {
+            "en": "Dread Guristas Tungsten Charge S",
+            "zh": "恐惧古斯塔斯钨质轨道弹 S"
+          },
+          "iconId": 1315,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 35.5511,
+          "keyLine": "",
+          "dps": 35.5511,
+          "optimalRange": 3150,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.8504,
+            "kinetic": 23.7007,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21388,
+          "name": {
+            "en": "Dread Guristas Iridium Charge S",
+            "zh": "恐惧古斯塔斯铱质轨道弹 S"
+          },
+          "iconId": 1310,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 41.4763,
+          "keyLine": "",
+          "dps": 41.4763,
+          "optimalRange": 2700,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.7756,
+            "kinetic": 23.7007,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21390,
+          "name": {
+            "en": "Dread Guristas Lead Charge S",
+            "zh": "恐惧古斯塔斯铅质轨道弹 S"
+          },
+          "iconId": 1312,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 47.4015,
+          "keyLine": "",
+          "dps": 47.4015,
+          "optimalRange": 2250,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.7756,
+            "kinetic": 29.6259,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21392,
+          "name": {
+            "en": "Dread Guristas Thorium Charge S",
+            "zh": "恐惧古斯塔斯钍质轨道弹 S"
+          },
+          "iconId": 1314,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 53.3267,
+          "keyLine": "",
+          "dps": 53.3267,
+          "optimalRange": 1968.75,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 23.7007,
+            "kinetic": 29.6259,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21394,
+          "name": {
+            "en": "Dread Guristas Uranium Charge S",
+            "zh": "恐惧古斯塔斯铀质轨道弹 S"
+          },
+          "iconId": 1316,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 59.2519,
+          "keyLine": "",
+          "dps": 59.2519,
+          "optimalRange": 1687.5,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 23.7007,
+            "kinetic": 35.5511,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21396,
+          "name": {
+            "en": "Dread Guristas Plutonium Charge S",
+            "zh": "恐惧古斯塔斯钸质轨道弹 S"
+          },
+          "iconId": 1313,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 65.1771,
+          "keyLine": "",
+          "dps": 65.1771,
+          "optimalRange": 1406.25,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 29.6259,
+            "kinetic": 35.5511,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21398,
+          "name": {
+            "en": "Dread Guristas Antimatter Charge S",
+            "zh": "恐惧古斯塔斯反物质轨道弹 S"
+          },
+          "iconId": 1047,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 71.1022,
+          "keyLine": "",
+          "dps": 71.1022,
+          "optimalRange": 1125,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 29.6259,
+            "kinetic": 41.4763,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22961,
+          "name": {
+            "en": "Federation Navy Antimatter Charge S",
+            "zh": "联邦海军反物质轨道弹 S"
+          },
+          "iconId": 1047,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 68.1396,
+          "keyLine": "",
+          "dps": 68.1396,
+          "optimalRange": 1125,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 28.3915,
+            "kinetic": 39.7481,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22963,
+          "name": {
+            "en": "Federation Navy Plutonium Charge S",
+            "zh": "联邦海军钸质轨道弹 S"
+          },
+          "iconId": 1313,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 62.4613,
+          "keyLine": "",
+          "dps": 62.4613,
+          "optimalRange": 1406.25,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 28.3915,
+            "kinetic": 34.0698,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22965,
+          "name": {
+            "en": "Federation Navy Uranium Charge S",
+            "zh": "联邦海军铀质轨道弹 S"
+          },
+          "iconId": 1316,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 56.783,
+          "keyLine": "",
+          "dps": 56.783,
+          "optimalRange": 1687.5,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 22.7132,
+            "kinetic": 34.0698,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22967,
+          "name": {
+            "en": "Federation Navy Thorium Charge S",
+            "zh": "联邦海军钍质轨道弹 S"
+          },
+          "iconId": 1314,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 51.1047,
+          "keyLine": "",
+          "dps": 51.1047,
+          "optimalRange": 1968.75,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 22.7132,
+            "kinetic": 28.3915,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22969,
+          "name": {
+            "en": "Federation Navy Lead Charge S",
+            "zh": "联邦海军铅质轨道弹 S"
+          },
+          "iconId": 1312,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 45.4264,
+          "keyLine": "",
+          "dps": 45.4264,
+          "optimalRange": 2250,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.0349,
+            "kinetic": 28.3915,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22971,
+          "name": {
+            "en": "Federation Navy Iridium Charge S",
+            "zh": "联邦海军铱质轨道弹 S"
+          },
+          "iconId": 1310,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 39.7481,
+          "keyLine": "",
+          "dps": 39.7481,
+          "optimalRange": 2700,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.0349,
+            "kinetic": 22.7132,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22973,
+          "name": {
+            "en": "Federation Navy Tungsten Charge S",
+            "zh": "联邦海军钨质轨道弹 S"
+          },
+          "iconId": 1315,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 34.0698,
+          "keyLine": "",
+          "dps": 34.0698,
+          "optimalRange": 3150,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.3566,
+            "kinetic": 22.7132,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 22975,
+          "name": {
+            "en": "Federation Navy Iron Charge S",
+            "zh": "联邦海军铁质轨道弹 S"
+          },
+          "iconId": 1311,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 28.3915,
+          "keyLine": "",
+          "dps": 28.3915,
+          "optimalRange": 3600,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.3566,
+            "kinetic": 17.0349,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23009,
+          "name": {
+            "en": "Caldari Navy Antimatter Charge S",
+            "zh": "加达里海军反物质轨道弹 S"
+          },
+          "iconId": 1047,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 68.1396,
+          "keyLine": "",
+          "dps": 68.1396,
+          "optimalRange": 1125,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 28.3915,
+            "kinetic": 39.7481,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23011,
+          "name": {
+            "en": "Caldari Navy Plutonium Charge S",
+            "zh": "加达里海军钸质轨道弹 S"
+          },
+          "iconId": 1313,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 62.4613,
+          "keyLine": "",
+          "dps": 62.4613,
+          "optimalRange": 1406.25,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 28.3915,
+            "kinetic": 34.0698,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23013,
+          "name": {
+            "en": "Caldari Navy Uranium Charge S",
+            "zh": "加达里海军铀质轨道弹 S"
+          },
+          "iconId": 1316,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 56.783,
+          "keyLine": "",
+          "dps": 56.783,
+          "optimalRange": 1687.5,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 22.7132,
+            "kinetic": 34.0698,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23015,
+          "name": {
+            "en": "Caldari Navy Thorium Charge S",
+            "zh": "加达里海军钍质轨道弹 S"
+          },
+          "iconId": 1314,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 51.1047,
+          "keyLine": "",
+          "dps": 51.1047,
+          "optimalRange": 1968.75,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 22.7132,
+            "kinetic": 28.3915,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23017,
+          "name": {
+            "en": "Caldari Navy Lead Charge S",
+            "zh": "加达里海军铅质轨道弹 S"
+          },
+          "iconId": 1312,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 45.4264,
+          "keyLine": "",
+          "dps": 45.4264,
+          "optimalRange": 2250,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.0349,
+            "kinetic": 28.3915,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23019,
+          "name": {
+            "en": "Caldari Navy Iridium Charge S",
+            "zh": "加达里海军铱质轨道弹 S"
+          },
+          "iconId": 1310,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 39.7481,
+          "keyLine": "",
+          "dps": 39.7481,
+          "optimalRange": 2700,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 17.0349,
+            "kinetic": 22.7132,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23021,
+          "name": {
+            "en": "Caldari Navy Tungsten Charge S",
+            "zh": "加达里海军钨质轨道弹 S"
+          },
+          "iconId": 1315,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 34.0698,
+          "keyLine": "",
+          "dps": 34.0698,
+          "optimalRange": 3150,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.3566,
+            "kinetic": 22.7132,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 23023,
+          "name": {
+            "en": "Caldari Navy Iron Charge S",
+            "zh": "加达里海军铁质轨道弹 S"
+          },
+          "iconId": 1311,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 28.3915,
+          "keyLine": "",
+          "dps": 28.3915,
+          "optimalRange": 3600,
+          "falloff": 3125,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.3566,
+            "kinetic": 17.0349,
+            "explosive": 0
+          }
+        }
+      ]
+    },
+    "16242": {
+      "high/2889/active/21898": [
+        {
+          "typeId": 178,
+          "name": {
+            "en": "Carbonized Lead S",
+            "zh": "碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 19.7724,
+          "keyLine": "",
+          "dps": 19.7724,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 15.8179,
+            "explosive": 3.9545
+          }
+        },
+        {
+          "typeId": 179,
+          "name": {
+            "en": "Nuclear S",
+            "zh": "核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 19.7724,
+          "keyLine": "",
+          "dps": 19.7724,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 3.9545,
+            "explosive": 15.8179
+          }
+        },
+        {
+          "typeId": 180,
+          "name": {
+            "en": "Proton S",
+            "zh": "质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 19.7724,
+          "keyLine": "",
+          "dps": 19.7724,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 11.8634,
+            "thermal": 0,
+            "kinetic": 7.9089,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 181,
+          "name": {
+            "en": "Depleted Uranium S",
+            "zh": "贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 31.6358,
+          "keyLine": "",
+          "dps": 31.6358,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 11.8634,
+            "kinetic": 7.9089,
+            "explosive": 11.8634
+          }
+        },
+        {
+          "typeId": 182,
+          "name": {
+            "en": "Titanium Sabot S",
+            "zh": "钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 31.6358,
+          "keyLine": "",
+          "dps": 31.6358,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 23.7268,
+            "explosive": 7.9089
+          }
+        },
+        {
+          "typeId": 183,
+          "name": {
+            "en": "Fusion S",
+            "zh": "聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 47.4537,
+          "keyLine": "",
+          "dps": 47.4537,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 7.9089,
+            "explosive": 39.5447
+          }
+        },
+        {
+          "typeId": 184,
+          "name": {
+            "en": "Phased Plasma S",
+            "zh": "定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 47.4537,
+          "keyLine": "",
+          "dps": 47.4537,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 39.5447,
+            "kinetic": 7.9089,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 185,
+          "name": {
+            "en": "EMP S",
+            "zh": "电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "tech1",
+          "metaLevel": null,
+          "keyValue": 47.4537,
+          "keyLine": "",
+          "dps": 47.4537,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 35.5902,
+            "thermal": 0,
+            "kinetic": 3.9545,
+            "explosive": 7.9089
+          }
+        },
+        {
+          "typeId": 12608,
+          "name": {
+            "en": "Hail S",
+            "zh": "冰雹 S"
+          },
+          "iconId": 1285,
+          "meta": "tech2",
+          "metaLevel": 5,
+          "keyValue": 69.9941,
+          "keyLine": "",
+          "dps": 69.9941,
+          "optimalRange": 1125,
+          "falloff": 4837.5,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 15.027,
+            "explosive": 54.9672
+          }
+        },
+        {
+          "typeId": 12625,
+          "name": {
+            "en": "Barrage S",
+            "zh": "雷暴 S"
+          },
+          "iconId": 1288,
+          "meta": "tech2",
+          "metaLevel": 5,
+          "keyValue": 43.4992,
+          "keyLine": "",
+          "dps": 43.4992,
+          "optimalRange": 2250,
+          "falloff": 9675,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 19.7724,
+            "explosive": 23.7268
+          }
+        },
+        {
+          "typeId": 19970,
+          "name": {
+            "en": "Arch Angel Carbonized Lead S",
+            "zh": "大天使碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 21.7496,
+          "keyLine": "",
+          "dps": 21.7496,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 17.3997,
+            "explosive": 4.3499
+          }
+        },
+        {
+          "typeId": 19972,
+          "name": {
+            "en": "Arch Angel Nuclear S",
+            "zh": "大天使核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 21.7496,
+          "keyLine": "",
+          "dps": 21.7496,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 4.3499,
+            "explosive": 17.3997
+          }
+        },
+        {
+          "typeId": 19974,
+          "name": {
+            "en": "Arch Angel Proton S",
+            "zh": "大天使质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 21.7496,
+          "keyLine": "",
+          "dps": 21.7496,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 13.0498,
+            "thermal": 0,
+            "kinetic": 8.6998,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19976,
+          "name": {
+            "en": "Arch Angel Depleted Uranium S",
+            "zh": "大天使贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 34.7993,
+          "keyLine": "",
+          "dps": 34.7993,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 13.0498,
+            "kinetic": 8.6998,
+            "explosive": 13.0498
+          }
+        },
+        {
+          "typeId": 19986,
+          "name": {
+            "en": "Arch Angel Titanium Sabot S",
+            "zh": "大天使钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 34.7993,
+          "keyLine": "",
+          "dps": 34.7993,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 26.0995,
+            "explosive": 8.6998
+          }
+        },
+        {
+          "typeId": 19988,
+          "name": {
+            "en": "Arch Angel Fusion S",
+            "zh": "大天使聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 52.199,
+          "keyLine": "",
+          "dps": 52.199,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 8.6998,
+            "explosive": 43.4992
+          }
+        },
+        {
+          "typeId": 19990,
+          "name": {
+            "en": "Arch Angel Phased Plasma S",
+            "zh": "大天使定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 52.199,
+          "keyLine": "",
+          "dps": 52.199,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 43.4992,
+            "kinetic": 8.6998,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 19992,
+          "name": {
+            "en": "Arch Angel EMP S",
+            "zh": "大天使电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 52.199,
+          "keyLine": "",
+          "dps": 52.199,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 39.1493,
+            "thermal": 0,
+            "kinetic": 4.3499,
+            "explosive": 8.6998
+          }
+        },
+        {
+          "typeId": 20753,
+          "name": {
+            "en": "Domination Carbonized Lead S",
+            "zh": "主天使碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 23.7268,
+          "keyLine": "",
+          "dps": 23.7268,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 18.9815,
+            "explosive": 4.7454
+          }
+        },
+        {
+          "typeId": 20755,
+          "name": {
+            "en": "Domination Nuclear S",
+            "zh": "主天使核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 23.7268,
+          "keyLine": "",
+          "dps": 23.7268,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 4.7454,
+            "explosive": 18.9815
+          }
+        },
+        {
+          "typeId": 20757,
+          "name": {
+            "en": "Domination Proton S",
+            "zh": "主天使质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 23.7268,
+          "keyLine": "",
+          "dps": 23.7268,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 14.2361,
+            "thermal": 0,
+            "kinetic": 9.4907,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20759,
+          "name": {
+            "en": "Domination Depleted Uranium S",
+            "zh": "主天使贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 37.9629,
+          "keyLine": "",
+          "dps": 37.9629,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 14.2361,
+            "kinetic": 9.4907,
+            "explosive": 14.2361
+          }
+        },
+        {
+          "typeId": 20761,
+          "name": {
+            "en": "Domination Titanium Sabot S",
+            "zh": "主天使钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 37.9629,
+          "keyLine": "",
+          "dps": 37.9629,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 28.4722,
+            "explosive": 9.4907
+          }
+        },
+        {
+          "typeId": 20763,
+          "name": {
+            "en": "Domination Fusion S",
+            "zh": "主天使聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 56.9444,
+          "keyLine": "",
+          "dps": 56.9444,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 9.4907,
+            "explosive": 47.4537
+          }
+        },
+        {
+          "typeId": 20765,
+          "name": {
+            "en": "Domination Phased Plasma S",
+            "zh": "主天使定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 56.9444,
+          "keyLine": "",
+          "dps": 56.9444,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 47.4537,
+            "kinetic": 9.4907,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 20767,
+          "name": {
+            "en": "Domination EMP S",
+            "zh": "主天使电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 56.9444,
+          "keyLine": "",
+          "dps": 56.9444,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 42.7083,
+            "thermal": 0,
+            "kinetic": 4.7454,
+            "explosive": 9.4907
+          }
+        },
+        {
+          "typeId": 21898,
+          "name": {
+            "en": "Republic Fleet EMP S",
+            "zh": "共和舰队电磁脉冲弹 S"
+          },
+          "iconId": 1286,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 54.5717,
+          "keyLine": "",
+          "dps": 54.5717,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 40.9288,
+            "thermal": 0,
+            "kinetic": 4.5476,
+            "explosive": 9.0953
+          }
+        },
+        {
+          "typeId": 21906,
+          "name": {
+            "en": "Republic Fleet Fusion S",
+            "zh": "共和舰队聚变弹 S"
+          },
+          "iconId": 1287,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 54.5717,
+          "keyLine": "",
+          "dps": 54.5717,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 9.0953,
+            "explosive": 45.4764
+          }
+        },
+        {
+          "typeId": 21914,
+          "name": {
+            "en": "Republic Fleet Nuclear S",
+            "zh": "共和舰队核芯弹 S"
+          },
+          "iconId": 1288,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 22.7382,
+          "keyLine": "",
+          "dps": 22.7382,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 4.5476,
+            "explosive": 18.1906
+          }
+        },
+        {
+          "typeId": 21924,
+          "name": {
+            "en": "Republic Fleet Phased Plasma S",
+            "zh": "共和舰队定相等离子弹 S"
+          },
+          "iconId": 1289,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 54.5717,
+          "keyLine": "",
+          "dps": 54.5717,
+          "optimalRange": 1125,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 45.4764,
+            "kinetic": 9.0953,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21931,
+          "name": {
+            "en": "Republic Fleet Proton S",
+            "zh": "共和舰队质子弹 S"
+          },
+          "iconId": 1290,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 22.7382,
+          "keyLine": "",
+          "dps": 22.7382,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 13.6429,
+            "thermal": 0,
+            "kinetic": 9.0953,
+            "explosive": 0
+          }
+        },
+        {
+          "typeId": 21939,
+          "name": {
+            "en": "Republic Fleet Titanium Sabot S",
+            "zh": "共和舰队钛合金萨博弹 S"
+          },
+          "iconId": 1291,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 36.3811,
+          "keyLine": "",
+          "dps": 36.3811,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 27.2859,
+            "explosive": 9.0953
+          }
+        },
+        {
+          "typeId": 28328,
+          "name": {
+            "en": "Republic Fleet Carbonized Lead S",
+            "zh": "共和舰队碳铅弹 S"
+          },
+          "iconId": 1004,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 22.7382,
+          "keyLine": "",
+          "dps": 22.7382,
+          "optimalRange": 3600,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 0,
+            "kinetic": 18.1906,
+            "explosive": 4.5476
+          }
+        },
+        {
+          "typeId": 28336,
+          "name": {
+            "en": "Republic Fleet Depleted Uranium S",
+            "zh": "共和舰队贫铀弹 S"
+          },
+          "iconId": 1285,
+          "meta": "faction",
+          "metaLevel": null,
+          "keyValue": 36.3811,
+          "keyLine": "",
+          "dps": 36.3811,
+          "optimalRange": 2250,
+          "falloff": 6450,
+          "damageMix": {
+            "em": 0,
+            "thermal": 13.6429,
+            "kinetic": 9.0953,
+            "explosive": 13.6429
+          }
+        }
+      ]
+    }
   }
 }

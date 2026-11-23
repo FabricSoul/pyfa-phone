@@ -1,5 +1,5 @@
 import './ui.css'
-import type { DamageTypes, ItemGroup, ItemRow } from '../engine/types'
+import type { ChargeGroup, ChargeOption, DamageTypes } from '../engine/types'
 import { _t, useUiLanguage } from '../i18n/t'
 import { fmt, iconUrl, lname } from './format'
 import { ItemIcon } from './ItemIcon'
@@ -23,28 +23,26 @@ export function DamageBar({ mix }: { mix: DamageTypes }) {
 }
 
 /** Charge picker: MetaGroupList whose rows show the damage mix and the DPS / range. */
-export function AmmoList({ groups, currentTypeId, damageMix, rangeText, valueUnit, onPick }: {
-  groups: ItemGroup[]
+export function AmmoList({ groups, currentTypeId, onPick }: {
+  groups: ChargeGroup[]
   currentTypeId?: number
-  damageMix?: (item: ItemRow) => DamageTypes | undefined
-  valueUnit?: string
-  rangeText?: (item: ItemRow) => string | undefined
-  onPick?: (item: ItemRow) => void
+  onPick?: (item: ChargeOption) => void
 }) {
   const lang = useUiLanguage()
   return (
-    <MetaGroupList groups={groups} currentTypeId={currentTypeId} valueUnit={valueUnit ?? _t('DPS')}
+    <MetaGroupList groups={groups} currentTypeId={currentTypeId} valueUnit={_t('DPS')}
       renderItem={(it, current) => {
-        const mix = damageMix?.(it)
-        const range = rangeText?.(it)
+        const range = it.optimalRange || it.falloff
+          ? `${fmt(it.optimalRange / 1000)}${it.falloff ? ` + ${fmt(it.falloff / 1000)}` : ''} ${_t('km')}`
+          : null
         return (
           <button type="button" className={`ar${current ? ' on' : ''}`} aria-pressed={current} onClick={() => onPick?.(it)}>
             <ItemIcon src={iconUrl(it.iconId)} />
             <div className="mn">
               <span>{lname(it.name, lang)}</span>
-              <small><MetaTag meta={it.meta} />{mix && <DamageBar mix={mix} />}</small>
+              <small><MetaTag meta={it.meta} /><DamageBar mix={it.damageMix} /></small>
             </div>
-            {it.keyValue != null && <div className="v">{fmt(it.keyValue)}{range && <small>{range}</small>}</div>}
+            <div className="v">{fmt(it.dps)}{range && <small>{range}</small>}</div>
           </button>
         )
       }} />

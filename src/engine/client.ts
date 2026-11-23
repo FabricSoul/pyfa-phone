@@ -4,16 +4,13 @@ import {
   type EngineClient,
   type ExportFormat,
   type FitDoc,
-  type ItemGroup,
-  type Warning,
+  type MarketGroup,
+  type SlotKind,
 } from './types'
 
-export type ItemGroupWithOverages = ItemGroup & {
-  items: (ItemGroup['items'][number] & { resourceOverages: (Warning & { overBy: number })[] })[]
-}
-
 export interface WorkerEngineClient extends EngineClient {
-  itemsForSlot(...args: Parameters<EngineClient['itemsForSlot']>): Promise<ItemGroupWithOverages[]>
+  marketGroupsForSlot(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
+  getDataVersion(): Promise<string>
   exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh'): Promise<string>
 }
 
@@ -39,11 +36,13 @@ export async function createEngine(): Promise<WorkerEngineClient> {
   }
 
   return {
-    async calc(fit) {
-      const result: unknown = await remote.calc(fit)
+    async calc(...args) {
+      const result: unknown = await remote.calc(...args)
       if (!isCalcResult(result)) throw new Error('Invalid CalcResult from engine Worker')
       return result
     },
+    getDataVersion: () => remote.getDataVersion(),
+    marketGroupsForSlot: (...args) => remote.marketGroupsForSlot(...args),
     itemsForSlot: (...args) => remote.itemsForSlot(...args),
     chargesFor: (...args) => remote.chargesFor(...args),
     variationsOf: (...args) => remote.variationsOf(...args),

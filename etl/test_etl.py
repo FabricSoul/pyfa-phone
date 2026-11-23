@@ -33,11 +33,22 @@ def db(manifest, tmp_path_factory):
     conn.close()
 
 
-def test_manifest_shape(manifest):
-    assert manifest["dataVersion"]
+def test_manifest_uses_content_hashes_and_separate_client_build(manifest, db):
+    assert manifest["clientBuild"] == db.execute(
+        "SELECT field_value FROM metadata WHERE field_name='client_build'"
+    ).fetchone()[0]
     assert manifest["db"]["encoding"] == "gzip"
-    assert manifest["db"]["file"] == f"eve.{manifest['dataVersion']}.db.gz"
-    assert manifest["names"]["file"] == f"names.{manifest['dataVersion']}.json"
+    assert manifest["dataVersion"] == hashlib.sha256(
+        ''.join(asset["sha256"] for asset in (
+            manifest["db"], manifest["names"], manifest["py"], *manifest["pyodide"]["files"],
+        )).encode()
+    ).hexdigest()
+    for key, prefix, suffix in (("db", "eve", "db.gz"), ("names", "names", "json"), ("py", "py", "zip")):
+        asset = manifest[key]
+        assert asset["file"] == f"{prefix}.{asset['sha256']}.{suffix}"
+        content = (DATA / asset["file"]).read_bytes()
+        assert hashlib.sha256(content).hexdigest() == asset["sha256"]
+        assert len(content) == asset["bytes"]
 
 
 def test_db_gzip_under_limit_and_matches_manifest(manifest):
@@ -57,9 +68,9 @@ def test_rifter_names(db):
 
 def test_names_index_maps_both_languages(manifest):
     names = json.loads((DATA / manifest["names"]["file"]).read_text(encoding="utf-8"))
-    assert names["zh"]["200mm自动加农炮 II"] == 2889
-    assert names["en"]["200mm AutoCannon II"] == 2889
-    assert isinstance(names["conflicts"], list)
+    assert names["zh"]["200mm自动加农炮 II"] == [2889]
+    assert names["en"]["200mm AutoCannon II"] == [2889]
+    assert set(names["zh"]["莱塞勒氏改良型爆炸装甲增强器"]) == {15054, 15070}
 
 
 def test_images_exist():

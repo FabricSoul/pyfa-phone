@@ -82,12 +82,12 @@ function withoutRetiredItems(fit: FitDoc, removed: RemovedItem[]): FitDoc {
 }
 
 export function resultNames(result: CalcResult): Record<number, LName> {
-  const names: Record<number, LName> = { [result.ship.typeId]: result.ship.name }
+  const names: Record<number, LName> = { ...result.itemNames, [result.ship.typeId]: result.ship.name }
   for (const slot of SLOT_KINDS) {
     for (const row of result.slots[slot]) {
       if (row.kind === 'empty') continue
       names[row.typeId] = row.name
-      if (row.charge) names[row.charge.typeId] = row.charge.name
+      if (row.kind === 'module' && row.charge) names[row.charge.typeId] = row.charge.name
     }
   }
   return names
