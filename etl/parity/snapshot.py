@@ -1,0 +1,88 @@
+"""Exercise every engine entry point with the same inputs under both interpreters."""
+import json
+import sys
+from pathlib import Path
+
+if __name__ == '__main__' and sys.platform != 'emscripten':
+    root = Path(__file__).resolve().parents[2]
+    sys.path[:0] = [str(root / 'src/engine/py'), str(root / 'vendor/pyfa')]
+
+import api
+
+
+def module_ids(doc, slot):
+    return sorted(m['typeId'] for m in doc['modules'][slot] if m)
+
+
+def snapshot(doc):
+    result = api.calc(doc)
+    items = {
+        slot: api.items_for_slot(doc, slot, query)
+        for slot, query in (
+            ('high', 'autocannon'), ('mid', 'stasis webifier'), ('low', 'damage control'),
+            ('rig', 'projectile'), ('subsystem', ''),
+        )
+    }
+    charges = {
+        f'{slot}/{i}': api.charges_for(doc, {'slot': slot, 'index': i})
+        for slot, entries in doc['modules'].items()
+        for i, entry in enumerate(entries) if entry
+    }
+    assert items['high'] and items['mid'] and items['low'] and items['rig'], items
+    assert charges['high/0'], charges
+    if doc['shipTypeId'] == 587:
+        # The high-slot catalogue includes remote repair gear whose pyfa column reads its owning fit.
+        remote = api.items_for_slot(doc, 'high', 'remote shield booster')
+        assert remote and any(row['keyLine'] for group in remote for row in group['items']), remote
+        items['remoteShieldBoosters'] = remote
+    assert any(row['resourceOverages'] for group in items['high'] for row in group['items'])
+    for groups in items.values():
+        for group in groups:
+            for row in group['items']:
+                for warning in row['resourceOverages']:
+                    assert warning['overBy'] > 0
+                    assert abs(warning['overBy'] - (warning['used'] - warning['total'])) < 1e-6
+
+    for groups in (*items.values(), *charges.values()):
+        priority = ('tech2', 'tech1', 'faction', 'storyline', 'deadspace', 'officer')
+        order = [priority.index(group['meta']) for group in groups]
+        assert order == sorted(set(order)), order
+        for group in groups:
+            values = [float('-inf') if row['keyValue'] is None else row['keyValue'] for row in group['items']]
+            assert values == sorted(values, reverse=True), values
+            assert group['best'] == group['items'][0]['keyValue']
+
+    exports = {fmt: api.export_text(doc, fmt) for fmt in ('eft', 'dna', 'multibuy')}
+    chinese = api.export_text(doc, 'eft', 'zh')
+    linked = f"<url=fitting:{exports['dna']}>Shared fit</url>"
+    for text in (exports['eft'], exports['dna'], chinese, linked):
+        imported = api.import_text(text)
+        assert not imported['warnings'] and len(imported['fits']) == 1, imported
+        actual = imported['fits'][0]
+        assert actual['shipTypeId'] == doc['shipTypeId'], actual
+        for slot in doc['modules']:
+            assert module_ids(actual, slot) == module_ids(doc, slot), (text, slot, actual)
+        if text == linked:
+            assert actual['name'] == 'Shared fit'
+    assert api.import_text('not a fit')['warnings']
+    assert api.import_text('587:2889;100000000::')['fits'] == []
+    assert api.import_text('DNA:587:2889*1')['fits'][0]['shipTypeId'] == 587
+    assert len(api.import_text(f"{exports['eft']}\n\n{chinese}")['fits']) == 2
+    assert api.import_text(f"{exports['eft']}\nUnknown module")['warnings'] == ['Unknown module']
+    variations = api.variations_of(doc['modules']['high'][0]['typeId'])
+    assert any(group['meta'] == 'tech2' for group in variations), variations
+    assert api.missing_skills(doc) == []
+    missing = api.missing_skills({**doc, 'character': 'all0'})
+    assert missing and all(s['requiredLevel'] > s['currentLevel'] == 0 for s in missing), missing
+    return {
+        'calc': result, 'itemsForSlot': items, 'chargesFor': charges,
+        'exports': exports, 'chineseEft': chinese, 'variations': variations, 'missingSkills': missing,
+    }
+
+
+api.initialize(sys.argv[1], sys.argv[2])
+snapshots = {name: snapshot(doc) for name, doc in json.loads(Path(sys.argv[3]).read_text()).items()}
+serialized = json.dumps(snapshots, allow_nan=False)
+if sys.platform != 'emscripten':
+    print(serialized)
+serialized
