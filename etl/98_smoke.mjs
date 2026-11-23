@@ -208,6 +208,7 @@ try {
   const toast = page.locator('[role="status"][aria-live="polite"]').filter({ hasText: '已移除' })
   await toast.waitFor()
   await page.getByRole('dialog').waitFor({ state: 'hidden' })
+  await page.getByText('200mm自动加农炮 II', { exact: true }).waitFor({ state: 'detached' })
   assert.equal(await page.getByText('200mm自动加农炮 II', { exact: true }).count(), 0)
   await toast.getByRole('button', { name: '撤销', exact: true }).click()
   await page.getByText('200mm自动加农炮 II', { exact: true }).waitFor()
@@ -502,6 +503,8 @@ try {
   await screenshot('g3-extras-drones')
   await drone.last().getByRole('button', { name: '合并堆叠' }).click()
   await page.getByRole('dialog', { name: '合并堆叠' }).getByRole('button', { name: /Hammerhead II.*×4/ }).click()
+  // The merged row collapses over 120 ms before it leaves the page (UX3).
+  await drone.nth(1).waitFor({ state: 'detached' })
   assert.equal(await drone.count(), 1)
   console.log(`G3 drones: 4 + 1 active Hammerhead II, ${droneDps} DPS preserved`)
 
