@@ -34,10 +34,18 @@ try {
   await writeFile(entry, `<!doctype html><script type="module">
 import { createEngine } from '/src/engine/client.ts'
 import fits from '/etl/fixtures/fits.json'
+import advanced from '/etl/fixtures/advanced-fits.json'
+import { updateSettings } from '/src/settings/settings.ts'
 window.testEngine = async () => {
   const stages = []
   const engine = await createEngine((stage) => stages.push(stage))
-  const result = await engine.calc(fits.rifter)
+  const result = await engine.calc(fits.rifter, { includeReload: false })
+  const rex = await engine.calc(advanced.vexor, { includeReload: false })
+  const tactical = await engine.calc(advanced.confessor)
+  const roundTrip = await engine.importText(await engine.exportText(advanced.confessor, 'eft', 'zh'))
+  updateSettings({ defaultCharacter: 'all0' })
+  const pilot = (await engine.importText('[Vexor, Audit]')).fits[0].character
+  updateSettings({ defaultCharacter: 'all5' })
   const fit = { ...fits.rifter, modules: { ...fits.rifter.modules,
     low: [{ typeId: 15070, state: 'active', chargeTypeId: null }] } }
   const eft = await engine.exportText(fit, 'eft', 'zh')
@@ -55,7 +63,8 @@ window.testEngine = async () => {
   const firstMarketGroup = marketGroups[0]
   const candidates = await engine.itemsForSlot(fits.rifter, 'low', undefined,
     { marketGroupId: firstMarketGroup.id, preview: false })
-  return { stages, dataVersion, fittedCpu: info.attributes.find((attr) => attr.id === 50).current,
+  return { stages, dataVersion, pilot, droneDps: rex.stats.firepower.droneDps,
+    tacticalMode: tactical.modes.selected, importedMode: roundTrip.fits[0].modeTypeId, fittedCpu: info.attributes.find((attr) => attr.id === 50).current,
     limitedToGroup: candidates.length > 0 && candidates.every(({items}) => items.every(
       (row) => row.marketGroup.id === firstMarketGroup.id && !('resourceOverages' in row))),
     ship: result.ship.typeId, dps: result.stats.firepower.dps, version: result.dataVersion,
@@ -92,6 +101,7 @@ window.testEngine = async () => {
   assert.deepEqual(result, {
     stages: ['runtime', 'data', 'initialize'], dataVersion: manifest.dataVersion,
     fittedCpu: 6.75, limitedToGroup: true,
+    pilot: 'all0', droneDps: 237.6, tacticalMode: 34321, importedMode: 34321,
     ship: 587, dps: rifter.stats.firepower.dps, version: manifest.dataVersion,
     imported: 15070, importWarnings: [], chargeGroups: ['tech2'],
     removed: { kind: 'removed', typeId: -1, name: { en: 'Retired', zh: '已移除' }, count: 1, positions: [0] },

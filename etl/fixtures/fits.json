@@ -1,7 +1,7 @@
 {
   "rifter": {
     "schema": 1,
-    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
     "name": "裂谷级 · 示例",
     "shipTypeId": 587,
     "modules": {
@@ -138,7 +138,7 @@
   },
   "merlin": {
     "schema": 1,
-    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
     "name": "小鹰级 · 超限示例",
     "shipTypeId": 603,
     "modules": {
@@ -270,7 +270,7 @@
   },
   "thrasher": {
     "schema": 1,
-    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
     "name": "长尾鲛级 · 示例",
     "shipTypeId": 16242,
     "modules": {

@@ -1,0 +1,285 @@
+{
+  "vexor": {
+    "schema": 1,
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "name": "Vexor — five active Hammerhead II",
+    "shipTypeId": 626,
+    "modules": {
+      "high": [],
+      "mid": [],
+      "low": [],
+      "rig": [],
+      "subsystem": []
+    },
+    "drones": [
+      {
+        "typeId": 2185,
+        "amount": 5,
+        "active": 5
+      }
+    ],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null
+  },
+  "thanatos": {
+    "schema": 1,
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "name": "Thanatos — Dragonfly I squadron",
+    "shipTypeId": 23911,
+    "modules": {
+      "high": [],
+      "mid": [],
+      "low": [],
+      "rig": [],
+      "subsystem": []
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null,
+    "fighters": [
+      {
+        "typeId": 23057,
+        "amount": 6,
+        "active": true
+      }
+    ]
+  },
+  "legion": {
+    "schema": 1,
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "name": "Legion — four subsystems",
+    "shipTypeId": 29986,
+    "modules": {
+      "high": [],
+      "mid": [],
+      "low": [],
+      "rig": [],
+      "subsystem": [
+        {
+          "typeId": 45623,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 45587,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 45598,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 45612,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ]
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null
+  },
+  "confessor": {
+    "schema": 1,
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "name": "Confessor — Sharpshooter",
+    "shipTypeId": 34317,
+    "modules": {
+      "high": [
+        {
+          "typeId": 3017,
+          "state": "active",
+          "chargeTypeId": 246
+        },
+        {
+          "typeId": 3017,
+          "state": "active",
+          "chargeTypeId": 246
+        },
+        {
+          "typeId": 3017,
+          "state": "active",
+          "chargeTypeId": 246
+        },
+        {
+          "typeId": 3017,
+          "state": "active",
+          "chargeTypeId": 246
+        }
+      ],
+      "mid": [],
+      "low": [],
+      "rig": [],
+      "subsystem": []
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null,
+    "modeTypeId": 34321
+  },
+  "unstable": {
+    "schema": 1,
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "name": "Vexor — capacitor exhaustion",
+    "shipTypeId": 626,
+    "modules": {
+      "high": [],
+      "mid": [
+        {
+          "typeId": 12076,
+          "state": "active",
+          "chargeTypeId": null
+        }
+      ],
+      "low": [
+        {
+          "typeId": 3530,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 3530,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 3530,
+          "state": "active",
+          "chargeTypeId": null
+        }
+      ],
+      "rig": [],
+      "subsystem": []
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null
+  },
+  "overfit": {
+    "schema": 1,
+    "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+    "name": "Merlin — CPU and high-slot overload",
+    "shipTypeId": 603,
+    "modules": {
+      "high": [
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        },
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        },
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        },
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        },
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        },
+        {
+          "typeId": 3178,
+          "state": "active",
+          "chargeTypeId": 12614
+        }
+      ],
+      "mid": [
+        {
+          "typeId": 438,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 448,
+          "state": "active",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 3831,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 2281,
+          "state": "active",
+          "chargeTypeId": null
+        }
+      ],
+      "low": [
+        {
+          "typeId": 10190,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 2048,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "rig": [
+        {
+          "typeId": 31526,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31526,
+          "state": "online",
+          "chargeTypeId": null
+        },
+        {
+          "typeId": 31358,
+          "state": "online",
+          "chargeTypeId": null
+        }
+      ],
+      "subsystem": []
+    },
+    "drones": [],
+    "cargo": [],
+    "implants": [],
+    "boosters": [],
+    "notes": "",
+    "character": "all5",
+    "damagePatternId": -1,
+    "targetProfileId": null
+  }
+}

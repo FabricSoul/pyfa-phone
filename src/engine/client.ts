@@ -1,4 +1,5 @@
 import { proxy, wrap } from 'comlink'
+import { calcOptions, getSettings } from '../settings/settings'
 import {
   isCalcResult,
   type EngineClient,
@@ -43,21 +44,33 @@ export async function createEngine(report?: ReportStage): Promise<WorkerEngineCl
   }
 
   return {
-    async calc(...args) {
-      const result: unknown = await remote.calc(...args)
+    async calc(fit, options) {
+      const result: unknown = await remote.calc(fit, { ...calcOptions(), ...options })
       if (!isCalcResult(result)) throw new Error('Invalid CalcResult from engine Worker')
       return result
     },
     shipCatalog: (...args) => remote.shipCatalog(...args),
     itemsForExtra: (...args) => remote.itemsForExtra(...args),
     fillEmptySlots: (...args) => remote.fillEmptySlots(...args),
-    itemInfo: (...args) => remote.itemInfo(...args),
+    itemInfo: (typeId, fit, pos, options) =>
+      remote.itemInfo(typeId, fit, pos, fit && { ...calcOptions(), ...options }),
     getDataVersion: () => remote.getDataVersion(),
     marketGroupsForSlot: (...args) => remote.marketGroupsForSlot(...args),
-    itemsForSlot: (...args) => remote.itemsForSlot(...args),
-    chargesFor: (...args) => remote.chargesFor(...args),
+    itemsForSlot: (fit, slot, filters, options) =>
+      remote.itemsForSlot(fit, slot, filters, { calcOptions: calcOptions(), ...options }),
+    chargesFor: (fit, pos, metaGroup, options) =>
+      remote.chargesFor(fit, pos, metaGroup, { ...calcOptions(), ...options }),
     variationsOf: (...args) => remote.variationsOf(...args),
-    importText: (...args) => remote.importText(...args),
+    async importText(text) {
+      const { defaultCharacter, defaultDamagePatternId } = getSettings()
+      const parsed = await remote.importText(text)
+      return {
+        ...parsed,
+        fits: parsed.fits.map((fit) => ({
+          ...fit, character: defaultCharacter, damagePatternId: defaultDamagePatternId,
+        })),
+      }
+    },
     exportText: (...args) => remote.exportText(...args),
     missingSkills: (...args) => remote.missingSkills(...args),
   }

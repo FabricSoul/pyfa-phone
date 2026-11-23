@@ -135,9 +135,9 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
   }
 
   function pick(item: ItemRow) {
-    if (index === undefined) return
+    if (index === undefined || item.fitRestriction) return
     edit((fit) => withModules(fit, slot, [index], () => ({
-      typeId: item.typeId, state: 'online', chargeTypeId: null,
+      typeId: item.typeId, state: item.initialState ?? 'online', chargeTypeId: null,
     })), { [item.typeId]: item.name })
     remember(item.marketGroup || !focus ? item : { ...item, marketGroup: focus }, slot)
     navigate(path)
@@ -167,8 +167,9 @@ function ModulePicker({ slot }: { slot: SlotKind }) {
     {!search && !browse && recentItems.length > 0 && <>
       <h2 className="fit-filter-label">{_t('Recent modules')}</h2>
       <div className="fit-chips">
-        {recentItems.map((item) => <button key={item.typeId} type="button" className="fit-chip" disabled={index === undefined} onClick={() => pick(item)}>
-          {lname(item.name, language)}
+        {recentItems.map((item) => <button key={item.typeId} type="button" className="fit-chip"
+          disabled={index === undefined || item.fitRestriction !== undefined} onClick={() => pick(item)}>
+          {lname(item.name, language)}{item.fitRestriction && <> · {restrictionLabel(item.fitRestriction)}</>}
         </button>)}
       </div>
     </>}
@@ -248,17 +249,33 @@ function CandidateRows({ group, slot, search, groupId, disabled, checked, onChec
     {error && <p className="fit-caption fit-preview warn" role="status">{_t('Could not check fitting resources')}</p>}
     {group.items.map((item) => {
       const warnings = fittingWarnings(item)
-      return <button key={item.typeId} type="button" className="ar candidate" disabled={disabled} onClick={() => onPick(item)}>
+      const restriction = item.fitRestriction
+      return <button key={item.typeId} type="button" className={restriction ? 'ar candidate-restricted' : 'ar candidate'}
+        disabled={disabled || restriction !== undefined} onClick={() => onPick(item)}>
         <ItemIcon src={iconUrl(item.iconId)} />
         <span className="mn">
           <span>{lname(item.name, lang)}</span>
           {item.keyLine && <small className="num">{item.keyLine}</small>}
           {item.fitting && <small className="num">{_t('CPU')} {fmt(item.fitting.cpu)} · {_t('Powergrid')} {fmt(item.fitting.powergrid)}</small>}
+          {restriction && <small>{restrictionLabel(restriction)}</small>}
           {warnings && <small className="warn">{warnings}</small>}
         </span>
       </button>
     })}
   </>
+}
+
+function restrictionLabel(restriction: NonNullable<ItemRow['fitRestriction']>) {
+  switch (restriction) {
+    case 'typeLimit': return _t('Maximum of this module fitted')
+    case 'groupLimit': return _t('Maximum for this module group fitted')
+    case 'hull': return _t('Incompatible with this ship')
+    case 'rigSize': return _t('Wrong rig size')
+    case 'subsystemSlot': return _t('Subsystem slot already occupied')
+    case 'capitalSize': return _t('Requires a capital ship')
+    case 'slotLimit': return _t('No empty slot')
+    case 'hardpointLimit': return _t('No free hardpoint')
+  }
 }
 
 function available(amount?: number) {

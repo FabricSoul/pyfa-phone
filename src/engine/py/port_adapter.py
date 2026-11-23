@@ -65,6 +65,7 @@ class PortAdapter:
             'schema': 1, 'dataVersion': self.engine.data_version, 'clientBuild': self.engine.client_build,
             'name': fit.name,
             'shipTypeId': fit.shipID, 'modules': modules,
+            **({'modeTypeId': fit.mode.item.ID} if fit.mode is not None else {}),
             'drones': [{'typeId': d.item.ID, 'amount': d.amount, 'active': d.amountActive}
                        for d in fit.drones],
             'fighters': [{'typeId': f.item.ID, 'amount': f.amount, 'active': f.active}
@@ -103,6 +104,20 @@ class PortAdapter:
             warnings.append(line)
         return warnings
 
+    def _eft_mode(self, block, lookup):
+        from eos.saveddata.ship import Ship
+
+        ship = lookup(_HEADER.fullmatch(block[0])[1], eagerCat=True)
+        if ship is None or (ship.group.name != 'Tactical Destroyer' and ship.name != 'Anhinga'):
+            return block, None
+        modes = {name.casefold(): item for item in Ship(ship).modeItems
+                 for name in self.engine.lname(item).values()}
+        for index, line in enumerate(block[1:], start=1):
+            mode = modes.get(line.casefold())
+            if mode is not None:
+                return block[:index] + block[index + 1:], mode
+        return block, None
+
     def import_text(self, text):
         from service.port import dna, eft
 
@@ -117,12 +132,15 @@ class PortAdapter:
                 for first, last in zip(starts, starts[1:]):
                     block = lines[first:last]
                     try:
+                        block, mode = self._eft_mode(block, lookup)
                         fit = eft.importEft(block.copy())
                     except (AttributeError, IndexError, TypeError, ValueError):
                         fit = None
                     if fit is None or fit.isStructure:
                         warnings += [line for line in block if line]
                         continue
+                    if mode is not None:
+                        fit.mode = fit.ship.validateModeItem(mode)
                     fits.append(self._doc(fit))
                     warnings += self._unparsed_eft(block[1:], fit, lookup)
             for name, ids in ambiguous.items():
@@ -202,4 +220,7 @@ class PortAdapter:
                 return line
 
             text = '\n'.join(map(localize, text.split('\n')))
+        if fmt == 'eft' and fit.mode is not None:
+            mode_name = self.engine.lname(fit.mode.item)['zh' if language == 'zh' else 'en']
+            text = f"{text.rstrip()}\n\n{mode_name}"
         return text

@@ -6,7 +6,7 @@
 
 Reads etl/fixtures/fits.json (FitDoc objects, see src/engine/types.ts) and writes
 src/engine/fixtures/{rifter,merlin,thrasher}.json plus catalog.json (item lists for the
-mock engine). --check recomputes everything and exits 1 if the committed files differ.
+mock engine) plus a separate parity-only fixture set. --check recomputes everything and exits 1 if the committed files differ.
 
 Run pnpm etl first. The manifest supplies the asset version and eve.db defaults to
 the generated build/eve.db (overridable with --db or PYFA_EVE_DB).
@@ -26,9 +26,10 @@ ROOT = Path(__file__).resolve().parents[2]
 PYFA = ROOT / 'vendor' / 'pyfa'
 FITS = Path(__file__).resolve().parent / 'fits.json'
 OUT = ROOT / 'src' / 'engine' / 'fixtures'
+ADVANCED = FITS.with_name('advanced-fits.json')
+ADVANCED_EXPECTED = FITS.with_name('advanced-expected.json')
 sys.path[:0] = [str(ROOT / 'src/engine/py'), str(PYFA)]
-from engine import Engine
-from headless import bootstrap
+import api
 
 
 def dump(obj):
@@ -42,15 +43,17 @@ def main():
     args = ap.parse_args()
 
     manifest = json.loads((ROOT / 'public/data/manifest.json').read_text())
-    bootstrap(Path(args.db or os.environ.get('PYFA_EVE_DB') or ROOT / 'build/eve.db').resolve())
-    engine = Engine(manifest['dataVersion'])
-    if engine.client_build != manifest['clientBuild']:
-        ap.error('The fixture database client build does not match the asset manifest')
+    db = Path(args.db or os.environ.get('PYFA_EVE_DB') or ROOT / 'build/eve.db').resolve()
+    api.initialize(db, ROOT / 'public/data' / manifest['names']['file'],
+                   manifest['dataVersion'], manifest['clientBuild'])
+    engine = api._engine
     docs = json.loads(FITS.read_text())
     for doc in docs.values():
         doc.update(dataVersion=engine.data_version, clientBuild=engine.client_build, itemNames=engine.item_names(doc))
-    outputs = {OUT / f'{name}.json': dump(engine.calc(doc)) for name, doc in docs.items()}
-    outputs[OUT / 'catalog.json'] = dump(engine.catalog(list(docs.values())))
+    outputs = {OUT / f'{name}.json': dump(api.calc(doc)) for name, doc in docs.items()}
+    with api._temporary_fit():
+        outputs[OUT / 'catalog.json'] = dump(engine.catalog(list(docs.values())))
+    outputs[ADVANCED_EXPECTED] = dump({name: api.calc(doc) for name, doc in json.loads(ADVANCED.read_text()).items()})
     outputs[FITS] = dump(docs)
 
     if args.check:

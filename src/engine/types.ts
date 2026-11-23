@@ -42,6 +42,7 @@ export const FitModuleSchema = z.object({
   typeId: z.number().int(),
   state: ModuleStateSchema,
   chargeTypeId: z.number().int().nullable(),
+  spoolCycles: z.number().int().nonnegative().optional(),
 })
 export type FitModule = z.infer<typeof FitModuleSchema>
 
@@ -55,6 +56,7 @@ export const FitDocSchema = z.object({
   itemNames: z.record(z.string(), LNameSchema).optional(),
   name: z.string(),
   shipTypeId: z.number().int(),
+  modeTypeId: z.number().int().optional(),
   /** Positional: index = slot position; `null` = an empty slot the user kept. Slots past the end are empty too. */
   modules: z.object({
     high: z.array(FitModuleSchema.nullable()),
@@ -118,6 +120,8 @@ export const ModuleSlotRowSchema = z.object({
   /** True when a merged module sits beyond the ship's slot count. */
   overSlots: z.boolean(),
   supportedStates: z.array(ModuleStateSchema).optional(),
+  adjustment: z.literal('state').optional(),
+  maxSpoolCycles: z.number().int().positive().optional(),
 })
 export const EmptySlotRowSchema = z.object({
   kind: z.literal('empty'),
@@ -126,6 +130,7 @@ export const EmptySlotRowSchema = z.object({
 })
 export const RemovedSlotRowSchema = EmptySlotRowSchema.extend({
   kind: z.literal('removed'),
+  adjustment: z.literal('slot').optional(),
   typeId: z.number().int(),
   name: LNameSchema,
 })
@@ -210,6 +215,13 @@ export type RangeCurve = z.infer<typeof RangeCurveSchema>
 
 const PriceStackSchema = z.array(z.object({ typeId: z.number().int(), quantity: z.number().int().positive() }))
 
+const MissingSkillSchema = z.object({
+  typeId: z.number().int(),
+  name: LNameSchema,
+  requiredLevel: z.number().int(),
+  currentLevel: z.number().int(),
+})
+
 export const CalcResultSchema = z.object({
   dataVersion: z.string(),
   clientBuild: z.string(),
@@ -249,6 +261,19 @@ export const CalcResultSchema = z.object({
     subsystem: z.array(SlotRowSchema),
   }),
   stats: StatsSchema,
+  missingSkills: z.array(MissingSkillSchema).optional(),
+  modes: z.object({
+    selected: z.number().int(),
+    options: z.array(z.object({ typeId: z.number().int(), name: LNameSchema })),
+  }).optional(),
+  squadrons: z.object({
+    drones: z.array(z.object({
+      index: z.number().int(), typeId: z.number().int(), active: z.number().int(), bandwidth: num,
+    })),
+    fighters: z.array(z.object({
+      index: z.number().int(), typeId: z.number().int(), active: z.boolean(), maxAmount: z.number().int(),
+    })),
+  }).optional(),
   priceItems: z.object({
     ship: PriceStackSchema,
     modules: PriceStackSchema,
@@ -284,7 +309,12 @@ export interface SlotItemsOptions {
   meta?: MetaGroup
   /** Skip eos insertion/recalculation during the initial list request. */
   preview?: boolean
+  calcOptions?: CalcOptions
 }
+
+export const FitRestrictionSchema = z.enum([
+  'typeLimit', 'groupLimit', 'hull', 'rigSize', 'subsystemSlot', 'capitalSize', 'slotLimit', 'hardpointLimit',
+])
 
 export const ItemRowSchema = z.object({
   typeId: z.number().int(),
@@ -296,6 +326,8 @@ export const ItemRowSchema = z.object({
   keyValue: num.nullable(),
   keyLine: z.string(),
   marketGroup: MarketGroupSchema.optional(),
+  initialState: ModuleStateSchema.optional(),
+  fitRestriction: FitRestrictionSchema.optional(),
   resourceOverages: z.array(WarningSchema.extend({ overBy: num })).optional(),
   supportedStates: z.array(ModuleStateSchema).optional(),
   fitting: z.object({ cpu: num, powergrid: num }).optional(),
@@ -331,6 +363,10 @@ export interface SlotItemFilters extends SlotItemsOptions {
 
 export interface CalcOptions {
   includeReload?: boolean
+  includeReactivation?: boolean
+  strictSkills?: boolean
+  useCharacterImplants?: boolean
+  defaultSpoolPercent?: number
 }
 
 export interface ImportResult {
@@ -339,12 +375,7 @@ export interface ImportResult {
   warnings: string[]
 }
 
-export interface MissingSkill {
-  typeId: number
-  name: LName
-  requiredLevel: number
-  currentLevel: number
-}
+export type MissingSkill = z.infer<typeof MissingSkillSchema>
 
 export type ExportFormat = 'eft' | 'dna' | 'multibuy'
 
@@ -374,7 +405,7 @@ export interface EngineClient {
   itemsForSlot(fit: FitDoc, slot: SlotKind, filters?: SlotItemFilters | string, options?: SlotItemsOptions): Promise<ItemGroup[]>
   /** Lightweight market navigation for eligible modules, with no insertion previews. */
   marketGroupsForSlot?(fit: FitDoc, slot: SlotKind): Promise<MarketGroup[]>
-  chargesFor(fit: FitDoc, pos: ModulePos, metaGroup?: MetaGroup): Promise<ChargeGroup[]>
+  chargesFor(fit: FitDoc, pos: ModulePos, metaGroup?: MetaGroup, options?: CalcOptions): Promise<ChargeGroup[]>
   variationsOf(typeId: number): Promise<ItemGroup[]>
   importText(text: string): Promise<ImportResult>
   exportText(fit: FitDoc, format: ExportFormat, language?: 'en' | 'zh'): Promise<string>
@@ -385,7 +416,7 @@ export interface EngineClient {
   /** Current asset version, used to detect retired IDs before calculating an old fit. */
   getDataVersion?(): Promise<string>
   /** An absent type resolves to null. Attributes reflect fit context when supplied. */
-  itemInfo?(typeId: number, fit?: FitDoc, pos?: ModulePos): Promise<ItemDetails | null>
+  itemInfo?(typeId: number, fit?: FitDoc, pos?: ModulePos, options?: CalcOptions): Promise<ItemDetails | null>
 }
 
 export interface ItemDetails {

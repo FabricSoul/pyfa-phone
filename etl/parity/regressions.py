@@ -16,6 +16,177 @@ def regression_results(fits, data_version, client_build):
     rifter = fits['rifter']
 
     class EngineRegressions(unittest.TestCase):
+        def empty_ship(self, type_id, **fields):
+            return {**rifter, 'shipTypeId': type_id,
+                    'modules': {slot: [] for slot in rifter['modules']}, **fields}
+
+        def native_fit(self, ship_id):
+            from eos.saveddata.character import Character
+            from eos.saveddata.fit import Fit
+            from eos.saveddata.ship import Ship
+            db = api._engine.db
+            fit = Fit(Ship(db.getItem(ship_id)))
+            fit.character = Character.getAll5()
+            fit.implantLocation = 0
+            db.saveddata_session.add(fit)
+            db.flush()
+            return fit
+
+        def test_vexor_eft_inactive_then_five_hammerheads_match_native_eos(self):
+            from eos.saveddata.drone import Drone
+            parsed = call('import_text', '[Vexor, Drone test]\n\nHammerhead II x5')
+            self.assertEqual([], parsed['warnings'])
+            doc = parsed['fits'][0]
+            self.assertEqual(0, doc['drones'][0]['active'])
+            self.assertEqual(0, call('calc', doc)['stats']['firepower']['droneDps'])
+            doc['drones'][0].update(amount=10, active=10)
+            actual = call('calc', doc)
+            with api._temporary_fit():
+                fit = self.native_fit(626)
+                drone = Drone(api._engine.item(2185))
+                drone.amount, drone.amountActive = 10, 5
+                fit.drones.append(drone)
+                api._engine.db.flush()
+                fit.clear()
+                fit.calculateModifiedAttributes()
+                self.assertAlmostEqual(fit.getDroneDps().total, actual['stats']['firepower']['droneDps'], places=4)
+                self.assertEqual(5, actual['resources']['activeDrones']['used'])
+                self.assertEqual(50, actual['resources']['droneBandwidth']['used'])
+            # A smaller hull hits bandwidth before the pilot reaches 5 drones.
+            limited = call('calc', {**doc, 'shipTypeId': 593, 'drones': [
+                {'typeId': 2185, 'amount': 5, 'active': 5},
+                {'typeId': 2205, 'amount': 5, 'active': 5},
+            ]})
+            self.assertEqual(25, limited['resources']['droneBandwidth']['used'])
+            self.assertEqual(3, limited['resources']['activeDrones']['used'])
+
+        def test_confessor_localized_eft_mode_round_trip_and_native_stats(self):
+            from eos.saveddata.mode import Mode
+            parsed = call('import_text', '[Confessor, Mode test]\nConfessor Sharpshooter Mode')
+            self.assertEqual([], parsed['warnings'])
+            doc = parsed['fits'][0]
+            self.assertEqual(34321, doc['modeTypeId'])
+            chinese = call('export_text', doc, 'eft', 'zh')
+            self.assertIn('忏悔者级狙击模式', chinese)
+            self.assertEqual(34321, call('import_text', chinese)['fits'][0]['modeTypeId'])
+            actual = call('calc', doc)
+            self.assertEqual({34319, 34321, 34323}, {mode['typeId'] for mode in actual['modes']['options']})
+            self.assertEqual(34321, actual['modes']['selected'])
+            with api._temporary_fit():
+                fit = self.native_fit(34317)
+                fit.mode = Mode(api._engine.item(34321))
+                fit.clear()
+                fit.calculateModifiedAttributes()
+                self.assertAlmostEqual(fit.maxTargetRange, actual['stats']['navigation']['maxTargetRange'], places=4)
+            self.assertNotEqual(actual['stats']['navigation']['maxTargetRange'],
+                                call('calc', {**doc, 'modeTypeId': 34319})['stats']['navigation']['maxTargetRange'])
+
+        def test_candidate_fitting_rules_and_default_state(self):
+            def rows(doc, slot, query):
+                return [row for group in call('items_for_slot', doc, slot, query, {'preview': False})
+                        for row in group['items']]
+
+            result = rows(rifter, 'low', 'damage control')
+            self.assertEqual('groupLimit', next(row for row in result if row['typeId'] == 2048)['fitRestriction'])
+            result = rows(self.empty_ship(587), 'high', 'prototype cloaking device')
+            self.assertEqual('online', result[0]['initialState'])
+            result = rows(self.empty_ship(587), 'mid', 'stasis webifier ii')
+            self.assertEqual('active', next(row for row in result if row['typeId'] == 527)['initialState'])
+            result = rows(rifter, 'rig', 'medium trimark armor pump i')
+            self.assertEqual('rigSize', next(row for row in result if row['typeId'] == 31055)['fitRestriction'])
+            from eos.gamedata import Item
+            native = Item.getAttribute
+
+            def dogma(item, key, *args, **kwargs):
+                if item.ID == 519 and key == 'maxTypeFitted':
+                    return 1
+                return native(item, key, *args, **kwargs)
+
+            with patch.object(Item, 'getAttribute', dogma):
+                result = rows(rifter, 'low', 'gyrostabilizer ii')
+            self.assertEqual('typeLimit', next(row for row in result if row['typeId'] == 519)['fitRestriction'])
+            legion = self.empty_ship(29986)
+            legion['modules']['subsystem'] = [{'typeId': 45623, 'state': 'online', 'chargeTypeId': None}]
+            result = rows(legion, 'subsystem', 'legion core')
+            self.assertEqual('subsystemSlot', next(row for row in result if row['typeId'] == 45622)['fitRestriction'])
+
+        def test_old_slot_and_state_still_open_with_row_diagnostics(self):
+            fit = copy.deepcopy(rifter)
+            fit['modules']['low'][2]['state'] = 'active'
+            fit['modules']['mid'][0] = {'typeId': 2048, 'state': 'online', 'chargeTypeId': None}
+            result = call('calc', fit)
+            bad_slot = next(row for row in result['slots']['mid'] if row.get('typeId') == 2048)
+            self.assertEqual('slot', bad_slot['adjustment'])
+            downgraded = next(row for row in result['slots']['low'] if row.get('typeId') == 2048)
+            self.assertEqual('online', downgraded['state'])
+            self.assertEqual('state', downgraded['adjustment'])
+            fit['modules']['low'][2]['state'] = 'online'
+            fit['modules']['mid'][0] = None
+            self.assertEqual(call('calc', fit)['stats'], result['stats'])
+
+        def test_character_skill_and_reactivation_options(self):
+            doc = {**rifter, 'character': 'all0'}
+            restricted = call('calc', doc, {'strictSkills': True})
+            unrestricted = call('calc', doc, {'strictSkills': False})
+            self.assertTrue(restricted['missingSkills'])
+            self.assertEqual(restricted['missingSkills'], unrestricted['missingSkills'])
+            self.assertEqual([], call('calc', rifter)['missingSkills'])
+            self.assertLess(restricted['stats']['firepower']['dps'], call('calc', rifter)['stats']['firepower']['dps'])
+            from eos import config
+            self.assertTrue(config.settings['strictSkillLevels'])
+            # The drive has a capacitor draw and an actual reactivation delay.
+            doc = self.empty_ship(28710)
+            doc['modules']['mid'] = [{'typeId': 4383, 'state': 'active', 'chargeTypeId': None}]
+            with_delay = call('calc', doc, {'includeReactivation': True})
+            without_delay = call('calc', doc, {'includeReactivation': False})
+            self.assertEqual(call('calc', doc)['stats']['capacitor'], with_delay['stats']['capacitor'])
+            self.assertLess(with_delay['stats']['capacitor']['usage'], without_delay['stats']['capacitor']['usage'])
+
+        def test_weapon_and_mutadaptive_repair_spool_cycles_match_native_eos(self):
+            from eos.const import SpoolType
+            from eos.saveddata.module import Module
+            for hull, module, charge, section, field, native in (
+                (47269, 47914, 47926, 'firepower', 'weaponDps', lambda f: f.getWeaponDps().total),
+                (47269, 49773, None, 'remoteRepair', 'armor', lambda f: f.getRemoteReps().armor),
+            ):
+                with self.subTest(module=module):
+                    doc = self.empty_ship(hull)
+                    doc['modules']['high'] = [{'typeId': module, 'state': 'active', 'chargeTypeId': charge}]
+                    early = call('calc', doc, {'defaultSpoolPercent': 0})['stats'][section][field]
+                    full = call('calc', doc, {'defaultSpoolPercent': 100})['stats'][section][field]
+                    doc['modules']['high'][0]['spoolCycles'] = 3
+                    result = call('calc', doc, {'defaultSpoolPercent': 100})
+                    actual = result['stats'][section][field]
+                    self.assertGreater(actual, early)
+                    self.assertLess(actual, full)
+                    with api._temporary_fit():
+                        fit = self.native_fit(hull)
+                        mod = Module(api._engine.item(module))
+                        if charge is not None:
+                            mod.charge = api._engine.item(charge)
+                        fit.modules.appendIgnoreEmpty(mod)
+                        mod.state = 1
+                        mod.spoolType, mod.spoolAmount = SpoolType.CYCLES, 3
+                        api._engine.db.flush()
+                        fit.clear()
+                        fit.calculateModifiedAttributes()
+                        self.assertAlmostEqual(native(fit), actual, places=4)
+
+        def test_expanded_calculation_parity_covers_all_six_scenarios(self):
+            self.assertEqual({'vexor', 'thanatos', 'legion', 'confessor', 'unstable', 'overfit'}, fits.keys() - {
+                'rifter', 'merlin', 'thrasher',
+            })
+            results = {name: call('calc', fits[name]) for name in ('vexor', 'thanatos', 'legion', 'confessor', 'unstable', 'overfit')}
+            self.assertGreater(results['vexor']['stats']['firepower']['droneDps'], 0)
+            thanatos = results['thanatos']
+            self.assertEqual(1, thanatos['resources']['fighterTubes']['used'])
+            self.assertGreater(thanatos['stats']['firepower']['dps'], 0)
+            self.assertGreater(results['legion']['resources']['slots']['subsystem']['used'], 0)
+            self.assertEqual(34321, results['confessor']['modes']['selected'])
+            self.assertFalse(results['unstable']['stats']['capacitor']['stable'])
+            self.assertGreater(results['unstable']['stats']['capacitor']['lastsSeconds'], 0)
+            self.assertTrue({'cpu', 'highSlots'} <= {row['kind'] for row in results['overfit']['warnings']})
+
         def test_chinese_eft_round_trip_preserves_ambiguous_type_id(self):
             fit = copy.deepcopy(rifter)
             fit['modules']['low'] = [{'typeId': 15070, 'state': 'active', 'chargeTypeId': None}]
@@ -88,6 +259,8 @@ def regression_results(fits, data_version, client_build):
 
         def test_item_filters_skip_recalculation_for_other_groups(self):
             group_id = api._engine.item(2889).groupID
+            fit_doc = copy.deepcopy(rifter)
+            fit_doc['modules']['high'][0] = None
             from eos.saveddata.fit import Fit
             native = Fit.calculateModifiedAttributes
             trial = []
@@ -99,7 +272,7 @@ def regression_results(fits, data_version, client_build):
                 return native(fit, *args, **kwargs)
 
             with patch.object(Fit, 'calculateModifiedAttributes', record):
-                groups = call('items_for_slot', rifter, 'high', {
+                groups = call('items_for_slot', fit_doc, 'high', {
                     'group': group_id, 'metaGroup': 'tech2', 'query': 'autocannon',
                 })
             self.assertEqual(['tech2'], [group['meta'] for group in groups])
@@ -108,21 +281,24 @@ def regression_results(fits, data_version, client_build):
 
         def test_market_leaf_and_meta_filter_only_trial_the_requested_candidates(self):
             market = api._engine.market_group(api._engine.item(2889))
-            self.assertIn(market, call('market_groups_for_slot', rifter, 'high'))
+            fit_doc = copy.deepcopy(rifter)
+            fit_doc['modules']['high'][0] = None
+            self.assertIn(market, call('market_groups_for_slot', fit_doc, 'high'))
             self.assertEqual(data_version, call('get_data_version'))
             with patch.object(api._engine, 'recalc', wraps=api._engine.recalc) as recalc:
-                catalog = call('items_for_slot', rifter, 'high', None, {
+                catalog = call('items_for_slot', fit_doc, 'high', None, {
                     'marketGroupId': market['id'], 'preview': False,
                 })
                 self.assertNotIn('resourceOverages', catalog[0]['items'][0])
                 self.assertEqual(1, recalc.call_count)  # Calculate hull layout once.
                 recalc.reset_mock()
-                preview = call('items_for_slot', rifter, 'high', None, {
+                preview = call('items_for_slot', fit_doc, 'high', None, {
                     'marketGroupId': market['id'], 'meta': 'tech2', 'preview': True,
                 })
                 self.assertEqual(['tech2'], [group['meta'] for group in preview])
                 self.assertEqual({market['id']}, {row['marketGroup']['id'] for row in preview[0]['items']})
-                self.assertEqual(2 + len(preview[0]['items']), recalc.call_count)
+                trials = [row for row in preview[0]['items'] if not row.get('fitRestriction')]
+                self.assertEqual(1 + len(trials), recalc.call_count)
 
         def test_item_info_reports_fitted_cpu_only_for_the_matching_position(self):
             base = call('item_info', 2889)

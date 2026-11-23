@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { SLOT_KINDS, type CalcResult, type ModulePos, type ModuleSlotRow, type SlotKind } from '../engine/types'
+import { SLOT_KINDS, type CalcResult, type FitDoc, type ModulePos, type ModuleSlotRow, type SlotKind } from '../engine/types'
 import { _t } from '../i18n/t'
 import { NavBar } from '../ui/NavBar'
 import { ResourceBar } from '../ui/ResourceGauge'
 import { Tabs } from '../ui/Tabs'
 import { ModuleRow } from '../ui/ModuleRow'
 import { priceTotal, totalPriceItems, usePriceQuotes } from '../price/fitPrices'
-import { updateSettings, useSettings } from '../settings/settings'
+import { calcOptions, updateSettings, useSettings } from '../settings/settings'
 import { ActionSheet } from '../ui/ActionSheet'
+import { CharacterPicker } from '../ui/pickers/CharacterPicker'
 import { DamagePatternPicker } from '../ui/pickers/DamagePatternPicker'
 import { TargetProfilePicker } from '../ui/pickers/TargetProfilePicker'
 import { getPatternData } from '../ui/pickers/patterns'
@@ -35,8 +36,28 @@ function markSwipeHintSeen() {
 export function Fit() {
   const language = useNameLanguage()
   const navigate = useNavigate()
-  const { record, fit, result, removed, canUndo, undo, edit } = useFitSession()
-  const { store } = useFitServices()
+  const { record, fit, result: calculated, removed, canUndo, undo, edit } = useFitSession()
+  const { engine, store } = useFitServices()
+  const { preheatPercent } = useSettings()
+  const [spoolPreview, setSpoolPreview] = useState<{
+    fit: FitDoc; percent: number; result: CalcResult; base?: CalcResult
+  }>()
+  const [spoolError, setSpoolError] = useState(false)
+  const spoolRequest = useRef(0)
+  const result = spoolPreview?.fit === fit && spoolPreview.percent === preheatPercent && spoolPreview.base === calculated
+    ? spoolPreview.result : calculated
+
+  function changeSpoolDefault(percent: number) {
+    if (percent === preheatPercent) return
+    const request = ++spoolRequest.current
+    updateSettings({ preheatPercent: percent })
+    void engine.calc(fit, calcOptions()).then((result) => {
+      if (spoolRequest.current === request) {
+        setSpoolPreview({ fit, percent, result, base: calculated })
+        setSpoolError(false)
+      }
+    }, () => { if (spoolRequest.current === request) setSpoolError(true) })
+  }
   const [params, setParams] = useSearchParams()
   const requested = params.get('view')
   const view: View = VIEWS.find((candidate) => candidate === requested) ?? 'slots'
@@ -100,6 +121,7 @@ export function Fit() {
       </li>)}
     </ul>}
     {!result && !retired.has(fit.shipTypeId) && <p role="status" className="page-message">{_t('Calculating fit…')}</p>}
+    {view === 'slots' && result && <FitSetup result={result} />}
     {view === 'slots' && result && SLOT_KINDS.map((slot) => {
       const { total, used } = result.resources.slots[slot]
       const slotItems = fit.modules[slot]
@@ -147,7 +169,8 @@ export function Fit() {
         </div>
       </FitSection>
     })}
-    {view === 'stats' && result && <FitStats result={result} />}
+    {view === 'stats' && spoolError && <p role="alert" className="page-message warn">{_t('Could not recalculate fit')}</p>}
+    {view === 'stats' && result && <FitStats result={result} onSpoolDefaultChange={changeSpoolDefault} />}
     {view === 'extras' && <FitExtras />}
     <ModuleSheet selected={selected} row={row} onClose={() => setSelected(undefined)} />
     <FitMenu open={menu} onClose={() => setMenu(false)} />
@@ -155,10 +178,54 @@ export function Fit() {
   </main>
 }
 
-function FitStats({ result }: { result: CalcResult }) {
+function FitSetup({ result }: { result: CalcResult }) {
   const language = useNameLanguage()
   const { fit, edit } = useFitSession()
-  const { considerReload, priceIncluded } = useSettings()
+  const [characterOpen, setCharacterOpen] = useState(false)
+  const skills = result.missingSkills
+  const modes = result.modes
+
+  return <>
+    <div className="fit-inset fit-setup">
+      {modes && <label>
+        <span className="fit-caption">{_t('Tactical mode')}</span>
+        <select className="fit-input" value={modes.selected}
+          onChange={(event) => {
+            const modeTypeId = Number(event.currentTarget.value)
+            const mode = modes.options.find((entry) => entry.typeId === modeTypeId)
+            if (mode) edit((fit) => ({ ...fit, modeTypeId }), { [modeTypeId]: mode.name })
+          }}>
+          {modes.options.map((mode) => <option key={mode.typeId} value={mode.typeId}>{lname(mode.name, language)}</option>)}
+        </select>
+      </label>}
+      <button type="button" className="fit-button" onClick={() => setCharacterOpen(true)}>
+        {_t('Character')} · {fit.character === 'all5' ? _t('All V') : _t('All 0')}
+      </button>
+      {skills && (skills.length > 0 ? <details>
+        <summary className="fit-skill-summary warn">{_t('Missing skills')} <span className="num">{skills.length}</span></summary>
+        <ul className="fit-skill-list">
+          {skills.map((skill) => <li key={skill.typeId}>
+            {lname(skill.name, language)} <span className="num">{skill.currentLevel}/{skill.requiredLevel}</span>
+          </li>)}
+        </ul>
+      </details> : <span className="fit-caption fit-skill-good">{_t('Skill requirements met')}</span>)}
+    </div>
+    <ActionSheet open={characterOpen} title={_t('Character')} onClose={() => setCharacterOpen(false)}>
+      <CharacterPicker value={fit.character} onPick={(character) => {
+        if (character !== fit.character) edit((fit) => ({ ...fit, character }))
+        setCharacterOpen(false)
+      }} />
+    </ActionSheet>
+  </>
+}
+
+function FitStats({ result, onSpoolDefaultChange }: {
+  result: CalcResult
+  onSpoolDefaultChange: (percent: number) => void
+}) {
+  const language = useNameLanguage()
+  const { fit, edit } = useFitSession()
+  const { considerReload, preheatPercent, priceIncluded } = useSettings()
   const [picker, setPicker] = useState<'damage' | 'target'>()
   const { damagePatterns, targetProfiles } = getPatternData()
   const damage = damagePatterns.find(({ id }) => id === fit.damagePatternId)
@@ -180,6 +247,18 @@ function FitStats({ result }: { result: CalcResult }) {
   } : { pending: true }
 
   return <>
+    {SLOT_KINDS.some((slot) => result.slots[slot].some((row) => row.kind === 'module' && row.maxSpoolCycles)) &&
+      <label className="fit-inset fit-preheat">
+        <span>{_t('Default preheat')} (%)</span>
+        <input className="fit-input num" type="number" min={0} max={100} step={1}
+          key={preheatPercent} defaultValue={preheatPercent}
+          onBlur={(event) => {
+            const value = event.currentTarget.valueAsNumber
+            const percent = Number.isFinite(value) ? Math.round(Math.max(0, Math.min(100, value))) : preheatPercent
+            event.currentTarget.value = String(percent)
+            onSpoolDefaultChange(percent)
+          }} />
+      </label>}
     <StatsPage result={result} prices={prices} settings={{
       damagePattern: damage && lname(damage.name, language),
       targetProfile: target && lname(target.name, language),

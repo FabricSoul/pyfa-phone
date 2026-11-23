@@ -90,6 +90,8 @@ class Engine:
     @staticmethod
     def item_ids(doc):
         yield doc['shipTypeId']
+        if doc.get('modeTypeId') is not None:
+            yield doc['modeTypeId']
         for rack in doc['modules'].values():
             for entry in rack:
                 if entry is not None:
@@ -126,12 +128,19 @@ class Engine:
         from eos.saveddata.module import Module
         from eos.saveddata.ship import Ship
         from eos.saveddata.targetProfile import TargetProfile
+        from eos.const import ImplantLocation, SpoolType
+        from eos.utils.spoolSupport import SpoolOptions
 
         fit = Fit(Ship(self.item(doc['shipTypeId'])))
         fit.name = doc['name']
-        fit.factorReload = bool((options or {}).get('includeReload'))
+        options = options or {}
+        fit.factorReload = bool(options.get('includeReload'))
+        fit.include_reactivation = options.get('includeReactivation', True)
+        fit.spool_options = SpoolOptions(SpoolType.SPOOL_SCALE, options.get('defaultSpoolPercent', 100) / 100, False)
+        if doc.get('modeTypeId') is not None:
+            fit.mode = fit.ship.validateModeItem(self.db.getItem(doc['modeTypeId']))
         fit.character = Character.getAll5() if doc['character'] == 'all5' else Character.getAll0()
-        fit.implantLocation = 0
+        fit.implantLocation = ImplantLocation.CHARACTER if options.get('useCharacterImplants') else ImplantLocation.FIT
         fit.damagePattern = DamagePattern.getBuiltinById(doc['damagePatternId'])
         if doc['targetProfileId'] is not None:
             fit.targetProfile = TargetProfile.getBuiltinById(doc['targetProfileId'])
@@ -142,33 +151,37 @@ class Engine:
         for kind in SLOT_KINDS:
             for index, entry in enumerate(doc['modules'][kind]):
                 item = self.db.getItem(entry['typeId']) if entry else None
-                if item is None:
-                    mod = Module.buildEmpty(self.kind_slot[kind])
-                else:
+                valid_slot = item is not None and Module.calculateSlot(item) == self.kind_slot[kind]
+                if valid_slot:
                     mod = Module(item)
-                    if self.slot_of.get(mod.slot) != kind:
-                        raise ValueError(f'{mod.item.name} does not go in a {kind} slot')
+                    mod.state = mod.getMaxState(STATES[entry['state']])
                     if entry['chargeTypeId'] is not None:
-                        mod.charge = self.db.getItem(entry['chargeTypeId'])
-                    state = STATES[entry['state']]
-                    if not mod.isValidState(state):
-                        raise ValueError(f'{mod.item.name} cannot be {entry["state"]}')
+                        charge = self.db.getItem(entry['chargeTypeId'])
+                        if charge is not None and charge.category.name == 'Charge' and mod.isValidCharge(charge):
+                            mod.charge = charge
+                    if entry.get('spoolCycles') is not None:
+                        mod.spoolType, mod.spoolAmount = SpoolType.CYCLES, entry['spoolCycles']
+                else:
+                    mod = Module.buildEmpty(self.kind_slot[kind])
                 fit.modules.appendIgnoreEmpty(mod)
-                if item is not None:
-                    mod.state = state
                 positions[id(mod)] = (kind, index)
-        for key, constructor in (('drones', Drone), ('fighters', Fighter), ('cargo', Cargo)):
+        fit.drone_positions = []
+        fit.fighter_positions = []
+        for key, constructor, category in (('drones', Drone, 'Drone'), ('fighters', Fighter, 'Fighter'),
+                                           ('cargo', Cargo, None)):
             collection = getattr(fit, key)
-            for entry in doc.get(key, []):
+            for index, entry in enumerate(doc.get(key, [])):
                 item = self.db.getItem(entry['typeId'])
-                if item is None:
+                if item is None or category is not None and item.category.name != category:
                     continue
                 member = constructor(item)
-                member.amount = entry['amount']
+                member.amount = max(0, entry['amount'])
                 if key == 'drones':
-                    member.amountActive = entry['active']
+                    member.amountActive = min(member.amount, max(0, entry['active']))
+                    fit.drone_positions.append(index)
                 elif key == 'fighters':
-                    member.active = entry['active']
+                    member.active = entry['active'] and member.amount > 0
+                    fit.fighter_positions.append(index)
                 collection.append(member)
         for key, constructor in (('implants', Implant), ('boosters', Booster)):
             collection = getattr(fit, key)
@@ -178,6 +191,10 @@ class Engine:
                     collection.append(constructor(item))
         self.db.flush()
         self.recalc(fit)
+        if self.check_states(fit):
+            self.recalc(fit)
+        if self.limit_squadrons(fit):
+            self.recalc(fit)
         # service.Fit.getFit can look up this already-calculated fit from a desktop column
         # without filling empty slots or committing our temporary transaction.
         fit.inited = True
@@ -187,6 +204,74 @@ class Engine:
     def recalc(fit):
         fit.clear()
         fit.calculateModifiedAttributes()
+        if not fit.include_reactivation:
+            for mod in fit.activeModulesIter():
+                if mod.reactivationDelay:
+                    # Fit's capacitor simulator and Module's cycle helpers both read this dogma attribute.
+                    mod.itemModifiedAttributes.force('moduleReactivationDelay', 0)
+
+    @staticmethod
+    def check_states(fit, base=None):
+        from service.fit import Fit
+        return any(Fit.getInstance().checkStates(fit, base))
+
+    @staticmethod
+    def limit_squadrons(fit):
+        slots = max(0, int(fit.extraAttributes['maxActiveDrones']))
+        bandwidth = max(0, fit.ship.getModifiedItemAttr('droneBandwidth'))
+        changed = False
+        for drone in fit.drones:
+            cost = drone.getModifiedItemAttr('droneBandwidthUsed')
+            limit = min(slots, int(bandwidth / cost)) if cost else slots
+            if drone.amountActive > limit:
+                drone.amountActive = limit
+                changed = True
+            slots -= drone.amountActive
+            bandwidth -= cost * drone.amountActive
+        tubes = fit.fighterTubesTotal
+        for fighter in fit.fighters:
+            if fighter.active:
+                if tubes <= 0:
+                    fighter.active = False
+                    changed = True
+                else:
+                    tubes -= 1
+        return changed
+
+    def squadron_controls(self, fit):
+        return {
+            'drones': [{
+                'index': index, 'typeId': drone.item.ID, 'active': int(drone.amountActive),
+                'bandwidth': r(drone.getModifiedItemAttr('droneBandwidthUsed')),
+            } for index, drone in zip(fit.drone_positions, fit.drones)],
+            'fighters': [{
+                'index': index, 'typeId': fighter.item.ID, 'active': bool(fighter.active),
+                'maxAmount': fighter.fighterSquadronMaxSize,
+            } for index, fighter in zip(fit.fighter_positions, fit.fighters)],
+        }
+
+    @staticmethod
+    def max_spool_cycles(mod):
+        from eos.const import SpoolType
+        from eos.utils.spoolSupport import SpoolOptions
+        return mod.getSpoolData(SpoolOptions(SpoolType.SPOOL_SCALE, 1, True))[0]
+
+    def missing_skills(self, fit):
+        from service.character import Character
+        levels = {}
+
+        def collect(requirements):
+            for level, type_id, prerequisites in requirements.values():
+                levels[type_id] = max(level, levels.get(type_id, 0))
+                collect(prerequisites)
+
+        for requirements in Character.getInstance().checkRequirements(fit).values():
+            collect(requirements)
+        return [
+            {'typeId': type_id, 'name': self.lname(self.item(type_id)),
+             'requiredLevel': level, 'currentLevel': int(fit.character.getSkill(type_id).level)}
+            for type_id, level in sorted(levels.items())
+        ]
 
     # -- result --------------------------------------------------------------
     def key_columns(self, mod):
@@ -211,7 +296,8 @@ class Engine:
             elif mod.isEmpty:
                 key = ('removed', entry['typeId'])
             else:
-                key = ('module', mod.item.ID, mod.state, entry['chargeTypeId'])
+                state_adjusted = STATES[entry['state']] != mod.state
+                key = ('module', mod.item.ID, mod.state, entry['chargeTypeId'], entry.get('spoolCycles'), state_adjusted)
             if key not in groups[kind]:
                 groups[kind][key] = []
                 out[kind].append(key)
@@ -236,9 +322,12 @@ class Engine:
                     rows[kind].append({'kind': 'empty', 'count': len(members), 'positions': idx})
                     continue
                 if key[0] == 'removed':
+                    item = self.db.getItem(key[1])
                     rows[kind].append({
-                        'kind': 'removed', 'typeId': key[1], 'name': self.saved_name(doc, key[1]),
+                        'kind': 'removed', 'typeId': key[1],
+                        'name': self.lname(item) if item is not None else self.saved_name(doc, key[1]),
                         'count': len(members), 'positions': idx,
+                        **({'adjustment': 'slot'} if item is not None else {}),
                     })
                     continue
                 mod = members[0][1]
@@ -250,6 +339,7 @@ class Engine:
                     charge = {'typeId': key[3], 'name': self.saved_name(doc, key[3]),
                               'iconId': None, 'count': 0, 'removed': True}
                 parts = self.key_parts(mod)
+                spool_max = self.max_spool_cycles(mod)
                 rows[kind].append({
                     'kind': 'module',
                     'typeId': mod.item.ID,
@@ -260,6 +350,8 @@ class Engine:
                     'positions': idx,
                     'state': STATE_NAMES[int(mod.state)],
                     'supportedStates': self.supported_states(mod),
+                    **({'adjustment': 'state'} if key[5] else {}),
+                    **({'maxSpoolCycles': spool_max} if spool_max else {}),
                     'charge': charge,
                     'keyLine': ' · '.join(parts),
                     'keyParts': parts,
@@ -286,8 +378,9 @@ class Engine:
             'fighterTubes': ut(fit.fighterTubesUsed, fit.fighterTubesTotal),
             'specializedBays': {name: r(capacity) for name in SPECIALIZED_BAYS if (capacity := attr(name, 0))},
             'droneBandwidth': ut(fit.droneBandwidthUsed, attr('droneBandwidth')),
-            'slots': {k: ut(fit.getSlotsUsed(self.kind_slot[k]), fit.getNumSlots(self.kind_slot[k]))
-                      for k in SLOT_KINDS},
+            # Module.calculateSlot stores the integer value. eos compares slots by identity.
+            'slots': {k: ut(fit.getSlotsUsed(slot.value), fit.getNumSlots(slot))
+                      for k, slot in self.kind_slot.items()},
         }
 
     @staticmethod
@@ -322,15 +415,15 @@ class Engine:
             return {'passiveShield': r(t['passiveShield']), 'shield': r(t['shieldRepair']),
                     'armor': r(t['armorRepair']), 'hull': r(t['hullRepair'])}
 
-        rr = fit.getRemoteReps()
+        rr = fit.getRemoteReps(spoolOptions=fit.spool_options)
         stable = bool(fit.capStable)
         sensor = fit.scanType
         return {
             'firepower': {
-                'dps': r(fit.getTotalDps().total),
-                'weaponDps': r(fit.getWeaponDps().total),
+                'dps': r(fit.getTotalDps(spoolOptions=fit.spool_options).total),
+                'weaponDps': r(fit.getWeaponDps(spoolOptions=fit.spool_options).total),
                 'droneDps': r(fit.getDroneDps().total),
-                'volley': r(fit.getTotalVolley().total),
+                'volley': r(fit.getTotalVolley(spoolOptions=fit.spool_options).total),
                 'includesReload': fit.factorReload,
             },
             'mining': {'unit': 'm³/s', 'miner': r(fit.minerYield),
@@ -374,7 +467,7 @@ class Engine:
         for mod in fit.modules:
             if mod.isEmpty:
                 continue
-            dps = mod.getDps(targetProfile=fit.targetProfile).total
+            dps = mod.getDps(targetProfile=fit.targetProfile, spoolOptions=fit.spool_options).total
             if dps:
                 yield mod, dps, mod.maxRange or 0, mod.falloff or 0
 
@@ -413,7 +506,7 @@ class Engine:
                     for module in same:
                         module.charge = charge
                     self.recalc(fit)
-                    dps = lead.getDps(targetProfile=fit.targetProfile).total
+                    dps = lead.getDps(targetProfile=fit.targetProfile, spoolOptions=fit.spool_options).total
                     distance = (lead.maxRange or 0) + 3 * (lead.falloff or 0)
                     ranked.append((charge, dps, distance, self._range_snapshot(fit)))
             finally:
@@ -472,6 +565,12 @@ class Engine:
             'ship': {'typeId': fit.ship.item.ID, 'name': self.lname(fit.ship.item),
                      'graphicId': fit.ship.item.graphicID, 'group': self.group_name(fit.ship.item.group)},
             'resources': res,
+            'missingSkills': self.missing_skills(fit),
+            **({'squadrons': self.squadron_controls(fit)} if fit.drones or fit.fighters else {}),
+            **({'modes': {
+                'selected': fit.mode.item.ID,
+                'options': [{'typeId': mode.ID, 'name': self.lname(mode)} for mode in fit.ship.modeItems],
+            }} if fit.mode is not None else {}),
             'slots': self.slot_rows(fit, positions, doc),
             'stats': self.stats(fit),
             'priceItems': self.price_items(fit),
@@ -514,7 +613,7 @@ class Engine:
                     continue
                 module.charge = ammo
                 self.recalc(fit)
-                damage = module.getDps(targetProfile=fit.targetProfile)
+                damage = module.getDps(targetProfile=fit.targetProfile, spoolOptions=fit.spool_options)
                 dps = r(damage.total)
                 rows.append({
                     **self.item_row(ammo, dps), 'dps': dps,

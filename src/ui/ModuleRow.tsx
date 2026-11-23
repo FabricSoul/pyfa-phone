@@ -58,7 +58,7 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
     return (
       <div className="row warn">
         <ItemIcon />
-        <div className="mn"><span>{lname(row.name, lang)}</span><small>{_t('Item removed')}</small></div>
+        <div className="mn"><span>{lname(row.name, lang)}</span><small>{row.adjustment ? _t('Needs adjustment: wrong slot') : _t('Item removed')}</small></div>
         {row.count > 1 && <span className="cnt num">×{row.count}</span>}
         {onRemove && <button type="button" className="sb" aria-label={_t('Remove')} onClick={onRemove}><Icon name="x" /></button>}
       </div>
@@ -119,6 +119,7 @@ export function ModuleRow({ row, availableStates: provided, selected, pressed, o
           <ItemIcon src={iconUrl(row.iconId)} />
           <span className="mn">
             <span>{lname(row.name, lang)}</span>
+            {row.adjustment && <small className="warn">{_t('Needs adjustment: state changed')}</small>}
             {row.charge && (
               <small><ItemIcon className="mini-ic" size={16} src={iconUrl(row.charge.iconId)} />{lname(row.charge.name, lang)} · {row.charge.removed ? _t('Item removed') : row.charge.count}</small>
             )}

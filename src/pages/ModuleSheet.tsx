@@ -43,6 +43,8 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
   const typeId = current?.typeId
   const chargeTypeId = current?.chargeTypeId
   const path = `/fit/${record.id}`
+  const spoolCycles = current?.spoolCycles
+  const maxSpoolCycles = row.maxSpoolCycles
   const states = row.supportedStates ?? (slot === 'rig' ? ['offline', 'online'] as const : MODULE_STATES)
 
   const slotCount = result?.resources.slots[slot].total ?? 0
@@ -103,8 +105,20 @@ function ModuleControls({ selected, row, onClose }: { selected: ModulePos; row: 
         {_t('Slot {n}').replace('{n}', String(position + 1))}
       </button>)}
     </div>}
-    {current && <Segmented small value={current.state} options={states.map((value) => ({ value, label: stateName(value) }))}
+    {current && <Segmented small value={row.adjustment ? row.state : current.state} options={states.map((value) => ({ value, label: stateName(value) }))}
       onChange={(state) => edit((fit) => withModules(fit, slot, positions, (mod) => mod && { ...mod, state }))} />}
+    {maxSpoolCycles !== undefined && current && <label className="fit-preheat">
+      <span>{_t('Preheat cycles')}</span>
+      <input className="fit-input num" type="number" min={0} max={maxSpoolCycles} step={1}
+        key={`${source}-${spoolCycles}`} defaultValue={spoolCycles ?? ''} placeholder={_t('Default')}
+        onBlur={(event) => {
+          const input = event.currentTarget
+          const cycles = input.value === '' ? undefined : Math.min(maxSpoolCycles, Math.max(0, Math.round(input.valueAsNumber)))
+          if (cycles !== undefined && !Number.isFinite(cycles)) return
+          input.value = cycles === undefined ? '' : String(cycles)
+          if (cycles !== spoolCycles) edit((fit) => withModules(fit, slot, positions, (mod) => mod && { ...mod, spoolCycles: cycles }))
+        }} />
+    </label>}
     {error && <p role="alert" className="page-message">{_t('Could not load charges')}</p>}
     {ammo?.fit === fit && ammo.index === source && ammo.groups.length > 0 && <>
       <div className="fit-section-title"><h3>{_t('Charges')}</h3><span className="fit-caption">

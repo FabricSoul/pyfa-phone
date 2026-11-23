@@ -1,0 +1,2630 @@
+{
+  "vexor": {
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
+    "clientBuild": "3724492",
+    "itemNames": {
+      "626": {
+        "en": "Vexor",
+        "zh": "狂怒者级"
+      },
+      "2185": {
+        "en": "Hammerhead II",
+        "zh": "战锤 II"
+      }
+    },
+    "ship": {
+      "typeId": 626,
+      "name": {
+        "en": "Vexor",
+        "zh": "狂怒者级"
+      },
+      "graphicId": 62,
+      "group": {
+        "en": "Cruiser",
+        "zh": "巡洋舰"
+      }
+    },
+    "resources": {
+      "cpu": {
+        "used": 0,
+        "total": 375
+      },
+      "powergrid": {
+        "used": 0,
+        "total": 875
+      },
+      "calibration": {
+        "used": 0,
+        "total": 400
+      },
+      "turretHardpoints": {
+        "used": 0,
+        "total": 4
+      },
+      "launcherHardpoints": {
+        "used": 0,
+        "total": 0
+      },
+      "cargo": {
+        "used": 0,
+        "total": 480
+      },
+      "droneBay": {
+        "used": 50,
+        "total": 125
+      },
+      "activeDrones": {
+        "used": 5,
+        "total": 5
+      },
+      "fighterBay": {
+        "used": 0,
+        "total": 0
+      },
+      "fighterTubes": {
+        "used": 0,
+        "total": 0
+      },
+      "specializedBays": {},
+      "droneBandwidth": {
+        "used": 50,
+        "total": 75
+      },
+      "slots": {
+        "high": {
+          "used": 0,
+          "total": 4
+        },
+        "mid": {
+          "used": 0,
+          "total": 4
+        },
+        "low": {
+          "used": 0,
+          "total": 5
+        },
+        "rig": {
+          "used": 0,
+          "total": 3
+        },
+        "subsystem": {
+          "used": 0,
+          "total": 0
+        }
+      }
+    },
+    "missingSkills": [],
+    "squadrons": {
+      "drones": [
+        {
+          "index": 0,
+          "typeId": 2185,
+          "active": 5,
+          "bandwidth": 10
+        }
+      ],
+      "fighters": []
+    },
+    "slots": {
+      "high": [
+        {
+          "kind": "empty",
+          "count": 4,
+          "positions": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "mid": [
+        {
+          "kind": "empty",
+          "count": 4,
+          "positions": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "low": [
+        {
+          "kind": "empty",
+          "count": 5,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "rig": [
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "subsystem": []
+    },
+    "stats": {
+      "firepower": {
+        "dps": 237.6,
+        "weaponDps": 0,
+        "droneDps": 237.6,
+        "volley": 950.4,
+        "includesReload": false
+      },
+      "mining": {
+        "unit": "m³/s",
+        "miner": 0,
+        "drone": 0,
+        "total": 0
+      },
+      "defense": {
+        "hp": 6375,
+        "ehp": 9331.5987,
+        "layers": {
+          "shield": {
+            "hp": 1375,
+            "ehp": 1896.5517,
+            "resists": {
+              "em": 0,
+              "thermal": 0.2,
+              "kinetic": 0.4,
+              "explosive": 0.5
+            }
+          },
+          "armor": {
+            "hp": 2500,
+            "ehp": 3703.7037,
+            "resists": {
+              "em": 0.5,
+              "thermal": 0.35,
+              "kinetic": 0.35,
+              "explosive": 0.1
+            }
+          },
+          "hull": {
+            "hp": 2500,
+            "ehp": 3731.3433,
+            "resists": {
+              "em": 0.33,
+              "thermal": 0.33,
+              "kinetic": 0.33,
+              "explosive": 0.33
+            }
+          }
+        }
+      },
+      "repair": {
+        "unit": "EHP/s",
+        "reinforced": {
+          "passiveShield": 5.0575,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "sustained": {
+          "passiveShield": 5.0575,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "raw": {
+          "unit": "HP/s",
+          "reinforced": {
+            "passiveShield": 3.6667,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          },
+          "sustained": {
+            "passiveShield": 3.6667,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          }
+        }
+      },
+      "remoteRepair": {
+        "shield": 0,
+        "armor": 0,
+        "hull": 0,
+        "capacitor": 0
+      },
+      "capacitor": {
+        "capacity": 1812.5,
+        "neutralizerResistance": 0,
+        "rechargeTime": 361.875,
+        "stable": true,
+        "stablePercent": 100,
+        "lastsSeconds": null,
+        "delta": 12.5216,
+        "recharge": 12.5216,
+        "usage": 0
+      },
+      "navigation": {
+        "maxVelocity": 243.75,
+        "alignTime": 5.8166,
+        "signatureRadius": 145,
+        "warpSpeed": 4,
+        "maxTargetRange": 65625,
+        "maxTargets": 6,
+        "scanResolution": 350,
+        "sensorType": "magnetometric",
+        "sensorStrength": 19.2,
+        "droneControlRange": 60000,
+        "mass": 11100000
+      }
+    },
+    "priceItems": {
+      "ship": [
+        {
+          "typeId": 626,
+          "quantity": 1
+        }
+      ],
+      "modules": [],
+      "loadedCharges": [],
+      "drones": [
+        {
+          "typeId": 2185,
+          "quantity": 5
+        }
+      ],
+      "fighters": [],
+      "cargo": [],
+      "implants": [],
+      "boosters": []
+    },
+    "rangeCurve": {
+      "distancesKm": [],
+      "series": []
+    },
+    "warnings": []
+  },
+  "thanatos": {
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
+    "clientBuild": "3724492",
+    "itemNames": {
+      "23057": {
+        "en": "Dragonfly I",
+        "zh": "蜻蜓 I"
+      },
+      "23911": {
+        "en": "Thanatos",
+        "zh": "绝念级"
+      }
+    },
+    "ship": {
+      "typeId": 23911,
+      "name": {
+        "en": "Thanatos",
+        "zh": "绝念级"
+      },
+      "graphicId": 2932,
+      "group": {
+        "en": "Carrier",
+        "zh": "航空母舰"
+      }
+    },
+    "resources": {
+      "cpu": {
+        "used": 0,
+        "total": 906.25
+      },
+      "powergrid": {
+        "used": 0,
+        "total": 875000
+      },
+      "calibration": {
+        "used": 0,
+        "total": 400
+      },
+      "turretHardpoints": {
+        "used": 0,
+        "total": 0
+      },
+      "launcherHardpoints": {
+        "used": 0,
+        "total": 0
+      },
+      "cargo": {
+        "used": 0,
+        "total": 2800
+      },
+      "droneBay": {
+        "used": 0,
+        "total": 0
+      },
+      "activeDrones": {
+        "used": 0,
+        "total": 5
+      },
+      "fighterBay": {
+        "used": 6000,
+        "total": 93750
+      },
+      "fighterTubes": {
+        "used": 1,
+        "total": 4
+      },
+      "specializedBays": {
+        "fleetHangarCapacity": 10000,
+        "shipMaintenanceBayCapacity": 2000000,
+        "specialFuelBayCapacity": 3000
+      },
+      "droneBandwidth": {
+        "used": 0,
+        "total": 0
+      },
+      "slots": {
+        "high": {
+          "used": 0,
+          "total": 5
+        },
+        "mid": {
+          "used": 0,
+          "total": 5
+        },
+        "low": {
+          "used": 0,
+          "total": 6
+        },
+        "rig": {
+          "used": 0,
+          "total": 3
+        },
+        "subsystem": {
+          "used": 0,
+          "total": 0
+        }
+      }
+    },
+    "missingSkills": [],
+    "squadrons": {
+      "drones": [],
+      "fighters": [
+        {
+          "index": 0,
+          "typeId": 23057,
+          "active": true,
+          "maxAmount": 6
+        }
+      ]
+    },
+    "slots": {
+      "high": [
+        {
+          "kind": "empty",
+          "count": 5,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "mid": [
+        {
+          "kind": "empty",
+          "count": 5,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "low": [
+        {
+          "kind": "empty",
+          "count": 6,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      ],
+      "rig": [
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "subsystem": []
+    },
+    "stats": {
+      "firepower": {
+        "dps": 501.1272,
+        "weaponDps": 0,
+        "droneDps": 501.1272,
+        "volley": 4282.0312,
+        "includesReload": false
+      },
+      "mining": {
+        "unit": "m³/s",
+        "miner": 0,
+        "drone": 0,
+        "total": 0
+      },
+      "defense": {
+        "hp": 260625,
+        "ehp": 380176.941,
+        "layers": {
+          "shield": {
+            "hp": 69375,
+            "ehp": 95689.6552,
+            "resists": {
+              "em": 0,
+              "thermal": 0.2,
+              "kinetic": 0.4,
+              "explosive": 0.5
+            }
+          },
+          "armor": {
+            "hp": 86875,
+            "ehp": 128703.7037,
+            "resists": {
+              "em": 0.5,
+              "thermal": 0.35,
+              "kinetic": 0.35,
+              "explosive": 0.1
+            }
+          },
+          "hull": {
+            "hp": 104375,
+            "ehp": 155783.5821,
+            "resists": {
+              "em": 0.33,
+              "thermal": 0.33,
+              "kinetic": 0.33,
+              "explosive": 0.33
+            }
+          }
+        }
+      },
+      "repair": {
+        "unit": "EHP/s",
+        "reinforced": {
+          "passiveShield": 21.2644,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "sustained": {
+          "passiveShield": 21.2644,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "raw": {
+          "unit": "HP/s",
+          "reinforced": {
+            "passiveShield": 15.4167,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          },
+          "sustained": {
+            "passiveShield": 15.4167,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          }
+        }
+      },
+      "remoteRepair": {
+        "shield": 0,
+        "armor": 0,
+        "hull": 0,
+        "capacitor": 0
+      },
+      "capacitor": {
+        "capacity": 68750,
+        "neutralizerResistance": 0,
+        "rechargeTime": 3150,
+        "stable": true,
+        "stablePercent": 100,
+        "lastsSeconds": null,
+        "delta": 54.5635,
+        "recharge": 54.5635,
+        "usage": 0
+      },
+      "navigation": {
+        "maxVelocity": 100,
+        "alignTime": 25.0441,
+        "signatureRadius": 9960,
+        "warpSpeed": 1.5,
+        "maxTargetRange": 375000,
+        "maxTargets": 12,
+        "scanResolution": 81.25,
+        "sensorType": "magnetometric",
+        "sensorStrength": 91.2,
+        "droneControlRange": 60000,
+        "mass": 1220000000
+      }
+    },
+    "priceItems": {
+      "ship": [
+        {
+          "typeId": 23911,
+          "quantity": 1
+        }
+      ],
+      "modules": [],
+      "loadedCharges": [],
+      "drones": [],
+      "fighters": [
+        {
+          "typeId": 23057,
+          "quantity": 6
+        }
+      ],
+      "cargo": [],
+      "implants": [],
+      "boosters": []
+    },
+    "rangeCurve": {
+      "distancesKm": [],
+      "series": []
+    },
+    "warnings": []
+  },
+  "legion": {
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
+    "clientBuild": "3724492",
+    "itemNames": {
+      "29986": {
+        "en": "Legion",
+        "zh": "圣卒级"
+      },
+      "45587": {
+        "en": "Legion Defensive - Augmented Plating",
+        "zh": "圣卒防御 - 增强装甲板"
+      },
+      "45598": {
+        "en": "Legion Offensive - Liquid Crystal Magnifiers",
+        "zh": "圣卒攻击 - 液晶放大器"
+      },
+      "45612": {
+        "en": "Legion Propulsion - Wake Limiter",
+        "zh": "圣卒推进 - 尾迹抑制器"
+      },
+      "45623": {
+        "en": "Legion Core - Augmented Antimatter Reactor",
+        "zh": "圣卒核心 - 增强反物质反应堆"
+      }
+    },
+    "ship": {
+      "typeId": 29986,
+      "name": {
+        "en": "Legion",
+        "zh": "圣卒级"
+      },
+      "graphicId": 20216,
+      "group": {
+        "en": "Strategic Cruiser",
+        "zh": "战略巡洋舰"
+      }
+    },
+    "resources": {
+      "cpu": {
+        "used": 0,
+        "total": 387.5
+      },
+      "powergrid": {
+        "used": 0,
+        "total": 1620
+      },
+      "calibration": {
+        "used": 0,
+        "total": 400
+      },
+      "turretHardpoints": {
+        "used": 0,
+        "total": 6
+      },
+      "launcherHardpoints": {
+        "used": 0,
+        "total": 0
+      },
+      "cargo": {
+        "used": 0,
+        "total": 400
+      },
+      "droneBay": {
+        "used": 0,
+        "total": 0
+      },
+      "activeDrones": {
+        "used": 0,
+        "total": 5
+      },
+      "fighterBay": {
+        "used": 0,
+        "total": 0
+      },
+      "fighterTubes": {
+        "used": 0,
+        "total": 0
+      },
+      "specializedBays": {},
+      "droneBandwidth": {
+        "used": 0,
+        "total": 0
+      },
+      "slots": {
+        "high": {
+          "used": 0,
+          "total": 7
+        },
+        "mid": {
+          "used": 0,
+          "total": 3
+        },
+        "low": {
+          "used": 0,
+          "total": 7
+        },
+        "rig": {
+          "used": 0,
+          "total": 3
+        },
+        "subsystem": {
+          "used": 4,
+          "total": 4
+        }
+      }
+    },
+    "missingSkills": [],
+    "slots": {
+      "high": [
+        {
+          "kind": "empty",
+          "count": 7,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "mid": [
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "low": [
+        {
+          "kind": "empty",
+          "count": 7,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "rig": [
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "subsystem": [
+        {
+          "kind": "module",
+          "typeId": 45623,
+          "name": {
+            "en": "Legion Core - Augmented Antimatter Reactor",
+            "zh": "圣卒核心 - 增强反物质反应堆"
+          },
+          "iconId": 3636,
+          "meta": "tech1",
+          "count": 1,
+          "positions": [
+            0
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "+ 1M, 3L",
+          "keyParts": [
+            "+ 1M, 3L"
+          ],
+          "cpu": 0,
+          "powergrid": 0,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 45587,
+          "name": {
+            "en": "Legion Defensive - Augmented Plating",
+            "zh": "圣卒防御 - 增强装甲板"
+          },
+          "iconId": 3631,
+          "meta": "tech1",
+          "count": 1,
+          "positions": [
+            1
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "+ 1M, 3L",
+          "keyParts": [
+            "+ 1M, 3L"
+          ],
+          "cpu": 0,
+          "powergrid": 0,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 45598,
+          "name": {
+            "en": "Legion Offensive - Liquid Crystal Magnifiers",
+            "zh": "圣卒攻击 - 液晶放大器"
+          },
+          "iconId": 3641,
+          "meta": "tech1",
+          "count": 1,
+          "positions": [
+            2
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "+ 7H",
+          "keyParts": [
+            "+ 7H"
+          ],
+          "cpu": 0,
+          "powergrid": 0,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 45612,
+          "name": {
+            "en": "Legion Propulsion - Wake Limiter",
+            "zh": "圣卒推进 - 尾迹抑制器"
+          },
+          "iconId": 3646,
+          "meta": "tech1",
+          "count": 1,
+          "positions": [
+            3
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "+ 1M, 1L",
+          "keyParts": [
+            "+ 1M, 1L"
+          ],
+          "cpu": 0,
+          "powergrid": 0,
+          "overSlots": false
+        }
+      ]
+    },
+    "stats": {
+      "firepower": {
+        "dps": 0,
+        "weaponDps": 0,
+        "droneDps": 0,
+        "volley": 0,
+        "includesReload": false
+      },
+      "mining": {
+        "unit": "m³/s",
+        "miner": 0,
+        "drone": 0,
+        "total": 0
+      },
+      "defense": {
+        "hp": 11375,
+        "ehp": 19975.9604,
+        "layers": {
+          "shield": {
+            "hp": 2250,
+            "ehp": 3600,
+            "resists": {
+              "em": 0,
+              "thermal": 0.2,
+              "kinetic": 0.55,
+              "explosive": 0.75
+            }
+          },
+          "armor": {
+            "hp": 6875,
+            "ehp": 13017.7515,
+            "resists": {
+              "em": 0.5,
+              "thermal": 0.35,
+              "kinetic": 0.4375,
+              "explosive": 0.6
+            }
+          },
+          "hull": {
+            "hp": 2250,
+            "ehp": 3358.209,
+            "resists": {
+              "em": 0.33,
+              "thermal": 0.33,
+              "kinetic": 0.33,
+              "explosive": 0.33
+            }
+          }
+        }
+      },
+      "repair": {
+        "unit": "EHP/s",
+        "reinforced": {
+          "passiveShield": 8.5714,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "sustained": {
+          "passiveShield": 8.5714,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "raw": {
+          "unit": "HP/s",
+          "reinforced": {
+            "passiveShield": 5.3571,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          },
+          "sustained": {
+            "passiveShield": 5.3571,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          }
+        }
+      },
+      "remoteRepair": {
+        "shield": 0,
+        "armor": 0,
+        "hull": 0,
+        "capacitor": 0
+      },
+      "capacitor": {
+        "capacity": 3046.875,
+        "neutralizerResistance": 0.15,
+        "rechargeTime": 337.5,
+        "stable": true,
+        "stablePercent": 100,
+        "lastsSeconds": null,
+        "delta": 22.5694,
+        "recharge": 22.5694,
+        "usage": 0
+      },
+      "navigation": {
+        "maxVelocity": 250,
+        "alignTime": 7.0555,
+        "signatureRadius": 180,
+        "warpSpeed": 4,
+        "maxTargetRange": 87500,
+        "maxTargets": 6,
+        "scanResolution": 287.5,
+        "sensorType": "radar",
+        "sensorStrength": 20.4,
+        "droneControlRange": 60000,
+        "mass": 14500000
+      }
+    },
+    "priceItems": {
+      "ship": [
+        {
+          "typeId": 29986,
+          "quantity": 1
+        }
+      ],
+      "modules": [
+        {
+          "typeId": 45587,
+          "quantity": 1
+        },
+        {
+          "typeId": 45598,
+          "quantity": 1
+        },
+        {
+          "typeId": 45612,
+          "quantity": 1
+        },
+        {
+          "typeId": 45623,
+          "quantity": 1
+        }
+      ],
+      "loadedCharges": [],
+      "drones": [],
+      "fighters": [],
+      "cargo": [],
+      "implants": [],
+      "boosters": []
+    },
+    "rangeCurve": {
+      "distancesKm": [],
+      "series": []
+    },
+    "warnings": []
+  },
+  "confessor": {
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
+    "clientBuild": "3724492",
+    "itemNames": {
+      "246": {
+        "en": "Multifrequency S",
+        "zh": "多频晶体 S"
+      },
+      "3017": {
+        "en": "Gatling Pulse Laser II",
+        "zh": "加特林脉冲激光器 II"
+      },
+      "34317": {
+        "en": "Confessor",
+        "zh": "忏悔者级"
+      },
+      "34321": {
+        "en": "Confessor Sharpshooter Mode",
+        "zh": "忏悔者级狙击模式"
+      }
+    },
+    "ship": {
+      "typeId": 34317,
+      "name": {
+        "en": "Confessor",
+        "zh": "忏悔者级"
+      },
+      "graphicId": 20980,
+      "group": {
+        "en": "Tactical Destroyer",
+        "zh": "战术驱逐舰"
+      }
+    },
+    "resources": {
+      "cpu": {
+        "used": 12,
+        "total": 225
+      },
+      "powergrid": {
+        "used": 21.6,
+        "total": 77.5
+      },
+      "calibration": {
+        "used": 0,
+        "total": 400
+      },
+      "turretHardpoints": {
+        "used": 4,
+        "total": 4
+      },
+      "launcherHardpoints": {
+        "used": 0,
+        "total": 0
+      },
+      "cargo": {
+        "used": 0,
+        "total": 400
+      },
+      "droneBay": {
+        "used": 0,
+        "total": 0
+      },
+      "activeDrones": {
+        "used": 0,
+        "total": 5
+      },
+      "fighterBay": {
+        "used": 0,
+        "total": 0
+      },
+      "fighterTubes": {
+        "used": 0,
+        "total": 0
+      },
+      "specializedBays": {},
+      "droneBandwidth": {
+        "used": 0,
+        "total": 0
+      },
+      "slots": {
+        "high": {
+          "used": 4,
+          "total": 6
+        },
+        "mid": {
+          "used": 0,
+          "total": 3
+        },
+        "low": {
+          "used": 0,
+          "total": 5
+        },
+        "rig": {
+          "used": 0,
+          "total": 3
+        },
+        "subsystem": {
+          "used": 0,
+          "total": 0
+        }
+      }
+    },
+    "missingSkills": [],
+    "modes": {
+      "selected": 34321,
+      "options": [
+        {
+          "typeId": 34319,
+          "name": {
+            "en": "Confessor Defense Mode",
+            "zh": "忏悔者级防御模式"
+          }
+        },
+        {
+          "typeId": 34321,
+          "name": {
+            "en": "Confessor Sharpshooter Mode",
+            "zh": "忏悔者级狙击模式"
+          }
+        },
+        {
+          "typeId": 34323,
+          "name": {
+            "en": "Confessor Propulsion Mode",
+            "zh": "忏悔者级高速模式"
+          }
+        }
+      ]
+    },
+    "slots": {
+      "high": [
+        {
+          "kind": "module",
+          "typeId": 3017,
+          "name": {
+            "en": "Gatling Pulse Laser II",
+            "zh": "加特林脉冲激光器 II"
+          },
+          "iconId": 350,
+          "meta": "tech2",
+          "count": 4,
+          "positions": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "state": "active",
+          "supportedStates": [
+            "offline",
+            "online",
+            "active",
+            "overheated"
+          ],
+          "charge": {
+            "typeId": 246,
+            "name": {
+              "en": "Multifrequency S",
+              "zh": "多频晶体 S"
+            },
+            "iconId": 1131,
+            "count": 1
+          },
+          "keyLine": "5.25km+1.25km · 385",
+          "keyParts": [
+            "5.25km+1.25km",
+            "385"
+          ],
+          "cpu": 3,
+          "powergrid": 5.4,
+          "overSlots": false
+        },
+        {
+          "kind": "empty",
+          "count": 2,
+          "positions": [
+            4,
+            5
+          ]
+        }
+      ],
+      "mid": [
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "low": [
+        {
+          "kind": "empty",
+          "count": 5,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "rig": [
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "subsystem": []
+    },
+    "stats": {
+      "firepower": {
+        "dps": 220.3208,
+        "weaponDps": 220.3208,
+        "droneDps": 0,
+        "volley": 333.1251,
+        "includesReload": false
+      },
+      "mining": {
+        "unit": "m³/s",
+        "miner": 0,
+        "drone": 0,
+        "total": 0
+      },
+      "defense": {
+        "hp": 2687.5,
+        "ehp": 4492.7449,
+        "layers": {
+          "shield": {
+            "hp": 750,
+            "ehp": 1200,
+            "resists": {
+              "em": 0,
+              "thermal": 0.2,
+              "kinetic": 0.55,
+              "explosive": 0.75
+            }
+          },
+          "armor": {
+            "hp": 1000,
+            "ehp": 1893.4911,
+            "resists": {
+              "em": 0.5,
+              "thermal": 0.35,
+              "kinetic": 0.4375,
+              "explosive": 0.6
+            }
+          },
+          "hull": {
+            "hp": 937.5,
+            "ehp": 1399.2537,
+            "resists": {
+              "em": 0.33,
+              "thermal": 0.33,
+              "kinetic": 0.33,
+              "explosive": 0.33
+            }
+          }
+        }
+      },
+      "repair": {
+        "unit": "EHP/s",
+        "reinforced": {
+          "passiveShield": 5,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "sustained": {
+          "passiveShield": 5,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "raw": {
+          "unit": "HP/s",
+          "reinforced": {
+            "passiveShield": 3.125,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          },
+          "sustained": {
+            "passiveShield": 3.125,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          }
+        }
+      },
+      "remoteRepair": {
+        "shield": 0,
+        "armor": 0,
+        "hull": 0,
+        "capacitor": 0
+      },
+      "capacitor": {
+        "capacity": 1000,
+        "neutralizerResistance": 0,
+        "rechargeTime": 240,
+        "stable": true,
+        "stablePercent": 91.2563,
+        "lastsSeconds": null,
+        "delta": 8.6111,
+        "recharge": 10.4167,
+        "usage": 1.8056
+      },
+      "navigation": {
+        "maxVelocity": 312.5,
+        "alignTime": 5.053,
+        "signatureRadius": 65,
+        "warpSpeed": 4.5,
+        "maxTargetRange": 112500,
+        "maxTargets": 7,
+        "scanResolution": 650,
+        "sensorType": "radar",
+        "sensorStrength": 31.2,
+        "droneControlRange": 60000,
+        "mass": 1800000
+      }
+    },
+    "priceItems": {
+      "ship": [
+        {
+          "typeId": 34317,
+          "quantity": 1
+        }
+      ],
+      "modules": [
+        {
+          "typeId": 3017,
+          "quantity": 4
+        }
+      ],
+      "loadedCharges": [
+        {
+          "typeId": 246,
+          "quantity": 4
+        }
+      ],
+      "drones": [],
+      "fighters": [],
+      "cargo": [],
+      "implants": [],
+      "boosters": []
+    },
+    "rangeCurve": {
+      "distancesKm": [
+        0,
+        0.7,
+        1.4,
+        2.1,
+        2.8,
+        3.5,
+        4.2,
+        4.9,
+        5.6,
+        6.3,
+        7,
+        7.7,
+        8.4,
+        9.1,
+        9.8,
+        10.5,
+        11.2,
+        11.9,
+        12.6,
+        13.3,
+        14,
+        14.7,
+        15.4,
+        16.1,
+        16.8,
+        17.5,
+        18.2,
+        18.9,
+        19.6,
+        20.3,
+        21
+      ],
+      "series": [
+        {
+          "chargeTypeId": 246,
+          "name": {
+            "en": "Multifrequency S",
+            "zh": "多频晶体 S"
+          },
+          "dps": [
+            223.64,
+            223.64,
+            223.64,
+            223.64,
+            223.64,
+            223.64,
+            223.64,
+            223.64,
+            206.58,
+            113.14,
+            40.54,
+            13.59,
+            6.86,
+            0.92,
+            0.07,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "chargeTypeId": 12565,
+          "name": {
+            "en": "Conflagration S",
+            "zh": "爆燃 S"
+          },
+          "dps": [
+            331.73,
+            331.73,
+            331.73,
+            331.73,
+            331.73,
+            331.73,
+            331.73,
+            331.73,
+            306.43,
+            167.82,
+            60.14,
+            20.15,
+            10.17,
+            1.37,
+            0.1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "chargeTypeId": 239,
+          "name": {
+            "en": "Radio S",
+            "zh": "射频晶体 S"
+          },
+          "dps": [
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            93.18,
+            68.21,
+            29.22,
+            9.58,
+            3.73,
+            1.2,
+            0.11
+          ]
+        }
+      ]
+    },
+    "warnings": []
+  },
+  "unstable": {
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
+    "clientBuild": "3724492",
+    "itemNames": {
+      "626": {
+        "en": "Vexor",
+        "zh": "狂怒者级"
+      },
+      "3530": {
+        "en": "Medium Armor Repairer II",
+        "zh": "中型装甲维修器 II"
+      },
+      "12076": {
+        "en": "50MN Microwarpdrive II",
+        "zh": "50MN微型跃迁推进器 II"
+      }
+    },
+    "ship": {
+      "typeId": 626,
+      "name": {
+        "en": "Vexor",
+        "zh": "狂怒者级"
+      },
+      "graphicId": 62,
+      "group": {
+        "en": "Cruiser",
+        "zh": "巡洋舰"
+      }
+    },
+    "resources": {
+      "cpu": {
+        "used": 134,
+        "total": 375
+      },
+      "powergrid": {
+        "used": 579,
+        "total": 875
+      },
+      "calibration": {
+        "used": 0,
+        "total": 400
+      },
+      "turretHardpoints": {
+        "used": 0,
+        "total": 4
+      },
+      "launcherHardpoints": {
+        "used": 0,
+        "total": 0
+      },
+      "cargo": {
+        "used": 0,
+        "total": 480
+      },
+      "droneBay": {
+        "used": 0,
+        "total": 125
+      },
+      "activeDrones": {
+        "used": 0,
+        "total": 5
+      },
+      "fighterBay": {
+        "used": 0,
+        "total": 0
+      },
+      "fighterTubes": {
+        "used": 0,
+        "total": 0
+      },
+      "specializedBays": {},
+      "droneBandwidth": {
+        "used": 0,
+        "total": 75
+      },
+      "slots": {
+        "high": {
+          "used": 0,
+          "total": 4
+        },
+        "mid": {
+          "used": 1,
+          "total": 4
+        },
+        "low": {
+          "used": 3,
+          "total": 5
+        },
+        "rig": {
+          "used": 0,
+          "total": 3
+        },
+        "subsystem": {
+          "used": 0,
+          "total": 0
+        }
+      }
+    },
+    "missingSkills": [],
+    "slots": {
+      "high": [
+        {
+          "kind": "empty",
+          "count": 4,
+          "positions": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "mid": [
+        {
+          "kind": "module",
+          "typeId": 12076,
+          "name": {
+            "en": "50MN Microwarpdrive II",
+            "zh": "50MN微型跃迁推进器 II"
+          },
+          "iconId": 10149,
+          "meta": "tech2",
+          "count": 1,
+          "positions": [
+            0
+          ],
+          "state": "active",
+          "supportedStates": [
+            "offline",
+            "online",
+            "active",
+            "overheated"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 50,
+          "powergrid": 165,
+          "overSlots": false
+        },
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "low": [
+        {
+          "kind": "module",
+          "typeId": 3530,
+          "name": {
+            "en": "Medium Armor Repairer II",
+            "zh": "中型装甲维修器 II"
+          },
+          "iconId": 80,
+          "meta": "tech2",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ],
+          "state": "active",
+          "supportedStates": [
+            "offline",
+            "online",
+            "active",
+            "overheated"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 28,
+          "powergrid": 138,
+          "overSlots": false
+        },
+        {
+          "kind": "empty",
+          "count": 2,
+          "positions": [
+            3,
+            4
+          ]
+        }
+      ],
+      "rig": [
+        {
+          "kind": "empty",
+          "count": 3,
+          "positions": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "subsystem": []
+    },
+    "stats": {
+      "firepower": {
+        "dps": 0,
+        "weaponDps": 0,
+        "droneDps": 0,
+        "volley": 0,
+        "includesReload": false
+      },
+      "mining": {
+        "unit": "m³/s",
+        "miner": 0,
+        "drone": 0,
+        "total": 0
+      },
+      "defense": {
+        "hp": 6375,
+        "ehp": 9331.5987,
+        "layers": {
+          "shield": {
+            "hp": 1375,
+            "ehp": 1896.5517,
+            "resists": {
+              "em": 0,
+              "thermal": 0.2,
+              "kinetic": 0.4,
+              "explosive": 0.5
+            }
+          },
+          "armor": {
+            "hp": 2500,
+            "ehp": 3703.7037,
+            "resists": {
+              "em": 0.5,
+              "thermal": 0.35,
+              "kinetic": 0.35,
+              "explosive": 0.1
+            }
+          },
+          "hull": {
+            "hp": 2500,
+            "ehp": 3731.3433,
+            "resists": {
+              "em": 0.33,
+              "thermal": 0.33,
+              "kinetic": 0.33,
+              "explosive": 0.33
+            }
+          }
+        }
+      },
+      "repair": {
+        "unit": "EHP/s",
+        "reinforced": {
+          "passiveShield": 5.0575,
+          "shield": 0,
+          "armor": 181.7284,
+          "hull": 0
+        },
+        "sustained": {
+          "passiveShield": 5.0575,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "raw": {
+          "unit": "HP/s",
+          "reinforced": {
+            "passiveShield": 3.6667,
+            "shield": 0,
+            "armor": 122.6667,
+            "hull": 0
+          },
+          "sustained": {
+            "passiveShield": 3.6667,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          }
+        }
+      },
+      "remoteRepair": {
+        "shield": 0,
+        "armor": 0,
+        "hull": 0,
+        "capacitor": 0
+      },
+      "capacitor": {
+        "capacity": 1450,
+        "neutralizerResistance": 0,
+        "rechargeTime": 361.875,
+        "stable": false,
+        "stablePercent": null,
+        "lastsSeconds": 21,
+        "delta": -55.3161,
+        "recharge": 10.0173,
+        "usage": 65.3333
+      },
+      "navigation": {
+        "maxVelocity": 1691.4887,
+        "alignTime": 8.4367,
+        "signatureRadius": 833.75,
+        "warpSpeed": 4,
+        "maxTargetRange": 65625,
+        "maxTargets": 6,
+        "scanResolution": 350,
+        "sensorType": "magnetometric",
+        "sensorStrength": 19.2,
+        "droneControlRange": 60000,
+        "mass": 16100000
+      }
+    },
+    "priceItems": {
+      "ship": [
+        {
+          "typeId": 626,
+          "quantity": 1
+        }
+      ],
+      "modules": [
+        {
+          "typeId": 3530,
+          "quantity": 3
+        },
+        {
+          "typeId": 12076,
+          "quantity": 1
+        }
+      ],
+      "loadedCharges": [],
+      "drones": [],
+      "fighters": [],
+      "cargo": [],
+      "implants": [],
+      "boosters": []
+    },
+    "rangeCurve": {
+      "distancesKm": [],
+      "series": []
+    },
+    "warnings": []
+  },
+  "overfit": {
+    "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
+    "clientBuild": "3724492",
+    "itemNames": {
+      "438": {
+        "en": "1MN Afterburner II",
+        "zh": "1MN加力燃烧器 II"
+      },
+      "448": {
+        "en": "Warp Scrambler II",
+        "zh": "跃迁扰频器 II"
+      },
+      "603": {
+        "en": "Merlin",
+        "zh": "小鹰级"
+      },
+      "2048": {
+        "en": "Damage Control II",
+        "zh": "损伤控制 II"
+      },
+      "2281": {
+        "en": "Multispectrum Shield Hardener II",
+        "zh": "多谱式护盾增强器 II"
+      },
+      "3178": {
+        "en": "Light Neutron Blaster II",
+        "zh": "轻型中子疾速炮 II"
+      },
+      "3831": {
+        "en": "Medium Shield Extender II",
+        "zh": "中型护盾扩展装置 II"
+      },
+      "10190": {
+        "en": "Magnetic Field Stabilizer II",
+        "zh": "磁性力场稳定器 II"
+      },
+      "12614": {
+        "en": "Null S",
+        "zh": "虚空 S"
+      },
+      "31358": {
+        "en": "Small Ancillary Current Router I",
+        "zh": "小型辅助电源路由器 I"
+      },
+      "31526": {
+        "en": "Small Hybrid Burst Aerator I",
+        "zh": "小型混合武器射速调节装置 I"
+      }
+    },
+    "ship": {
+      "typeId": 603,
+      "name": {
+        "en": "Merlin",
+        "zh": "小鹰级"
+      },
+      "graphicId": 314,
+      "group": {
+        "en": "Frigate",
+        "zh": "护卫舰"
+      }
+    },
+    "resources": {
+      "cpu": {
+        "used": 271,
+        "total": 225
+      },
+      "powergrid": {
+        "used": 91.08,
+        "total": 55
+      },
+      "calibration": {
+        "used": 500,
+        "total": 400
+      },
+      "turretHardpoints": {
+        "used": 6,
+        "total": 3
+      },
+      "launcherHardpoints": {
+        "used": 0,
+        "total": 0
+      },
+      "cargo": {
+        "used": 0,
+        "total": 150
+      },
+      "droneBay": {
+        "used": 0,
+        "total": 0
+      },
+      "activeDrones": {
+        "used": 0,
+        "total": 5
+      },
+      "fighterBay": {
+        "used": 0,
+        "total": 0
+      },
+      "fighterTubes": {
+        "used": 0,
+        "total": 0
+      },
+      "specializedBays": {},
+      "droneBandwidth": {
+        "used": 0,
+        "total": 0
+      },
+      "slots": {
+        "high": {
+          "used": 6,
+          "total": 3
+        },
+        "mid": {
+          "used": 4,
+          "total": 4
+        },
+        "low": {
+          "used": 2,
+          "total": 3
+        },
+        "rig": {
+          "used": 3,
+          "total": 3
+        },
+        "subsystem": {
+          "used": 0,
+          "total": 0
+        }
+      }
+    },
+    "missingSkills": [],
+    "slots": {
+      "high": [
+        {
+          "kind": "module",
+          "typeId": 3178,
+          "name": {
+            "en": "Light Neutron Blaster II",
+            "zh": "轻型中子疾速炮 II"
+          },
+          "iconId": 376,
+          "meta": "tech2",
+          "count": 6,
+          "positions": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "state": "active",
+          "supportedStates": [
+            "offline",
+            "online",
+            "active",
+            "overheated"
+          ],
+          "charge": {
+            "typeId": 12614,
+            "name": {
+              "en": "Null S",
+              "zh": "虚空 S"
+            },
+            "iconId": 1314,
+            "count": 80
+          },
+          "keyLine": "3.15km+4.38km · 356",
+          "keyParts": [
+            "3.15km+4.38km",
+            "356"
+          ],
+          "cpu": 13.5,
+          "powergrid": 8.93,
+          "overSlots": true
+        }
+      ],
+      "mid": [
+        {
+          "kind": "module",
+          "typeId": 438,
+          "name": {
+            "en": "1MN Afterburner II",
+            "zh": "1MN加力燃烧器 II"
+          },
+          "iconId": 96,
+          "meta": "tech2",
+          "count": 1,
+          "positions": [
+            0
+          ],
+          "state": "active",
+          "supportedStates": [
+            "offline",
+            "online",
+            "active",
+            "overheated"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 15,
+          "powergrid": 11,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 448,
+          "name": {
+            "en": "Warp Scrambler II",
+            "zh": "跃迁扰频器 II"
+          },
+          "iconId": 3433,
+          "meta": "tech2",
+          "count": 1,
+          "positions": [
+            1
+          ],
+          "state": "active",
+          "supportedStates": [
+            "offline",
+            "online",
+            "active",
+            "overheated"
+          ],
+          "charge": null,
+          "keyLine": "9km · -2",
+          "keyParts": [
+            "9km",
+            "-2"
+          ],
+          "cpu": 36,
+          "powergrid": 1,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 3831,
+          "name": {
+            "en": "Medium Shield Extender II",
+            "zh": "中型护盾扩展装置 II"
+          },
+          "iconId": 1044,
+          "meta": "tech2",
+          "count": 1,
+          "positions": [
+            2
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 35,
+          "powergrid": 22.5,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 2281,
+          "name": {
+            "en": "Multispectrum Shield Hardener II",
+            "zh": "多谱式护盾增强器 II"
+          },
+          "iconId": 81,
+          "meta": "tech2",
+          "count": 1,
+          "positions": [
+            3
+          ],
+          "state": "active",
+          "supportedStates": [
+            "offline",
+            "online",
+            "active",
+            "overheated"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 44,
+          "powergrid": 1,
+          "overSlots": false
+        }
+      ],
+      "low": [
+        {
+          "kind": "module",
+          "typeId": 10190,
+          "name": {
+            "en": "Magnetic Field Stabilizer II",
+            "zh": "磁性力场稳定器 II"
+          },
+          "iconId": 26454,
+          "meta": "tech2",
+          "count": 1,
+          "positions": [
+            0
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "+22.9%",
+          "keyParts": [
+            "+22.9%"
+          ],
+          "cpu": 30,
+          "powergrid": 1,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 2048,
+          "name": {
+            "en": "Damage Control II",
+            "zh": "损伤控制 II"
+          },
+          "iconId": 77,
+          "meta": "tech2",
+          "count": 1,
+          "positions": [
+            1
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 30,
+          "powergrid": 1,
+          "overSlots": false
+        },
+        {
+          "kind": "empty",
+          "count": 1,
+          "positions": [
+            2
+          ]
+        }
+      ],
+      "rig": [
+        {
+          "kind": "module",
+          "typeId": 31526,
+          "name": {
+            "en": "Small Hybrid Burst Aerator I",
+            "zh": "小型混合武器射速调节装置 I"
+          },
+          "iconId": 3202,
+          "meta": "tech1",
+          "count": 2,
+          "positions": [
+            0,
+            1
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 0,
+          "powergrid": 0,
+          "overSlots": false
+        },
+        {
+          "kind": "module",
+          "typeId": 31358,
+          "name": {
+            "en": "Small Ancillary Current Router I",
+            "zh": "小型辅助电源路由器 I"
+          },
+          "iconId": 3195,
+          "meta": "tech1",
+          "count": 1,
+          "positions": [
+            2
+          ],
+          "state": "online",
+          "supportedStates": [
+            "offline",
+            "online"
+          ],
+          "charge": null,
+          "keyLine": "",
+          "keyParts": [],
+          "cpu": 0,
+          "powergrid": 0,
+          "overSlots": false
+        }
+      ],
+      "subsystem": []
+    },
+    "stats": {
+      "firepower": {
+        "dps": 325.8853,
+        "weaponDps": 325.8853,
+        "droneDps": 0,
+        "volley": 632.8281,
+        "includesReload": false
+      },
+      "mining": {
+        "unit": "m³/s",
+        "miner": 0,
+        "drone": 0,
+        "total": 0
+      },
+      "defense": {
+        "hp": 2937.5,
+        "ehp": 7844.659,
+        "layers": {
+          "shield": {
+            "hp": 2000,
+            "ehp": 5838.3507,
+            "resists": {
+              "em": 0.5275,
+              "thermal": 0.622,
+              "kinetic": 0.7165,
+              "explosive": 0.7637
+            }
+          },
+          "armor": {
+            "hp": 437.5,
+            "ehp": 762.5272,
+            "resists": {
+              "em": 0.575,
+              "thermal": 0.5325,
+              "kinetic": 0.3625,
+              "explosive": 0.235
+            }
+          },
+          "hull": {
+            "hp": 500,
+            "ehp": 1243.7811,
+            "resists": {
+              "em": 0.598,
+              "thermal": 0.598,
+              "kinetic": 0.598,
+              "explosive": 0.598
+            }
+          }
+        }
+      },
+      "repair": {
+        "unit": "EHP/s",
+        "reinforced": {
+          "passiveShield": 31.1379,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "sustained": {
+          "passiveShield": 31.1379,
+          "shield": 0,
+          "armor": 0,
+          "hull": 0
+        },
+        "raw": {
+          "unit": "HP/s",
+          "reinforced": {
+            "passiveShield": 10.6667,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          },
+          "sustained": {
+            "passiveShield": 10.6667,
+            "shield": 0,
+            "armor": 0,
+            "hull": 0
+          }
+        }
+      },
+      "remoteRepair": {
+        "shield": 0,
+        "armor": 0,
+        "hull": 0,
+        "capacitor": 0
+      },
+      "capacitor": {
+        "capacity": 437.5,
+        "neutralizerResistance": 0,
+        "rechargeTime": 131.25,
+        "stable": true,
+        "stablePercent": 28.5746,
+        "lastsSeconds": null,
+        "delta": 0.2184,
+        "recharge": 8.3333,
+        "usage": 8.1149
+      },
+      "navigation": {
+        "maxVelocity": 1076.3527,
+        "alignTime": 5.0429,
+        "signatureRadius": 46,
+        "warpSpeed": 5,
+        "maxTargetRange": 62500,
+        "maxTargets": 5,
+        "scanResolution": 725,
+        "sensorType": "gravimetric",
+        "sensorStrength": 13.2,
+        "droneControlRange": 60000,
+        "mass": 1497000
+      }
+    },
+    "priceItems": {
+      "ship": [
+        {
+          "typeId": 603,
+          "quantity": 1
+        }
+      ],
+      "modules": [
+        {
+          "typeId": 438,
+          "quantity": 1
+        },
+        {
+          "typeId": 448,
+          "quantity": 1
+        },
+        {
+          "typeId": 2048,
+          "quantity": 1
+        },
+        {
+          "typeId": 2281,
+          "quantity": 1
+        },
+        {
+          "typeId": 3178,
+          "quantity": 6
+        },
+        {
+          "typeId": 3831,
+          "quantity": 1
+        },
+        {
+          "typeId": 10190,
+          "quantity": 1
+        },
+        {
+          "typeId": 31358,
+          "quantity": 1
+        },
+        {
+          "typeId": 31526,
+          "quantity": 2
+        }
+      ],
+      "loadedCharges": [
+        {
+          "typeId": 12614,
+          "quantity": 480
+        }
+      ],
+      "drones": [],
+      "fighters": [],
+      "cargo": [],
+      "implants": [],
+      "boosters": []
+    },
+    "rangeCurve": {
+      "distancesKm": [
+        0,
+        0.567,
+        1.133,
+        1.7,
+        2.267,
+        2.833,
+        3.4,
+        3.967,
+        4.533,
+        5.1,
+        5.667,
+        6.233,
+        6.8,
+        7.367,
+        7.933,
+        8.5,
+        9.067,
+        9.633,
+        10.2,
+        10.767,
+        11.333,
+        11.9,
+        12.467,
+        13.033,
+        13.6,
+        14.167,
+        14.733,
+        15.3,
+        15.867,
+        16.433,
+        17
+      ],
+      "series": [
+        {
+          "chargeTypeId": 12614,
+          "name": {
+            "en": "Null S",
+            "zh": "虚空 S"
+          },
+          "dps": [
+            330.79,
+            330.79,
+            330.79,
+            330.79,
+            330.79,
+            330.79,
+            329.69,
+            319.29,
+            299.02,
+            271.02,
+            238.09,
+            203.2,
+            168.82,
+            136.97,
+            108.98,
+            85.3,
+            66.01,
+            50.78,
+            39.01,
+            30.14,
+            23.57,
+            18.78,
+            15.35,
+            12.95,
+            11.28,
+            10.16,
+            7.59,
+            4.66,
+            2.8,
+            1.64,
+            0.94
+          ]
+        },
+        {
+          "chargeTypeId": 12612,
+          "name": {
+            "en": "Void S",
+            "zh": "涅槃 S"
+          },
+          "dps": [
+            535.28,
+            535.28,
+            535.28,
+            535.24,
+            466,
+            316.4,
+            175.46,
+            86.1,
+            41.8,
+            23.04,
+            16.12,
+            4.48,
+            0.95,
+            0.17,
+            0.02,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "chargeTypeId": 215,
+          "name": {
+            "en": "Iron Charge S",
+            "zh": "铁质轨道弹 S"
+          },
+          "dps": [
+            150.36,
+            150.36,
+            150.36,
+            150.36,
+            150.36,
+            150.36,
+            150.36,
+            148.27,
+            137.4,
+            119.4,
+            97.69,
+            75.77,
+            56.11,
+            40.1,
+            28.01,
+            19.37,
+            13.47,
+            9.61,
+            7.16,
+            5.66,
+            4.77,
+            3.34,
+            1.68,
+            0.8,
+            0.37,
+            0.16,
+            0.07,
+            0.03,
+            0.01,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "kind": "cpu",
+        "used": 271,
+        "total": 225
+      },
+      {
+        "kind": "powergrid",
+        "used": 91.08,
+        "total": 55
+      },
+      {
+        "kind": "calibration",
+        "used": 500,
+        "total": 400
+      },
+      {
+        "kind": "turretHardpoints",
+        "used": 6,
+        "total": 3
+      },
+      {
+        "kind": "highSlots",
+        "used": 6,
+        "total": 3
+      }
+    ]
+  }
+}

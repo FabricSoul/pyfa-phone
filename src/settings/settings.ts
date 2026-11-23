@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react'
+import type { CalcOptions } from '../engine/types'
 import type { UiLanguage } from '../i18n/t'
 import { readJson, removeKey, writeJson } from './storage'
 
@@ -51,6 +52,16 @@ function notify(): void {
 /** Stable snapshot: the same object is returned until updateSettings() replaces it. */
 export function getSettings(): Settings {
   return state
+}
+
+export function calcOptions(settings: Settings = getSettings()): Required<CalcOptions> {
+  return {
+    includeReload: settings.considerReload,
+    includeReactivation: settings.considerReboot,
+    strictSkills: settings.strictSkills,
+    useCharacterImplants: settings.useCharacterImplants,
+    defaultSpoolPercent: settings.preheatPercent,
+  }
 }
 
 export function updateSettings(patch: Partial<Settings>): void {

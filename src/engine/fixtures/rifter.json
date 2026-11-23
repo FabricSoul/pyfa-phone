@@ -1,5 +1,5 @@
 {
-  "dataVersion": "dce26dae9d4f1df92a0a16663a50a1ad6fea3094fc534abdc345d431b81ad0c3",
+  "dataVersion": "34728aac327defc2ea9d5347049a0987b66f51e1cf440621335c8c237ac350d8",
   "clientBuild": "3724492",
   "itemNames": {
     "438": {
@@ -111,19 +111,19 @@
     },
     "slots": {
       "high": {
-        "used": 0,
+        "used": 3,
         "total": 3
       },
       "mid": {
-        "used": 0,
+        "used": 3,
         "total": 3
       },
       "low": {
-        "used": 0,
+        "used": 3,
         "total": 4
       },
       "rig": {
-        "used": 0,
+        "used": 3,
         "total": 3
       },
       "subsystem": {
@@ -132,6 +132,7 @@
       }
     }
   },
+  "missingSkills": [],
   "slots": {
     "high": [
       {

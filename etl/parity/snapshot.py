@@ -60,8 +60,10 @@ def snapshot(doc):
     assert item['name']['zh'] and item['group']['zh'] and item['description']['zh']
     assert item['skills'] and any(a['base'] != a['current'] for a in item['attributes'])
     assert api.item_info(987654321) is None
+    # Give the high-slot preview a free turret hardpoint on each baseline fit.
+    preview_doc = {**doc, 'modules': {**doc['modules'], 'high': [None, *doc['modules']['high'][1:]]}}
     items = {
-        slot: api.items_for_slot(doc, slot, query)
+        slot: api.items_for_slot(preview_doc if slot == 'high' else doc, slot, query)
         for slot, query in (
             ('high', 'autocannon'), ('mid', 'stasis webifier'), ('low', 'damage control'),
             ('rig', 'projectile'), ('subsystem', ''),
@@ -75,14 +77,14 @@ def snapshot(doc):
     assert charges['tech2'], charges
     if doc['shipTypeId'] == 587:
         # The high-slot catalogue includes remote repair gear whose pyfa column reads its owning fit.
-        remote = api.items_for_slot(doc, 'high', 'remote shield booster')
+        remote = api.items_for_slot(preview_doc, 'high', 'remote shield booster')
         assert remote and any(row['keyLine'] for group in remote for row in group['items']), remote
         items['remoteShieldBoosters'] = remote
-    assert any(row['resourceOverages'] for group in items['high'] for row in group['items'])
+    assert any(row.get('resourceOverages') for group in items['high'] for row in group['items'])
     for groups in items.values():
         for group in groups:
             for row in group['items']:
-                for warning in row['resourceOverages']:
+                for warning in row.get('resourceOverages', []):
                     assert warning['overBy'] > 0
                     assert abs(warning['overBy'] - (warning['used'] - warning['total'])) < 1e-6
 
@@ -128,11 +130,14 @@ def snapshot(doc):
 data_version, client_build = sys.argv[4:6]
 api.initialize(sys.argv[1], sys.argv[2], data_version, client_build)
 fits = json.loads(Path(sys.argv[3]).read_text())
+advanced = json.loads(Path(sys.argv[6]).read_text())
 platform = 'Pyodide' if sys.platform == 'emscripten' else 'CPython'
 print(f'{platform} Worker API regressions', file=sys.stderr)
 runner = unittest.TextTestRunner(stream=sys.stderr, verbosity=2)
-assert runner.run(regression_results(fits, data_version, client_build)).wasSuccessful()
+assert runner.run(regression_results({**fits, **advanced}, data_version, client_build)).wasSuccessful()
 snapshots = {name: snapshot(doc) for name, doc in fits.items()}
+snapshots.update({name: {'calc': api.calc(doc), 'getDataVersion': api.get_data_version()}
+                  for name, doc in advanced.items()})
 serialized = json.dumps(snapshots, allow_nan=False)
 if sys.platform != 'emscripten':
     print(serialized)

@@ -7,12 +7,11 @@ from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 
-from engine import Engine, META_ORDER, SLOT_KINDS, meta_of, r
+from engine import Engine, META_ORDER, SLOT_KINDS, STATE_NAMES, meta_of, r
 from headless import bootstrap
 
 _engine = None
 _port = None
-_character = None
 
 _SLOT_EFFECT = {
     'high': 'hiPower', 'mid': 'medPower', 'low': 'loPower',
@@ -23,7 +22,7 @@ _MAGNITUDE = {'': 1, 'k': 1000, 'M': 10**6, 'G': 10**9}
 
 
 def initialize(db_path, names_path, data_version, client_build):
-    global _engine, _port, _character
+    global _engine, _port
     from port_adapter import PortAdapter
 
     bootstrap(db_path)
@@ -34,7 +33,7 @@ def initialize(db_path, names_path, data_version, client_build):
     if _engine.client_build != client_build:
         raise ValueError('Game database client build does not match the asset manifest')
     # Construct the built-in characters once, before the temporary fit transactions.
-    _character = Character.getInstance()
+    Character.getInstance()
     _port = PortAdapter(_engine, json.loads(Path(names_path).read_text(encoding='utf-8')))
 
 
@@ -49,8 +48,24 @@ def _temporary_fit():
             transaction.rollback()
 
 
+@contextmanager
+def _calculation_settings(options):
+    from eos import config
+    options = options or {}
+    overrides = {
+        'strictSkillLevels': options.get('strictSkills', config.settings['strictSkillLevels']),
+        'globalDefaultSpoolupPercentage': options.get('defaultSpoolPercent', 100) / 100,
+    }
+    previous = {key: config.settings[key] for key in overrides}
+    config.settings.update(overrides)
+    try:
+        yield
+    finally:
+        config.settings.update(previous)
+
+
 def calc(fit_json, options=None):
-    with _temporary_fit():
+    with _temporary_fit(), _calculation_settings(options):
         return _engine.calc(fit_json, options)
 
 
@@ -125,7 +140,7 @@ def _slot_hull(fit_json, slot):
     return _engine.build(hull_doc)[0]
 
 
-def _eligible_modules(ids, hull, slot):
+def _slot_modules(ids, slot):
     if not ids:
         return
     from eos.gamedata import Item
@@ -137,14 +152,61 @@ def _eligible_modules(ids, hull, slot):
     )
     for item in candidates:
         if Module.calculateSlot(item) == _engine.kind_slot[slot]:
-            mod = Module(item)
-            if mod.fits(hull):
-                yield mod
+            yield Module(item)
+
+
+def _fit_restriction(mod, fit):
+    # Module.fits owns hull, slot, rig, subsystem, hardpoint and group checks.
+    # maxTypeFitted is a separate dogma maximum which this pyfa version does not test.
+    item_max = mod.item.getAttribute('maxTypeFitted')
+    if item_max and sum(other is not mod and other.itemID == mod.item.ID for other in fit.modules) >= item_max:
+        return 'typeLimit'
+    if mod.fits(fit):
+        return None
+
+    if not fit.canFit(mod.item):
+        return 'hull'
+    slot = mod.slot
+    attr = mod.getModifiedItemAttr
+    if slot == _engine.Slot.RIG and attr('rigSize') != fit.ship.getModifiedItemAttr('rigSize'):
+        return 'rigSize'
+    if slot == _engine.Slot.SUBSYSTEM and any(
+        other is not mod and not other.isEmpty and other.slot == slot
+        and other.getModifiedItemAttr('subSystemSlot') == attr('subSystemSlot') for other in fit.modules
+    ):
+        return 'subsystemSlot'
+    group_max = mod.item.getAttribute('maxGroupFitted')
+    if group_max and sum(other is not mod and not other.isEmpty and other.item.groupID == mod.item.groupID
+                         for other in fit.modules) >= group_max:
+        return 'groupLimit'
+    if mod.isCapitalSize and fit.ship.getModifiedItemAttr('isCapitalSize', 0) != 1 and not fit.isStructure:
+        return 'capitalSize'
+    if fit.getSlotsFree(slot) <= (0 if mod.owner is not fit else -1):
+        return 'slotLimit'
+    if fit.getHardpointsFree(mod.hardpoint) < (1 if mod.owner is not fit else 0):
+        return 'hardpointLimit'
+    return 'hull'
+
+
+def _initial_state(mod, fit):
+    from gui.fitCommands.helpers import activeStateLimit
+    proposed = mod.getMaxState(activeStateLimit(mod.item))
+    # canHaveState counts the candidate in the rack along with existing modules.
+    if mod.getModifiedItemAttr('maxGroupActive') or mod.getModifiedItemAttr('maxGroupOnline'):
+        mod.owner = fit
+        fit.modules.appendIgnoreEmpty(mod)
+        try:
+            mod.state = proposed
+            allowed = mod.canHaveState(proposed)
+            if allowed is not True:
+                proposed = allowed
+        finally:
+            fit.modules.remove(mod)
+            mod.owner = None
+    return proposed
 
 
 def items_for_slot(fit_json, slot, filters=None, options=None):
-    from gui.fitCommands.helpers import activeStateLimit
-
     filters = {**(options or {}), **({'query': filters} if isinstance(filters, str) else filters or {})}
     term = (filters.get('query') or '').strip().casefold()
     group = filters.get('group')
@@ -168,12 +230,15 @@ def items_for_slot(fit_json, slot, filters=None, options=None):
     if not selected:
         return []
 
-    with _temporary_fit():
-        hull = _slot_hull(fit_json, slot)
-        fit = _engine.build(fit_json)[0] if preview else None
+    calc_options = filters.get('calcOptions')
+    with _temporary_fit(), _calculation_settings(calc_options):
+        fit = _engine.build(fit_json, calc_options)[0]
         rows = []
-        for mod in _eligible_modules(selected, hull, slot):
+        candidates = [(mod, _fit_restriction(mod, fit), _initial_state(mod, fit))
+                      for mod in _slot_modules(selected, slot)]
+        for mod, restriction, state in candidates:
             fields = {
+                'initialState': STATE_NAMES[int(state)],
                 'supportedStates': _engine.supported_states(mod),
                 'fitting': {'cpu': r(mod.getModifiedItemAttr('cpu') or 0),
                             'powergrid': r(mod.getModifiedItemAttr('power') or 0)},
@@ -181,20 +246,37 @@ def items_for_slot(fit_json, slot, filters=None, options=None):
             leaf = selected[mod.item.ID]
             if leaf is not None:
                 fields['marketGroup'] = _engine.market_path(leaf)
-            if not preview:
+
+            if restriction or not preview:
+                if restriction:
+                    fields['fitRestriction'] = restriction
                 rows.append({**_engine.item_row(mod.item), **fields})
                 continue
+
             mod.owner = fit  # required by pyfa's module columns before the next flush
             fit.modules.appendIgnoreEmpty(mod)
+            mod.state = state
+            previous_states = [(existing, existing.state) for existing in fit.modules if existing is not mod]
             try:
-                if mod.isValidState(1):
-                    mod.state = activeStateLimit(mod.item)
                 _engine.recalc(fit)
+                restriction = _fit_restriction(mod, fit)
+                if restriction:
+                    rows.append({**_engine.item_row(mod.item), **fields, 'fitRestriction': restriction})
+                    continue
+                allowed = mod.canHaveState(mod.state)
+                if allowed is not True:
+                    mod.state = allowed
+                    fields['initialState'] = STATE_NAMES[int(allowed)]
+                    _engine.recalc(fit)
+                if _engine.check_states(fit, mod):
+                    _engine.recalc(fit)
                 overages = _engine.warnings(_engine.resources(fit))
                 rows.append({**_module_row(mod), **fields, 'resourceOverages': [
                     {**warning, 'overBy': r(warning['used'] - warning['total'])} for warning in overages
                 ]})
             finally:
+                for existing, old_state in previous_states:
+                    existing.state = old_state
                 fit.modules.remove(mod)
                 mod.owner = None
         return _groups(rows)
@@ -210,11 +292,11 @@ def market_groups_for_slot(fit_json, slot):
         # One compatible module establishes that a group is available. Only load the other
         # variants when the group's first module fails the hull's fitting restrictions.
         first = {ids[0]: leaf for leaf, ids in leaves.items()}
-        groups = {first[mod.item.ID] for mod in _eligible_modules(first, hull, slot)}
+        groups = {first[mod.item.ID] for mod in _slot_modules(first, slot) if mod.fits(hull)}
         remaining = {
             type_id: leaf for leaf, ids in leaves.items() if leaf not in groups for type_id in ids[1:]
         }
-        groups.update(remaining[mod.item.ID] for mod in _eligible_modules(remaining, hull, slot))
+        groups.update(remaining[mod.item.ID] for mod in _slot_modules(remaining, slot) if mod.fits(hull))
     return [_engine.market_path(group_id) for group_id in sorted(groups)]
 
 
@@ -243,20 +325,20 @@ def _item_attributes(item, current):
     return rows
 
 
-def item_info(type_id, fit_json=None, pos=None):
+def item_info(type_id, fit_json=None, pos=None, options=None):
     from eos.saveddata.character import Character
 
     item = _engine.db.getItem(type_id)
     if item is None:
         return None
 
-    with _temporary_fit():
+    with _temporary_fit(), _calculation_settings(options):
         current = None
         character = Character.getAll5()
         if fit_json is not None:
             character = Character.getAll5() if fit_json['character'] == 'all5' else Character.getAll0()
             if pos is not None or type_id == fit_json['shipTypeId']:
-                fit, positions = _engine.build(fit_json)
+                fit, positions = _engine.build(fit_json, options)
                 if pos is None:
                     current = fit.ship.getModifiedItemAttr
                 else:
@@ -285,14 +367,14 @@ def item_info(type_id, fit_json=None, pos=None):
         return result
 
 
-def charges_for(fit_json, pos, meta_group=None):
+def charges_for(fit_json, pos, meta_group=None, options=None):
     slot, index = pos['slot'], pos['index']
     entries = fit_json['modules'][slot]
     if not 0 <= index < len(entries) or entries[index] is None:
         return []
 
-    with _temporary_fit():
-        fit, positions = _engine.build(fit_json)
+    with _temporary_fit(), _calculation_settings(options):
+        fit, positions = _engine.build(fit_json, options)
         module = next(mod for mod in fit.modules if positions[id(mod)] == (slot, index))
         if module.isEmpty:
             return []
@@ -341,20 +423,7 @@ def export_text(fit_json, fmt, language='en'):
 def missing_skills(fit_json):
     with _temporary_fit():
         fit, _ = _engine.build(fit_json)
-        levels = {}
-
-        def collect(requirements):
-            for level, type_id, prerequisites in requirements.values():
-                levels[type_id] = max(level, levels.get(type_id, 0))
-                collect(prerequisites)
-
-        for requirements in _character.checkRequirements(fit).values():
-            collect(requirements)
-        return [
-            {'typeId': type_id, 'name': _engine.lname(_engine.item(type_id)),
-             'requiredLevel': level, 'currentLevel': int(fit.character.getSkill(type_id).level)}
-            for type_id, level in sorted(levels.items())
-        ]
+        return _engine.missing_skills(fit)
 
 
 def invoke(operation, arguments_json):
@@ -453,7 +522,7 @@ def fill_empty_slots(fit_json, source):
             if index < len(rack) and rack[index] is not None:
                 continue
             clone = Module(fitted.item)
-            if not clone.fits(fit):
+            if _fit_restriction(clone, fit):
                 break
             clone.charge = fitted.charge
             clone.owner = fit
