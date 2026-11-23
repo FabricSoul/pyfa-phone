@@ -185,7 +185,7 @@ try {
   step = 'the library does not recalculate when coming back from a fit page (UX3)'
   await page.waitForFunction(() => document.querySelectorAll('[data-testid="fit-row"] .stat').length > 0 && !document.querySelector('[data-testid="fit-row"] .sk'))
   await fitRow('裂谷级').first().click()
-  await dps.waitFor()
+  await page.getByTestId('module-row').first().waitFor()
   await page.getByRole('button', { name: '返回', exact: true }).click()
   // 200 ms after the tap the rows already show their numbers: no skeleton, no pending row.
   await page.waitForFunction(() => {
